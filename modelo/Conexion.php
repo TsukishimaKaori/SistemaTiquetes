@@ -37,5 +37,7 @@ class Conexion {
     private $connectionOptions = array("Database" => "SistemaTiquetes", "UID" => "dbatiquetes", "PWD" => "dbatiquetes");
     private static $instancia = null;
     private static $conn;
+    
+    //Version 1.0
 
 }
