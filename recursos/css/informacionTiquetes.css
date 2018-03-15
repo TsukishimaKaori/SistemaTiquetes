@@ -1,0 +1,151 @@
+div.panel-body div.row h5.col-md-3 {    
+    font-size: 15px;    
+}
+
+div.panel-body div.row div.col-md-2 div{ 
+    padding: 0.03%;
+    font-weight: bold;
+    font-size:20px;
+}
+
+div.panel-body div.row h4.col-md-3{
+    font-weight: bold;  
+}
+
+div.panel-body div.row h5{   
+    font-size: 15px;    
+}
+
+div.panel-footer div.rating {
+    position:relative;
+    text-align: left;
+}
+
+#comentario-panel-footer {
+    text-align: right;
+}
+
+.container-fluid{
+    text-align: left;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+
+.rating {
+    float:right;
+}
+
+.rating:not(:checked) > input {
+    position:absolute;
+    clip:rect(0,0,0,0);
+}
+
+.rating:not(:checked) > label {
+    float:right;
+    width:1em;
+    padding:0 .1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:200%;
+    line-height:1.2;
+    color:#ddd;
+    text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:before {
+    content: '★';
+}
+
+.rating > input:checked ~ label {
+    color: gold;
+    text-shadow:1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+    color: gold;
+    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked + label:hover ~ label,
+.rating > input:checked ~ label:hover,
+.rating > input:checked ~ label:hover ~ label,
+.rating > label:hover ~ input:checked ~ label {
+    color: gold;
+    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating > label:active {
+   /* position:relative;
+    top:2px;
+    left:2px; */
+}
+
+
+
+.rating2 {
+    float:right;
+}
+
+.rating2:not(:checked) > input {
+    position:absolute;
+    clip:rect(0,0,0,0);
+}
+
+.rating2:not(:checked) > label {
+    float:right;
+    width:1em;
+    padding:0 .1em;
+    overflow:hidden;
+    white-space:nowrap;
+    font-size:200%;
+    line-height:1.2;
+    color:#ddd;
+    text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating2:not(:checked) > label:before {
+    content: '★';
+}
+
+
+@media (min-width:990px){
+    .encabezado{
+        margin-top: 10px;
+    }
+    .encabezadoDescripcion {
+        text-align: center;
+    }
+    .encabezadoAsignar {
+         text-align: right;         
+    }   
+}
+
+
+.botones-tiquete{
+    margin:1%; 
+}
+
+.encabezadoAsignar{
+    text-align: center;
+}
+

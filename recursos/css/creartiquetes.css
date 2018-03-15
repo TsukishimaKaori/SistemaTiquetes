@@ -1,0 +1,23 @@
+a{
+    color: #000000;
+}
+h2{
+    text-align: center; 
+    color:#341500;
+}
+
+#archivo {
+display: none;
+}
+#primerNivel{
+    background-color: #ffffff;
+}
+#segundoNivel{
+    background-color:  #999999;
+}
+
+#divComantario{
+
+margin-bottom: 0px;
+}
+

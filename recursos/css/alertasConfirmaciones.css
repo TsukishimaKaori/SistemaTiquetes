@@ -1,0 +1,16 @@
+.notificacion {
+    position:fixed !important;
+    z-index: 1;
+    width:20%;
+    margin:0 auto;
+    height:100px;
+    padding:10px;
+    z-index: 1;
+    bottom: 0;
+    right: 0;
+    margin-right: 0.5%;
+    margin-bottom: 0.5%;    
+    
+vertical-align: sub;
+    
+}

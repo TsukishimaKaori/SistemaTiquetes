@@ -1,0 +1,80 @@
+*{
+    margin: 0px;
+    padding: 0px;   
+}
+
+body{
+    background-color: #F7EED4;  
+    position:relative;
+    min-height: 100%;
+    top: 0;
+}
+
+h1{
+    text-align: center; 
+    color:#341500;
+}
+
+.navbar-inverse{
+    background:#341500;
+    border-color: #341500;
+}
+
+header#cabecera div{
+    display: inline-block;
+    width: 48%;
+}
+
+.navbar-nav {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.container-fluid {
+    margin: 0 auto;
+    text-align: center;
+}
+
+#usuarioLogueado p {
+    color: white;     
+    float:right;
+}
+
+.seccion-tabla-rol{
+    padding: 1%;
+}
+
+
+.divBoton{
+    width: 100%;
+    display: block;  
+    text-align: center;
+}
+
+.boton-Primario{
+    background: #341500;
+    border:#341500;   
+    color: white;
+}
+
+.boton-Primario:hover{
+    background: #774805;
+    border-color:#341500; 
+    color: white;
+}
+
+footer#footer{
+    background: #341500;
+    position: relative;   
+    padding: 0.5%;
+    text-align: center;
+    color: #9d9d9d;
+    bottom: 0;
+    margin-top: 15%;
+}
+
+table.tablasInfo th {
+ text-align: center;
+}
+
+.modal { overflow: auto !important; }
