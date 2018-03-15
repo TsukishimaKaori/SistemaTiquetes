@@ -40,5 +40,5 @@ class Conexion {
     
     //Version 1.0
 
-    //Cambio único de la rama de prueba
+    //Cambio único de la rama de prueba otro cambio para causar conflicto master
 }
