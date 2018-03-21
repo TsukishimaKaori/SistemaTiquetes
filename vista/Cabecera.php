@@ -93,19 +93,19 @@ require_once ("../control/UsuarioLogueado.php");
                         echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Inventario <b class="caret"></b></a>';
                         echo '<ul class="dropdown-menu">';
                         if ($permiso1) { //cambiar el permiso y url
-                            echo '<li><a href="../vista/AdministrarRolesUsuarios.php">Agregar dispositivo</a></li>';
+                            echo '<li><a href="../vista/AgregarDispositivo.php">Agregar dispositivo</a></li>';
                         }
                         if ($permiso1) { //cambiar el permiso y url
-                            echo '<li><a href="../vista/AdministrarRolesUsuarios.php">Activos</a></li>';
+                            echo '<li><a href="../vista/AdministrarInventario.php">Activos</a></li>';
                         }
                         if ($permiso1) {//cambiar el permiso y url
-                            echo '<li><a href="../vista/AdministracionRolesPermisosUsuarios.php">Pasivos</a></li>';
+                            echo '<li><a href="../vista/BandejasTiquetes.php?tab=' . '2' . '">Pasivos</a></li>';
                         }
                         if ($permiso1) {//cambiar el permiso y url
-                            echo '<li><a href="../vista/AdministrarAreasTematicas.php">Licencias</a></li>';
+                            echo '<li><a href="../vista/BandejasTiquetes.php?tab=' . '2' . '">Licencias</a></li>';
                         }
                         if ($permiso1) { //cambiar el permiso y url
-                            echo '<li><a href="../vista/AdministrarTematicasSubTematicas.php">Repuestos</a></li>';
+                            echo '<li><a href="../vista/BandejasTiquetes.php?tab=' . '2' . '">Repuestos</a></li>';
                         }
                        
                         echo '</ul>';
