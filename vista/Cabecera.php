@@ -87,6 +87,32 @@ require_once ("../control/UsuarioLogueado.php");
                         }
                         echo '</ul>';
                     }
+                    
+                    if ($permiso1 || $permiso2 || $permiso3 || $permiso4) {
+                        echo'   <li class="dropdown">';
+                        echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Inventario <b class="caret"></b></a>';
+                        echo '<ul class="dropdown-menu">';
+                        if ($permiso1) { //cambiar el permiso y url
+                            echo '<li><a href="../vista/AdministrarRolesUsuarios.php">Agregar dispositivo</a></li>';
+                        }
+                        if ($permiso1) { //cambiar el permiso y url
+                            echo '<li><a href="../vista/AdministrarRolesUsuarios.php">Activos</a></li>';
+                        }
+                        if ($permiso1) {//cambiar el permiso y url
+                            echo '<li><a href="../vista/AdministracionRolesPermisosUsuarios.php">Pasivos</a></li>';
+                        }
+                        if ($permiso1) {//cambiar el permiso y url
+                            echo '<li><a href="../vista/AdministrarAreasTematicas.php">Licencias</a></li>';
+                        }
+                        if ($permiso1) { //cambiar el permiso y url
+                            echo '<li><a href="../vista/AdministrarTematicasSubTematicas.php">Repuestos</a></li>';
+                        }
+                       
+                        echo '</ul>';
+                    }
+                    
+                    
+                    
                 }
 //                        }
                 ?>
