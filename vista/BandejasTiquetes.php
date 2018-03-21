@@ -61,19 +61,19 @@
             <div class = "row" id="Tablas"> 
                 <div class = "col-md-12"> 
                     <ul  id ="miTabBandeja" class="nav nav-pills" >                
-                        <li class="active"  id ='liMisTiquetes'>
-                            <a  href="#misTiquetes" data-toggle="tab"  onclick=" actualizarTabla('Creados')">Mis tiquetes</a>
+                        <li class="active bandeja-tab"  id ='liMisTiquetes'>
+                            <a  href="#misTiquetes"  data-toggle="tab"  onclick=" actualizarTabla('Creados')">Mis tiquetes</a>
                         </li>
                         <?php
                         if ($r) {
                             if (verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 6)) {
-                                echo ' <li  id ="liAsignar"><a href="#tiquetesPorAsignar" data-toggle="tab"  onclick="actualizarTabla(\'PorAsignar\')">Tiquetes por asignar</a></li> ';
+                                echo ' <li  id ="liAsignar" class ="bandeja-tab" ><a href="#tiquetesPorAsignar" data-toggle="tab"  onclick="actualizarTabla(\'PorAsignar\')">Tiquetes por asignar</a></li> ';
                             }
                             if (verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 7)) {
-                                echo '<li  id ="liAsignados" ><a href="#misTiquetesAsignados" data-toggle="tab" onclick="actualizarTabla(\'Asignados\')">Mis tiquetes asignados</a></li>';
+                                echo '<li  id ="liAsignados" class ="bandeja-tab"><a href="#misTiquetesAsignados" data-toggle="tab" onclick="actualizarTabla(\'Asignados\')">Mis tiquetes asignados</a></li>';
                             }
                             if (verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 8)) {
-                                echo '<li  id ="liTodos"><a href="#todosLosTiquetes" data-toggle="tab"  onclick="actualizarTabla(\'TodosLosTiquetes\')">Todos los tiquetes</a></li>';
+                                echo '<li  id ="liTodos" class ="bandeja-tab"><a href="#todosLosTiquetes" data-toggle="tab"  onclick="actualizarTabla(\'TodosLosTiquetes\')">Todos los tiquetes</a></li>';
                             }
                         }
                         ?> 

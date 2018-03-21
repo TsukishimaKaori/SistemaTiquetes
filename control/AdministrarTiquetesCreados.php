@@ -27,7 +27,7 @@ function notificacionBandeja() {
 function cuerpoTablaMistiquetesCreados($Tiquetes, $codigoPestana, $responsables) {
     $cont = 1;
     foreach ($Tiquetes as $tique) {
-        echo '<tr  data-toggle="tooltip" title="'.$tique->obtenerDescripcion().'" data-placement="top"  style = "text-align:center";>';
+        echo '<tr  data-toggle="tooltip" title="'.substr($tique->obtenerDescripcion(), 0, 70).'..." data-placement="top"  style = "text-align:center";>';
 //        if($codigoPestana == 2) {
 //            echo '<td value ="' . $tique->obtenerCodigoTiquete() . '">'
 //            . '<input type = "checkbox" id = "check' . $tique->obtenerCodigoTiquete() . '"></td>';

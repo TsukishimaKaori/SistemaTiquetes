@@ -106,3 +106,16 @@ table.tablasTiquetes th, table.tablasTiquetes td {
     color: black  !important;
 }
 
+@media (max-width:650px){
+    ul.nav-pills li.bandeja-tab{
+            width: 100%;
+    
+    }
+    .nav {
+        margin-bottom: 10px;
+    }
+    .btn{
+         width: 100%;
+    }
+  
+}
