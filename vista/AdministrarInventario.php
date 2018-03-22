@@ -12,6 +12,7 @@
     <body>           
         <?php require ("../vista/Cabecera.php"); ?>   
 
+        
         <div class="container-fluid">
             <div class="row">
                 <div class=""></div>
