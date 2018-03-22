@@ -3,6 +3,7 @@ session_start();
 require_once ("../control/UsuarioLogueado.php");
 ?>
 <header >
+        
     <nav  class="navbar navbar-inverse" role="navigation">
         <!-- El logotipo y el icono que despliega el menú se agrupan
              para mostrarlos mejor en los dispositivos móviles -->
