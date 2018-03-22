@@ -51,3 +51,6 @@ h1 {
     background: #eee;
 }
 
+.tab-oculto{
+    display: none;
+}
