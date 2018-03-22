@@ -16,10 +16,10 @@
                 <div class=""></div>
                 <div class="col-md-12">
                     <div id="tab-indice" class="tab">
-                        <button class="tablinks" onclick="abrirTab(event, 'admin-empresas')" id="defaultOpen">Activos</button>
-                        <button class="tablinks" onclick="abrirTab(event, 'admin-rutas')" >Pasivos</button>                        
-                        <button class="tablinks" onclick="abrirTab(event, 'admin-buses')">Licencias</button>
-                        <button class="tablinks" onclick="abrirTab(event, 'admin-buses')">Repuestos</button>
+                        <button class="tablinks" onclick="" id="defaultOpen">Activos</button>
+                        <button class="tablinks" onclick="" >Pasivos</button>                        
+                        <button class="tablinks" onclick="">Licencias</button>
+                        <button class="tablinks" onclick="">Repuestos</button>
                     </div>                                   
                     <section id="admin-empresas" class="tabcontent">
                         <h1>Inventario</h1>
