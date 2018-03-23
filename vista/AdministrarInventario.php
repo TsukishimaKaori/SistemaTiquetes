@@ -23,13 +23,13 @@
                         <button class="tablinks" onclick="">Repuestos</button>
                     </div>                                   
                     <section id="tab-activos" class="tabcontent">
-                        <h1>Pasivos</h1>
+                        <h1>Activos</h1>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-2"></div>                                
-                                <div id ="" class="col-md-6"></div>                
+                                <div id ="" class="col-md-8"></div>                
                                 <div class="col-md-2">                    
-                                    <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i>Agregar activo</button>         
+                                    <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>         
                                 </div>
                             </div>
                             <div class="row">                                
