@@ -779,7 +779,6 @@ function FinalizarAjax() {
                     var mensaje = "Ha ocurrido un error";
                     notificacion(mensaje);
                 }
-
             }
         });
     }
