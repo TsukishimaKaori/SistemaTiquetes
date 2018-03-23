@@ -7,6 +7,8 @@ function cargarpaginaPrincipal() {
     }
 }
 
+
+
 // <editor-fold defaultstate="collapsed" desc="CLASIFICACION TIQUETES">
 function ClasificacionesAsignar() {
     $("#modalClasificaciones").modal("show");
