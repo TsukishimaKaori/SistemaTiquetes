@@ -1,4 +1,4 @@
-var paginaPrincipal
+var paginaPrincipal;
 function cargarpaginaPrincipal() {
     if ($("#paginaPrincipal").val() != null) {
         paginaPrincipal = $("#paginaPrincipal").val();
@@ -76,10 +76,6 @@ $(function () {
     });
 
 });
-
-
-
-
 
 var fechaVieja;
 var fechanueva;
@@ -500,13 +496,11 @@ function tiqueteAnterior() {
 var paginadePagina;
 function asignarUnTiquete(numero) {
     paginadePagina = numero;
-
     if (paginadePagina == 2) {
         $("#modalAsignar").modal("show");
     } else if (paginadePagina == 4) {
         $("#modalAsignartodos").modal("show");
     }
-
 }
 
 function asignarResponsableAjax() {
@@ -673,10 +667,10 @@ function CambiarFechaEntregaAjax() {
                     document.getElementById("fechaEntregaC").value = fechanuevaEntrega;
                 });
                 $("#confirmarFechaEntrega").modal("hide");
-                if(response ==""){
-                var mensaje = "La fecha de entrega se ha cambiado exitosamente";
-                notificacion(mensaje);
-            }
+                if (response == "") {
+                    var mensaje = "La fecha de entrega se ha cambiado exitosamente";
+                    notificacion(mensaje);
+                }
             }
         });
     }
@@ -777,8 +771,14 @@ function FinalizarAjax() {
                 var pagina = document.getElementById("comboPagina").value;
                 $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + codigo + '&pagina=' + pagina + " #cargarTiquetePagina");
                 document.getElementById("justificacion").value = "";
-                var mensaje = "El tiquete ha sido finalizado";
-                notificacion(mensaje);
+                if (response != -1) {
+                    alert(response);
+                    var mensaje = "El tiquete ha sido finalizado";
+                    notificacion(mensaje);
+                } else {
+                    var mensaje = "Ha ocurrido un error";
+                    notificacion(mensaje);
+                }
 
             }
         });
@@ -799,8 +799,6 @@ function notificacion(mensaje) {
 }
 
 // </editor-fold>
-
-
 
 // <editor-fold defaultstate="collapsed" desc="ESTADO CALIFICADO">
 var calificacion;

@@ -290,7 +290,10 @@ if (isset($_POST['codigoFinalizar'])) {
     $justificacion = $_POST['justificacion'];
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
-    finalizarTiquete($codTiquete, $justificacion, $correoUsuarioCausante, $nombreUsuarioCausante);
+    $respuesta = finalizarTiquete($codTiquete, $justificacion, $correoUsuarioCausante, $nombreUsuarioCausante);
+    if($respuesta != ''){
+        echo -1;
+    }
 }
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Reprocesar">
