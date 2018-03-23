@@ -11,15 +11,23 @@
         <?php require ("../control/AdministrarTablaInventario.php"); ?>
     </head>
     <body>
-        <?php require ("../vista/Cabecera.php"); ?>
+        <?php require ("../vista/Cabecera.php");
+        if (isset($_GET['tab'])) {
+            $tab = $_GET['tab'];
+        } else {
+            $tab = 1;
+        }
+        ?>
+        <input id = 'tabInventario' type="hidden" value ='<?php echo $tab ?>' >
         <div class="container-fluid">
             <div class="row">                
                 <div class="col-md-7">
                     <div id="tab-indice" class="tab">
-                        <button class="tablinks active" onclick="abrir_tab_inventario(this, 'tab-pasivos')" id="defaultOpen">Pasivos</button>
-                        <button class="tablinks" onclick="abrir_tab_inventario(this, 'tab-activos')" >Activos</button>                        
-                        <button class="tablinks" onclick="abrir_tab_inventario(this, 'tab-licencias')">Licencias</button>
-                        <button class="tablinks" onclick="abrir_tab_inventario(this, 'tab-repuestos')">Repuestos</button>
+                        
+                        <button id = "link-pasivos" class="tablinks" onclick="abrir_tab_inventario(this, 'tab-pasivos')" id="defaultOpen">Pasivos</button>
+                        <button id = "link-activos"  class="tablinks" onclick="abrir_tab_inventario(this, 'tab-activos')" >Activos</button>                        
+                        <button id = "link-licencias"  class="tablinks" onclick="abrir_tab_inventario(this, 'tab-licencias')">Licencias</button>
+                        <button id = "link-repuestos"  class="tablinks" onclick="abrir_tab_inventario(this, 'tab-repuestos')">Repuestos</button>
                     </div>                                   
                     <section id="tab-pasivos" class="tabcontent">
                         <h2>Pasivos</h2>

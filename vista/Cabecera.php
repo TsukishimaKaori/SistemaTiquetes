@@ -97,16 +97,16 @@ require_once ("../control/UsuarioLogueado.php");
                             echo '<li><a href="../vista/AgregarDispositivo.php">Agregar dispositivo</a></li>';
                         }
                         if ($permiso1) { //cambiar el permiso y url
-                            echo '<li><a href="../vista/AdministrarInventario.php">Activos</a></li>';
+                            echo '<li><a href="../vista/AdministrarInventario.php?tab=1">Activos</a></li>';
                         }
                         if ($permiso1) {//cambiar el permiso y url
-                            echo '<li><a href="../vista/BandejasTiquetes.php?tab=' . '2' . '">Pasivos</a></li>';
+                            echo '<li><a href="../vista/AdministrarInventario.php?tab=2">Pasivos</a></li>';
                         }
                         if ($permiso1) {//cambiar el permiso y url
-                            echo '<li><a href="../vista/BandejasTiquetes.php?tab=' . '2' . '">Licencias</a></li>';
+                            echo '<li><a href="../vista/AdministrarInventario.php?tab=3">Licencias</a></li>';
                         }
                         if ($permiso1) { //cambiar el permiso y url
-                            echo '<li><a href="../vista/BandejasTiquetes.php?tab=' . '2' . '">Repuestos</a></li>';
+                            echo '<li><a href="../vista/AdministrarInventario.php?tab=4">Repuestos</a></li>';
                         }
                        
                         echo '</ul>';
