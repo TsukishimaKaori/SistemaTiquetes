@@ -7,8 +7,9 @@ function abrir_tab_inventario(evt, id) {
     tablinks = document.getElementsByClassName("tablinks");
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
+    }        
     document.getElementById(id).style.display = "block";
-    evt.currentTarget.className += " active";
+    evt.className += " active";
+    
 }
 

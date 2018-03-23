@@ -11,64 +11,62 @@
         <?php require ("../control/AdministrarTablaInventario.php"); ?>
     </head>
     <body>
-        <?php require ("../vista/Cabecera.php"); ?>          
- 
-
->>>>>>> THEIRS
+        <?php require ("../vista/Cabecera.php"); ?>
         <div class="container-fluid">
-            <div class="row">
-                <div class=""></div>
-                <div class="col-md-12">
+            <div class="row">                
+                <div class="col-md-7">
                     <div id="tab-indice" class="tab">
-                        <button class="tablinks" onclick="abrir_tab_inventario(this, 'tab-activos')" id="defaultOpen">Activos</button>
-                        <button class="tablinks" onclick="abrir_tab_inventario(this, 'tab-pasivos')" >Pasivos</button>                        
+                        <button class="tablinks active" onclick="abrir_tab_inventario(this, 'tab-pasivos')" id="defaultOpen">Pasivos</button>
+                        <button class="tablinks" onclick="abrir_tab_inventario(this, 'tab-activos')" >Activos</button>                        
                         <button class="tablinks" onclick="abrir_tab_inventario(this, 'tab-licencias')">Licencias</button>
                         <button class="tablinks" onclick="abrir_tab_inventario(this, 'tab-repuestos')">Repuestos</button>
                     </div>                                   
-                    <section id="tab-activos" class="tabcontent">
-                        <h1>Pasivos</h1>
+                    <section id="tab-pasivos" class="tabcontent">
+                        <h2>Pasivos</h2>
                         <div class="container-fluid">
                             <div class="row">                                                           
                                 <div id ="" class="col-md-10"></div>                
-                            <div class="row">
-                                <div class="col-md-2"></div>                                
-                                <div id ="" class="col-md-6"></div>                
-                                <div class="col-md-2">                    
-                                    <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i>Agregar activo</button>         
+                                <div class="row">                                             
+                                    <div class="col-md-offset-10">                   
+                                        <a href="../vista/AgregarDispositivo.php">  <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>    </a>     
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">                                
-                                <div class="col-md-12 ">
-                                    <div class="table table-responsive">  
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <?php cabeceraTablaPasivos();?>                                 
-                                            </thead>
-                                            <tbody>
-                                                <?php ?>
-                                            </tbody>
-                                        </table>
+                                <div class="row"> 
+                                    <div class="col-md-offset-12">&nbsp;</div>
+                                </div>
+                                <div class="row">                                
+                                    <div class="col-md-12 ">
+                                        <div class="table table-responsive">  
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <?php cabeceraTablaPasivos(); ?>                                 
+                                                </thead>
+                                                <tbody>
+                                                    <?php ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </section>
-                    <section id="tab-pasivos" class="tabcontent tab-oculto">
-                        <h1>Activos</h1>
+                    <section id="tab-activos" class="tabcontent tab-oculto">
+                        <h2>Activos</h2>
                         <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-2"></div>                                
-                                <div id ="" class="col-md-6"></div>                
-                                <div class="col-md-2">                    
-                                    <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>         
+                            <div class="row">                                               
+                                <div class="col-md-offset-10">                    
+                                    <a href="../vista/AgregarDispositivo.php">   <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>   </a>      
                                 </div>
+                            </div>
+                            <div class="row"> 
+                                <div class="col-md-offset-12">&nbsp;</div>
                             </div>
                             <div class="row">                                
                                 <div class="col-md-12 ">
                                     <div class="table table-responsive">  
                                         <table class="table table-hover">
                                             <thead>
-                                                <?php cabeceraTablaActivos();?>                                 
+                                                <?php cabeceraTablaActivos(); ?>                                 
                                             </thead>
                                             <tbody>
                                                 <?php ?>
@@ -80,32 +78,67 @@
                         </div>
                     </section>
                     <section id="tab-licencias" class="tabcontent tab-oculto">
-                        <h1>Licencias</h1>
+                        <h2>Licencias</h2>
                         <div class="container-fluid">
-                            <div class="row">                               
+                            <div class="row">                                               
+                                <div class="col-md-offset-10">                    
+                                    <a href="../vista/AgregarDispositivo.php">  <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>   </a>      
+                                </div>
                             </div>
-                            <div class="row">  
-                                <div class=""></div>                               
+                            <div class="row"> 
+                                <div class="col-md-offset-12">&nbsp;</div>
+                            </div>
+                            <div class="row">                                
+                                <div class="col-md-12 ">
+                                    <div class="table table-responsive">  
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <?php cabeceraTablaActivos(); ?>                                 
+                                            </thead>
+                                            <tbody>
+                                                <?php ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
                     <section id="tab-repuestos" class="tabcontent tab-oculto">
-                        <h1>Repuestos</h1>
+                        <h2>Repuestos</h2>
                         <div class="container-fluid">
-                            <div class="row">                               
+                            <div class="row">                                               
+                                <div class="col-md-offset-10">                    
+                                    <a href="../vista/AgregarDispositivo.php">  <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button> </a>        
+                                </div>
                             </div>
-                            <div class="row">  
-                                <div class=""></div>                               
+                            <div class="row"> 
+                                <div class="col-md-offset-12">&nbsp;</div>
+                            </div>
+                            <div class="row">                                
+                                <div class="col-md-12 ">
+                                    <div class="table table-responsive">  
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <?php cabeceraTablaActivos(); ?>                                 
+                                            </thead>
+                                            <tbody>
+                                                <?php ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
                 </div>
-                <div class="col-md-1"></div>
+                <div class="col-md-5">                   
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Especificaciones</div>
+                        <div class="panel-body">hola hola</div>
+                    </div>
+                </div>
             </div>
         </div>
-
-
-
-
     </body>
 </html>
