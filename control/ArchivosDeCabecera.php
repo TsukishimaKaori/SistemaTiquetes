@@ -12,7 +12,6 @@ echo ' <script src="../recursos/bootstrap/js/jquery.dataTable.js"></script>';
 echo '<link href="../recursos/css/jquery.dataTable.min.css" rel="stylesheet"/>';
 echo '   <script src="../recursos/bootstrap/js//bootstrap.min.js"></script>';
 
-echo '   <script src="../recursos/js/AlertasConfirmaciones.js"></script>';
 echo '<link href="../recursos/css/alertasConfirmaciones.css" rel="stylesheet"/>';
 
 echo '<link href="../recursos/css/headerFooter.css" rel="stylesheet"/>';
