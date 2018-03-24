@@ -479,13 +479,13 @@ function FiltrosAjax(filtros, tabla) {
         success: function (response) {
             $("#Filtros").html(response);
             $(function () {
-                $('#datetimepicker1').datetimepicker({
+                $('#fechafiltroI').datetimepicker({
                     format: 'DD/MM/YYYY',
                     locale: 'es'
                 });
             });
             $(function () {
-                $('#datetimepicker2').datetimepicker({
+                $('#fechafiltroF').datetimepicker({
                     format: 'DD/MM/YYYY',
                     locale: 'es'
                 });

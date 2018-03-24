@@ -34,7 +34,7 @@
                             <label for="tematica"> Clasificación </label>
                             <div class='input-group date' id='clasificacion2'onclick="Clasificaciones()" >
                                 <input type="text" class="form-control" name="tematica"  readonly="readonly" id="clasificacion" onclick="Clasificaciones()"  required  >
-                                <span class="input-group-addon" id="clasificacion3">
+                                <span class="input-group-addon  btn btn-info" id="clasificacion3">
                                     <span class="glyphicon glyphicon-th-list"></span>
                                 </span> 
                             </div>
@@ -54,7 +54,7 @@
                                 $fecha = $dia . "/" . $mes . "/" . $anio;
                                 echo '  <input type="text" class="form-control" name="fecha" id="fecha" value="' . $fecha . '">';
                                 ?>                                
-                                <span class="input-group-addon" id="Efecha">
+                                <span class="input-group-addon btn btn-info" id="Efecha">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>                              
                             </div>
