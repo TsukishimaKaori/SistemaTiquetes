@@ -32,7 +32,7 @@ function FormularioDispositivos() {
                                 </div>
                             </div>
                             <div class="form-group col-md-11">
-                                <label class="control-label col-sm-2" for="provedor">Provedor:</label>
+                                <label class="control-label col-sm-2" for="provedor">Proveedor:</label>
                                 <div class="col-sm-10">
                                     <input class="form-control" id="provedor" type="text" required>
                                 </div>
@@ -78,14 +78,14 @@ function FormularioLicencias() {
                         </div>
 
                         <div class="form-group  col-md-11 ">
-                            <label class="control-label col-sm-2" for="descripcion">Descripcion:</label>
+                            <label class="control-label col-sm-2" for="descripcion">Descripción:</label>
                             <div class="col-sm-10">
                                 <input class="form-control" id="descripcion" type="text" required>
                             </div>
                         </div>
 
                         <div class="form-group  col-md-11">
-                            <label class="control-label col-sm-2" for="cantidad">cantidad:</label>
+                            <label class="control-label col-sm-2" for="cantidad">Cantidad:</label>
                             <div class="col-sm-10">
                                 <input class="form-control" id="cantidad" type="number"  min=0 required>
                             </div>
@@ -97,7 +97,7 @@ function FormularioLicencias() {
                             </div>
                         </div>
                         <div class="form-group col-md-11">
-                            <label class="control-label col-sm-2" for="provedor">Provedor:</label>
+                            <label class="control-label col-sm-2" for="provedor">Proveedor:</label>
                             <div class="col-sm-10">
                                 <input class="form-control" id="provedor" type="text" required>
                             </div>
@@ -120,14 +120,14 @@ function FormularioRepuestos() {
                         </div>
 
                         <div class="form-group  col-md-11 ">
-                            <label class="control-label col-sm-2" for="descripcion">Descripcion:</label>
+                            <label class="control-label col-sm-2" for="descripcion">Descripción:</label>
                             <div class="col-sm-10">
                                 <input class="form-control" id="descripcion" type="text" required>
                             </div>
                         </div>
 
                         <div class="form-group  col-md-11">
-                            <label class="control-label col-sm-2" for="cantidad">cantidad:</label>
+                            <label class="control-label col-sm-2" for="cantidad">Cantidad:</label>
                             <div class="col-sm-10">
                                 <input class="form-control" id="cantidad" type="number"  min=0 required>
                             </div>
