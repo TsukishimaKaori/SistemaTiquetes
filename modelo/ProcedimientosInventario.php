@@ -6,9 +6,10 @@ require_once '../modelo/Pasivo.php';
 require_once '../modelo/Activo.php';
 require_once '../modelo/Licencia.php';
 require_once '../modelo/Repuesto.php';
+require_once '../modelo/Conexion.php';
 
 
-//Obtiene todas las area almacenadas en la tabla Area
+//Obtiene todos los dispositivos pasivos
 function obtenerEquiposPasivos() {
     $conexion = Conexion::getInstancia();
     $tsql = "{call PAobtenerEquiposPasivos }";
@@ -23,6 +24,59 @@ function obtenerEquiposPasivos() {
     }
     sqlsrv_free_stmt($getMensaje);
     return $pasivos;
+}
+
+//Obtiene todos los dispositivos activos
+function obtenerEquiposActivos() {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerEquiposActivos }";
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha orricudo un error al obtener los activos';
+    }
+    $activos = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $activos[] = crearActivo($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $activos;
+}
+
+
+//Obtiene todas licencias
+function obtenerLicencias() {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerLicencias }";
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha orricudo un error al obtener las licencias';
+    }
+    $licencias = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $licencias[] = crearLicencia($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $licencias;
+}
+
+
+//Obtiene todos los repuestos
+function obtenerRepuestos() {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerRepuestos }";
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha orricudo un error al obtener los repuestos';
+    }
+    $repuestos = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $repuestos[] = crearRepuesto($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $repuestos;
 }
 
 function crearEstadoEquipo($row) {
@@ -96,13 +150,43 @@ function crearRepuesto($row) {
     return new Repuesto($codigoRepuesto, $cantidadTotal, $cantidadEnUso, $descripcion);
 }
 
-$pasivos = obtenerEquiposPasivos();
+//$pasivos = obtenerEquiposPasivos();
+//
+//foreach ($pasivos as $tema) {   
+//    echo $tema->obtenerTipo()->obtenerNombreTipo() . '<br />';
+//    echo $tema->obtenerEsNuevo() . '<br />';
+//    echo $tema->obtenerEstado()->obtenerNombreEstado().'<br />'; 
+//    echo $tema->obtenerProveedor() . '<br />';
+//    echo $tema->obtenerMarca() . '<br />';
+//    echo '<br />';
+//}
 
-foreach ($pasivos as $tema) {   
-    echo $tema->obtenerTipo()->obtenerNombreTipo() . '<br />';
-    echo $tema->obtenerEsNuevo() . '<br />';
-    echo $tema->obtenerEstado()->obtenerNombreEstado().'<br />'; 
-    echo $tema->obtenerProveedor() . '<br />';
-    echo $tema->obtenerMarca() . '<br />';
+//$activos = obtenerEquiposActivos();
+//
+//foreach ($activos as $tema) {   
+//    echo $tema->obtenerTipo()->obtenerNombreTipo() . '<br />';
+//    echo $tema->obtenerEsNuevo() . '<br />';
+//    echo $tema->obtenerEstado()->obtenerNombreEstado().'<br />'; 
+//    echo $tema->obtenerProveedor() . '<br />';
+//    echo $tema->obtenerMarca() . '<br />';
+//    echo $tema->obtenerNombreUsuarioAsociado() . '<br />';
+//    echo $tema->obtenerCorreoUsuarioAsociado() . '<br />';
+//    echo '<br />';
+//}
+
+$licencias = obtenerLicencias();
+
+foreach ($licencias as $tema) {   
+    echo $tema->obtenerDescripcion() . '<br />';
+    echo $tema->obtenerCantidadTotal() . '<br />';
+    echo $tema->obtenerProveedor().'<br />'; 
+    echo '<br />';
+}
+
+$repuestos = obtenerRepuestos();
+
+foreach ($repuestos as $tema) {   
+    echo $tema->obtenerDescripcion() . '<br />';
+    echo $tema->obtenerCantidadTotal() . '<br />';
     echo '<br />';
 }
