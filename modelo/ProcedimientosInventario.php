@@ -174,19 +174,19 @@ function crearRepuesto($row) {
 //    echo '<br />';
 //}
 
-$licencias = obtenerLicencias();
-
-foreach ($licencias as $tema) {   
-    echo $tema->obtenerDescripcion() . '<br />';
-    echo $tema->obtenerCantidadTotal() . '<br />';
-    echo $tema->obtenerProveedor().'<br />'; 
-    echo '<br />';
-}
-
-$repuestos = obtenerRepuestos();
-
-foreach ($repuestos as $tema) {   
-    echo $tema->obtenerDescripcion() . '<br />';
-    echo $tema->obtenerCantidadTotal() . '<br />';
-    echo '<br />';
-}
+//$licencias = obtenerLicencias();
+//
+//foreach ($licencias as $tema) {   
+//    echo $tema->obtenerDescripcion() . '<br />';
+//    echo $tema->obtenerCantidadTotal() . '<br />';
+//    echo $tema->obtenerProveedor().'<br />'; 
+//    echo '<br />';
+//}
+//
+//$repuestos = obtenerRepuestos();
+//
+//foreach ($repuestos as $tema) {   
+//    echo $tema->obtenerDescripcion() . '<br />';
+//    echo $tema->obtenerCantidadTotal() . '<br />';
+//    echo '<br />';
+//}
