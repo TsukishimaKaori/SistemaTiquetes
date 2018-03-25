@@ -202,7 +202,7 @@ CREATE TABLE EquipoRepuesto(
  insert into Equipo (placa, codigoTipo, esNuevo, codigoEstado, tipoDeBien, serie, proveedor, modelo, marca, fechaIngresoSistema, 
  fechaExpiraGarantia, precio) values ('123', 1, 1, 1, 1, 'A164B', 'DELL', 'Inspiron', 'DELL', '2018/03/24', '2018/04/30', 1005);
  insert into Equipo (placa, codigoTipo, esNuevo, codigoEstado,tipoDeBien, serie, proveedor, modelo, marca, fechaIngresoSistema, 
- fechaExpiraGarantia, precio) values ('234', 2, 1, 1, 1, 'A164C', 'SAMSUNG', 'Galaxy', 'SANSUMG', '2018/03/24', '2018/05/30', 1005);
+ fechaExpiraGarantia, precio) values ('234', 2, 1, 1, 1, 'A164C', 'SAMSUNG', 'Galaxy', 'SAMSUNG', '2018/03/24', '2018/05/30', 1005);
  insert into Equipo (placa, codigoTipo, esNuevo, codigoEstado,tipoDeBien, serie, proveedor, modelo, marca, fechaIngresoSistema, 
  fechaExpiraGarantia, precio) values ('345', 1, 0, 1, 1, 'A164R', 'Lenovo', 'Ideapad', 'Lenovo', '2018/03/24', '2018/06/24', 1005);
 
