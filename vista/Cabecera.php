@@ -94,7 +94,7 @@ require_once ("../control/UsuarioLogueado.php");
                         echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Inventario <b class="caret"></b></a>';
                         echo '<ul class="dropdown-menu">';
                         if ($permiso1) { //cambiar el permiso y url
-                            echo '<li><a href="../vista/AgregarDispositivo.php">Agregar dispositivo</a></li>';
+                            echo '<li><a href="../vista/AgregarInventario.php">Agregar inventario</a></li>';
                         }
                         if ($permiso1) { //cambiar el permiso y url
                             echo '<li><a href="../vista/AdministrarInventario.php?tab=1">Activos</a></li>';
