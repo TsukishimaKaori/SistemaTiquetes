@@ -34,7 +34,7 @@ function cabeceraTablaRepuestos() {
 
 function cuerpoTablaActivos($activos) {
     foreach ($activos as $act) {
-        echo '<tr onclick = "cargarPanelActivos('.$act->obtenerPlaca().')">';
+        echo '<tr onclick = "cargarPanelActivos(' . $act->obtenerPlaca() . ')">';
         echo '<td>' . $act->obtenerTipo()->obtenerNombreTipo() . '</td>';
         echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
         echo '<td>' . $act->obtenerPlaca() . '</td>';
@@ -55,7 +55,7 @@ function cuerpoTablaActivos($activos) {
 
 function cuerpoTablaPasivos($pasivos) {
     foreach ($pasivos as $act) {
-        echo '<tr onclick = "cargarPanelPasivos('.$act->obtenerPlaca().')">';
+        echo '<tr onclick = "cargarPanelPasivos(' . $act->obtenerPlaca() . ')">';
         echo '<td>' . $act->obtenerTipo()->obtenerNombreTipo() . '</td>';
         echo '<td>' . $act->obtenerEsNuevo() . '</td>';
         echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
@@ -71,7 +71,7 @@ function cuerpoTablaPasivos($pasivos) {
 
 function cuerpoTablaLicencias($licencias) {
     foreach ($licencias as $act) {
-        echo '<tr onclick = "cargarPanelLicencias('.$act->obtenerClaveDeProducto().')">';
+        echo '<tr onclick = "cargarPanelLicencias(' . $act->obtenerClaveDeProducto() . ')">';
         echo '<td>' . $act->obtenerDescripcion() . '</td>';
         echo '<td>' . $act->obtenerProveedor() . '</td>';
         echo '<td>' . $act->obtenerCantidadEnUso() . '</td>';
@@ -86,13 +86,33 @@ function cuerpoTablaLicencias($licencias) {
 }
 
 function cuerpoTablaRepuestos($repuestos) {
-     foreach ($repuestos as $act) {
-        echo '<tr onclick = "cargarPanelRepuestos('.$act->obtenerCodigoRepuesto().')">';
+    foreach ($repuestos as $act) {
+        echo '<tr onclick = "cargarPanelRepuestos(' . $act->obtenerCodigoRepuesto() . ')">';
         echo '<td>' . $act->obtenerDescripcion() . '</td>';
         echo '<td>' . $act->obtenerCodigoRepuesto() . '</td>';
         echo '<td>' . $act->obtenerCantidadEnUso() . '</td>';
-        echo '<td>' . $act->obtenerCantidadTotal() . '</td>';       
+        echo '<td>' . $act->obtenerCantidadTotal() . '</td>';
         echo '</tr>';
     }
- 
+}
+
+function panelActivos() {
+    echo
+    '<div id = "" type = "hidden" class="panel panel-default">'
+    . ' <div class="panel-heading">Especificaciones</div>'
+    . ' <div class="panel-body">'
+    . '</div>'
+    . '</div>';
+}
+
+function panelPasivos() {
+    
+}
+
+function panelLicencias() {
+    
+}
+
+function panelRepuestos() {
+    
 }
