@@ -1,18 +1,27 @@
 <?php
-require_once ("../control/AdministrarTablaInventario.php");
 
+require_once ("../control/AdministrarTablaInventario.php");
+require ("../modelo/ProcedimientosInventario.php");
 if (isset($_POST['codigoActivo'])) {
-    panelActivos();
+    $codigo = $_POST['codigoActivo'];
+    $activos = obtenerEquiposActivos();
+    panelActivos($activos,$codigo);
 }
 
 if (isset($_POST['codigoPasivo'])) {
-    panelPasivos();
+    $codigo = $_POST['codigoPasivo'];
+    $pasivos = obtenerEquiposPasivos();
+    panelPasivos($pasivos,$codigo);
 }
 
 if (isset($_POST['codigoLicencia'])) {
-    panelLicencias();
+      $codigo = $_POST['codigoLicencia'];
+    $licencias = obtenerLicencias();
+    panelLicencias($licencias,$codigo);
 }
 
 if (isset($_POST['codigoRepuesto'])) {
-    panelRepuestos();
+    $codigo = $_POST['codigoRepuesto'];
+    $repuestos = obtenerRepuestos();
+    panelRepuestos($repuestos,$codigo);
 }
