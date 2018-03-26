@@ -147,7 +147,7 @@
                     </section>
                 </div>
                 <div class="col-md-5">                   
-                    <div id = "panelInformacionInventario"class="panel panel-default">
+                    <div id = "panelInformacionInventario" type = "hidden" class="panel panel-default">
                         <div class="panel-heading">Especificaciones</div>
                         <div class="panel-body">hola hola</div>
                     </div>
