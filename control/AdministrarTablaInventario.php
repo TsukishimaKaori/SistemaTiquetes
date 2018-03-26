@@ -142,7 +142,7 @@ function panelActivos($activos, $codigo) {
         $fechaIngeso = date_format($listaActivos->obtenerFechaIngresoSistema(), 'd/m/Y');
         echo '<div class="col-md-6"><h5>' . $fechaIngeso . '</h5></div>';
     } else {
-        echo '<div class="col-md-6"><h5>Fecha no registada</h5></div>';
+        echo '<div class="col-md-6"><h5>Fecha no registrada</h5></div>';
     }
     echo '         </div>'
     . '         <div class="row">'
@@ -152,7 +152,7 @@ function panelActivos($activos, $codigo) {
         $fechaSalida = date_format($listaActivos->obtenerFechaSalidaInventario(), 'd/m/Y');
         echo '<div class="col-md-6"><h5>' . $fechaSalida . '</h5></div>';
     } else {
-        echo '<div class="col-md-6"><h5>Fecha no registada</h5></div>';
+        echo '<div class="col-md-6"><h5>Fecha no registrada</h5></div>';
     }
     echo '         </div>'
     . '         <div class="row">'
@@ -162,7 +162,7 @@ function panelActivos($activos, $codigo) {
         $fechaExpira = date_format($listaActivos->obtenerFechaExpiraGarantia(), 'd/m/Y');
         echo '<div class="col-md-6"><h5>' . $fechaExpira . '</h5></div>';
     } else {
-        echo '<div class="col-md-6"><h5>Fecha no registada</h5></div>';
+        echo '<div class="col-md-6"><h5>Fecha no registrada</h5></div>';
     }
     echo '         </div>'
     . '         <div class="row">'
@@ -192,13 +192,77 @@ function panelActivos($activos, $codigo) {
 
 function panelPasivos($pasivos, $codigo) {
     $listaPasivos = buscarDispositivo($pasivos, $codigo);
+  
     echo
     '<div type = "hidden" class="panel panel-default">'
-    . ' <div class="panel-heading"><h5>Especificaciones de pasivos</h5></div>'
-    . '     <div class="panel-body container-fluid">'
+    . ' <div class="panel-heading"><h5>Especificaciones de activos</h5></div>'
+    . '     <div class="panel-body container-fluid">';
+
+    echo '      <div class="row">'
+    . '             <h5 class="col-md-6 ">Placa</h5> '
+    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerPlaca() . '</h5></div>'
+    . '         </div>'
     . '         <div class="row">'
-    . '             <div class="col-md-3"></div>'
-    . '             <div class="col-md-9"></div>'
+    . '             <h5 class="col-md-6 ">Tipo</h5> '
+    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerTipo()->obtenerNombreTipo() . '</h5></div>'
+    . '         </div>'
+    . '         <div class="row">'
+    . '             <h5 class="col-md-6 ">Antiguedad</h5> '
+    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerEsNuevo() . '</h5></div>'
+    . '         </div>'
+    . '         <div class="row">'
+    . '             <h5 class="col-md-6 ">Estado</h5> '
+    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerEstado()->obtenerNombreEstado() . '</h5></div>'
+    . '         </div>'
+    . '         <div class="row">'
+    . '             <h5 class="col-md-6 ">Serie</h5> '
+    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerSerie() . '</h5></div>'
+    . '         </div>'
+    . '         <div class="row">'
+    . '             <h5 class="col-md-6 ">Proveedor</h5> '
+    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerProveedor() . '</h5></div>'
+    . '         </div>'
+    . '         <div class="row">'
+    . '             <h5 class="col-md-6 ">Modelo</h5> '
+    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerModelo() . '</h5></div>'
+    . '         </div>'
+    . '         <div class="row">'
+    . '             <h5 class="col-md-6 ">Marca</h5> '
+    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerMarca() . '</h5></div>'
+    . '         </div>'
+    . '         <div class="row">'
+    . '             <h5 class="col-md-6 ">Fecha de ingreso al sistema</h5> ';
+    $fechaIngeso = $listaPasivos->obtenerFechaIngresoSistema();
+    if ($fechaIngeso != null) {
+        $fechaIngeso = date_format($listaPasivos->obtenerFechaIngresoSistema(), 'd/m/Y');
+        echo '<div class="col-md-6"><h5>' . $fechaIngeso . '</h5></div>';
+    } else {
+        echo '<div class="col-md-6"><h5>Fecha no registrada</h5></div>';
+    }
+    echo '         </div>'
+    . '         <div class="row">'
+    . '             <h5 class="col-md-6 ">Fecha desechado</h5> ';
+    $fechaDesechado = $listaPasivos->obtenerFechaDesechado();
+    if ($fechaDesechado != null) {
+        $fechaDesechado = date_format($listaPasivos->obtenerFechaDesechado(), 'd/m/Y');
+        echo '<div class="col-md-6"><h5>' . $fechaDesechado . '</h5></div>';
+    } else {
+        echo '<div class="col-md-6"><h5>Fecha no registrada</h5></div>';
+    }
+    echo '         </div>'
+    . '         <div class="row">'
+    . '             <h5 class="col-md-6 ">Expira garantía</h5> ';
+        $fechaExpira = $listaPasivos->obtenerFechaExpiraGarantia();
+    if ($fechaExpira != null) {
+        $fechaExpira = date_format($listaPasivos->obtenerFechaExpiraGarantia(), 'd/m/Y');
+        echo '<div class="col-md-6"><h5>' . $fechaExpira . '</h5></div>';
+    } else {
+        echo '<div class="col-md-6"><h5>Fecha no registrada</h5></div>';
+    }
+    echo '         </div>'
+    . '         <div class="row">'
+    . '             <h5 class="col-md-6 ">Precio</h5> '
+    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerPrecio() . '</h5></div>'
     . '         </div>'
     . '     </div>'
     . ' </div>'
@@ -219,7 +283,8 @@ function panelLicencias($licencias) {
     . '</div>';
 }
 
-function panelRepuestos($repuestos) {
+function panelRepuestos($repuestos,$codigo) {
+    $listaRepuestos = buscarRepuesto($repuestos, $codigo);
     echo
     '<div type = "hidden" class="panel panel-default">'
     . ' <div class="panel-heading"><h5>Especificaciones de repuestos</h5></div>'
@@ -236,6 +301,15 @@ function panelRepuestos($repuestos) {
 function buscarDispositivo($dispositivo, $codigo) {
     foreach ($dispositivo as $act) {
         if ($act->obtenerPlaca() == $codigo) {
+            return $act;
+        }
+    }
+    return null;
+}
+
+function buscarRepuesto($dispositivo, $codigo) {
+    foreach ($dispositivo as $act) {
+        if ($act->obtenerCodigoRepuesto() == $codigo) {
             return $act;
         }
     }
