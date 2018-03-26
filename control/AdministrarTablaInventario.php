@@ -3,7 +3,7 @@
 
 function cabeceraTablaPasivos(){
     echo "<th>Tipo</th>"
-    . "<th>Antiguedad</th>"
+    . "<th>Antigüedad</th>"
             . "<th>Estado</th>"
             . "<th>Placa</th>"
             . "<th>Fecha de ingreso</th>";
@@ -13,7 +13,7 @@ function cabeceraTablaPasivos(){
 function cabeceraTablaActivos(){
     echo "<th>Tipo</th>"
      . "<th>Usuario asociado</th>"
-    . "<th>Antiguedad</th>"
+    . "<th>Antigüedad</th>"
             . "<th>Estado</th>"
             . "<th>Placa</th>"
             . "<th>Fecha de salida </th>";

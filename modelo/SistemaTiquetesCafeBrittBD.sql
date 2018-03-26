@@ -1,6 +1,4 @@
-actuPAobtenerTiquetesAsignadosFiltrados--Base de datos para el sistema de tiquetes 
 --Empresa BrittShop Costa Rica S.A
--- Version 13
 
 --Creacion de tablas
 
