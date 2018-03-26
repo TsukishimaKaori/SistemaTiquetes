@@ -98,21 +98,56 @@ function cuerpoTablaRepuestos($repuestos) {
 
 function panelActivos() {
     echo
-    '<div id = "" type = "hidden" class="panel panel-default">'
-    . ' <div class="panel-heading">Especificaciones</div>'
-    . ' <div class="panel-body">'
-    . '</div>'
+    '<div type = "hidden" class="panel panel-default">'
+    . ' <div class="panel-heading"><h5>Especificaciones de activos</h5></div>'
+    . '     <div class="panel-body container-fluid">'
+    . '         <div class="row">'
+    . '             <div class="col-md-3"></div>'
+    . '             <div class="col-md-9"></div>'            
+    . '         </div>'
+    . '     </div>'
+    . ' </div>'
     . '</div>';
 }
 
 function panelPasivos() {
-    
+    echo
+    '<div type = "hidden" class="panel panel-default">'
+    . ' <div class="panel-heading"><h5>Especificaciones de pasivos</h5></div>'
+    . '     <div class="panel-body container-fluid">'
+    . '         <div class="row">'
+    . '             <div class="col-md-3"></div>'
+    . '             <div class="col-md-9"></div>'            
+    . '         </div>'
+    . '     </div>'
+    . ' </div>'
+    . '</div>';
 }
 
 function panelLicencias() {
-    
+    echo
+    '<div type = "hidden" class="panel panel-default">'
+    . ' <div class="panel-heading"><h5>Especificaciones de licencias</h5></div>'
+    . '     <div class="panel-body container-fluid">'
+    . '         <div class="row">'
+    . '             <div class="col-md-3"></div>'
+    . '             <div class="col-md-9"></div>'            
+    . '         </div>'
+    . '     </div>'
+    . ' </div>'
+    . '</div>';
 }
 
 function panelRepuestos() {
-    
+    echo
+    '<div type = "hidden" class="panel panel-default">'
+    . ' <div class="panel-heading"><h5>Especificaciones de repuestos</h5></div>'
+    . '     <div class="panel-body container-fluid">'
+    . '         <div class="row">'
+    . '             <div class="col-md-3"></div>'
+    . '             <div class="col-md-9"></div>'            
+    . '         </div>'
+    . '     </div>'
+    . ' </div>'
+    . '</div>';
 }
