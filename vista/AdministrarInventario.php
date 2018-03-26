@@ -8,10 +8,16 @@
         <script src="../recursos/bootstrap/js/es.js"></script>   
         <script src="../recursos/js/AdministrarInventario.js"></script>   
         <link href="../recursos/css/inventario.css" rel="stylesheet"/> 
-        <?php require ("../control/AdministrarTablaInventario.php"); ?>
+        <?php require ("../control/AdministrarTablaInventario.php");
+        require ("../modelo/ProcedimientosInventario.php");
+        ?>
     </head>
     <body>
         <?php require ("../vista/Cabecera.php");
+        $activos = obtenerEquiposActivos();
+        $pasivos = obtenerEquiposPasivos();
+        $licencias = obtenerLicencias();
+        $repuestos = obtenerRepuestos();
         if (isset($_GET['tab'])) {
             $tab = $_GET['tab'];
         } else {
@@ -36,7 +42,7 @@
                                 <div id ="" class="col-md-10"></div>                
                                 <div class="row">                                             
                                     <div class="col-md-offset-10">                   
-                                        <a href="../vista/AgregarDispositivo.php">  <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>    </a>     
+                                        <a href="../vista/AgregarInventario.php">  <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>    </a>     
                                     </div>
                                 </div>
                                 <div class="row"> 
@@ -50,7 +56,7 @@
                                                     <?php cabeceraTablaPasivos(); ?>                                 
                                                 </thead>
                                                 <tbody>
-                                                    <?php ?>
+                                                    <?php cuerpoTablaPasivos($pasivos);?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -63,7 +69,7 @@
                         <div class="container-fluid">
                             <div class="row">                                               
                                 <div class="col-md-offset-10">                    
-                                    <a href="../vista/AgregarDispositivo.php">   <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>   </a>      
+                                    <a href="../vista/AgregarInventario.php">   <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>   </a>      
                                 </div>
                             </div>
                             <div class="row"> 
@@ -77,7 +83,7 @@
                                                 <?php cabeceraTablaActivos(); ?>                                 
                                             </thead>
                                             <tbody>
-                                                <?php ?>
+                                                <?php cuerpoTablaActivos($activos);?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -90,7 +96,7 @@
                         <div class="container-fluid">
                             <div class="row">                                               
                                 <div class="col-md-offset-10">                    
-                                    <a href="../vista/AgregarDispositivo.php">  <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>   </a>      
+                                    <a href="../vista/AgregarInventario.php">  <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>   </a>      
                                 </div>
                             </div>
                             <div class="row"> 
@@ -101,10 +107,10 @@
                                     <div class="table table-responsive">  
                                         <table class="table table-hover">
                                             <thead>
-                                                <?php cabeceraTablaActivos(); ?>                                 
+                                                <?php cabeceraTablaLicencias(); ?>                                 
                                             </thead>
                                             <tbody>
-                                                <?php ?>
+                                                <?php cuerpoTablaLicencias($licencias);?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -117,7 +123,7 @@
                         <div class="container-fluid">
                             <div class="row">                                               
                                 <div class="col-md-offset-10">                    
-                                    <a href="../vista/AgregarDispositivo.php">  <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button> </a>        
+                                    <a href="../vista/AgregarInventario.php">  <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button> </a>        
                                 </div>
                             </div>
                             <div class="row"> 
@@ -128,10 +134,10 @@
                                     <div class="table table-responsive">  
                                         <table class="table table-hover">
                                             <thead>
-                                                <?php cabeceraTablaActivos(); ?>                                 
+                                                <?php cabeceraTablaRepuestos(); ?>                                 
                                             </thead>
                                             <tbody>
-                                                <?php ?>
+                                                <?php cuerpoTablaRepuestos($repuestos);?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -141,7 +147,7 @@
                     </section>
                 </div>
                 <div class="col-md-5">                   
-                    <div class="panel panel-default">
+                    <div id = "panelInformacionInventario"class="panel panel-default">
                         <div class="panel-heading">Especificaciones</div>
                         <div class="panel-body">hola hola</div>
                     </div>
