@@ -21,12 +21,12 @@ function cabeceraTablaLicencias() {
     . "<th>Proveedor</th>"
     . "<th>Cantidad en uso</th>"
     . "<th>Cantidad total</th>"
-    . "<th>fecha de vencimiento </th>";
+    . "<th>Fecha de vencimiento </th>";
 }
 
 function cabeceraTablaRepuestos() {
-    echo "<th>Descripcion</th>"
-    . "<th>Código Repuesto</th>"
+    echo "<th>Código</th>"
+    . "<th>Descripción</th>"
     . "<th>Cantidad en uso</th>"
     . "<th>Cantidad total</th>";
 }
@@ -88,8 +88,8 @@ function cuerpoTablaLicencias($licencias) {
 function cuerpoTablaRepuestos($repuestos) {
     foreach ($repuestos as $act) {
         echo '<tr onclick = "cargarPanelRepuestos(\'' . $act->obtenerCodigoRepuesto() . '\')">';
-        echo '<td>' . $act->obtenerDescripcion() . '</td>';
         echo '<td>' . $act->obtenerCodigoRepuesto() . '</td>';
+        echo '<td>' . $act->obtenerDescripcion() . '</td>';        
         echo '<td>' . $act->obtenerCantidadEnUso() . '</td>';
         echo '<td>' . $act->obtenerCantidadTotal() . '</td>';
         echo '</tr>';
@@ -192,10 +192,9 @@ function panelActivos($activos, $codigo) {
 
 function panelPasivos($pasivos, $codigo) {
     $listaPasivos = buscarDispositivo($pasivos, $codigo);
-
     echo
     '<div type = "hidden" class="panel panel-default">'
-    . ' <div class="panel-heading"><h3>Especificaciones de activos</h3></div>'
+    . ' <div class="panel-heading"><h3>Especificaciones de pasivos</h3></div>'
     . '     <div class="panel-body container-fluid">';
 
     echo '      <div class="row">'
@@ -273,7 +272,7 @@ function panelLicencias($licencias,$codigo) {
     $listaLicencias = buscarLicencias($licencias, $codigo);
     echo
     '<div type = "hidden" class="panel panel-default">'
-    . ' <div class="panel-heading"><h3>Especificaciones de activos</h3></div>'
+    . ' <div class="panel-heading"><h3>Especificaciones de licencias</h3></div>'
     . '     <div class="panel-body container-fluid">'
     . '         <div class="row">'
     . '             <h5 class="col-md-6 titulo">Descripcion</h5> '
@@ -325,7 +324,7 @@ function panelRepuestos($repuestos, $codigo) {
     $listaRepuestos = buscarRepuesto($repuestos, $codigo);
     echo
     '<div type = "hidden" class="panel panel-default">'
-    . ' <div class="panel-heading"><h3>Especificaciones de activos</h3></div>'
+    . ' <div class="panel-heading"><h3>Especificaciones de repuestos</h3></div>'
     . '     <div class="panel-body container-fluid">';
     echo '      <div class="row">'
     . '             <h5 class="col-md-6 titulo">Código Repuesto</h5> '

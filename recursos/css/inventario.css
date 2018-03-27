@@ -11,6 +11,12 @@ div.panel div.panel-body div.row h5.titulo{
       font-weight: bold;
 }
 
+
+
+table th, table td {
+    text-align: center;
+}
+
 .tab {
     float: left;
     border: 1px solid #ccc;
