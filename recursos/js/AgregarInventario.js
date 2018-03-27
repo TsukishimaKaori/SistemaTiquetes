@@ -1,5 +1,4 @@
 
-
 // <editor-fold defaultstate="collapsed" desc="Formulario">
 function CargarFomulario(formulario){
      $("#Inventario").load('../vista/AgregarInventario.php?for=' + formulario+' #Inventario');       

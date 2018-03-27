@@ -4,7 +4,11 @@ h1 {
     text-align: center;
 }
 div.panel div.panel-body div.row h5{
-      text-align: left;
+      text-align: left;     
+}
+
+div.panel div.panel-body div.row h5.titulo{
+      font-weight: bold;
 }
 
 .tab {
