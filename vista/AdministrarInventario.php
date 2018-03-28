@@ -41,7 +41,7 @@
                                 <div id ="" class="col-md-10"></div>                
                                 <div class="row">                                             
                                     <div class="col-md-offset-10">                   
-                                        <a href="../vista/AgregarInventario.php">  <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button></a>     
+                                          <button onclick = "cargarPanelAgregarInventario()" type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>    
                                     </div>
                                 </div>
                                 <div class="row"> 

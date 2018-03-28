@@ -62,7 +62,8 @@ function cargarPanelSumarInventario(codigo) {
     });
 }
 
-function cargarPanelAgregarInventario(codigo) {
+function cargarPanelAgregarInventario() {
+    var codigo = 1;// cambiar codigo
     $.ajax({
         data: {'codigoAgregarInventario': codigo},
         type: 'POST',

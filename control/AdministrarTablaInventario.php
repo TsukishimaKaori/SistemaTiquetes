@@ -47,8 +47,8 @@ function cuerpoTablaPasivos($pasivos) {
         echo '<td>' . $act->obtenerPlaca() . '</td>';
         $fechaIngeso = $act->obtenerFechaIngresoSistema();
         echo '<td>' .
-        '<button class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button>' .
-        '<span>'. $act->obtenerPlaca() .'</span>' .
+        '<a href="../vista/AgregarInventario.php"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>' .
+        '<span>' . $act->obtenerPlaca() . '</span>' .
         '<button onclick = "cargarPanelSumarInventario(' . $act->obtenerPlaca() . ')"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>'
         . '</td>';
         echo '<td><button onclick = "cargarPanelPasivos(' . $act->obtenerPlaca() . ')"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
@@ -161,111 +161,72 @@ function panelAgregarInventario() {
     echo
     '<div type = "hidden" class="panel panel-default">'
     . ' <div class="panel-heading"><h3>Agregar a inventario</h3></div>'
-    . '     <div class="panel-body container-fluid">'
-    . '        <div class="col-md-12">'
-    . '       </div>'
-    . '     </div>'
+    . '     <div class="panel-body container-fluid">';
+
+    echo'
+        <div class="form-group  col-md-12">
+            <label class="control-label col-md-3" for="codigo">Código:</label>
+            <div class="col-sm-9">
+                <input class="form-control" id="codigo" type="text" required>
+            </div>
+        </div>        
+        <div class="form-group  col-md-12 ">
+            <label class="control-label col-md-3" for="tipo">Categoría:</label>
+            <div class="col-md-9">';
+                selectTipos($tipos);
+        echo'</div>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="descripcion">Descripción:</label>
+            <div class="col-md-9">
+                <input class="form-control" id="descripcion" type="text" required>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="estado">Estado:</label>
+            <div class="col-md-9">
+                <input class="form-control" id="estado" type="text" required>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="cantidad">Cantidad:</label>
+            <div class="col-md-9">
+                <input class="form-control" id="cantidad" type="number" required>
+            </div>
+        </div>';
+                           
+    echo'</div>'
     . ' </div>'
     . '</div>';
+}
+
+function selectTipos($tipos) {
+    echo'<select class="form-control">';
+    echo'<option>opciones</option>';
+    foreach ($tipos as $tipo) {
+        echo'<option>Categoria</option>';
+    }
+    echo'</select>';
 }
 
 function panelSumarAInventario() {
-echo'<div type = "hidden" class="panel panel-default">'
-    . ' <div class="panel-heading"><h3>Sumar a inventario</h3></div>'
-    . '     <div class="panel-body container-fluid">'
-    . '        <div class="col-md-12">hola'
-    . '       </div>'
-    . '     </div>'
-    . ' </div>'
-    . '</div>';    
-}
+    echo'<div type = "hidden" class="panel panel-default">'
+    . '<div class="panel-heading"><h3>Sumar a inventario</h3></div>'
+    . '<div class="panel-body container-fluid">';
 
-function panelAgregarActivoFijo() {
-echo'<div type = "hidden" class="panel panel-default">'
-    . ' <div class="panel-heading"><h3>Agregar activo Fijo</h3></div>'
-    . '     <div class="panel-body container-fluid">'
-    . '        <div class="col-md-12">hola'
-    . '       </div>'
-    . '     </div>'
-    . ' </div>'
-    . '</div>';    
-}
-
-
-function panelLicencias($licencias, $codigo) {
-    $listaLicencias = buscarLicencias($licencias, $codigo);
-    echo
-    '<div type = "hidden" class="panel panel-default">'
-    . ' <div class="panel-heading"><h3>Especificaciones de licencias</h3></div>'
-    . '     <div class="panel-body container-fluid">'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Descripcion</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaLicencias->obtenerDescripcion() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Clave de producto</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaLicencias->obtenerClaveDeProducto() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Cantidad en uso</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaLicencias->obtenerCantidadEnUso() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Cantidad total</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaLicencias->obtenerCantidadTotal() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Proveedor</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaLicencias->obtenerProveedor() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '         <h5 class="col-md-6 titulo">Fecha de ingreso al sistema</h5> ';
-    $fechaIngreso = $listaLicencias->obtenerFechaIngresoSistema();
-    if ($fechaIngreso != null) {
-        $fechaIngreso = date_format($listaLicencias->obtenerFechaIngresoSistema(), 'd/m/Y');
-        echo '<div class="col-md-6"><h5>' . $fechaIngreso . '</h5></div>';
-    } else {
-        echo '<div class="col-md-6"><h5>Fecha no registrada</h5></div>';
-    }
-    echo '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Descripcion</h5> ';
-    $fechaVencimiento = $listaLicencias->obtenerFechaDeVencimiento();
-    if ($fechaVencimiento != null) {
-        $fechaVencimiento = date_format($listaLicencias->obtenerFechaDeVencimiento(), 'd/m/Y');
-        echo '<div class="col-md-6"><h5>' . $fechaVencimiento . '</h5></div>';
-    } else {
-        echo '<div class="col-md-6"><h5>Fecha no registrada</h5></div>';
-    }
-    echo '         </div>'
-    . '     </div>'
-    . ' </div>'
-    . '</div>';
-}
-
-function panelRepuestos($repuestos, $codigo) {
-    $listaRepuestos = buscarRepuesto($repuestos, $codigo);
-    echo
-    '<div type = "hidden" class="panel panel-default">'
-    . ' <div class="panel-heading"><h3>Especificaciones de repuestos</h3></div>'
-    . '     <div class="panel-body container-fluid">';
-    echo '      <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Código Repuesto</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaRepuestos->obtenerCodigoRepuesto() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Cantidad en uso</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaRepuestos->obtenerCantidadEnUso() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Cantidad total</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaRepuestos->obtenerCantidadTotal() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Descripción</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaRepuestos->obtenerDescripcion() . '</h5></div>'
-    . '         </div>'
-    . '     </div>'
+    echo'<div class="form-group  col-md-11">
+            <label class="control-label col-sm-2" for="codigo-suma">Codigo:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="codigo-suma" type="text" required>
+                </div>
+        </div>
+        <div class="form-group col-md-11">
+            <label class="control-label col-sm-2" for="cantidad-suma">Cantidad:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="cantidad-suma" type="number" required>
+                </div>
+        </div>';                      
+    echo '</div>'
     . ' </div>'
     . '</div>';
 }
@@ -273,24 +234,6 @@ function panelRepuestos($repuestos, $codigo) {
 function buscarDispositivo($dispositivo, $codigo) {
     foreach ($dispositivo as $act) {
         if ($act->obtenerPlaca() == $codigo) {
-            return $act;
-        }
-    }
-    return null;
-}
-
-function buscarRepuesto($dispositivo, $codigo) {
-    foreach ($dispositivo as $act) {
-        if ($act->obtenerCodigoRepuesto() == $codigo) {
-            return $act;
-        }
-    }
-    return null;
-}
-
-function buscarLicencias($licencias, $codigo) {
-    foreach ($licencias as $act) {
-        if ($act->obtenerClaveDeProducto() == $codigo) {
             return $act;
         }
     }
