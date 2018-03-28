@@ -16,7 +16,7 @@ function obtenerInventario() {
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
     if ($getMensaje == FALSE) {
         sqlsrv_free_stmt($getMensaje);
-        return 'Ha orricudo un error al obtener el inventario';
+        return 'Ha ocurrido un error al obtener el inventario';
     }
     $pasivos = array();
     while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
@@ -33,7 +33,7 @@ function obtenerActivosFijos() {
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
     if ($getMensaje == FALSE) {
         sqlsrv_free_stmt($getMensaje);
-        return 'Ha orricudo un error al obtener los activos';
+        return 'Ha ocurrido un error al obtener los activos';
     }
     $activos = array();
     while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
@@ -52,7 +52,7 @@ function obtenerLicencias($placa) {
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
     if ($getMensaje == FALSE) {
         sqlsrv_free_stmt($getMensaje);
-        return 'Ha orricudo un error al obtener las licencias';
+        return 'Ha ocurrido un error al obtener las licencias';
     }
     $licencias = array();
     while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
@@ -71,7 +71,7 @@ function obtenerRepuestos($placa) {
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
     if ($getMensaje == FALSE) {
         sqlsrv_free_stmt($getMensaje);
-        return 'Ha orricudo un error al obtener los repuestos';
+        return 'Ha ocurrido un error al obtener los repuestos';
     }
     $repuestos = array();
     while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
@@ -79,6 +79,43 @@ function obtenerRepuestos($placa) {
     }
     sqlsrv_free_stmt($getMensaje);
     return $repuestos;
+}
+
+//Obtiene todos las categorias para llenar un combo en el agregar articulo al inventario
+function obtenerCategorias() {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerCategorias }";
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener las categorias';
+    }
+    $categorias = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $categorias[] = crearCategoria($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $categorias;
+}
+
+//Agregar un articulo al inventario
+function agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codigoCategoria, $estado,
+	$cantidad, $bodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAagregarArticuloInventario (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array(utf8_decode($descripcion), SQLSRV_PARAM_IN),
+        array($costo, SQLSRV_PARAM_IN), array($codigoCategoria, SQLSRV_PARAM_IN),
+        array($estado, SQLSRV_PARAM_IN), array($cantidad, SQLSRV_PARAM_IN),
+        array($bodega, SQLSRV_PARAM_IN), array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
+        array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } 
+    return ''; //agregado correctamente
 }
 
 function crearEstadoEquipo($row) {
@@ -185,3 +222,17 @@ function crearRepuesto($row) {
 //    echo $tema->obtenerPlaca() . '<br />';
 //    echo '<br />';
 //}
+
+//$categorias = obtenerCategorias();
+//
+//foreach ($categorias as $tema) {   
+//    echo $tema->obtenerCodigoCategoria() . '<br />';
+//    echo $tema->obtenerNombreCategoria() . '<br />';
+//    echo '<br />';
+//}
+
+
+//$mensaje = agregarArticuloInventario('765','Portatil Lenovo', '30', 2, 'Activo', 2, 'Bodega C', 'La compu de la jefa ya llegó', 
+//        'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//
+//echo $mensaje;
