@@ -193,8 +193,7 @@ function panelAgregarInventario() {
             <div class="col-md-9">
                 <input class="form-control" id="cantidad" type="number" required>
             </div>
-        </div>';
-                           
+        </div>';                           
     echo'</div>'
     . ' </div>'
     . '</div>';
@@ -213,18 +212,23 @@ function panelSumarAInventario() {
     echo'<div type = "hidden" class="panel panel-default">'
     . '<div class="panel-heading"><h3>Sumar a inventario</h3></div>'
     . '<div class="panel-body container-fluid">';
-
-    echo'<div class="form-group  col-md-11">
-            <label class="control-label col-sm-2" for="codigo-suma">Codigo:</label>
-                <div class="col-sm-10">
-                    <input class="form-control" id="codigo-suma" type="text" required>
-                </div>
+    echo'<div class="form-group  col-md-12">
+            <label class="control-label col-md-3" for="codigo-suma">Codigo:</label>
+            <div class="col-md-9">
+                  <span>11223</span>
+            </div>
         </div>
-        <div class="form-group col-md-11">
-            <label class="control-label col-sm-2" for="cantidad-suma">Cantidad:</label>
-                <div class="col-sm-10">
-                    <input class="form-control" id="cantidad-suma" type="number" required>
-                </div>
+        <div class="form-group  col-md-12">
+            <label class="control-label col-md-3">Descrición:</label>
+            <div class="col-md-9">
+                  <span>Moviles Samsung</span>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="cantidad-suma">Cantidad:</label>
+            <div class="col-md-9">
+                <input class="form-control" id="cantidad-suma" type="number" required>
+            </div>
         </div>';                      
     echo '</div>'
     . ' </div>'
