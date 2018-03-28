@@ -193,7 +193,13 @@ function panelAgregarInventario() {
             <div class="col-md-9">
                 <input class="form-control" id="cantidad" type="number" required>
             </div>
-        </div>';                           
+        </div>
+        <div class="form-group col-md-12">           
+            <div class="col-md-12">
+                <button class="btn btn-success btn-circle btn" ><i></i>Guardar</button>     
+                <button class="btn btn-danger btn-circle btn" ><i></i>Borrar</button>                         
+            </div>
+        </div>';  
     echo'</div>'
     . ' </div>'
     . '</div>';
@@ -213,7 +219,7 @@ function panelSumarAInventario() {
     . '<div class="panel-heading"><h3>Sumar a inventario</h3></div>'
     . '<div class="panel-body container-fluid">';
     echo'<div class="form-group  col-md-12">
-            <label class="control-label col-md-3" for="codigo-suma">Codigo:</label>
+            <label class="control-label col-md-3" for="codigo-suma">Código:</label>
             <div class="col-md-9">
                   <span>11223</span>
             </div>
@@ -229,7 +235,13 @@ function panelSumarAInventario() {
             <div class="col-md-9">
                 <input class="form-control" id="cantidad-suma" type="number" required>
             </div>
-        </div>';                      
+        </div> 
+        <div class="form-group col-md-12">           
+            <div class="col-md-12">
+                <button class="btn btn-success btn-circle btn" ><i></i>Guardar</button>     
+                <button class="btn btn-danger btn-circle btn" ><i></i>Borrar</button>                         
+            </div>
+        </div>';   
     echo '</div>'
     . ' </div>'
     . '</div>';
