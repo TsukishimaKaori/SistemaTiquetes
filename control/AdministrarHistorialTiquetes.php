@@ -1,6 +1,6 @@
 <?php
 
-function historialInfoTiquetes($historial, $codigoTiquete) {
+function historialInfoTiquetes($historial, $tiquete) {
     $tamanio = count($historial);
     if ($tamanio == 0) {
         echo '<h2 class="col-md-12 "  style = "color:black; text-align:center">No hay resultados que mostrar</h2> ';
@@ -8,15 +8,38 @@ function historialInfoTiquetes($historial, $codigoTiquete) {
         echo ' <div   class = "panel panel-info">' .
         '   <div class="panel-heading col-md-12">' .
         '       <div class="row"> ' .
-        '           <h5 class="col-md-3 ">Código historial:</h5> ' .
-        '           <div class=" col-md-1">' .
-        '               <h5></h5>' .
-        '           </div> ' .
+        '           <div><span class="titulo-Indicador col-md-12"><h1>Historial del tiquete</h1> </span></div> ' .
         '       </div>  ' .
         '   </div>  ' .
-        '<div class="panel-body" >';
+        '<div class="panel-body" >' .
+        '   <div class="col-md-12">' .
+        '       <div class="row"> ' .
+        '           <div><h3>Información general del tiquete</h3></div> ' .
+        '       </div>  ' .
+        '       <div class="row"> ' .
+        '           <div><span class="titulo-Indicador col-md-2">Código del tiquete: </span><span class=" col-md-10"> ' . $tiquete->obtenerCodigoTiquete() . '</span></div> ' .
+        '       </div>  ' .
+        '       <div class="row"> ' .
+        '           <div><span class="titulo-Indicador col-md-2">Clasificación: </span><span class=" col-md-10"> ' . $tiquete->obtenerTematica()->obtenerDescripcionTematica() . '</span></div> ' .
+        '       </div>  ' .
+        '       <div class="row"> ' .
+        '           <div><span class="titulo-Indicador col-md-2">Descripción: </span><span class=" col-md-10"> ' . $tiquete->obtenerDescripcion() . '</span></div> ' .
+        '       </div>  ' .
+        '       <div class="row"> ' .
+        '           <div><span class="titulo-Indicador col-md-2">Usuario solicitante: </span><span class=" col-md-10"> ' . $tiquete->obtenerNombreUsuarioIngresaTiquete() . '</span></div> ' .
+        '       </div>  ' .
+        '       <div class="row"> ' .
+        '           <div><span class="titulo-Indicador col-md-2">Responsable a cargo: </span><span class=" col-md-10"> ' . $tiquete->obtenerResponsable()->obtenerNombreResponsable() . '</span></div> ' .
+        '       </div>  ' .
+        '       <div class="row"> ' .
+        '           <div><span class="titulo-Indicador col-md-2">Prioridad: </span><span class=" col-md-10"> ' . $tiquete->obtenerPrioridad()->obtenerNombrePrioridad() . '</span></div> ' .
+        '       </div>  ' .
+                        '       <div class="row"> ' .
+        '           <div><h3>Historial del tiquete</h3></div> ' .
+        '       </div>  ' .                
+        '   </div>  ';
         foreach ($historial as $his) {
-            historialInformacionTiquete($his, $codigoTiquete);
+            historialInformacionTiquete($his);
         }
         echo ' </div></div>  ';
     }
@@ -42,14 +65,11 @@ function descripcionIndicador($codigoIndicador) {
     return $indicadores[$codigoIndicador];
 }
 
-function historialInformacionTiquete($historial, $codigoTiquete) {
+function historialInformacionTiquete($historial) {
     echo
     '<div class = "col-md-12" >' .
     '       <div class="row"> ' .
-    '           <div><span class="titulo-Indicador col-md-2">Código del indicador: </span><span class=" col-md-10"> ' . $historial->obtenerCodigoIndicador() . '</span></div> ' .
-    '       </div>  ' .
-    '       <div class="row"> ' .
-    '           <div ><span class="titulo-Indicador col-md-2">Nombre del indicador: </span><span class=" col-md-10" > ' . descripcionIndicador($historial->obtenerCodigoIndicador()) . '</span></div> ' .
+    '           <div ><span class="titulo-Indicador col-md-2">Indicador: </span><span class=" col-md-10" > ' . descripcionIndicador($historial->obtenerCodigoIndicador()) . '</span></div> ' .
     '       </div>  ' .
     '       <div class="row"> ' .
     '           <div><span class="titulo-Indicador col-md-2">Correo del causante:</span><span class=" col-md-10"> ' . $historial->obtenerCorreoUsuarioCausante() . '</span></div> ' .
@@ -72,12 +92,11 @@ function historialInformacionTiquete($historial, $codigoTiquete) {
     echo '       <div class="row"> ' .
     '           <div ><span class="titulo-Indicador col-md-2">Aclaración del sistema:</span><span class=" col-md-10"> ' . $historial->obtenerAclaracionSistema() . '</span></div> ' .
     '       </div>  ';
-    
+
     echo '  <div class="row"> ' .
     '           <div class=" col-md-12">&nbsp</div> ' .
     '       </div>  ';
-    
-    
-    echo '</div>';
 
+
+    echo '</div>';
 }
