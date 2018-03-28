@@ -5,7 +5,8 @@ function cabeceraTablaPasivos() {
     . "<th>Descripción</th>"
     . "<th>Categoría</th>"
     . "<th>Estado</th>"
-    . "<th>Cantidad</th>";
+    . "<th>Cantidad</th>"
+    . "<th>Ver</th>";
 }
 
 function cabeceraTablaActivos() {
@@ -14,21 +15,6 @@ function cabeceraTablaActivos() {
     . "<th>Placa</th>"
     . "<th>Usuario_asociado</th>"
     . "<th>Fecha de salida de inventario </th>";
-}
-
-function cabeceraTablaLicencias() {
-    echo "<th>Descripción</th>"
-    . "<th>Proveedor</th>"
-    . "<th>Cantidad en uso</th>"
-    . "<th>Cantidad total</th>"
-    . "<th>Fecha de vencimiento </th>";
-}
-
-function cabeceraTablaRepuestos() {
-    echo "<th>Código</th>"
-    . "<th>Descripción</th>"
-    . "<th>Cantidad en uso</th>"
-    . "<th>Cantidad total</th>";
 }
 
 function cuerpoTablaActivos($activos) {
@@ -54,52 +40,23 @@ function cuerpoTablaActivos($activos) {
 
 function cuerpoTablaPasivos($pasivos) {
     foreach ($pasivos as $act) {
-        echo '<tr onclick = "cargarPanelPasivos(' . $act->obtenerPlaca() . ')">';
+        echo '<tr>';
         echo '<td>' . $act->obtenerTipo()->obtenerNombreTipo() . '</td>';
         echo '<td>' . $act->obtenerEsNuevo() . '</td>';
         echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
         echo '<td>' . $act->obtenerPlaca() . '</td>';
         $fechaIngeso = $act->obtenerFechaIngresoSistema();
         echo '<td>' .
-        ' <a href="../vista/AgregarInventario.php"><button class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button> </a>' .
-        '<span>100</span>' .
-        ' <a href="../vista/AgregarInventario.php"><button class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button> </a>'
+        '<button class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button>' .
+        '<span>'. $act->obtenerPlaca() .'</span>' .
+        '<button onclick = "cargarPanelSumarInventario(' . $act->obtenerPlaca() . ')"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>'
         . '</td>';
-
-        echo '</tr>';
-    }
-}
-
-function cuerpoTablaLicencias($licencias) {
-    foreach ($licencias as $act) {
-        $clave = $act->obtenerClaveDeProducto();
-        echo '<tr onclick = "cargarPanelLicencias(\'' . $clave . '\')">'; //no agarra la clave del producto
-        echo '<td>' . $act->obtenerDescripcion() . '</td>';
-        echo '<td>' . $act->obtenerProveedor() . '</td>';
-        echo '<td>' . $act->obtenerCantidadEnUso() . '</td>';
-        echo '<td>' . $act->obtenerCantidadTotal() . '</td>';
-        $fechaVencimiento = $act->obtenerFechaDeVencimiento();
-        if ($fechaVencimiento != null) {
-            $fechaVencimiento = date_format($act->obtenerFechaDeVencimiento(), 'd/m/Y');
-            echo '<td>' . $fechaVencimiento . '</td>';
-        }
-        echo '</tr>';
-    }
-}
-
-function cuerpoTablaRepuestos($repuestos) {
-    foreach ($repuestos as $act) {
-        echo '<tr onclick = "cargarPanelRepuestos(\'' . $act->obtenerCodigoRepuesto() . '\')">';
-        echo '<td>' . $act->obtenerCodigoRepuesto() . '</td>';
-        echo '<td>' . $act->obtenerDescripcion() . '</td>';
-        echo '<td>' . $act->obtenerCantidadEnUso() . '</td>';
-        echo '<td>' . $act->obtenerCantidadTotal() . '</td>';
+        echo '<td><button onclick = "cargarPanelPasivos(' . $act->obtenerPlaca() . ')"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
         echo '</tr>';
     }
 }
 
 function panelActivos($activos, $codigo) {
-
     $listaActivos = buscarDispositivo($activos, $codigo);
     echo
     '<div type = "hidden" class="panel panel-default">'
@@ -213,17 +170,27 @@ function panelAgregarInventario() {
 }
 
 function panelSumarAInventario() {
-        echo
-    '<div type = "hidden" class="panel panel-default">'
-    . ' <div class="panel-heading"><h3>Agregar a inventario</h3></div>'
+echo'<div type = "hidden" class="panel panel-default">'
+    . ' <div class="panel-heading"><h3>Sumar a inventario</h3></div>'
     . '     <div class="panel-body container-fluid">'
-    . '        <div class="col-md-12">'
+    . '        <div class="col-md-12">hola'
     . '       </div>'
     . '     </div>'
     . ' </div>'
-    . '</div>';
-    
+    . '</div>';    
 }
+
+function panelAgregarActivoFijo() {
+echo'<div type = "hidden" class="panel panel-default">'
+    . ' <div class="panel-heading"><h3>Agregar activo Fijo</h3></div>'
+    . '     <div class="panel-body container-fluid">'
+    . '        <div class="col-md-12">hola'
+    . '       </div>'
+    . '     </div>'
+    . ' </div>'
+    . '</div>';    
+}
+
 
 function panelLicencias($licencias, $codigo) {
     $listaLicencias = buscarLicencias($licencias, $codigo);

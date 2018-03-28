@@ -8,12 +8,6 @@ $(document).ready(function () {
     } else if (tab == 2) {
         evt = document.getElementById("link-inventario");
         abrir_tab_inventario(evt, 'tab-inventario');
-    } else if (tab == 3) {
-        evt = document.getElementById("link-licencias");
-        abrir_tab_inventario(evt, 'tab-licencias');
-    } else if (tab == 4) {
-        evt = document.getElementById("link-repuestos");
-        abrir_tab_inventario(evt, 'tab-repuestos');
     }
 
 
@@ -56,21 +50,21 @@ function cargarPanelPasivos(codigo) {
     });
 }
 
-function cargarPanelLicencias(codigo) {
+
+function cargarPanelSumarInventario(codigo) {
     $.ajax({
-        data: {'codigoLicencia': codigo},
+        data: {'codigoSumarInventario': codigo},
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
             $("#panelInformacionInventario").html(response);
         }
     });
-
 }
 
-function cargarPanelRepuestos(codigo) {
+function cargarPanelAgregarInventario(codigo) {
     $.ajax({
-        data: {'codigoRepuesto': codigo},
+        data: {'codigoAgregarInventario': codigo},
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
