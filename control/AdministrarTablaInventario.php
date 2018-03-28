@@ -189,6 +189,18 @@ function panelAgregarInventario() {
                 <input class="form-control" id="cantidad" type="number" required>
             </div>
         </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="bodega">Bodega:</label>
+            <div class="col-md-9">
+                <input class="form-control" id="bodega" required>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="comentario">Comentario:</label>
+            <div class="col-md-9">
+                <textarea class="form-control" id="comentario" required></textarea>
+            </div>
+        </div>
         <div class="form-group col-md-12">           
             <div class="col-md-12">
                 <button class="btn btn-success btn-circle btn" ><i></i>Guardar</button>     
@@ -232,6 +244,18 @@ function panelSumarAInventario($inventarios,$codigo) {
                 <input class="form-control" id="cantidad-suma" type="number" required>
             </div>
         </div> 
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="bodega-suma">Bodega:</label>
+            <div class="col-md-9">
+                <input class="form-control" id="bodega-suma" required>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="comentario-suma">Comentario:</label>
+            <div class="col-md-9">
+                <textarea class="form-control" id="comentario-suma" required></textarea>
+            </div>
+        </div>        
         <div class="form-group col-md-12">           
             <div class="col-md-12">
                 <button class="btn btn-success btn-circle btn" ><i></i>Guardar</button>     
