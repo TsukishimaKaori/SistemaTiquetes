@@ -3,19 +3,17 @@
 
 class Activo {
 
-    public function __construct($pla, $ti, $es, $est, $se, $pro, $mo, $mar, $feI, $feS, $feE, $pre, $c, $n, $d, $j) {
+    public function __construct($pla, $cat, $est, $se, $pro, $mo, $mar, $feS, $feD, $feE, $c, $n, $d, $j) {
         $this->placa = $pla;
-        $this->tipo = $ti;
-        $this->esNuevo = $es;
+        $this->categoria = $cat;
         $this->estado = $est;
         $this->serie = $se;
         $this->proveedor = $pro;
         $this->modelo = $mo;
         $this->marca = $mar;
-        $this->fechaIngresoSistema = $feI;
         $this->fechaSalidaInventario = $feS;
+        $this->fechaDesechado = $feD;
         $this->fechaExpiraGarantia = $feE;
-        $this->precio = $pre;
         $this->correoUsuarioAsociado = $c;
         $this->nombreUsuarioAsociado = $n;
         $this->departamentoUsuarioAsociado = $d;
@@ -26,12 +24,8 @@ class Activo {
         return $this->placa;
     }
 
-    function obtenerTipo() {
-        return $this->tipo;
-    }
-
-    function obtenerEsNuevo() {
-        return $this->esNuevo;
+    function obtenerCategoria() {
+        return $this->categoria;
     }
 
     function obtenerEstado() {
@@ -54,20 +48,16 @@ class Activo {
         return $this->marca;
     }
 
-    function obtenerFechaIngresoSistema() {
-        return $this->fechaIngresoSistema;
-    }
-
     function obtenerFechaSalidaInventario() {
         return $this->fechaSalidaInventario;
+    }
+    
+    function obtenerFechaDesechado() {
+        return $this->fechaDesechado;
     }
 
     function obtenerFechaExpiraGarantia() {
         return $this->fechaExpiraGarantia;
-    }
-
-    function obtenerPrecio() {
-        return $this->precio;
     }
 
     function obtenerCorreoUsuarioAsociado() {
@@ -87,19 +77,18 @@ class Activo {
     }
 
     private $placa;
-    private $tipo; //Objeto de TipoDispositivo
-    private $esNuevo; 
+    private $categoria; //Objeto de tipo categoria
     private $estado;  //Objeto de EstadoEquipo
     private $serie;
     private $proveedor;
     private $modelo;
     private $marca;
-    private $fechaIngresoSistema;
     private $fechaSalidaInventario;
+    private $fechaDesechado;
     private $fechaExpiraGarantia;
-    private $precio;
     private $correoUsuarioAsociado;
     private $nombreUsuarioAsociado;
     private $departamentoUsuarioAsociado;
     private $jefaturaUsuarioAsociado; 
+    
 }
