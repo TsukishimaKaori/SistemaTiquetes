@@ -33,10 +33,10 @@ if (isset($_POST['codigoTiqueteHistorial'])) {
 
 if (isset($_POST['codigoInformacionTiqueteHistorial'])) {
      $codigoTiqueteHistorial = $_POST['codigoInformacionTiqueteHistorial'];    
-     
+     $tiquete =obtenerTiqueteFiltradoCodigo($codigoTiqueteHistorial);
      $historial = obtenerHistorial($codigoTiqueteHistorial); 
      if ($historial != 1) {
-       historialInfoTiquetes($historial,$codigoTiqueteHistorial);
+       historialInfoTiquetes($historial,$tiquete);
     }else {
         echo 1;
     }  

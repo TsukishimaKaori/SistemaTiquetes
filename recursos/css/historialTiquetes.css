@@ -1,35 +1,13 @@
-.cuerpo-panel{
-    overflow-y:auto;
-    height:420px;
+.cuerpo-panel{ 
+    height:auto;
 }
 
-#titulo-filtros{
-    color: white;
+h1,h3{
+     font-weight: bold;
+     text-align: center;
 }
 
-.boton-filtrar{
-    text-align: right;
-}
 
-#datetimepicker1{
-    margin-bottom: 0px;
-}
-
-#divFiltro:hover{
-    background-color: #4787BE;
-}
-#indicadores{
-    background-color:#F5F5F5 ;
-}
-
-.panelTiqueteHistorialCabecera:hover{
-     background-color:#DFF0D8;
-     cursor:pointer;   
-}
-
-.indicadorCheck{
-    text-align: left;
-}
 
 .container-fluid, #historialTiquetes div div.row, div.panel-body h5,div.panel-body,.col-md-6{
     text-align: left !important;
@@ -37,7 +15,7 @@
 }
 
 
-div.panel-body div div.row h5.titulo-Indicador {
+div.panel-body div div.row div span.titulo-Indicador {
     font-weight: bold;
 }
 
