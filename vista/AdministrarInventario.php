@@ -16,10 +16,8 @@
     <body>
         <?php
         require ("../vista/Cabecera.php");
-        $activos = obtenerEquiposActivos();
-        $pasivos = obtenerEquiposPasivos();
-        $licencias = obtenerLicencias();
-        $repuestos = obtenerRepuestos();
+        $activos = obtenerActivosFijos();
+        $inventario = obtenerInventario();
         if (isset($_GET['tab'])) {
             $tab = $_GET['tab'];
         } else {
@@ -55,7 +53,7 @@
                                                     <?php cabeceraTablaPasivos(); ?>                                 
                                                 </thead>
                                                 <tbody>
-                                                    <?php cuerpoTablaPasivos($pasivos); ?>
+                                                    <?php cuerpoTablaPasivos($inventario); ?>
                                                 </tbody>
                                             </table>
                                         </div>
