@@ -26,8 +26,8 @@ class Conexion {
     }
 
   /// private $serverName = "DANNY\SQLEXPRESS01";
-    private $serverName = "DESKTOP-HFVR94I\SQLEXPRESS01";     
-   // private $serverName = "TATIANA\SQLEXPRESS02";
+   // private $serverName = "DESKTOP-HFVR94I\SQLEXPRESS01";     
+    private $serverName = "TATIANA\SQLEXPRESS02";
      
     //Conexion para el hosting gratuito
  //   private $serverName = "den1.mssql4.gear.host"; 
@@ -38,7 +38,4 @@ class Conexion {
     private static $instancia = null;
     private static $conn;
     
-    //Version 1.0
-
-    //Cambio único de la rama de prueba otro cambio para causar conflicto master
 }
