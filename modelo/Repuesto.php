@@ -3,31 +3,25 @@
 
 class Repuesto {
     
-    public function __construct($co, $canT, $canU, $de) {
-        $this->codigoRepuesto = $co;
-        $this->cantidadTotal = $canT;
-        $this->cantidadEnUso = $canU;
+    public function __construct($de, $fe, $pla) {
         $this->descripcion = $de;
+        $this->fechaAsociado = $fe;
+        $this->placa = $pla;
     }
     
-    function obtenerCodigoRepuesto() {
-        return $this->codigoRepuesto;
-    }
-
-    function obtenerCantidadTotal() {
-        return $this->cantidadTotal;
-    }
-
-    function obtenerCantidadEnUso() {
-        return $this->cantidadEnUso;
-    }
-
     function obtenerDescripcion() {
         return $this->descripcion;
     }
+    
+    function obtenerFechaAsociado() {
+        return $this->fechaAsociado;
+    }
 
-    private $codigoRepuesto;
-    private $cantidadTotal;
-    private $cantidadEnUso;
+    function obtenerPlaca() {
+        return $this->placa;
+    }
+
     private $descripcion;
+    private $fechaAsociado;
+    private $placa;
 }
