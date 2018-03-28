@@ -772,7 +772,6 @@ function FinalizarAjax() {
                 $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + codigo + '&pagina=' + pagina + " #cargarTiquetePagina");
                 document.getElementById("justificacion").value = "";
                 if (response != -1) {
-                    alert(response);
                     var mensaje = "El tiquete ha sido finalizado";
                     notificacion(mensaje);
                 } else {

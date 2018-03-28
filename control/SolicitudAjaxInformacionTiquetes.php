@@ -268,8 +268,8 @@ if (isset($_POST['codigoEnProceso'])) {
     $dia = substr($fechaEntrega, 0, 2);
     $mes = substr($fechaEntrega, 3, 2);
     $anio = substr($fechaEntrega, 6, 4);
-    $fechaEntrega = $anio . '-' . $dia . '-' . $mes;
-  //  $fechaEntrega = $anio . '-' . $mes . '-' . $dia;
+   // $fechaEntrega = $anio . '-' . $dia . '-' . $mes;
+    $fechaEntrega = $anio . '-' . $mes . '-' . $dia;
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
     ponerTiqueteEnProceso($codTiquete, $fechaEntrega, $correoUsuarioCausante, $nombreUsuarioCausante);

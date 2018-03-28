@@ -88,107 +88,14 @@
                     <button  onclick="retornarABandejaDesdeHistorial();" title="Regresar" type="button" class="btn btn-info " data-toggle="modal" data-target=""><i class="glyphicon glyphicon-arrow-left"></i></button>
                 </div>                            
             </div>
-            <br>
-              
-            <div id = "divHistorialTiquete" class="row divHistorialTiquete divHistorialTiqueteHeader">
-                <div class="col-md-5 " >  
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <span class="col-md-7"><h4>Historial del tiquete <?php echo $codigoTiquete ?></h4></span>                        
-                                <span class="col-md-5 boton-filtrar">
-                                    <button data-toggle="collapse" data-target="#indicadores" class="btn btn-info">Filtro indicadores</button>
-                                </span>
-                            </div>
-                        </div>
-                        <div id = "indicadores"class = "container-fluid collapse indicadorCheck">
-                            <div class="row">
-                                <div class="form-check col-md-6">
-                                    <input id = "opcIndicador1" class="form-check-input checkRemover" type="checkbox"  value="4">
-                                    <label class="form-check-label" for="indicador1">Asigna responsable</label>                                
-                                </div>
-                                <div class="form-check col-md-6">
-                                    <input id = "opcIndicador2" class="form-check-input checkRemover" type="checkbox" value="7">
-                                    <label class="form-check-label" for="opcIndicador2">Cambio de clasificación</label>
-                                </div>                         
-                            </div>
-                            <div class="row">
-                                <div class="form-check col-md-6">
-                                    <input id = "opcIndicador3" class="form-check-input checkRemover" type="checkbox" id="indicador3" value="5">
-                                    <label class="form-check-label" for="opcIndicador3">Cambio de fecha solicitada</label>
-                                </div>
-                                <div class="form-check col-md-6">
-                                    <input id = "opcIndicador4" class="form-check-input checkRemover" type="checkbox"  value="8">
-                                    <label class="form-check-label" for="opcIndicador4">Cambio de prioridad</label>
-                                </div>
-                            </div>
-                            <div class="row">  
-                                <div class="form-check col-md-6">
-                                    <input id = "opcIndicador5" class="form-check-input checkRemover" type="checkbox"  value="2">
-                                    <label class="form-check-label" for="opcIndicador5">Comentario o adjunto</label>
-                                </div>
-                                <div class="form-check col-md-6">
-                                    <input id = "opcIndicador6" class="form-check-input checkRemover" type="checkbox"value="6">
-                                    <label class="form-check-label" for="opcIndicador6">Edita las horas trabajadas</label>
-                                </div>
-                            </div>
-                            <div class="row">          
-                                <div class="form-check col-md-6">
-                                    <input id = "opcIndicador7" class="form-check-input checkRemover" type="checkbox" value="1">
-                                    <label class="form-check-label" for="opcIndicador7">Enviado a reasignar</label>
-                                </div>
-                                <div class="form-check col-md-6">
-                                    <input id = "opcIndicador8" class="form-check-input checkRemover" type="checkbox" value="3">
-                                    <label class="form-check-label" for="opcIndicador8">Genera contrato</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-check col-md-6">
-                                    <input id = "opcIndicador9" class="form-check-input checkRemover" type="checkbox" value="9">
-                                    <label class="form-check-label" for="opcIndicador9">Puesto en proceso</label>
-                                </div>                                                    
-                                <div class="form-check col-md-6">
-                                    <input id = "opcIndicador10" class="form-check-input checkRemover" type="checkbox" value="10">
-                                    <label class="form-check-label" for="opcIndicador10">Tiquete anulado</label>
-                                </div>
-                            </div>
-                            <div class="row">         
-                                <div class="form-check col-md-6">
-                                    <input id = "opcIndicador11" class="form-check-input checkRemover" type="checkbox" value="12">
-                                    <label class="form-check-label" for="opcIndicador11">Tiquete calificado</label>
-                                </div>
-                                <div class="form-check col-md-6">
-                                    <input id = "opcIndicador12" class="form-check-input checkRemover" type="checkbox"value="11">
-                                    <label class="form-check-label" for="opcIndicador12">Tiquete finalizado</label>
-                                </div>                                
-                            </div> 
-                            <div class="row">
-                                <div class="form-check col-md-6">
-                                    <input id = "opcIndicador14" class="form-check-input checkRemover" type="checkbox" value="13">
-                                    <label class="form-check-label" for="opcIndicador14">Cambio de fecha de entrega</label>
-                                </div>   
-                                <div class="form-check col-md-6">
-                                    <input id = "opcIndicador15" class="form-check-input checkRemover" type="checkbox" value="13">
-                                    <label class="form-check-label" for="opcIndicador15">Enviado a reprocesar</label>
-                                </div>  
-                            </div>                            
-                            <div class="row">                                 
-                                <div class="form-check col-md-7">
-                                    <input id = "opcIndicador13" class="form-check-input checkRemover" type="checkbox" value="13">
-                                    <label class="form-check-label" for="opcIndicador13">Mostrar todos</label>
-                                </div>
-                                <div class="col-md-2 boton-filtrar" style="padding: 1%;">
-                                    <button class="btn btn-success" onclick ='filtroIndicadores()' >Filtrar búsqueda</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div id = "cuerpoHistorialTiquete" class="panel-body cuerpo-panel" >   </div>
-                    </div>
-                </div>  
-                <div id ="cuerpoHistorialInformacion"  class="col-md-7 " > </div>           
-            </div>            
-        </section>
-    </body>
+            <br> 
+            <div id = "cuerpoHistorialTiquete" class="panel-body cuerpo-panel" >   </div>
+        </div>
+    </div>  
+    <div id ="cuerpoHistorialInformacion" class="col-md-7 " > </div>           
+</div>            
+</section>
+</body>
 </html>
 
 
