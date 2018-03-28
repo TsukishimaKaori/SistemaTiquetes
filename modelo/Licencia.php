@@ -15,8 +15,8 @@ class Licencia {
         return $this->fechaDeVencimiento;
     }
 
-    function obtenerCantidadTotal() {
-        return $this->cantidadTotal;
+    function obtenerClaveDeProducto() {
+        return $this->claveDeProducto;
     }
 
     function obtenerProveedor() {
