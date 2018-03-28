@@ -141,8 +141,8 @@ function panelActivos($activos, $codigo) {
     } else {
         echo '<div><span class="col-md-4 titulo-inventario">Salida de inventario: </span><span class=" col-md-8">Fecha no registrada </span></div> ';
     }
-    echo '     </div>'    
-    .'<div class="row">';
+    echo '     </div>'
+    . '<div class="row">';
     $fechaExpira = $listaActivos->obtenerFechaExpiraGarantia();
     if ($fechaExpira != null) {
         $fechaExpira = date_format($listaActivos->obtenerFechaExpiraGarantia(), 'd/m/Y');
@@ -158,14 +158,14 @@ function panelActivos($activos, $codigo) {
     . '           <div><span class="col-md-4 titulo-inventario">Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerNombreUsuarioAsociado() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Correo usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerCorreoUsuarioAsociado()  . ' </span></div> '
+    . '           <div><span class="col-md-4 titulo-inventario">Correo usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerCorreoUsuarioAsociado() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
     . '           <div><span class="col-md-4 titulo-inventario">Departamento usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerDepartamentoUsuarioAsociado() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
     . '           <div><span class="col-md-4 titulo-inventario">Jefatura Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerJefaturaUsuarioAsociado() . ' </span></div> '
-    . '         </div>'            
+    . '         </div>'
     . '         </div>'
     . '     </div>'
     . ' </div>'
@@ -180,24 +180,49 @@ function panelPasivos($pasivos, $codigo) {
     . '     <div class="panel-body container-fluid">'
     . '        <div class="col-md-12">'
     . '        <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Código: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca(). ' </span></div> '
+    . '           <div><span class="col-md-4 titulo-inventario">Código: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca() . ' </span></div> '
     . '         </div>'
     . '        <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Descripción: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca(). ' </span></div> '
-    . '         </div>'  
-    . '        <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Categoría: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca(). ' </span></div> '
+    . '           <div><span class="col-md-4 titulo-inventario">Descripción: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca() . ' </span></div> '
     . '         </div>'
     . '        <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Estado: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca(). ' </span></div> '
-    . '         </div>'            
+    . '           <div><span class="col-md-4 titulo-inventario">Categoría: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca() . ' </span></div> '
+    . '         </div>'
     . '        <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Cantidad: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca(). ' </span></div> '
-    . '         </div>'     
+    . '           <div><span class="col-md-4 titulo-inventario">Estado: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca() . ' </span></div> '
+    . '         </div>'
+    . '        <div class="row">'
+    . '           <div><span class="col-md-4 titulo-inventario">Cantidad: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca() . ' </span></div> '
+    . '         </div>'
     . '     </div>'
     . ' </div>'
     . ' </div>'
     . '</div>';
+}
+
+function panelAgregarInventario() {
+    echo
+    '<div type = "hidden" class="panel panel-default">'
+    . ' <div class="panel-heading"><h3>Agregar a inventario</h3></div>'
+    . '     <div class="panel-body container-fluid">'
+    . '        <div class="col-md-12">'
+    . '       </div>'
+    . '     </div>'
+    . ' </div>'
+    . '</div>';
+}
+
+function panelSumarAInventario() {
+        echo
+    '<div type = "hidden" class="panel panel-default">'
+    . ' <div class="panel-heading"><h3>Agregar a inventario</h3></div>'
+    . '     <div class="panel-body container-fluid">'
+    . '        <div class="col-md-12">'
+    . '       </div>'
+    . '     </div>'
+    . ' </div>'
+    . '</div>';
+    
 }
 
 function panelLicencias($licencias, $codigo) {
