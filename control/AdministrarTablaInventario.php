@@ -1,11 +1,11 @@
 <?php
 
 function cabeceraTablaPasivos() {
-    echo "<th>Tipo</th>"
-    . "<th>Antigüedad</th>"
+    echo "<th>Código</th>"
+    . "<th>Descripción</th>"
+    . "<th>Categoría</th>"
     . "<th>Estado</th>"
-    . "<th>Placa</th>"
-    . "<th>Fecha de ingreso</th>";
+    . "<th>Cantidad</th>";
 }
 
 function cabeceraTablaActivos() {
@@ -38,7 +38,7 @@ function cuerpoTablaActivos($activos) {
         echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
         echo '<td>' . $act->obtenerPlaca() . '</td>';
         echo '<td>' . $act->obtenerNombreUsuarioAsociado() . '</td>';
-       // $fechaIngeso = $act->obtenerFechaIngresoSistema();
+        // $fechaIngeso = $act->obtenerFechaIngresoSistema();
         $fechaSalida = $act->obtenerFechaSalidaInventario();
 //        if ($fechaIngeso != null) {
 //            $fechaIngeso = date_format($act->obtenerFechaIngresoSistema(), 'd/m/Y');
@@ -60,18 +60,20 @@ function cuerpoTablaPasivos($pasivos) {
         echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
         echo '<td>' . $act->obtenerPlaca() . '</td>';
         $fechaIngeso = $act->obtenerFechaIngresoSistema();
-        if ($fechaIngeso != null) {
-            $fechaIngeso = date_format($act->obtenerFechaIngresoSistema(), 'd/m/Y');
-            echo '<td>' . $fechaIngeso . '</td>';
-        }
+        echo '<td>' .
+        ' <a href="../vista/AgregarInventario.php"><button class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button> </a>' .
+        '<span>100</span>' .
+        ' <a href="../vista/AgregarInventario.php"><button class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button> </a>'
+        . '</td>';
+
         echo '</tr>';
     }
 }
 
 function cuerpoTablaLicencias($licencias) {
     foreach ($licencias as $act) {
-        $clave =$act->obtenerClaveDeProducto() ;
-        echo '<tr onclick = "cargarPanelLicencias(\''.$clave.'\')">'; //no agarra la clave del producto
+        $clave = $act->obtenerClaveDeProducto();
+        echo '<tr onclick = "cargarPanelLicencias(\'' . $clave . '\')">'; //no agarra la clave del producto
         echo '<td>' . $act->obtenerDescripcion() . '</td>';
         echo '<td>' . $act->obtenerProveedor() . '</td>';
         echo '<td>' . $act->obtenerCantidadEnUso() . '</td>';
@@ -89,7 +91,7 @@ function cuerpoTablaRepuestos($repuestos) {
     foreach ($repuestos as $act) {
         echo '<tr onclick = "cargarPanelRepuestos(\'' . $act->obtenerCodigoRepuesto() . '\')">';
         echo '<td>' . $act->obtenerCodigoRepuesto() . '</td>';
-        echo '<td>' . $act->obtenerDescripcion() . '</td>';        
+        echo '<td>' . $act->obtenerDescripcion() . '</td>';
         echo '<td>' . $act->obtenerCantidadEnUso() . '</td>';
         echo '<td>' . $act->obtenerCantidadTotal() . '</td>';
         echo '</tr>';
@@ -97,93 +99,73 @@ function cuerpoTablaRepuestos($repuestos) {
 }
 
 function panelActivos($activos, $codigo) {
+
     $listaActivos = buscarDispositivo($activos, $codigo);
     echo
     '<div type = "hidden" class="panel panel-default">'
     . ' <div class="panel-heading"><h3>Especificaciones de activos</h3></div>'
-    . '     <div class="panel-body container-fluid">';
-
-    echo '      <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Placa</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaActivos->obtenerPlaca() . '</h5></div>'
+    . '     <div class="panel-body container-fluid">'
+    . '        <div class="col-md-12">'
+    . '        <div class="row">'
+    . '           <div><span class="col-md-4 titulo-inventario">Placa: </span><span class=" col-md-8">' . $listaActivos->obtenerPlaca() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Tipo</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaActivos->obtenerTipo()->obtenerNombreTipo() . '</h5></div>'
+    . '           <div><span class="col-md-4 titulo-inventario">Tipo: </span><span class=" col-md-8">' . $listaActivos->obtenerTipo()->obtenerNombreTipo() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Antiguedad</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaActivos->obtenerEsNuevo() . '</h5></div>'
+    . '           <div><span class="col-md-4 titulo-inventario">Estado: </span><span class=" col-md-8">' . $listaActivos->obtenerEstado()->obtenerNombreEstado() . '</span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Estado</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaActivos->obtenerEstado()->obtenerNombreEstado() . '</h5></div>'
+    . '           <div><span class="col-md-4 titulo-inventario">Proveedor: </span><span class=" col-md-8">' . $listaActivos->obtenerProveedor() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Serie</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaActivos->obtenerSerie() . '</h5></div>'
+    . '           <div><span class="col-md-4 titulo-inventario">Modelo: </span><span class=" col-md-8">' . $listaActivos->obtenerModelo() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Proveedor</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaActivos->obtenerProveedor() . '</h5></div>'
+    . '           <div><span class="col-md-4 titulo-inventario">Marca: </span><span class=" col-md-8">' . $listaActivos->obtenerMarca() . ' </span></div> '
     . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Modelo</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaActivos->obtenerModelo() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Marca</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaActivos->obtenerMarca() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Fecha de ingreso al sistema</h5> ';
+    . '        <div class="row">';
     $fechaIngeso = $listaActivos->obtenerFechaIngresoSistema();
     if ($fechaIngeso != null) {
         $fechaIngeso = date_format($listaActivos->obtenerFechaIngresoSistema(), 'd/m/Y');
-        echo '<div class="col-md-6"><h5>' . $fechaIngeso . '</h5></div>';
+        echo '<div><span class="col-md-4 titulo-inventario">Ingreso al sistema: </span><span class=" col-md-8">' . $fechaIngeso . ' </span></div> ';
     } else {
-        echo '<div class="col-md-6"><h5>Fecha no registrada</h5></div>';
+        echo '<div><span class="col-md-4 titulo-inventario">Ingreso al sistema: </span><span class=" col-md-8">Fecha no registrada </span></div> ';
     }
-    echo '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Fecha de salida de inventario</h5> ';
+    echo '</div>'
+    . '<div class="row">';
     $fechaSalida = $listaActivos->obtenerFechaSalidaInventario();
     if ($fechaSalida != null) {
         $fechaSalida = date_format($listaActivos->obtenerFechaSalidaInventario(), 'd/m/Y');
-        echo '<div class="col-md-6"><h5>' . $fechaSalida . '</h5></div>';
+        echo '<div><span class="col-md-4 titulo-inventario">Salida de inventario: </span><span class=" col-md-8">' . $fechaSalida . ' </span></div> ';
     } else {
-        echo '<div class="col-md-6"><h5>Fecha no registrada</h5></div>';
+        echo '<div><span class="col-md-4 titulo-inventario">Salida de inventario: </span><span class=" col-md-8">Fecha no registrada </span></div> ';
     }
-    echo '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Expira garantía</h5> ';
+    echo '     </div>'    
+    .'<div class="row">';
     $fechaExpira = $listaActivos->obtenerFechaExpiraGarantia();
     if ($fechaExpira != null) {
         $fechaExpira = date_format($listaActivos->obtenerFechaExpiraGarantia(), 'd/m/Y');
-        echo '<div class="col-md-6"><h5>' . $fechaExpira . '</h5></div>';
+        echo '<div><span class="col-md-4 titulo-inventario">Expira garantía: </span><span class=" col-md-8">' . $fechaExpira . ' </span></div> ';
     } else {
-        echo '<div class="col-md-6 titulo"><h5>Fecha no registrada</h5></div>';
+        echo '<div><span class="col-md-4 titulo-inventario">Expira garantía: </span><span class=" col-md-8">Fecha no registrada </span></div> ';
     }
-    echo '         </div>'
+    echo '</div>'
     . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Precio</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaActivos->obtenerPrecio() . '</h5></div>'
+    . '           <div><span class="col-md-4 titulo-inventario">Precio: </span><span class=" col-md-8">' . $listaActivos->obtenerPrecio() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Nombre usuario asociado</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaActivos->obtenerNombreUsuarioAsociado() . '</h5></div>'
+    . '           <div><span class="col-md-4 titulo-inventario">Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerNombreUsuarioAsociado() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Correo usuario asociado</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaActivos->obtenerCorreoUsuarioAsociado() . '</h5></div>'
+    . '           <div><span class="col-md-4 titulo-inventario">Correo usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerCorreoUsuarioAsociado()  . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Departamento usuario asociado</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaActivos->obtenerDepartamentoUsuarioAsociado() . '</h5></div>'
+    . '           <div><span class="col-md-4 titulo-inventario">Departamento usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerDepartamentoUsuarioAsociado() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Jefatura Usuario asociado</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaActivos->obtenerJefaturaUsuarioAsociado() . '</h5></div>'
+    . '           <div><span class="col-md-4 titulo-inventario">Jefatura Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerJefaturaUsuarioAsociado() . ' </span></div> '
+    . '         </div>'            
     . '         </div>'
     . '     </div>'
     . ' </div>'
@@ -194,81 +176,31 @@ function panelPasivos($pasivos, $codigo) {
     $listaPasivos = buscarDispositivo($pasivos, $codigo);
     echo
     '<div type = "hidden" class="panel panel-default">'
-    . ' <div class="panel-heading"><h3>Especificaciones de pasivos</h3></div>'
-    . '     <div class="panel-body container-fluid">';
-
-    echo '      <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Placa</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerPlaca() . '</h5></div>'
+    . ' <div class="panel-heading"><h3>Especificaciones de inventario</h3></div>'
+    . '     <div class="panel-body container-fluid">'
+    . '        <div class="col-md-12">'
+    . '        <div class="row">'
+    . '           <div><span class="col-md-4 titulo-inventario">Código: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca(). ' </span></div> '
     . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Tipo</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerTipo()->obtenerNombreTipo() . '</h5></div>'
+    . '        <div class="row">'
+    . '           <div><span class="col-md-4 titulo-inventario">Descripción: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca(). ' </span></div> '
+    . '         </div>'  
+    . '        <div class="row">'
+    . '           <div><span class="col-md-4 titulo-inventario">Categoría: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca(). ' </span></div> '
     . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Antiguedad</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerEsNuevo() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Estado</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerEstado()->obtenerNombreEstado() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Serie</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerSerie() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Proveedor</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerProveedor() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Modelo</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerModelo() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Marca</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerMarca() . '</h5></div>'
-    . '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Fecha de ingreso al sistema</h5> ';
-    $fechaIngeso = $listaPasivos->obtenerFechaIngresoSistema();
-    if ($fechaIngeso != null) {
-        $fechaIngeso = date_format($listaPasivos->obtenerFechaIngresoSistema(), 'd/m/Y');
-        echo '<div class="col-md-6"><h5>' . $fechaIngeso . '</h5></div>';
-    } else {
-        echo '<div class="col-md-6"><h5>Fecha no registrada</h5></div>';
-    }
-    echo '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Fecha desechado</h5> ';
-    $fechaDesechado = $listaPasivos->obtenerFechaDesechado();
-    if ($fechaDesechado != null) {
-        $fechaDesechado = date_format($listaPasivos->obtenerFechaDesechado(), 'd/m/Y');
-        echo '<div class="col-md-6"><h5>' . $fechaDesechado . '</h5></div>';
-    } else {
-        echo '<div class="col-md-6"><h5>Fecha no registrada</h5></div>';
-    }
-    echo '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Expira garantía</h5> ';
-    $fechaExpira = $listaPasivos->obtenerFechaExpiraGarantia();
-    if ($fechaExpira != null) {
-        $fechaExpira = date_format($listaPasivos->obtenerFechaExpiraGarantia(), 'd/m/Y');
-        echo '<div class="col-md-6"><h5>' . $fechaExpira . '</h5></div>';
-    } else {
-        echo '<div class="col-md-6"><h5>Fecha no registrada</h5></div>';
-    }
-    echo '         </div>'
-    . '         <div class="row">'
-    . '             <h5 class="col-md-6 titulo">Precio</h5> '
-    . '             <div class="col-md-6"><h5>' . $listaPasivos->obtenerPrecio() . '</h5></div>'
-    . '         </div>'
+    . '        <div class="row">'
+    . '           <div><span class="col-md-4 titulo-inventario">Estado: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca(). ' </span></div> '
+    . '         </div>'            
+    . '        <div class="row">'
+    . '           <div><span class="col-md-4 titulo-inventario">Cantidad: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca(). ' </span></div> '
+    . '         </div>'     
     . '     </div>'
+    . ' </div>'
     . ' </div>'
     . '</div>';
 }
 
-function panelLicencias($licencias,$codigo) {
+function panelLicencias($licencias, $codigo) {
     $listaLicencias = buscarLicencias($licencias, $codigo);
     echo
     '<div type = "hidden" class="panel panel-default">'
@@ -294,20 +226,19 @@ function panelLicencias($licencias,$codigo) {
     . '             <h5 class="col-md-6 titulo">Proveedor</h5> '
     . '             <div class="col-md-6"><h5>' . $listaLicencias->obtenerProveedor() . '</h5></div>'
     . '         </div>'
-
     . '         <div class="row">'
     . '         <h5 class="col-md-6 titulo">Fecha de ingreso al sistema</h5> ';
-    $fechaIngreso= $listaLicencias->obtenerFechaIngresoSistema();
+    $fechaIngreso = $listaLicencias->obtenerFechaIngresoSistema();
     if ($fechaIngreso != null) {
         $fechaIngreso = date_format($listaLicencias->obtenerFechaIngresoSistema(), 'd/m/Y');
         echo '<div class="col-md-6"><h5>' . $fechaIngreso . '</h5></div>';
     } else {
         echo '<div class="col-md-6"><h5>Fecha no registrada</h5></div>';
     }
-echo  '         </div>'
+    echo '         </div>'
     . '         <div class="row">'
     . '             <h5 class="col-md-6 titulo">Descripcion</h5> ';
-    $fechaVencimiento= $listaLicencias->obtenerFechaDeVencimiento();
+    $fechaVencimiento = $listaLicencias->obtenerFechaDeVencimiento();
     if ($fechaVencimiento != null) {
         $fechaVencimiento = date_format($listaLicencias->obtenerFechaDeVencimiento(), 'd/m/Y');
         echo '<div class="col-md-6"><h5>' . $fechaVencimiento . '</h5></div>';

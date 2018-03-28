@@ -6,8 +6,8 @@ $(document).ready(function () {
         abrir_tab_inventario(evt, 'tab-activos');
 
     } else if (tab == 2) {
-        evt = document.getElementById("link-pasivos");
-        abrir_tab_inventario(evt, 'tab-pasivos');
+        evt = document.getElementById("link-inventario");
+        abrir_tab_inventario(evt, 'tab-inventario');
     } else if (tab == 3) {
         evt = document.getElementById("link-licencias");
         abrir_tab_inventario(evt, 'tab-licencias');
