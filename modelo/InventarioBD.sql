@@ -98,7 +98,7 @@ CREATE TABLE ActivoFijo(
  descripcion varchar(150) NOT NULL,
  fechaAsociado datetime NOT NULL,
  placa varchar(150) NOT NULL,
- CONSTRAINT PKRepuesto PRIMARY KEY(descripcion),
+ CONSTRAINT PKRepuesto PRIMARY KEY(descripcion, placa),
  CONSTRAINT FKRepuestoActivoFijo FOREIGN KEY (placa) REFERENCES ActivoFijo(placa)
  )
  GO
@@ -274,4 +274,3 @@ CREATE TABLE ActivoFijo(
  DROP PROCEDURE PAobtenerEquiposActivos;
  DROP PROCEDURE PAobtenerLicencias;
  DROP PROCEDURE PAobtenerRepuestos;
-
