@@ -2,14 +2,13 @@
 
 class Licencia {
     
-    public function __construct($feV, $canT, $canU, $cla, $pro, $feI, $de) {
+    public function __construct($feV, $cla, $pro, $feI, $de, $pla) {
         $this->fechaDeVencimiento = $feV;
-        $this->cantidadTotal = $canT;
-        $this->cantidadEnUso = $canU;
         $this->claveDeProducto = $cla;
         $this->proveedor = $pro;
-        $this->fechaIngresoSistema = $feI;
+        $this->fechaAsociado = $feI;
         $this->descripcion = $de;
+        $this->placa = $pla;
     }
     
     function obtenerFechaDeVencimiento() {
@@ -20,32 +19,26 @@ class Licencia {
         return $this->cantidadTotal;
     }
 
-    function obtenerCantidadEnUso() {
-        return $this->cantidadEnUso;
-    }
-
-    function obtenerClaveDeProducto() {
-        return $this->claveDeProducto;
-    }
-
     function obtenerProveedor() {
         return $this->proveedor;
     }
 
-    function obtenerFechaIngresoSistema() {
-        return $this->fechaIngresoSistema;
+    function obtenerFechaAsociado() {
+        return $this->fechaAsociado;
     }
 
     function obtenerDescripcion() {
         return $this->descripcion;
     }
 
-        
+    function obtenerPlaca() {
+        return $this->placa;
+    }
+    
     private $fechaDeVencimiento;
-    private $cantidadTotal;
-    private $cantidadEnUso;
     private $claveDeProducto;
     private $proveedor;
-    private $fechaIngresoSistema;
+    private $fechaAsociado;
     private $descripcion;
+    private $placa;
 }
