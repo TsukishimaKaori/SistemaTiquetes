@@ -1,8 +1,8 @@
 <?php
 
 require_once '../modelo/EstadoEquipo.php';
-require_once '../modelo/TipoDispositivo.php';
-require_once '../modelo/Pasivo.php';
+require_once '../modelo/Categoria.php';
+require_once '../modelo/Inventario.php';
 require_once '../modelo/Activo.php';
 require_once '../modelo/Licencia.php';
 require_once '../modelo/Repuesto.php';
@@ -10,26 +10,26 @@ require_once '../modelo/Conexion.php';
 
 
 //Obtiene todos los dispositivos pasivos
-function obtenerEquiposPasivos() {
+function obtenerInventario() {
     $conexion = Conexion::getInstancia();
-    $tsql = "{call PAobtenerEquiposPasivos }";
+    $tsql = "{call PAobtenerInventario }";
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
     if ($getMensaje == FALSE) {
         sqlsrv_free_stmt($getMensaje);
-        return 'Ha orricudo un error al obtener los pasivos';
+        return 'Ha orricudo un error al obtener el inventario';
     }
     $pasivos = array();
     while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
-        $pasivos[] = crearPasivo($row);
+        $pasivos[] = crearInventario($row);
     }
     sqlsrv_free_stmt($getMensaje);
     return $pasivos;
 }
 
 //Obtiene todos los dispositivos activos
-function obtenerEquiposActivos() {
+function obtenerActivosFijos() {
     $conexion = Conexion::getInstancia();
-    $tsql = "{call PAobtenerEquiposActivos }";
+    $tsql = "{call PAobtenerActivosFijos }";
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
     if ($getMensaje == FALSE) {
         sqlsrv_free_stmt($getMensaje);
@@ -45,10 +45,11 @@ function obtenerEquiposActivos() {
 
 
 //Obtiene todas licencias
-function obtenerLicencias() {
+function obtenerLicencias($placa) {
     $conexion = Conexion::getInstancia();
-    $tsql = "{call PAobtenerLicencias }";
-    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
+    $tsql = "{call PAobtenerLicencias (?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
     if ($getMensaje == FALSE) {
         sqlsrv_free_stmt($getMensaje);
         return 'Ha orricudo un error al obtener las licencias';
@@ -63,10 +64,11 @@ function obtenerLicencias() {
 
 
 //Obtiene todos los repuestos
-function obtenerRepuestos() {
+function obtenerRepuestos($placa) {
     $conexion = Conexion::getInstancia();
-    $tsql = "{call PAobtenerRepuestos }";
-    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
+    $tsql = "{call PAobtenerRepuestos (?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
     if ($getMensaje == FALSE) {
         sqlsrv_free_stmt($getMensaje);
         return 'Ha orricudo un error al obtener los repuestos';
@@ -85,87 +87,77 @@ function crearEstadoEquipo($row) {
     return new EstadoEquipo($codigoEstado, $nombreEstado);
 }
 
-function crearTipoDispositivo($row) {
-    $codigoTipo = $row['codigoTipo'];
-    $nombreTipo = utf8_encode($row['nombreTipo']);
-    return new TipoDispositivo($codigoTipo, $nombreTipo);
+function crearCategoria($row) {
+    $codigoCategoria = $row['codigoCategoria'];
+    $nombreCategoria = utf8_encode($row['nombreCategoria']);
+    return new Categoria($codigoCategoria, $nombreCategoria);
 }
 
-function crearPasivo($row) {
-    $placa = $row['placa'];
-    $tipo = crearTipoDispositivo($row);
-    $esNuevo = 1? 'Nuevo' : 'Viejo'; 
-    $estado = crearEstadoEquipo($row);
-    $serie = $row['serie'];
-    $proveedor = utf8_encode($row['proveedor']);
-    $modelo = utf8_encode($row['modelo']);
-    $marca = utf8_encode($row['marca']);
-    $fechaIngresoSistema = $row['fechaIngresoSistema'];
-    $fechaDesechado = $row['fechaDesechado'];
-    $fechaExpiraGarantia = $row['fechaExpiraGarantia'];
-    $precio = $row['precio'];
-    return new Pasivo($placa, $tipo, $esNuevo, $estado, $serie, $proveedor, $modelo, $marca, $fechaIngresoSistema, 
-	$fechaDesechado, $fechaExpiraGarantia, $precio );
+function crearInventario($row) {
+    $codigoArticulo = $row['codigoArticulo'];
+    $descripcion = utf8_encode($row['descripcion']);
+    $costo = $row['costo'];
+    $categoria = crearCategoria($row);
+    $estado = utf8_encode($row['estado']);
+    $cantidad = $row['cantidad'];  
+    return new Inventario($codigoArticulo, $descripcion, $costo, $categoria, $estado, $cantidad);
 }
 
 function crearActivo($row) {
     $placa = $row['placa'];
-    $tipo = crearTipoDispositivo($row);
-    $esNuevo = 1? 'Nuevo' : 'Viejo'; 
+    $categoria = crearCategoria($row);
     $estado = crearEstadoEquipo($row);
     $serie = $row['serie'];
     $proveedor = utf8_encode($row['proveedor']);
     $modelo = utf8_encode($row['modelo']);
     $marca = utf8_encode($row['marca']);
-    $fechaIngresoSistema = $row['fechaIngresoSistema'];
     $fechaSalidaInventario = $row['fechaSalidaInventario'];
+    $fechaDesechado = $row['fechaDesechado'];
     $fechaExpiraGarantia = $row['fechaExpiraGarantia'];
-    $precio = $row['precio'];
     $correoUsuarioAsociado = $row['correoUsuarioAsociado'];
     $nombreUsuarioAsociado = utf8_encode($row['nombreUsuarioAsociado']);
     $departamentoUsuarioAsociado = utf8_encode($row['departamentoUsuarioAsociado']);
     $jefaturaUsuarioAsociado = utf8_encode($row['jefaturaUsuarioAsociado']);
-    return new Activo($placa, $tipo, $esNuevo, $estado, $serie, $proveedor, $modelo, $marca, $fechaIngresoSistema, 
-	$fechaSalidaInventario, $fechaExpiraGarantia, $precio, $correoUsuarioAsociado, $nombreUsuarioAsociado,
+    return new Activo($placa, $categoria, $estado, $serie, $proveedor, $modelo, $marca, $fechaSalidaInventario, 
+        $fechaDesechado, $fechaExpiraGarantia, $correoUsuarioAsociado, $nombreUsuarioAsociado,
         $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado);
+    
 }
 
 function crearLicencia($row) {
     $fechaDeVencimiento = $row['fechaDeVencimiento'];
-    $cantidadTotal = $row['cantidadTotal'];
-    $cantidadEnUso = $row['cantidadEnUso'];
     $claveDeProducto = $row['claveDeProducto'];
     $proveedor = utf8_encode($row['proveedor']);
-    $fechaIngresoSistema = $row['fechaIngresoSistema'];
+    $fechaAsociado = $row['fechaAsociado'];
     $descripcion = utf8_encode($row['descripcion']);
-    return new Licencia($fechaDeVencimiento, $cantidadTotal, $cantidadEnUso, $claveDeProducto, $proveedor,
-        $fechaIngresoSistema, $descripcion);
+    $placa = $row['placa'];
+    return new Licencia($fechaDeVencimiento, $claveDeProducto, $proveedor, $fechaAsociado, $descripcion, $placa);
 }
 
 function crearRepuesto($row) {
-    $codigoRepuesto = $row['codigoRepuesto'];
-    $cantidadTotal = $row['cantidadTotal'];
-    $cantidadEnUso = $row['cantidadEnUso'];
     $descripcion = utf8_encode($row['descripcion']);
-    return new Repuesto($codigoRepuesto, $cantidadTotal, $cantidadEnUso, $descripcion);
+    $fechaAsociado = $row['fechaAsociado'];
+    $placa = $row['placa'];
+    return new Repuesto($descripcion, $fechaAsociado, $placa);
 }
 
-//$pasivos = obtenerEquiposPasivos();
+//$pasivos = obtenerInventario();
 //
 //foreach ($pasivos as $tema) {   
-//    echo $tema->obtenerTipo()->obtenerNombreTipo() . '<br />';
-//    echo $tema->obtenerEsNuevo() . '<br />';
-//    echo $tema->obtenerEstado()->obtenerNombreEstado().'<br />'; 
-//    echo $tema->obtenerProveedor() . '<br />';
-//    echo $tema->obtenerMarca() . '<br />';
+//    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $tema->obtenerDescripcion() . '<br />';
+//    echo $tema->obtenerEstado(). '<br />'; 
+//    echo $tema->obtenerCosto() . '<br />';
+//    echo $tema->obtenerCantidad() . '<br />';
 //    echo '<br />';
 //}
-
-//$activos = obtenerEquiposActivos();
+//
+//echo 'Activos' . '<br />';
+//$activos = obtenerActivosFijos();
 //
 //foreach ($activos as $tema) {   
-//    echo $tema->obtenerTipo()->obtenerNombreTipo() . '<br />';
-//    echo $tema->obtenerEsNuevo() . '<br />';
+//    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $tema->obtenerPlaca() . '<br />';
 //    echo $tema->obtenerEstado()->obtenerNombreEstado().'<br />'; 
 //    echo $tema->obtenerProveedor() . '<br />';
 //    echo $tema->obtenerMarca() . '<br />';
@@ -173,20 +165,23 @@ function crearRepuesto($row) {
 //    echo $tema->obtenerCorreoUsuarioAsociado() . '<br />';
 //    echo '<br />';
 //}
-
-//$licencias = obtenerLicencias();
+//
+//echo 'Licencias' . '<br />';
+//$licencias = obtenerLicencias('456');
 //
 //foreach ($licencias as $tema) {   
 //    echo $tema->obtenerDescripcion() . '<br />';
-//    echo $tema->obtenerCantidadTotal() . '<br />';
-//    echo $tema->obtenerProveedor().'<br />'; 
+//    echo $tema->obtenerProveedor() . '<br />';
+//    echo $tema->obtenerClaveDeProducto() . '<br />';
+//    echo $tema->obtenerPlaca().'<br />'; 
 //    echo '<br />';
 //}
 //
-//$repuestos = obtenerRepuestos();
+//echo 'Repuestos' . '<br />';
+//$repuestos = obtenerRepuestos('456');
 //
 //foreach ($repuestos as $tema) {   
 //    echo $tema->obtenerDescripcion() . '<br />';
-//    echo $tema->obtenerCantidadTotal() . '<br />';
+//    echo $tema->obtenerPlaca() . '<br />';
 //    echo '<br />';
 //}
