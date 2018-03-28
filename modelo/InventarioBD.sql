@@ -142,7 +142,7 @@ CREATE TABLE ActivoFijo(
 	where inve.codigoCategoria = cat.codigoCategoria;
  GO
 
- --exec PAobtenerInventario;
+ --exec PAobtenerInventario;		
 
  CREATE PROCEDURE PAobtenerActivosFijos
  AS
@@ -178,8 +178,67 @@ CREATE TABLE ActivoFijo(
 	SET NOCOUNT ON;
 	select descripcion, fechaAsociado, placa from Repuesto where placa = @placa;
  GO
+ --exec PAobtenerRepuestos '456';
 
---exec PAobtenerRepuestos '456';
+
+ CREATE PROCEDURE PAobtenerCategorias
+ AS
+	SET NOCOUNT ON;
+	select codigoCategoria, nombreCategoria from Categoria;
+ GO
+
+ --exec PAobtenerCategorias;
+
+
+ CREATE PROCEDURE PAagregarArticuloInventario
+	@codigoArticulo varchar(150),
+	@descripcion varchar(150), 
+	@costo money,
+	@codigoCategoria int,
+	@estado varchar(150),
+	@cantidad int,
+	@bodega varchar(100),
+	@comentarioUsuario ntext,
+	@correoUsuarioCausante varchar(150),
+	@nombreUsuarioCausante varchar(150),
+	@men int output	
+AS
+SET XACT_ABORT ON;
+SET NOCOUNT ON;
+BEGIN TRY
+    BEGIN TRANSACTION;
+	DECLARE 
+	@fechaActual datetime
+
+	SET @fechaActual = (select GETDATE());
+	insert into Inventario (codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad) values
+	(@codigoArticulo, @descripcion, @costo, @codigoCategoria, @estado, @cantidad);
+
+	insert into Detalle (codigoArticulo, copiaCantidadInventario, cantidadEfecto, costo, fecha, estado, efecto, bodega, 
+	comentarioUsuario, correoUsuarioCausante, nombreUsuarioCausante) values 
+	(@codigoArticulo, @cantidad, @cantidad, @costo, @fechaActual, @estado, 'Entrada', @bodega, @comentarioUsuario,
+	@correoUsuarioCausante, @nombreUsuarioCausante);
+
+	COMMIT TRANSACTION;
+
+END TRY
+BEGIN CATCH
+
+    IF (XACT_STATE()) = -1
+    BEGIN
+        ROLLBACK TRANSACTION;
+		SET @men = 1;  --Error
+    END;
+END CATCH;
+GO
+
+--DECLARE @mens int
+--exec PAagregarArticuloInventario '987','Celular Huawei Gplay mini', '30', 2, 'Activo', 2, 'Bodega A7', 'Acaban de llegar
+--los dos teléfono nuevos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', @men = @mens output;
+--PRINT @mens;
+
+--select * from Inventario;
+--select * from Detalle;
 
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
@@ -272,3 +331,5 @@ CREATE TABLE ActivoFijo(
  DROP PROCEDURE PAobtenerActivosFijos;
  DROP PROCEDURE PAobtenerLicencias;
  DROP PROCEDURE PAobtenerRepuestos;
+ DROP PROCEDURE PAobtenerCategorias;
+ DROP PROCEDURE PAagregarArticuloInventario;
