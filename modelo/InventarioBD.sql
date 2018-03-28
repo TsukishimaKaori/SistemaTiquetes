@@ -133,55 +133,53 @@ CREATE TABLE ActivoFijo(
 
 
 
- CREATE PROCEDURE PAobtenerEquiposPasivos
+ CREATE PROCEDURE PAobtenerInventario
  AS
 	SET NOCOUNT ON;
-	select equipo.placa, tipo.codigoTipo, tipo.nombreTipo, equipo.esNuevo, estado.codigoEstado, estado.nombreEstado,
-	equipo.serie, equipo.proveedor, equipo.modelo, equipo.marca, equipo.fechaIngresoSistema, equipo.fechaDesechado, 
-	equipo.fechaExpiraGarantia, equipo.precio from
-	(select codigoTipo, nombreTipo from TipoDispositivo) tipo,
-	(select codigoEstado, nombreEstado from EstadoEquipo) estado,
-	(select placa, codigoTipo, esNuevo, codigoEstado, serie, proveedor, modelo, marca, fechaIngresoSistema, 
-	fechaDesechado, fechaExpiraGarantia, precio from Equipo where tipoDeBien = 1) equipo
-	where equipo.codigoTipo = tipo.codigoTipo AND equipo.codigoEstado = estado.codigoEstado;
+	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, inve.estado, inve.cantidad from
+	(select codigoCategoria, nombreCategoria from Categoria) cat,
+	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad from Inventario) inve
+	where inve.codigoCategoria = cat.codigoCategoria;
  GO
 
- --exec PAobtenerEquiposPasivos;
+ --exec PAobtenerInventario;
 
-  CREATE PROCEDURE PAobtenerEquiposActivos
+ CREATE PROCEDURE PAobtenerActivosFijos
  AS
 	SET NOCOUNT ON;
-	select equipo.placa, tipo.codigoTipo, tipo.nombreTipo, equipo.esNuevo, estado.codigoEstado, estado.nombreEstado,
-	equipo.serie, equipo.proveedor, equipo.modelo, equipo.marca, equipo.fechaIngresoSistema, equipo.fechaSalidaInventario,
-	equipo.fechaExpiraGarantia, equipo.precio, equipo.correoUsuarioAsociado, equipo.nombreUsuarioAsociado,
-	equipo.departamentoUsuarioAsociado, equipo.jefaturaUsuarioAsociado from
-	(select codigoTipo, nombreTipo from TipoDispositivo) tipo,
+	select activo.placa, cat.codigoCategoria, cat.nombreCategoria, estado.codigoEstado, estado.nombreEstado,
+	activo.serie, activo.proveedor, activo.modelo, activo.marca, activo.fechaSalidaInventario, activo.fechaDesechado,
+	activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
+	activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
+	(select codigoCategoria, nombreCategoria from Categoria) cat,
 	(select codigoEstado, nombreEstado from EstadoEquipo) estado,
-	(select placa, codigoTipo, esNuevo, codigoEstado,tipoDeBien, serie, proveedor, modelo, marca, fechaIngresoSistema, 
-	fechaSalidaInventario, fechaExpiraGarantia, precio,correoUsuarioAsociado, nombreUsuarioAsociado,
-	departamentoUsuarioAsociado, jefaturaUsuarioAsociado from Equipo where tipoDeBien = 0) equipo
-	where equipo.codigoTipo = tipo.codigoTipo AND equipo.codigoEstado = estado.codigoEstado;
+	(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
+	fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
+	departamentoUsuarioAsociado, jefaturaUsuarioAsociado from ActivoFijo) activo
+	where activo.codigoCategoria = cat.codigoCategoria AND activo.codigoEstado = estado.codigoEstado;
  GO
 
- --exec PAobtenerEquiposActivos;
+ --exec PAobtenerActivosFijos;
 
  CREATE PROCEDURE PAobtenerLicencias
+	@placa varchar(150)
  AS
 
 	SET NOCOUNT ON;
-	select fechaDeVencimiento, cantidadTotal, cantidadEnUso, claveDeProducto, proveedor, fechaIngresoSistema, descripcion from Licencia;
+	select fechaDeVencimiento, claveDeProducto, proveedor, fechaAsociado, descripcion, placa from Licencia where placa = @placa;
  GO
 
- --exec PAobtenerLicencias;
+ --exec PAobtenerLicencias '456';
 
  CREATE PROCEDURE PAobtenerRepuestos
+	@placa varchar(150)
  AS
 
 	SET NOCOUNT ON;
-	select codigoRepuesto, cantidadTotal, cantidadEnUso, descripcion from Repuesto;
+	select descripcion, fechaAsociado, placa from Repuesto where placa = @placa;
  GO
 
- --exec PAobtenerRepuestos;
+--exec PAobtenerRepuestos '456';
 
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
@@ -270,7 +268,7 @@ CREATE TABLE ActivoFijo(
  DROP TABLE Categoria;
  
 
- DROP PROCEDURE PAobtenerEquiposPasivos;
- DROP PROCEDURE PAobtenerEquiposActivos;
+ DROP PROCEDURE PAobtenerInventario;
+ DROP PROCEDURE PAobtenerActivosFijos;
  DROP PROCEDURE PAobtenerLicencias;
  DROP PROCEDURE PAobtenerRepuestos;
