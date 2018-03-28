@@ -4,19 +4,20 @@ require_once ("../control/AdministrarTablaInventario.php");
 require ("../modelo/ProcedimientosInventario.php");
 if (isset($_POST['codigoActivo'])) {
     $codigo = $_POST['codigoActivo'];
-    $activos = obtenerEquiposActivos();
-    panelActivos($activos,$codigo);
+    $activos = obtenerActivosFijos();
+    panelActivos($activos, $codigo);
 }
 
 if (isset($_POST['codigoPasivo'])) {
     $codigo = $_POST['codigoPasivo'];
-    $pasivos = obtenerEquiposPasivos();
-    panelPasivos($pasivos,$codigo);
+    $inventario = obtenerInventario();
+    panelPasivos($inventario, $codigo);
 }
 
 if (isset($_POST['codigoSumarInventario'])) {
     $codigo = $_POST['codigoSumarInventario'];
-    panelSumarAInventario();
+    $inventario = obtenerInventario();
+    panelSumarAInventario($inventario,$codigo);
 }
 
 

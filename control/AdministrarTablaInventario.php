@@ -10,9 +10,9 @@ function cabeceraTablaPasivos() {
 }
 
 function cabeceraTablaActivos() {
-    echo "<th>Tipo</th>"
+    echo "<th>Placa</th>"
+    . "<th>Categoría</th>"
     . "<th>Estado</th>"
-    . "<th>Placa</th>"
     . "<th>Usuario_asociado</th>"
     . "<th>Fecha de salida de inventario </th>";
 }
@@ -20,16 +20,12 @@ function cabeceraTablaActivos() {
 function cuerpoTablaActivos($activos) {
     foreach ($activos as $act) {
         echo '<tr onclick = "cargarPanelActivos(' . $act->obtenerPlaca() . ')">';
-        echo '<td>' . $act->obtenerTipo()->obtenerNombreTipo() . '</td>';
-        echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
         echo '<td>' . $act->obtenerPlaca() . '</td>';
+        echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
+        echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
         echo '<td>' . $act->obtenerNombreUsuarioAsociado() . '</td>';
         // $fechaIngeso = $act->obtenerFechaIngresoSistema();
         $fechaSalida = $act->obtenerFechaSalidaInventario();
-//        if ($fechaIngeso != null) {
-//            $fechaIngeso = date_format($act->obtenerFechaIngresoSistema(), 'd/m/Y');
-//            echo '<td>' . $fechaIngeso . '</td>';
-//        }
         if ($fechaSalida != null) {
             $fechaSalida = date_format($act->obtenerFechaSalidaInventario(), 'd/m/Y');
             echo '<td>' . $fechaSalida . '</td>';
@@ -38,26 +34,25 @@ function cuerpoTablaActivos($activos) {
     }
 }
 
-function cuerpoTablaPasivos($pasivos) {
-    foreach ($pasivos as $act) {
+function cuerpoTablaPasivos($inventario) {
+    foreach ($inventario as $act) {
         echo '<tr>';
-        echo '<td>' . $act->obtenerTipo()->obtenerNombreTipo() . '</td>';
-        echo '<td>' . $act->obtenerEsNuevo() . '</td>';
-        echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
-        echo '<td>' . $act->obtenerPlaca() . '</td>';
-        $fechaIngeso = $act->obtenerFechaIngresoSistema();
+        echo '<td>' . $act->obtenerCodigoArticulo() . '</td>';
+        echo '<td>' . $act->obtenerDescripcion() . '</td>';
+        echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
+        echo '<td>' . $act->obtenerEstado() . '</td>';
         echo '<td>' .
         '<a href="../vista/AgregarInventario.php"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>' .
-        '<span>' . $act->obtenerPlaca() . '</span>' .
-        '<button onclick = "cargarPanelSumarInventario(' . $act->obtenerPlaca() . ')"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>'
+        '<span>&nbsp &nbsp</span><span>' . $act->obtenerCantidad() . '</span><span>&nbsp &nbsp</span>' .
+        '<button onclick = "cargarPanelSumarInventario(' . $act->obtenerCodigoArticulo() . ')"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>'
         . '</td>';
-        echo '<td><button onclick = "cargarPanelPasivos(' . $act->obtenerPlaca() . ')"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelPasivos(' . $act->obtenerCodigoArticulo() . ')"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
         echo '</tr>';
     }
 }
 
 function panelActivos($activos, $codigo) {
-    $listaActivos = buscarDispositivo($activos, $codigo);
+    $listaActivos = buscarDispositivoActivoFijo($activos, $codigo);
     echo
     '<div type = "hidden" class="panel panel-default">'
     . ' <div class="panel-heading"><h3>Especificaciones de activos</h3></div>'
@@ -67,7 +62,7 @@ function panelActivos($activos, $codigo) {
     . '           <div><span class="col-md-4 titulo-inventario">Placa: </span><span class=" col-md-8">' . $listaActivos->obtenerPlaca() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Tipo: </span><span class=" col-md-8">' . $listaActivos->obtenerTipo()->obtenerNombreTipo() . ' </span></div> '
+    . '           <div><span class="col-md-4 titulo-inventario">Categoría: </span><span class=" col-md-8">' . $listaActivos->obtenerCategoria()->obtenerNombreCategoria() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
     . '           <div><span class="col-md-4 titulo-inventario">Estado: </span><span class=" col-md-8">' . $listaActivos->obtenerEstado()->obtenerNombreEstado() . '</span></div> '
@@ -82,12 +77,12 @@ function panelActivos($activos, $codigo) {
     . '           <div><span class="col-md-4 titulo-inventario">Marca: </span><span class=" col-md-8">' . $listaActivos->obtenerMarca() . ' </span></div> '
     . '         </div>'
     . '        <div class="row">';
-    $fechaIngeso = $listaActivos->obtenerFechaIngresoSistema();
-    if ($fechaIngeso != null) {
-        $fechaIngeso = date_format($listaActivos->obtenerFechaIngresoSistema(), 'd/m/Y');
-        echo '<div><span class="col-md-4 titulo-inventario">Ingreso al sistema: </span><span class=" col-md-8">' . $fechaIngeso . ' </span></div> ';
+    $fechaDesechado = $listaActivos->obtenerFechaDesechado();
+    if ($fechaDesechado != null) {
+        $fechaDesechado = date_format($listaActivos->obtenerFechaDesechado(), 'd/m/Y');
+        echo '<div><span class="col-md-4 titulo-inventario">Fecha desechado: </span><span class=" col-md-8">' . $fechaDesechado . ' </span></div> ';
     } else {
-        echo '<div><span class="col-md-4 titulo-inventario">Ingreso al sistema: </span><span class=" col-md-8">Fecha no registrada </span></div> ';
+        echo '<div><span class="col-md-4 titulo-inventario">Fecha desechado: </span><span class=" col-md-8">Fecha no registrada </span></div> ';
     }
     echo '</div>'
     . '<div class="row">';
@@ -109,9 +104,6 @@ function panelActivos($activos, $codigo) {
     }
     echo '</div>'
     . '         <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Precio: </span><span class=" col-md-8">' . $listaActivos->obtenerPrecio() . ' </span></div> '
-    . '         </div>'
-    . '         <div class="row">'
     . '           <div><span class="col-md-4 titulo-inventario">Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerNombreUsuarioAsociado() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
@@ -130,26 +122,29 @@ function panelActivos($activos, $codigo) {
 }
 
 function panelPasivos($pasivos, $codigo) {
-    $listaPasivos = buscarDispositivo($pasivos, $codigo);
+    $listaPasivos = buscarDispositivoInventario($pasivos, $codigo);
     echo
     '<div type = "hidden" class="panel panel-default">'
     . ' <div class="panel-heading"><h3>Especificaciones de inventario</h3></div>'
     . '     <div class="panel-body container-fluid">'
     . '        <div class="col-md-12">'
     . '        <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Código: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca() . ' </span></div> '
+    . '           <div><span class="col-md-4 titulo-inventario">Código: </span><span class=" col-md-8">' . $listaPasivos->obtenerCodigoArticulo() . ' </span></div> '
     . '         </div>'
     . '        <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Descripción: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca() . ' </span></div> '
+    . '           <div><span class="col-md-4 titulo-inventario">Descripción: </span><span class=" col-md-8">' . $listaPasivos->obtenerDescripcion() . ' </span></div> '
     . '         </div>'
     . '        <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Categoría: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca() . ' </span></div> '
+    . '           <div><span class="col-md-4 titulo-inventario">Categoría: </span><span class=" col-md-8">' . $listaPasivos->obtenerCategoria()->obtenerNombreCategoria() . ' </span></div> '
     . '         </div>'
     . '        <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Estado: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca() . ' </span></div> '
+    . '           <div><span class="col-md-4 titulo-inventario">Estado: </span><span class=" col-md-8">' . $listaPasivos->obtenerEstado() . ' </span></div> '
     . '         </div>'
     . '        <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Cantidad: </span><span class=" col-md-8">' . $listaPasivos->obtenerPlaca() . ' </span></div> '
+    . '           <div><span class="col-md-4 titulo-inventario">Cantidad: </span><span class=" col-md-8">' . $listaPasivos->obtenerCantidad() . ' </span></div> '
+    . '         </div>'
+    . '        <div class="row">'
+    . '           <div><span class="col-md-4 titulo-inventario">Costo: </span><span class=" col-md-8">' . $listaPasivos->obtenerCosto() . ' </span></div> '
     . '         </div>'
     . '     </div>'
     . ' </div>'
@@ -173,8 +168,8 @@ function panelAgregarInventario() {
         <div class="form-group  col-md-12 ">
             <label class="control-label col-md-3" for="tipo">Categoría:</label>
             <div class="col-md-9">';
-                selectTipos($tipos);
-        echo'</div>
+    selectTipos($tipos);
+    echo'</div>
         </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="descripcion">Descripción:</label>
@@ -193,8 +188,13 @@ function panelAgregarInventario() {
             <div class="col-md-9">
                 <input class="form-control" id="cantidad" type="number" required>
             </div>
+        </div>
+        <div class="form-group col-md-12">           
+            <div class="col-md-12">
+                <button class="btn btn-success btn-circle btn" ><i></i>Guardar</button>     
+                <button class="btn btn-danger btn-circle btn" ><i></i>Borrar</button>                         
+            </div>
         </div>';
-                           
     echo'</div>'
     . ' </div>'
     . '</div>';
@@ -209,31 +209,52 @@ function selectTipos($tipos) {
     echo'</select>';
 }
 
-function panelSumarAInventario() {
+function panelSumarAInventario($inventarios,$codigo) {
+    $inventario = buscarDispositivoInventario($inventarios, $codigo);
     echo'<div type = "hidden" class="panel panel-default">'
     . '<div class="panel-heading"><h3>Sumar a inventario</h3></div>'
     . '<div class="panel-body container-fluid">';
-
-    echo'<div class="form-group  col-md-11">
-            <label class="control-label col-sm-2" for="codigo-suma">Codigo:</label>
-                <div class="col-sm-10">
-                    <input class="form-control" id="codigo-suma" type="text" required>
-                </div>
+    echo'<div class="form-group  col-md-12">
+            <label class="control-label col-md-3" for="codigo-suma">Código:</label>
+            <div class="col-md-9">
+                  <span>'.$inventario->obtenerCodigoArticulo().'</span>
+            </div>
         </div>
-        <div class="form-group col-md-11">
-            <label class="control-label col-sm-2" for="cantidad-suma">Cantidad:</label>
-                <div class="col-sm-10">
-                    <input class="form-control" id="cantidad-suma" type="number" required>
-                </div>
-        </div>';                      
+        <div class="form-group  col-md-12">
+            <label class="control-label col-md-3">Descrición:</label>
+            <div class="col-md-9">
+                  <span>'.$inventario->obtenerDescripcion().'</span>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="cantidad-suma">Cantidad:</label>
+            <div class="col-md-9">
+                <input class="form-control" id="cantidad-suma" type="number" required>
+            </div>
+        </div> 
+        <div class="form-group col-md-12">           
+            <div class="col-md-12">
+                <button class="btn btn-success btn-circle btn" ><i></i>Guardar</button>     
+                <button class="btn btn-danger btn-circle btn" ><i></i>Borrar</button>                         
+            </div>
+        </div>';
     echo '</div>'
     . ' </div>'
     . '</div>';
 }
 
-function buscarDispositivo($dispositivo, $codigo) {
+function buscarDispositivoInventario($dispositivo, $codigo) {
     foreach ($dispositivo as $act) {
-        if ($act->obtenerPlaca() == $codigo) {
+        if ($act->obtenerCodigoArticulo() == $codigo) {
+            return $act;
+        }
+    }
+    return null;
+}
+
+function buscarDispositivoActivoFijo($dispositivo, $codigo) {
+    foreach ($dispositivo as $act) {
+        if ($act->obtenerPlaca()== $codigo) {
             return $act;
         }
     }
