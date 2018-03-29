@@ -240,6 +240,59 @@ GO
 --select * from Inventario;
 --select * from Detalle;
 
+ CREATE PROCEDURE PAaumentarCantidadInventario
+	@codigoArticulo varchar(150),
+	@cantidadEfecto int,
+	@bodega varchar(100),
+	@comentarioUsuario ntext,
+	@correoUsuarioCausante varchar(150),
+	@nombreUsuarioCausante varchar(150),
+	@men int output	
+AS
+SET XACT_ABORT ON;
+SET NOCOUNT ON;
+BEGIN TRY
+    BEGIN TRANSACTION;
+	DECLARE 
+	@fechaActual datetime,
+	@copiaCantidad int,
+	@copiaCosto money,
+	@copiaEstado varchar(150)
+
+	SET @fechaActual = (select GETDATE());
+	SET @copiaCantidad = (select cantidad from Inventario where codigoArticulo = @codigoArticulo);
+	SET @copiaCosto = (select costo from Inventario where codigoArticulo = @codigoArticulo);
+	set @copiaEstado = (select estado from Inventario where codigoArticulo = @codigoArticulo);
+
+	Update Inventario SET cantidad = (@copiaCantidad + @cantidadEfecto) where codigoArticulo = @codigoArticulo;
+
+	insert into Detalle (codigoArticulo, copiaCantidadInventario, cantidadEfecto, costo, fecha, estado, efecto, bodega, 
+	comentarioUsuario, correoUsuarioCausante, nombreUsuarioCausante) values 
+	(@codigoArticulo, (@copiaCantidad + @cantidadEfecto), @cantidadEfecto, @copiaCosto, @fechaActual, @copiaEstado, 'Entrada', @bodega,
+	 @comentarioUsuario, @correoUsuarioCausante, @nombreUsuarioCausante);
+
+	COMMIT TRANSACTION;
+
+END TRY
+BEGIN CATCH
+
+    IF (XACT_STATE()) = -1
+    BEGIN
+        ROLLBACK TRANSACTION;
+		SET @men = 1;  --Error
+    END;
+END CATCH;
+GO
+
+
+--DECLARE @mens int
+--exec PAaumentarCantidadInventario '987', 5, 'Bodega A7', 'Son muchos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', @men = @mens output;
+--PRINT @mens;
+
+--select * from Inventario;
+--select * from Detalle;
+--DROP PROCEDURE PAaumentarCantidadInventario;
+
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
  insert into estadoEquipo (codigoEstado, nombreEstado) values (2, 'En reparación');
@@ -333,3 +386,4 @@ GO
  DROP PROCEDURE PAobtenerRepuestos;
  DROP PROCEDURE PAobtenerCategorias;
  DROP PROCEDURE PAagregarArticuloInventario;
+ DROP PROCEDURE PAaumentarCantidadInventario;

@@ -118,6 +118,26 @@ function agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codig
     return ''; //agregado correctamente
 }
 
+
+//Aumentar la cantidad de un articulo en el inventario
+function aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $bodega, $comentarioUsuario, 
+        $correoUsuarioCausante, $nombreUsuarioCausante) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAaumentarCantidadInventario (?, ?, ?, ?, ?, ?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($cantidadEfecto, SQLSRV_PARAM_IN),
+        array($bodega, SQLSRV_PARAM_IN), array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
+        array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } 
+    return ''; //agregado correctamente
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -234,5 +254,10 @@ function crearRepuesto($row) {
 
 //$mensaje = agregarArticuloInventario('765','Portatil Lenovo', '30', 2, 'Activo', 2, 'Bodega C', 'La compu de la jefa ya llegó', 
 //        'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//
+//echo $mensaje;
+
+//'876', 2, 'Bodega A7', 'Son muchísimos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales'
+//$mensaje = aumentarCantidadInventario('987', 5, 'Bodega A7', 'Son muchos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //
 //echo $mensaje;
