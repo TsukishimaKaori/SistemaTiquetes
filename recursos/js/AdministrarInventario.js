@@ -107,6 +107,32 @@ function agregarInventario() {
 
 }
 
+//Agrega un elemento al inventario
+function agregarInventarioSuma() {
+    var codigoArticuloSuma = $("#codigoSuma").text();
+    var cantidad = $("#cantidad-suma").val();
+    var bodega = $("#bodega-suma").val();
+    var comentario = $("#comentario-suma").val();
+    var correoUsuario = $("#correoUsuario").val();
+    var nombreUsuario = $("#nombreUsuario").val();
+    $.ajax({
+        data: {'codigoArticuloSuma': codigoArticuloSuma,
+            'cantidadSuma': cantidad,
+            'bodegaSuma': bodega,
+            'comentarioSuma': comentario,
+            'correoUsuario': correoUsuario,
+            'nombreUsuario': nombreUsuario
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjaxInventario.php',
+        success: function (response) {
+            $("#cuerpo-Tabla-Inventario").html(response);
+            limpiarFormularioInventarioSuma();
+        }
+    });
+
+}
+
 function limpiarFormularioInventario() {
     $("#codigo").val("");
     $("#descripcion").val("");
@@ -116,6 +142,10 @@ function limpiarFormularioInventario() {
     $("#cantidad").val("");
     $("#bodega").val("");
     $("#comentario").val("");
+}
 
-
+function limpiarFormularioInventarioSuma() {
+    var cantidad = $("#cantidad-suma").val("");
+    var bodega = $("#bodega-suma").val("");
+    var comentario = $("#comentario-suma").val("");
 }

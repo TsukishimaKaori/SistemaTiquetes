@@ -236,15 +236,15 @@ function panelSumarAInventario($inventarios, $codigo) {
     . '<div class="panel-heading"><h3>Sumar a inventario</h3></div>'
     . '<div class="panel-body container-fluid">';
     echo'<div class="form-group  col-md-12">
-            <label class="control-label col-md-3" for="codigo-suma">Código:</label>
+            <label class="control-label col-md-3" for="codigoSuma">Código:</label>
             <div class="col-md-9">
-                  <span>' . $inventario->obtenerCodigoArticulo() . '</span>
+                  <span id="codigoSuma">' . $inventario->obtenerCodigoArticulo() . '</span>
             </div>
         </div>
         <div class="form-group  col-md-12">
-            <label class="control-label col-md-3">Descrición:</label>
+            <label class="control-label col-md-3" for="descripcion-suma">Descrición:</label>
             <div class="col-md-9">
-                  <span>' . $inventario->obtenerDescripcion() . '</span>
+                  <span id="descripcion-suma">' . $inventario->obtenerDescripcion() . '</span>
             </div>
         </div>
         <div class="form-group col-md-12">
@@ -268,8 +268,8 @@ function panelSumarAInventario($inventarios, $codigo) {
         </div>        
         <div class="form-group col-md-12">           
             <div class="col-md-12">
-                <button class="btn btn-success btn-circle btn" ><i></i>Guardar</button>     
-                <button class="btn btn-danger btn-circle btn" ><i></i>Borrar</button>                         
+                <button onclick = "agregarInventarioSuma();" class="btn btn-success btn-circle btn" ><i></i>Guardar</button>     
+                <button onclick = "limpiarFormularioInventarioSuma();" class="btn btn-danger btn-circle btn" ><i></i>Borrar</button>                         
             </div>
         </div>';
     echo '</div>'
