@@ -24,6 +24,10 @@
             $tab = 1;
         }
         ?>
+       
+        <input id = 'nombreUsuario' type="hidden" value ='<?php echo  $r->obtenerNombreResponsable() ?>' >
+        <input id = 'correoUsuario' type="hidden" value ='<?php echo $r->obtenerCorreo()?>' >
+        
         <input id = 'tabInventario' type="hidden" value ='<?php echo $tab ?>' >
         <div class="container-fluid">
             <div class="row">                
@@ -52,7 +56,7 @@
                                                 <thead>
                                                     <?php cabeceraTablaPasivos(); ?>                                 
                                                 </thead>
-                                                <tbody>
+                                                <tbody id = "cuerpo-Tabla-Inventario">
                                                     <?php cuerpoTablaPasivos($inventario); ?>
                                                 </tbody>
                                             </table>

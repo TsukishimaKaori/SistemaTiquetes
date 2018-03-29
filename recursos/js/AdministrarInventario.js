@@ -9,8 +9,6 @@ $(document).ready(function () {
         evt = document.getElementById("link-inventario");
         abrir_tab_inventario(evt, 'tab-inventario');
     }
-
-
 });
 
 function abrir_tab_inventario(evt, id) {
@@ -62,6 +60,7 @@ function cargarPanelSumarInventario(codigo) {
     });
 }
 
+//Carga el formulario para agregar al formurio
 function cargarPanelAgregarInventario() {
     var codigo = 1;// cambiar codigo
     $.ajax({
@@ -72,4 +71,51 @@ function cargarPanelAgregarInventario() {
             $("#panelInformacionInventario").html(response);
         }
     });
+}
+
+//Agrega un elemento al inventario
+function agregarInventario() {
+    var codigoArticulo = $("#codigo").val();
+    var descripcion = $("#descripcion").val();
+    var categoria = $("#categoria option:selected").val();
+    var estado = $("#estado").val();
+    var costo = $("#costo").val();
+    var cantidad = $("#cantidad").val();
+    var bodega = $("#bodega").val();
+    var comentario = $("#comentario").val();
+    var correoUsuario = $("#correoUsuario").val();
+    var nombreUsuario = $("#nombreUsuario").val();
+    $.ajax({
+        data: {'codigoArticuloAgregarInventario': codigoArticulo,
+            'descripcion': descripcion,
+            'categoria': categoria,
+            'estado': estado,
+            'cantidad': cantidad,
+            'costo': costo,
+            'bodega': bodega,
+            'comentario': comentario,
+            'correoUsuario': correoUsuario,
+            'nombreUsuario': nombreUsuario
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjaxInventario.php',
+        success: function (response) {
+            $("#cuerpo-Tabla-Inventario").html(response);
+            limpiarFormularioInventario();
+        }
+    });
+
+}
+
+function limpiarFormularioInventario() {
+    $("#codigo").val("");
+    $("#descripcion").val("");
+    $("#categoria option:selected").val();
+    $("#estado").val("");
+    $("#costo").val("");
+    $("#cantidad").val("");
+    $("#bodega").val("");
+    $("#comentario").val("");
+
+
 }

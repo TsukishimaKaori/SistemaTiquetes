@@ -4,8 +4,8 @@ function cabeceraTablaPasivos() {
     echo "<th>Código</th>"
     . "<th>Descripción</th>"
     . "<th>Categoría</th>"
-    . "<th>Estado</th>"
-    . "<th>Cantidad</th>"
+    . "<th>Estado</th>"    
+    . "<th colspan='3'>Cantidad</th>"    
     . "<th>Ver</th>";
 }
 
@@ -42,10 +42,14 @@ function cuerpoTablaPasivos($inventario) {
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
         echo '<td>' . $act->obtenerEstado() . '</td>';
         echo '<td>' .
-        '<a href="../vista/AgregarInventario.php"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>' .
-        '<span>&nbsp &nbsp</span><span>' . $act->obtenerCantidad() . '</span><span>&nbsp &nbsp</span>' .
-        '<button onclick = "cargarPanelSumarInventario(' . $act->obtenerCodigoArticulo() . ')"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>'
-        . '</td>';
+        '<a href="../vista/AgregarInventario.php?codigoArticulo='.$act->obtenerCodigoArticulo() .'"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
+        echo '</td>';
+        echo '<td>'
+        . '<span>' . $act->obtenerCantidad() . '</span>';
+        echo '</td>'
+        . '<td>'
+        . '<button onclick = "cargarPanelSumarInventario(' . $act->obtenerCodigoArticulo() . ')"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
+        '</td>';
         echo '<td><button onclick = "cargarPanelPasivos(' . $act->obtenerCodigoArticulo() . ')"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
         echo '</tr>';
     }
@@ -152,7 +156,7 @@ function panelPasivos($pasivos, $codigo) {
     . '</div>';
 }
 
-function panelAgregarInventario() {
+function panelAgregarInventario($categorias) {
     echo
     '<div type = "hidden" class="panel panel-default">'
     . ' <div class="panel-heading"><h3>Agregar a inventario</h3></div>'
@@ -168,7 +172,7 @@ function panelAgregarInventario() {
         <div class="form-group  col-md-12 ">
             <label class="control-label col-md-3" for="tipo">Categoría:</label>
             <div class="col-md-9">';
-    selectTipos($tipos);
+    selectTipos($categorias);
     echo'</div>
         </div>
         <div class="form-group col-md-12">
@@ -190,6 +194,12 @@ function panelAgregarInventario() {
             </div>
         </div>
         <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="costo">Costo unitario:</label>
+            <div class="col-md-9">
+                <input class="form-control" id="costo" type="text" required>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="bodega">Bodega:</label>
             <div class="col-md-9">
                 <input class="form-control" id="bodega" required>
@@ -203,8 +213,8 @@ function panelAgregarInventario() {
         </div>
         <div class="form-group col-md-12">           
             <div class="col-md-12">
-                <button class="btn btn-success btn-circle btn" ><i></i>Guardar</button>     
-                <button class="btn btn-danger btn-circle btn" ><i></i>Borrar</button>                         
+                <button onclick = "agregarInventario();" class="btn btn-success btn-circle btn" ><i></i>Guardar</button>     
+                <button onclick = "limpiarFormularioInventario();" class="btn btn-danger btn-circle btn" ><i></i>Borrar</button>                         
             </div>
         </div>';
     echo'</div>'
@@ -212,16 +222,15 @@ function panelAgregarInventario() {
     . '</div>';
 }
 
-function selectTipos($tipos) {
-    echo'<select class="form-control">';
-    echo'<option>opciones</option>';
-    foreach ($tipos as $tipo) {
-        echo'<option>Categoria</option>';
+function selectTipos($categorias) {
+    echo'<select id = "categoria" class="form-control">';
+    foreach ($categorias as $cat) {
+        echo'<option value = "' . $cat->obtenerCodigoCategoria() . '">' . $cat->obtenerNombreCategoria() . '</option>';
     }
     echo'</select>';
 }
 
-function panelSumarAInventario($inventarios,$codigo) {
+function panelSumarAInventario($inventarios, $codigo) {
     $inventario = buscarDispositivoInventario($inventarios, $codigo);
     echo'<div type = "hidden" class="panel panel-default">'
     . '<div class="panel-heading"><h3>Sumar a inventario</h3></div>'
@@ -229,13 +238,13 @@ function panelSumarAInventario($inventarios,$codigo) {
     echo'<div class="form-group  col-md-12">
             <label class="control-label col-md-3" for="codigo-suma">Código:</label>
             <div class="col-md-9">
-                  <span>'.$inventario->obtenerCodigoArticulo().'</span>
+                  <span>' . $inventario->obtenerCodigoArticulo() . '</span>
             </div>
         </div>
         <div class="form-group  col-md-12">
             <label class="control-label col-md-3">Descrición:</label>
             <div class="col-md-9">
-                  <span>'.$inventario->obtenerDescripcion().'</span>
+                  <span>' . $inventario->obtenerDescripcion() . '</span>
             </div>
         </div>
         <div class="form-group col-md-12">
@@ -243,7 +252,8 @@ function panelSumarAInventario($inventarios,$codigo) {
             <div class="col-md-9">
                 <input class="form-control" id="cantidad-suma" type="number" required>
             </div>
-        </div> 
+        </div>
+        
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="bodega-suma">Bodega:</label>
             <div class="col-md-9">
@@ -278,7 +288,7 @@ function buscarDispositivoInventario($dispositivo, $codigo) {
 
 function buscarDispositivoActivoFijo($dispositivo, $codigo) {
     foreach ($dispositivo as $act) {
-        if ($act->obtenerPlaca()== $codigo) {
+        if ($act->obtenerPlaca() == $codigo) {
             return $act;
         }
     }

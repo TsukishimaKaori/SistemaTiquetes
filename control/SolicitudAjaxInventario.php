@@ -23,5 +23,24 @@ if (isset($_POST['codigoSumarInventario'])) {
 
 if (isset($_POST['codigoAgregarInventario'])) {
     $codigo = $_POST['codigoAgregarInventario'];
-    panelAgregarInventario();
+    $categorias = obtenerCategorias();
+    panelAgregarInventario($categorias);
+}
+
+if (isset($_POST['codigoArticuloAgregarInventario'])) {
+    $codigoArticulo = $_POST['codigoArticuloAgregarInventario'];
+    $descripcion = $_POST['descripcion'];
+    $codigoCategoria = $_POST['categoria'];
+    $estado = $_POST['estado'];
+    $cantidad = $_POST['cantidad'];
+    $bodega = $_POST['bodega'];
+    $costo =  $_POST['costo'];
+    $comentarioUsuario = $_POST['comentario'];
+    $correoUsuarioCausante = $_POST['correoUsuario'];
+    $nombreUsuarioCausante = $_POST['nombreUsuario'];
+    agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codigoCategoria, $estado,
+	$cantidad, $bodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante);
+    $inventario = obtenerInventario();
+    cuerpoTablaPasivos($inventario);
+
 }
