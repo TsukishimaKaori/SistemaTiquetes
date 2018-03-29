@@ -166,7 +166,7 @@ function panelAgregarInventario($categorias) {
         <div class="form-group  col-md-12">
             <label class="control-label col-md-3" for="codigo">Código:</label>
             <div class="col-sm-9">
-                <input class="form-control" id="codigo" type="text" required>
+                <input  onfocus = "foco(1)" class="form-control" id="codigo" type="text" required>
             </div>
         </div>        
         <div class="form-group  col-md-12 ">
@@ -178,37 +178,37 @@ function panelAgregarInventario($categorias) {
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="descripcion">Descripción:</label>
             <div class="col-md-9">
-                <input class="form-control" id="descripcion" type="text" required>
+                <input onfocus = "foco(2)" class="form-control" id="descripcion" type="text" required>
             </div>
         </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="estado">Estado:</label>
             <div class="col-md-9">
-                <input class="form-control" id="estado" type="text" required>
+                <input onfocus = "foco(3)" class="form-control" id="estado" type="text" required>
             </div>
         </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="cantidad">Cantidad:</label>
             <div class="col-md-9">
-                <input class="form-control" id="cantidad" type="number" required>
+                <input  onfocus = "foco(4)" class="form-control" id="cantidad" type="number" required>
             </div>
         </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="costo">Costo unitario:</label>
             <div class="col-md-9">
-                <input class="form-control" id="costo" type="text" required>
+                <input  onfocus = "foco(5)" class="form-control" id="costo" type="text" required>
             </div>
         </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="bodega">Bodega:</label>
             <div class="col-md-9">
-                <input class="form-control" id="bodega" required>
+                <input onfocus = "foco(6)" class="form-control" id="bodega" required>
             </div>
         </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="comentario">Comentario:</label>
             <div class="col-md-9">
-                <textarea class="form-control" id="comentario" required></textarea>
+                <textarea onfocus = "foco(7)" class="form-control" id="comentario" required></textarea>
             </div>
         </div>
         <div class="form-group col-md-12">           
@@ -250,20 +250,20 @@ function panelSumarAInventario($inventarios, $codigo) {
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="cantidad-suma">Cantidad:</label>
             <div class="col-md-9">
-                <input class="form-control" id="cantidad-suma" type="number" required>
+                <input onfocus = "focoSuma(1)" class="form-control" id="cantidad-suma" type="number" required>
             </div>
         </div>
         
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="bodega-suma">Bodega:</label>
             <div class="col-md-9">
-                <input class="form-control" id="bodega-suma" required>
+                <input onfocus = "focoSuma(2)" class="form-control" id="bodega-suma" required>
             </div>
         </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="comentario-suma">Comentario:</label>
             <div class="col-md-9">
-                <textarea class="form-control" id="comentario-suma" required></textarea>
+                <textarea onfocus = "focoSuma(3)" class="form-control" id="comentario-suma" required></textarea>
             </div>
         </div>        
         <div class="form-group col-md-12">           

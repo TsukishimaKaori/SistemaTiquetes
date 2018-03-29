@@ -77,3 +77,10 @@ table th, table td {
     max-height: 350px;
     overflow-y: auto;
 }
+
+input  {
+  border-color: #99beda;
+}
+
+
+
