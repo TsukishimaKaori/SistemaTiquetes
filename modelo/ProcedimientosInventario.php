@@ -258,6 +258,6 @@ function crearRepuesto($row) {
 //echo $mensaje;
 
 //'876', 2, 'Bodega A7', 'Son muchísimos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales'
-$mensaje = aumentarCantidadInventario('987', 5, 'Bodega A7', 'Son muchos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
-
-echo $mensaje;
+//$mensaje = aumentarCantidadInventario('987', 5, 'Bodega A7', 'Son muchos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//
+//echo $mensaje;
