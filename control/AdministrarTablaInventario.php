@@ -4,15 +4,15 @@ function cabeceraTablaPasivos() {
     echo "<th>Código</th>"
     . "<th>Descripción</th>"
     . "<th>Categoría</th>"
-    . "<th>Estado</th>"    
-    . "<th colspan='3'>Cantidad</th>"    
+    . "<th>Estado</th>"
+    . "<th colspan='3'>Cantidad</th>"
     . "<th>Ver</th>";
 }
 
 function cabeceraTablaActivos() {
     echo "<th>Placa</th>"
     . "<th>Categoría</th>"
-  //  . "<th>Estado</th>"
+    //  . "<th>Estado</th>"
     . "<th>Usuario_asociado</th>"
     . "<th>Fecha de salida de inventario </th>"
     . "<th>Repuesto</th>"
@@ -25,7 +25,7 @@ function cuerpoTablaActivos($activos) {
         echo '<tr >';
         echo '<td>' . $act->obtenerPlaca() . '</td>';
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
-  //      echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
+        //      echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
         echo '<td>' . $act->obtenerNombreUsuarioAsociado() . '</td>';
         // $fechaIngeso = $act->obtenerFechaIngresoSistema();
         $fechaSalida = $act->obtenerFechaSalidaInventario();
@@ -48,7 +48,7 @@ function cuerpoTablaPasivos($inventario) {
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
         echo '<td>' . $act->obtenerEstado() . '</td>';
         echo '<td>' .
-        '<a href="../vista/AgregarInventario.php?codigoArticulo='.$act->obtenerCodigoArticulo() .'"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
+        '<a href="../vista/AgregarInventario.php?codigoArticulo=' . $act->obtenerCodigoArticulo() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
         echo '</td>';
         echo '<td>'
         . '<span>' . $act->obtenerCantidad() . '</span>';
@@ -125,12 +125,10 @@ function panelActivos($activos, $codigo) {
     . '         <div class="row">'
     . '           <div><span class="col-md-4 titulo-inventario">Jefatura Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerJefaturaUsuarioAsociado() . ' </span></div> '
     . '         </div>'
-            
     . '         <div class="row">'
     . '           <span ><button onclick = ""   class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Repuestos</button></span> '
     . '           <span ><button onclick = ""   class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Licencias</button></span> '
-    . '         </div>'        
-            
+    . '         </div>'
     . '         </div>'
     . '     </div>'
     . ' </div>'
@@ -169,13 +167,10 @@ function panelPasivos($pasivos, $codigo) {
 }
 
 function panelAgregarInventario($categorias) {
-    echo
-    '<div type = "hidden" class="panel panel-default">'
+    echo '<div type = "hidden" class="panel panel-default">'
     . ' <div class="panel-heading"><h3>Agregar a inventario</h3></div>'
     . '     <div class="panel-body">';
-
-    echo'
-        <div class="form-group  col-md-12">
+    echo'<div class="form-group  col-md-12">
             <label class="control-label col-md-3" for="codigo">Código:</label>
             <div class="col-md-9">
                 <input  onfocus = "foco(1)" class="form-control" id="codigo" type="text" required>
@@ -185,7 +180,7 @@ function panelAgregarInventario($categorias) {
             <label class="control-label col-md-3" for="tipo">Categoría:</label>
             <div class="col-md-9">';
     selectTipos($categorias);
-        echo'</div>
+    echo'</div>
         </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="descripcion">Descripción:</label>
@@ -286,6 +281,27 @@ function panelSumarAInventario($inventarios, $codigo) {
         </div>';
     echo '</div>'
     . ' </div>'
+    . '</div>';
+}
+
+function panelAgregarRepuesto($dispositivo, $codigo) {
+    $dispositivo = buscarDispositivoActivoFijo($dispositivo, $codigo);
+    echo'<div type = "hidden" class="panel panel-default">'
+    . '<div class="panel-heading"><h3>Agregar Repuesto</h3></div>'
+    . '<div class="panel-body">';
+    echo'<div class="form-group  col-md-12">
+            <label class="control-label col-md-3" for="codigoRepuesto">Código:</label>
+            <div class="col-md-9">
+                  <span id="codigoRepuesto">' . $dispositivo->obtenerPlaca() . '</span>
+            </div>
+        </div>
+        <div class="form-group  col-md-12">
+            <label class="control-label col-md-3" for="descripcion-repuesto">Descrición:</label>
+            <div class="col-md-9">
+                  <span id="descripcion-repuesto">' . $dispositivo->obtenerDescripcion() . '</span>
+            </div>
+        </div>';
+    echo '</div>'
     . '</div>';
 }
 
