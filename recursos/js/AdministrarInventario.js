@@ -124,12 +124,6 @@ function agregarLicenciaEquipo(codigo) {
 }
 
 
-
-function agregarRepuestoEquipo() {
-
-}
-
-
 function obtenerLicencias(codigo){
 
     $.ajax({
@@ -149,7 +143,6 @@ function obtenerLicencias(codigo){
 }
 
 function obtenerRepuestos(codigo){
-
     $.ajax({
         data: { 'codigoEquipoParaRepuesto': codigo   
         },
@@ -164,7 +157,27 @@ function obtenerRepuestos(codigo){
     });
     
 }
-
+//Asociar un equipo a un repuesto
+function asociarRepuestos(codigo){
+    var codigoArticulo = $("#repuestos-select option:selected").val();
+        var correoUsuario = $("#correoUsuario").val();
+    var nombreUsuario = $("#nombreUsuario").val();
+    var nombreBodega  =  'bodega' + codigoArticulo;
+    var bodega = $("'#"+nombreBodega+"'").val();
+        $.ajax({
+        data: { 'codigoAsociarEquipo': codigo,
+            'codigoArticulo': codigoArticulo,
+            'correoUsuarioCausante': correoUsuario,
+            'nombreUsuarioCausante': nombreUsuario,
+            'bodega':bodega
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjaxInventario.php',
+        success: function (response) {
+                
+        }
+    });
+}
 
 //Agrega un elemento al inventario
 function agregarInventario() {
@@ -405,20 +418,3 @@ function focoSuma(evt) {
     }
 }
 
-
-
-//var mediaquery = window.matchMedia("(max-width: 1200px)");
-//function handleOrientationChange() {
-//    if (mediaquery.matches) {
-//        $("#panelInformacionIzquierda").removeClass('col-md-7');
-//        $("#panelInformacionIzquierda").addClass('col-md-12');
-//        $("#panelInformacionDerecha").removeClass('col-md-5');
-//        $("#panelInformacionDerecha").addClass('col-md-12');
-//    } else {
-//        $("#panelInformacionIzquierda").removeClass('col-md-12');
-//        $("#panelInformacionIzquierda").addClass('col-md-7');
-//        $("#panelInformacionDerecha").removeClass('col-md-12');
-//        $("#panelInformacionDerecha").addClass('col-md-5');
-//    }
-//}
-//mediaquery.addListener(handleOrientationChange);

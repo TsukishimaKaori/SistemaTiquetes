@@ -274,6 +274,8 @@ function selectRepuestos($repuestos) {
     echo'<select id = "repuestos-select" class="form-control">';
     foreach ($repuestos as $cat) {
         echo'<option value = "' . $cat->obtenerCodigoArticulo() . '">' . $cat->obtenerDescripcion() . '</option>';
+       // echo '<input type = "hidden" id = bodega"'.$cat->obtenerCodigoArticulo().'" value = "'.$cat->obtenerBodega().'">';
+        
     }
     echo'</select>';
 }
@@ -325,7 +327,7 @@ function panelSumarAInventario($inventarios, $codigo) {
 }
 
 function panelAgregarRepuesto($dispositivo, $repuestos, $codigo) {
-    $dispositivo = buscarDispositivoActivoFijo($dispositivo, $codigo);
+    $dispositivo = buscarDispositivoActivoFijo($dispositivo, $codigo);    
     echo'<div type = "hidden" class="panel panel-default">'
     . '<div class="panel-heading"><h3>Asociar repuesto al equipo:  ' . $dispositivo->obtenerPlaca() . '</h3></div>'
     . '<div class="panel-body">';
@@ -334,11 +336,10 @@ function panelAgregarRepuesto($dispositivo, $repuestos, $codigo) {
             <div class="col-md-9">';
     selectRepuestos($repuestos);
     echo'</div>
-                <div class="form-group col-md-12">           
+            <div class="form-group col-md-12">           
             <div class="col-md-12">
-                <button onclick = "asociarRepuestos();" class="btn btn-success btn-circle btn" ><i></i>Asociar</button>     
-              
-            </div>
+                <button onclick = "asociarRepuestos('.$dispositivo->obtenerPlaca() .');" class="btn btn-success btn-circle btn" ><i></i>Asociar</button>     
+           </div>
         </div>
     </div>    
   </div>';
