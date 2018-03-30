@@ -33,8 +33,8 @@ function cuerpoTablaActivos($activos) {
             $fechaSalida = date_format($act->obtenerFechaSalidaInventario(), 'd/m/Y');
             echo '<td>' . $fechaSalida . '</td>';
         }
-        echo '<td><button class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
-        echo '<td><button class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelRepuestos(' . $act->obtenerPlaca() . ')" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelLicencias(' . $act->obtenerPlaca() . ')" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
         echo '<td><button onclick = "cargarPanelActivos(' . $act->obtenerPlaca() . ')" class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
         echo '</tr>';
     }
@@ -295,15 +295,25 @@ function panelAgregarRepuesto($dispositivo, $codigo) {
                   <span id="codigoRepuesto">' . $dispositivo->obtenerPlaca() . '</span>
             </div>
         </div>
-        <div class="form-group  col-md-12">
-            <label class="control-label col-md-3" for="descripcion-repuesto">Descrición:</label>
+    </div>
+  </div>';
+}
+
+function panelAgregarLicencia($dispositivo, $codigo){
+        $dispositivo = buscarDispositivoActivoFijo($dispositivo, $codigo);
+    echo'<div type = "hidden" class="panel panel-default">'
+    . '<div class="panel-heading"><h3>Agregar Licencia</h3></div>'
+    . '<div class="panel-body">';
+    echo'<div class="form-group  col-md-12">
+            <label class="control-label col-md-3" for="codigoRepuesto">Código:</label>
             <div class="col-md-9">
-                  <span id="descripcion-repuesto">' . $dispositivo->obtenerDescripcion() . '</span>
+                  <span id="codigoRepuesto">' . $dispositivo->obtenerPlaca() . '</span>
             </div>
-        </div>';
-    echo '</div>'
+        </div>
+    </div>'
     . '</div>';
 }
+
 
 function buscarDispositivoInventario($dispositivo, $codigo) {
     foreach ($dispositivo as $act) {

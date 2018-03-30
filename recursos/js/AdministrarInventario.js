@@ -48,7 +48,6 @@ function cargarPanelPasivos(codigo) {
     });
 }
 
-
 function cargarPanelSumarInventario(codigo) {
     $.ajax({
         data: {'codigoSumarInventario': codigo},
@@ -71,6 +70,32 @@ function cargarPanelAgregarInventario() {
             $("#panelInformacionInventario").html(response);
         }
     });
+}
+
+//Seccion de activos> repuestos
+function cargarPanelRepuestos(codigo){
+       
+    $.ajax({
+        data: {'codigoAgregarRepuesto': codigo},
+        type: 'POST',
+        url: '../control/SolicitudAjaxInventario.php',
+        success: function (response) {
+            $("#panelInformacionInventario").html(response);
+        }
+    });
+}
+//seccion de activos> licencias
+function cargarPanelLicencias(codigo){
+          
+    $.ajax({
+        data: {'codigoAgregarLicencia': codigo},
+        type: 'POST',
+        url: '../control/SolicitudAjaxInventario.php',
+        success: function (response) {
+            $("#panelInformacionInventario").html(response);
+        }
+    });
+    
 }
 
 //Agrega un elemento al inventario
