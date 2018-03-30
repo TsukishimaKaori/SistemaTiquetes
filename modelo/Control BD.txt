@@ -20,8 +20,10 @@ desde la base.
 
 6. Cree PAasociarRepuesto
 
-7. Cree PAagregarActivo
-
-8. Cree PAobtenerUsuariosParaAsociar, sirve para llenar el combo para seleccionar el usuario al que se 
+7. Cree PAobtenerUsuariosParaAsociar, sirve para llenar el combo para seleccionar el usuario al que se 
 quiere asociar un activo.
+
+8. Cree PAagregarActivo
+
+
 
