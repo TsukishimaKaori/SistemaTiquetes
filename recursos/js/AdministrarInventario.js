@@ -73,8 +73,8 @@ function cargarPanelAgregarInventario() {
 }
 
 //Seccion de activos> repuestos
-function cargarPanelRepuestos(codigo){
-       
+function cargarPanelRepuestos(codigo) {
+
     $.ajax({
         data: {'codigoAgregarRepuesto': codigo},
         type: 'POST',
@@ -85,8 +85,8 @@ function cargarPanelRepuestos(codigo){
     });
 }
 //seccion de activos> licencias
-function cargarPanelLicencias(codigo){
-          
+function cargarPanelLicencias(codigo) {
+
     $.ajax({
         data: {'codigoAgregarLicencia': codigo},
         type: 'POST',
@@ -95,8 +95,77 @@ function cargarPanelLicencias(codigo){
             $("#panelInformacionInventario").html(response);
         }
     });
+
+}
+
+function agregarLicenciaEquipo(codigo) {
+    var descripcionLicencia = $("#descripcion-licencia").val();
+    var claveProductoLicencia = $("#clave-producto-licencia").val();
+    var proveedorLicencia = $("#proveedor-licencia").val();
+    var vencimientoLicencia = $("#vencimiento-licencia").val();
+    var correoUsuario = $("#correoUsuario").val();
+    var nombreUsuario = $("#nombreUsuario").val();
+    $.ajax({
+        data: { 'codigoEquipo': codigo,
+            'descripcionLicencia': descripcionLicencia,
+            'claveProductoLicencia': claveProductoLicencia,
+            'proveedorLicencia': proveedorLicencia,
+            'vencimientoLicencia': vencimientoLicencia,
+            'correoUsuarioCausante': correoUsuario,
+            'nombreUsuarioCausante': nombreUsuario
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjaxInventario.php',
+        success: function (response) {
+            $("#cuerpo-Tabla-Inventario").html(response);
+            limpiarFormularioLicencia();
+        }
+    });
+}
+
+
+
+function agregarRepuestoEquipo() {
+
+}
+
+
+function obtenerLicencias(codigo){
+
+    $.ajax({
+        data: { 'codigoEquipoParaLicencia': codigo   
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjaxInventario.php',
+        success: function (response) {
+            $("#cuerpoTablaLicencias").html(response);
+            //limpiarFormularioLicencia();
+            $("#tituloModalLicencias").empty();
+            $("#tituloModalLicencias").append('Licencias asociadas al equipo: ' +codigo);
+           $('#modalLicencias').modal('show');
+        }
+    });
     
 }
+
+function obtenerRepuestos(codigo){
+
+    $.ajax({
+        data: { 'codigoEquipoParaRepuesto': codigo   
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjaxInventario.php',
+        success: function (response) {
+            $("#cuerpoTablaRepuestos").html(response);
+            //limpiarFormularioLicencia();
+            $("#tituloModalRepuestos").empty();
+            $("#tituloModalRepuestos").append('Repuestos asociadas al equipo: ' +codigo);
+           $('#modalRepuestos').modal('show');
+        }
+    });
+    
+}
+
 
 //Agrega un elemento al inventario
 function agregarInventario() {
@@ -170,6 +239,16 @@ function limpiarFormularioInventario() {
     $("#cantidad").val("");
     $("#bodega").val("");
     $("#comentario").val("");
+}
+
+
+function limpiarFormularioLicencia(){
+    $("#descripcion-licencia").val("");
+    $("#clave-producto-licencia").val("");
+    $("#proveedor-licencia").val("");
+    $("#vencimiento-licencia").val("");
+    $("#correoUsuario").val("");
+    $("#nombreUsuario").val("");
 }
 
 function limpiarFormularioInventarioSuma() {

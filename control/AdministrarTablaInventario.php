@@ -61,6 +61,40 @@ function cuerpoTablaPasivos($inventario) {
     }
 }
 
+function cuerpoTablaLicencias($licencias){
+        foreach ($licencias as $act) {
+        echo '<tr >';      
+        echo '<td>' . $act->obtenerDescripcion() . '</td>'; 
+        echo '<td>' . $act->obtenerClaveDeProducto() . '</td>';             
+        echo '<td>' . $act->obtenerProveedor() . '</td>'; 
+        $fechaSalida = $act->obtenerFechaDeVencimiento();
+        if ($fechaSalida != null) {
+            $fechaSalida = date_format($act->obtenerFechaDeVencimiento(), 'd/m/Y');
+            echo '<td>' . $fechaSalida . '</td>';        }
+        $fechaAsociado = $act->obtenerFechaAsociado();
+        if ($fechaAsociado != null) {
+            $fechaAsociado = date_format($act->obtenerFechaAsociado(), 'd/m/Y');
+            echo '<td>' . $fechaAsociado . '</td>';
+        }       
+   echo '</tr>';
+    }
+}
+
+function cuerpoTablaRepuestos($repuestos){
+        foreach ($repuestos as $act) {
+        echo '<tr >';      
+        echo '<td>' . $act->obtenerPlaca() . '</td>'; 
+        echo '<td>' . $act->obtenerDescripcion() . '</td>'; 
+         $fechaAsociado = $act->obtenerFechaAsociado();
+        if ($fechaAsociado != null) {
+            $fechaAsociado = date_format($act->obtenerFechaAsociado(), 'd/m/Y');
+            echo '<td>' . $fechaAsociado . '</td>';
+        }       
+   echo '</tr>';
+    }
+}
+
+
 function panelActivos($activos, $codigo) {
     $listaActivos = buscarDispositivoActivoFijo($activos, $codigo);
     echo
@@ -126,8 +160,8 @@ function panelActivos($activos, $codigo) {
     . '           <div><span class="col-md-4 titulo-inventario">Jefatura Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerJefaturaUsuarioAsociado() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '           <span ><button data-target="#modalRepuestos" data-toggle="modal" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Repuestos</button></span> '
-    . '           <span ><button data-target="#modalLicencias" data-toggle="modal" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Licencias</button></span> '
+    . '           <span ><button  onclick = "obtenerRepuestos('.$codigo.');" data-target="#modalRepuestos" data-toggle="modal" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Repuestos</button></span> '
+    . '           <span ><button onclick = "obtenerLicencias('.$codigo.');" data-toggle="modal" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Licencias</button></span> '
     . '         </div>'
     . '         </div>'
     . '     </div>'
@@ -298,8 +332,8 @@ function panelAgregarRepuesto($dispositivo, $codigo) {
   </div>';
 }
 
-function panelAgregarLicencia($dispositivo, $codigo){
-        $dispositivo = buscarDispositivoActivoFijo($dispositivo, $codigo);
+function panelAgregarLicencia($dispositivo, $codigo) {
+    $dispositivo = buscarDispositivoActivoFijo($dispositivo, $codigo);
     echo'<div type = "hidden" class="panel panel-default">'
     . '<div class="panel-heading"><h3>Agregar Licencia</h3></div>'
     . '<div class="panel-body">';
@@ -333,12 +367,16 @@ function panelAgregarLicencia($dispositivo, $codigo){
             <div class="col-md-9">
                 <input class="form-control" id="vencimiento-licencia" required>
             </div>
-        </div>        
-
+        </div>  
+        <div class="form-group col-md-12">           
+            <div class="col-md-12">
+                <button onclick = "agregarLicenciaEquipo('.$codigo.');" class="btn btn-success btn-circle btn" ><i></i>Guardar</button>     
+                <button onclick = "limpiarFormularioLicencia();" class="btn btn-danger btn-circle btn" ><i></i>Borrar</button>                         
+            </div>
+        </div>
     </div>'
-    . '</div>';
+  . '</div>';
 }
-
 
 function buscarDispositivoInventario($dispositivo, $codigo) {
     foreach ($dispositivo as $act) {

@@ -71,3 +71,32 @@ if(isset($_POST['codigoAgregarLicencia'])){
      panelAgregarLicencia($dispositivos, $codigoArticulo);
 }
 
+//Agregar una licencia a un equipo
+if (isset($_POST['claveProductoLicencia'])){
+    $placa = $_POST['codigoEquipo'];
+    $descripcionLicencia = $_POST['descripcionLicencia'];
+    $claveProductoLicencia = $_POST['claveProductoLicencia'];
+    $proveedorLicencia = $_POST['proveedorLicencia'];
+    $vencimientoLicencia = $_POST['vencimientoLicencia'];
+    $correoUsuarioCausante =  $_POST['correoUsuarioCausante'];
+    $nombreUsuarioCausante =  $_POST['nombreUsuarioCausante'];
+    agregarLicencia($vencimientoLicencia, $claveProductoLicencia, $proveedorLicencia, $descripcionLicencia, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);
+}
+
+
+//Listar las licencias
+
+if (isset($_POST['codigoEquipoParaLicencia'])){
+    $placa = $_POST['codigoEquipoParaLicencia'];
+    $licencias  = obtenerLicencias($placa);
+     cuerpoTablaLicencias($licencias);
+    
+}
+
+
+if (isset($_POST['codigoEquipoParaRepuesto'])){
+    $placa = $_POST['codigoEquipoParaRepuesto'];
+    $repuestos  = obtenerRepuestos($placa);
+    cuerpoTablaRepuestos($repuestos);
+ 
+}

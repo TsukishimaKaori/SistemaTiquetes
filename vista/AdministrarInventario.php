@@ -102,18 +102,19 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Licencias asociadas al equipo </h4>
+                        <h4 id = 'tituloModalLicencias' class="modal-title"></h4>
                     </div>                  
                     <div class="modal-body">                              
                         <div  class="table table-responsive" >  
                             <table class = "table table-hover">  
-                                <thead>
+                                <thead>                                   
                                     <th>Descripción</th>
                                     <th>Clave de producto</th>
-                                    <th>Fecha de vencimiento</th>
                                     <th>Proveedor</th>
+                                    <th>Fecha de vencimiento</th>
+                                    <th>Fecha asociado</th>                                    
                                 </thead>
-                                <tbody id = "cuerpoTablaRolUsuario">                                           
+                                <tbody id = "cuerpoTablaLicencias">                                           
                                 </tbody>
                             </table>
                         </div>
@@ -131,7 +132,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Repuestos asociados al equipo </h4>
+                        <h4 id = "tituloModalRepuestos" class="modal-title"></h4>
                     </div>                  
                     <div class="modal-body">                              
                         <div  class="table table-responsive" >  
@@ -143,7 +144,7 @@
                                 <th>Estado</th>
                                 <th>Costo</th>
                                 </thead>
-                                <tbody id = "cuerpoTablaRolUsuario">                                           
+                                <tbody id = "cuerpoTablaRepuestos">                                           
                                 </tbody>
                             </table>
                         </div>
