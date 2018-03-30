@@ -91,20 +91,20 @@
                                 ?>                             
                             </div>
                         </div>
-                        <div id="divLicencias">
-                          
+                        <div class="form-group  col-md-11" id="divLicencias">
+                          <h5>Licencias: </h5>
                         </div> 
-
-
-                        <div id="divRepuestos">
+                        <div class="form-group  col-md-11" id="divRepuestos">
+                            <h5>Repuestos: </h5>
+                        </div>            
+                        <div class="form-group  col-md-11">
+                            <button type="button" class="btn  btn-primary" onclick="FormularioLicencia()">Agregar Licencia</button> 
+                            <button type="button" class="btn  btn-primary" onclick="FormularioRepuesto()">Agregar Repuesto</button> 
+                        </div>
+                        <div id="divAgregar">
 
                         </div>
-
-                        <div class="form-group  col-md-11">
-                            <button type="button" class="btn  btn-primary" onclick="AgregarLicencia()">Agregar Licencia</button> 
-                            <button type="button" class="btn  btn-primary" onclick="AgregarRepuesto()">Agregar Repuesto</button> 
-                        </div> 
-                        <button type="button" class="btn btn-success col-md-offset-4" > Aplicar </button>
+                        <button type="button" class="btn btn-success col-md-offset-4" > Guardar </button>
                         <button type="reset" class="btn btn-danger ">Cancelar</button> 
                     </form>
 
