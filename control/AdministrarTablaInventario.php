@@ -259,8 +259,7 @@ function panelSumarAInventario($inventarios, $codigo) {
             <div class="col-md-9">
                 <input onfocus = "focoSuma(1)" class="form-control" id="cantidad-suma" type="number" required>
             </div>
-        </div>
-        
+        </div>        
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="bodega-suma">Bodega:</label>
             <div class="col-md-9">
@@ -305,11 +304,37 @@ function panelAgregarLicencia($dispositivo, $codigo){
     . '<div class="panel-heading"><h3>Agregar Licencia</h3></div>'
     . '<div class="panel-body">';
     echo'<div class="form-group  col-md-12">
-            <label class="control-label col-md-3" for="codigoRepuesto">Código:</label>
+            <label class="control-label col-md-3" for="codigoRepuesto">Código equipo asociado:</label>
             <div class="col-md-9">
                   <span id="codigoRepuesto">' . $dispositivo->obtenerPlaca() . '</span>
             </div>
         </div>
+        
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="descripcion-licencia">Descripción:</label>
+            <div class="col-md-9">
+                <input  class="form-control" id="descripcion-licencia" required>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="clave-producto-licencia">Clave de producto:</label>
+            <div class="col-md-9">
+                <input  class="form-control" id="clave-producto-licencia" required>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="proveedor-licencia">Proveedor:</label>
+            <div class="col-md-9">
+                <input class="form-control" id="proveedor-licencia" required>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="vencimiento-licencia">Fecha de vencimiento:</label>
+            <div class="col-md-9">
+                <input class="form-control" id="vencimiento-licencia" required>
+            </div>
+        </div>        
+
     </div>'
     . '</div>';
 }

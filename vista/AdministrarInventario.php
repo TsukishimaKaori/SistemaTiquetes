@@ -108,9 +108,10 @@
                         <div  class="table table-responsive" >  
                             <table class = "table table-hover">  
                                 <thead>
-                                <th>Licencia</th>
-                                <th>Clave de producto</th>
-                                <th>Fecha</th>
+                                    <th>Descripción</th>
+                                    <th>Clave de producto</th>
+                                    <th>Fecha de vencimiento</th>
+                                    <th>Proveedor</th>
                                 </thead>
                                 <tbody id = "cuerpoTablaRolUsuario">                                           
                                 </tbody>
@@ -136,9 +137,11 @@
                         <div  class="table table-responsive" >  
                             <table class = "table table-hover">  
                                 <thead>
-                                <th>Licencia</th>
-                                <th>Clave de producto</th>
-                                <th>Fecha</th>
+                                <th>Código</th>
+                                <th>Descripción</th>
+                                <th>Categoría</th>
+                                <th>Estado</th>
+                                <th>Costo</th>
                                 </thead>
                                 <tbody id = "cuerpoTablaRolUsuario">                                           
                                 </tbody>
