@@ -9,10 +9,12 @@
 
 1. Cambié la tabla Categoria
 
-2. Cree el PAagregarLicencia;
+2. Hice insert nuevos para IndicadoresActivos
 
-3. Cree el PAobtenerRepuestosParaAsociar; Es para la tabla que se muestra cuando se quiere asociar un repuesto
+3. Cree el PAagregarLicencia;
 
-4. Cree el PAescribeDetalle; tienen que correrlo, pero no se usa desde el sistema de tiquetes, lo uso yo
+4. Cree el PAobtenerRepuestosParaAsociar; Es para la tabla que se muestra cuando se quiere asociar un repuesto
+
+5. Cree el PAescribeDetalle; tienen que correrlo, pero no se usa desde el sistema de tiquetes, lo uso yo
 desde la base.
 
