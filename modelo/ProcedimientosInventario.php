@@ -176,6 +176,26 @@ function obtenerRepuestosParaAsociar() {
 }
 
 
+//Asociar un repuesto a un Activo fijo
+function asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombreUsuarioCausante, $bodega) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAasociarRepuesto (?, ?, ?, ?, ?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($placa, SQLSRV_PARAM_IN),
+        array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
+        array($bodega, SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } else if ($men == 2) {
+        return 2;  //El activo ya tiene asociado un repuesto de ese tipo
+    } 
+       
+    return ''; //agregado correctamente
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -303,4 +323,7 @@ function crearRepuesto($row) {
 //$mensaje = agregarLicencia('2020/01/01', '1234-1234-1234-1234', 'YO XD', 'Vea ust! Es un sistema de tiquetes', '456', 
 //        'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //
+//echo $mensaje;
+
+//$mensaje = asociarRepuesto('10', '678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 'B6');
 //echo $mensaje;
