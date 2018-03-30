@@ -62,7 +62,8 @@ if (isset($_POST['codigoArticuloSuma'])) {
 if(isset($_POST['codigoAgregarRepuesto'])){
      $codigoArticulo = $_POST['codigoAgregarRepuesto'];
      $dispositivos = obtenerActivosFijos();
-     panelAgregarRepuesto($dispositivos, $codigoArticulo);
+     $repuestos = obtenerRepuestosParaAsociar();     
+     panelAgregarRepuesto($dispositivos,$repuestos, $codigoArticulo);
 }
 
 if(isset($_POST['codigoAgregarLicencia'])){

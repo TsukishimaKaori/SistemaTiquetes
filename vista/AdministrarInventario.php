@@ -137,12 +137,10 @@
                     <div class="modal-body">                              
                         <div  class="table table-responsive" >  
                             <table class = "table table-hover">  
-                                <thead>
-                                <th>Código</th>
+                                <thead>                               
                                 <th>Descripción</th>
-                                <th>Categoría</th>
-                                <th>Estado</th>
-                                <th>Costo</th>
+                                <th>Fecha asociado</th>
+                               
                                 </thead>
                                 <tbody id = "cuerpoTablaRepuestos">                                           
                                 </tbody>

@@ -61,39 +61,38 @@ function cuerpoTablaPasivos($inventario) {
     }
 }
 
-function cuerpoTablaLicencias($licencias){
-        foreach ($licencias as $act) {
-        echo '<tr >';      
-        echo '<td>' . $act->obtenerDescripcion() . '</td>'; 
-        echo '<td>' . $act->obtenerClaveDeProducto() . '</td>';             
-        echo '<td>' . $act->obtenerProveedor() . '</td>'; 
+function cuerpoTablaLicencias($licencias) {
+    foreach ($licencias as $act) {
+        echo '<tr >';
+        echo '<td>' . $act->obtenerDescripcion() . '</td>';
+        echo '<td>' . $act->obtenerClaveDeProducto() . '</td>';
+        echo '<td>' . $act->obtenerProveedor() . '</td>';
         $fechaSalida = $act->obtenerFechaDeVencimiento();
         if ($fechaSalida != null) {
             $fechaSalida = date_format($act->obtenerFechaDeVencimiento(), 'd/m/Y');
-            echo '<td>' . $fechaSalida . '</td>';        }
+            echo '<td>' . $fechaSalida . '</td>';
+        }
         $fechaAsociado = $act->obtenerFechaAsociado();
         if ($fechaAsociado != null) {
             $fechaAsociado = date_format($act->obtenerFechaAsociado(), 'd/m/Y');
             echo '<td>' . $fechaAsociado . '</td>';
-        }       
-   echo '</tr>';
+        }
+        echo '</tr>';
     }
 }
 
-function cuerpoTablaRepuestos($repuestos){
-        foreach ($repuestos as $act) {
-        echo '<tr >';      
-        echo '<td>' . $act->obtenerPlaca() . '</td>'; 
-        echo '<td>' . $act->obtenerDescripcion() . '</td>'; 
-         $fechaAsociado = $act->obtenerFechaAsociado();
+function cuerpoTablaRepuestos($repuestos) {
+    foreach ($repuestos as $act) {
+        echo '<tr >';
+        echo '<td>' . $act->obtenerDescripcion() . '</td>';
+        $fechaAsociado = $act->obtenerFechaAsociado();
         if ($fechaAsociado != null) {
             $fechaAsociado = date_format($act->obtenerFechaAsociado(), 'd/m/Y');
             echo '<td>' . $fechaAsociado . '</td>';
-        }       
-   echo '</tr>';
+        }
+        echo '</tr>';
     }
 }
-
 
 function panelActivos($activos, $codigo) {
     $listaActivos = buscarDispositivoActivoFijo($activos, $codigo);
@@ -160,8 +159,8 @@ function panelActivos($activos, $codigo) {
     . '           <div><span class="col-md-4 titulo-inventario">Jefatura Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerJefaturaUsuarioAsociado() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '           <span ><button  onclick = "obtenerRepuestos('.$codigo.');" data-target="#modalRepuestos" data-toggle="modal" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Repuestos</button></span> '
-    . '           <span ><button onclick = "obtenerLicencias('.$codigo.');" data-toggle="modal" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Licencias</button></span> '
+    . '           <span ><button  onclick = "obtenerRepuestos(' . $codigo . ');" data-target="#modalRepuestos" data-toggle="modal" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Repuestos</button></span> '
+    . '           <span ><button onclick = "obtenerLicencias(' . $codigo . ');" data-toggle="modal" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Licencias</button></span> '
     . '         </div>'
     . '         </div>'
     . '     </div>'
@@ -271,6 +270,14 @@ function selectTipos($categorias) {
     echo'</select>';
 }
 
+function selectRepuestos($repuestos) {
+    echo'<select id = "repuestos-select" class="form-control">';
+    foreach ($repuestos as $cat) {
+        echo'<option value = "' . $cat->obtenerCodigoArticulo() . '">' . $cat->obtenerDescripcion() . '</option>';
+    }
+    echo'</select>';
+}
+
 function panelSumarAInventario($inventarios, $codigo) {
     $inventario = buscarDispositivoInventario($inventarios, $codigo);
     echo'<div type = "hidden" class="panel panel-default">'
@@ -317,18 +324,23 @@ function panelSumarAInventario($inventarios, $codigo) {
     . '</div>';
 }
 
-function panelAgregarRepuesto($dispositivo, $codigo) {
+function panelAgregarRepuesto($dispositivo, $repuestos, $codigo) {
     $dispositivo = buscarDispositivoActivoFijo($dispositivo, $codigo);
     echo'<div type = "hidden" class="panel panel-default">'
-    . '<div class="panel-heading"><h3>Agregar Repuesto</h3></div>'
+    . '<div class="panel-heading"><h3>Asociar repuesto al equipo:  ' . $dispositivo->obtenerPlaca() . '</h3></div>'
     . '<div class="panel-body">';
-    echo'<div class="form-group  col-md-12">
-            <label class="control-label col-md-3" for="codigoRepuesto">Código:</label>
-            <div class="col-md-9">
-                  <span id="codigoRepuesto">' . $dispositivo->obtenerPlaca() . '</span>
+    echo'<div class="form-group  col-md-12 ">
+            <label class="control-label col-md-3" for="tipo">Repuesto a asociar:</label>
+            <div class="col-md-9">';
+    selectRepuestos($repuestos);
+    echo'</div>
+                <div class="form-group col-md-12">           
+            <div class="col-md-12">
+                <button onclick = "asociarRepuestos();" class="btn btn-success btn-circle btn" ><i></i>Asociar</button>     
+              
             </div>
         </div>
-    </div>
+    </div>    
   </div>';
 }
 
@@ -370,12 +382,12 @@ function panelAgregarLicencia($dispositivo, $codigo) {
         </div>  
         <div class="form-group col-md-12">           
             <div class="col-md-12">
-                <button onclick = "agregarLicenciaEquipo('.$codigo.');" class="btn btn-success btn-circle btn" ><i></i>Guardar</button>     
+                <button onclick = "agregarLicenciaEquipo(' . $codigo . ');" class="btn btn-success btn-circle btn" ><i></i>Guardar</button>     
                 <button onclick = "limpiarFormularioLicencia();" class="btn btn-danger btn-circle btn" ><i></i>Borrar</button>                         
             </div>
         </div>
     </div>'
-  . '</div>';
+    . '</div>';
 }
 
 function buscarDispositivoInventario($dispositivo, $codigo) {

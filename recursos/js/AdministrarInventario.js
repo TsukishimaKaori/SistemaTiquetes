@@ -157,7 +157,6 @@ function obtenerRepuestos(codigo){
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
             $("#cuerpoTablaRepuestos").html(response);
-            //limpiarFormularioLicencia();
             $("#tituloModalRepuestos").empty();
             $("#tituloModalRepuestos").append('Repuestos asociadas al equipo: ' +codigo);
            $('#modalRepuestos').modal('show');
