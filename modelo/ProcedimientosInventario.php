@@ -138,6 +138,44 @@ function aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $bodega, $
 }
 
 
+//Agregar una licencia asociada a un activo fijo
+function agregarLicencia($fechaDeVencimiento, $claveDeProducto, $proveedor, $descripcion, $placa, 
+        $correoUsuarioCausante, $nombreUsuarioCausante) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAagregarLicencia (?, ?, ?, ?, ?, ?, ?, ?) }";
+    $params = array(array($fechaDeVencimiento, SQLSRV_PARAM_IN), 
+        array($claveDeProducto, SQLSRV_PARAM_IN), array($proveedor, SQLSRV_PARAM_IN),
+        array(utf8_decode($descripcion), SQLSRV_PARAM_IN), array($placa, SQLSRV_PARAM_IN),
+        array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } 
+    return ''; //agregado correctamente
+}
+
+
+//Obtiene todos los repuestos cuya cantidad es mayor a 0 para asociar uno a un equipo
+function obtenerRepuestosParaAsociar() {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerRepuestosParaAsociar }";
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los repuestos';
+    }
+    $pasivos = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $pasivos[] = crearInventario($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $pasivos;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -259,5 +297,10 @@ function crearRepuesto($row) {
 
 //'876', 2, 'Bodega A7', 'Son muchísimos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales'
 //$mensaje = aumentarCantidadInventario('987', 5, 'Bodega A7', 'Son muchos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//
+//echo $mensaje;
+
+//$mensaje = agregarLicencia('2020/01/01', '1234-1234-1234-1234', 'YO XD', 'Vea ust! Es un sistema de tiquetes', '456', 
+//        'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //
 //echo $mensaje;
