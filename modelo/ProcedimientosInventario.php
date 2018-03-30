@@ -7,6 +7,7 @@ require_once '../modelo/Activo.php';
 require_once '../modelo/Licencia.php';
 require_once '../modelo/Repuesto.php';
 require_once '../modelo/Conexion.php';
+require_once '../modelo/ProcedimientosTiquetes.php';
 
 
 //Obtiene todos los dispositivos pasivos
@@ -138,6 +139,110 @@ function aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $bodega, $
 }
 
 
+//Agregar una licencia asociada a un activo fijo
+function agregarLicencia($fechaDeVencimiento, $claveDeProducto, $proveedor, $descripcion, $placa, 
+        $correoUsuarioCausante, $nombreUsuarioCausante) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAagregarLicencia (?, ?, ?, ?, ?, ?, ?, ?) }";
+    $params = array(array($fechaDeVencimiento, SQLSRV_PARAM_IN), 
+        array($claveDeProducto, SQLSRV_PARAM_IN), array($proveedor, SQLSRV_PARAM_IN),
+        array(utf8_decode($descripcion), SQLSRV_PARAM_IN), array($placa, SQLSRV_PARAM_IN),
+        array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } 
+    return ''; //agregado correctamente
+}
+
+
+//Obtiene todos los repuestos cuya cantidad es mayor a 0 para asociar uno a un equipo
+function obtenerRepuestosParaAsociar() {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerRepuestosParaAsociar }";
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los repuestos';
+    }
+    $pasivos = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $pasivos[] = crearInventario($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $pasivos;
+}
+
+
+//Asociar un repuesto a un Activo fijo
+function asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombreUsuarioCausante, $bodega) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAasociarRepuesto (?, ?, ?, ?, ?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($placa, SQLSRV_PARAM_IN),
+        array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
+        array($bodega, SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } else if ($men == 2) {
+        return 2;  //El activo ya tiene asociado un repuesto de ese tipo
+    } 
+       
+    return ''; //agregado correctamente
+}
+
+
+//Crear un Activo fijo y asociarlo a un usuario
+//El codigoArticulo tiene que sacarlo del inventario
+//El usuario causante es el usuario del sistema
+//La bodega tiene que pedirla en algun momento 
+function agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, $bodega, $placa,
+	$codigoCategoria, $serie, $proveedor, $modelo, $marca, $fechaExpiraGarantia,
+	$correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAagregarActivo (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($correoUsuarioCausante, SQLSRV_PARAM_IN), 
+        array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN), array($bodega, SQLSRV_PARAM_IN), 
+        array($placa, SQLSRV_PARAM_IN), array($codigoCategoria, SQLSRV_PARAM_IN),
+        array($serie, SQLSRV_PARAM_IN), array($proveedor, SQLSRV_PARAM_IN),
+        array($modelo, SQLSRV_PARAM_IN), array($marca, SQLSRV_PARAM_IN),
+        array($fechaExpiraGarantia, SQLSRV_PARAM_IN), array($correoUsuarioAsociado, SQLSRV_PARAM_IN),
+        array(utf8_decode($nombreUsuarioAsociado), SQLSRV_PARAM_IN), array(utf8_decode($departamentoUsuarioAsociado), SQLSRV_PARAM_IN),
+        array(utf8_decode($jefaturaUsuarioAsociado),SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } 
+       
+    return ''; //agregado correctamente
+}
+
+
+//Para llenar el combo de usuarios cuando se quiere asociar un activo 
+function obtenerUsuariosParaAsociar() {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerUsuariosParaAsociar }";
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los usuarios';
+    }
+    $usuarios = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $usuarios[] = crearUsuario($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $usuarios;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -260,4 +365,25 @@ function crearRepuesto($row) {
 //'876', 2, 'Bodega A7', 'Son muchísimos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales'
 //$mensaje = aumentarCantidadInventario('987', 5, 'Bodega A7', 'Son muchos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //
+//echo $mensaje;
+
+//$mensaje = agregarLicencia('2020/01/01', '1234-1234-1234-1234', 'YO XD', 'Vea ust! Es un sistema de tiquetes', '456', 
+//        'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//
+//echo $mensaje;
+
+//$mensaje = asociarRepuesto('10', '678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 'B6');
+//echo $mensaje;
+
+//$usuarios = obtenerUsuariosParaAsociar();
+//
+//foreach ($usuarios as $tema) {   
+//    echo $tema->obtenerNombreUsuario() . '<br />';
+//    echo $tema->obtenerCorreo() . '<br />';
+//    echo $tema->obtenerDepartamento() . '<br />';
+//    echo $tema->obtenerJefatura() . '<br />';
+//    echo '<br />';
+//}
+
+//$mensaje = agregarActivo('11', 'CorreoSospechoso@gmail.com', 'Ali Al Shaez', 'C12', '999', 1, 'T67Y8', 'DELL', 'Inspiron', 'DELL', '2018/04/30', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante');
 //echo $mensaje;
