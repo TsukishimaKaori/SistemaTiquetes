@@ -10,3 +10,5 @@
 1. Cambié la tabla Categoria
 
 2. Cree el PAagregarLicencia;
+
+3. Cree el PAobtenerRepuestosParaAsociar; Es para la tabla que se muestra cuando se quiere asociar un repuesto
