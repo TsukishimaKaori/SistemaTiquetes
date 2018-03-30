@@ -3,3 +3,10 @@
 2. Agregué PAagregarArticuloInventario 
 
 3. Agregué PAaumentarCantidadInventario;
+
+
+29/03/2018
+
+1. Cambié la tabla Categoria
+
+2. Cree el PAagregarLicencia;
