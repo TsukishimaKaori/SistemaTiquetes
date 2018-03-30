@@ -30,8 +30,8 @@
         
         <input id = 'tabInventario' type="hidden" value ='<?php echo $tab ?>' >
         <div class="container-fluid">
-            <div class="row">                
-                <div class="col-md-7">
+            <div >                
+                <div id = "panelInformacionIzquierda">
                     <div id="tab-indice" class="tab">                        
                         <button id = "link-inventario" class="tablinks" onclick="abrir_tab_inventario(this, 'tab-inventario')" id="defaultOpen">Inventario</button>
                         <button id = "link-activos"  class="tablinks" onclick="abrir_tab_inventario(this, 'tab-activos')" >Activos fijos</button>                        
@@ -69,11 +69,6 @@
                     <section id="tab-activos" class="tabcontent tab-oculto">
                         <h2>Activos</h2>
                         <div class="container-fluid">
-                            <div class="row">                                               
-                                <div class="col-md-offset-10">                    
-                                    <a href="../vista/AgregarInventario.php">   <button type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>   </a>      
-                                </div>
-                            </div>
                             <div class="row"> 
                                 <div class="col-md-offset-12">&nbsp;</div>
                             </div>
@@ -93,9 +88,9 @@
                             </div>
                         </div>
                     </section>
-                </div>
-                <div class="col-md-5">                   
-                    <section id = "panelInformacionInventario"></section>
+                </div>            
+                <div  id = "panelInformacionDerecha" >                   
+                    <section  id = "panelInformacionInventario"></section>
                 </div>
             </div>
         </div>

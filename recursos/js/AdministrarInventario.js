@@ -301,3 +301,21 @@ function focoSuma(evt) {
             break;
     }
 }
+
+
+
+//var mediaquery = window.matchMedia("(max-width: 1200px)");
+//function handleOrientationChange() {
+//    if (mediaquery.matches) {
+//        $("#panelInformacionIzquierda").removeClass('col-md-7');
+//        $("#panelInformacionIzquierda").addClass('col-md-12');
+//        $("#panelInformacionDerecha").removeClass('col-md-5');
+//        $("#panelInformacionDerecha").addClass('col-md-12');
+//    } else {
+//        $("#panelInformacionIzquierda").removeClass('col-md-12');
+//        $("#panelInformacionIzquierda").addClass('col-md-7');
+//        $("#panelInformacionDerecha").removeClass('col-md-12');
+//        $("#panelInformacionDerecha").addClass('col-md-5');
+//    }
+//}
+//mediaquery.addListener(handleOrientationChange);

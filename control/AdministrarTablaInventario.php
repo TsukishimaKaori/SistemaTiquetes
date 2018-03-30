@@ -12,17 +12,20 @@ function cabeceraTablaPasivos() {
 function cabeceraTablaActivos() {
     echo "<th>Placa</th>"
     . "<th>Categoría</th>"
-    . "<th>Estado</th>"
+  //  . "<th>Estado</th>"
     . "<th>Usuario_asociado</th>"
-    . "<th>Fecha de salida de inventario </th>";
+    . "<th>Fecha de salida de inventario </th>"
+    . "<th>Repuesto</th>"
+    . "<th>Licencia</th>"
+    . "<th>Ver</th>";
 }
 
 function cuerpoTablaActivos($activos) {
     foreach ($activos as $act) {
-        echo '<tr onclick = "cargarPanelActivos(' . $act->obtenerPlaca() . ')">';
+        echo '<tr >';
         echo '<td>' . $act->obtenerPlaca() . '</td>';
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
-        echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
+  //      echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
         echo '<td>' . $act->obtenerNombreUsuarioAsociado() . '</td>';
         // $fechaIngeso = $act->obtenerFechaIngresoSistema();
         $fechaSalida = $act->obtenerFechaSalidaInventario();
@@ -30,6 +33,9 @@ function cuerpoTablaActivos($activos) {
             $fechaSalida = date_format($act->obtenerFechaSalidaInventario(), 'd/m/Y');
             echo '<td>' . $fechaSalida . '</td>';
         }
+        echo '<td><button class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
+        echo '<td><button class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelActivos(' . $act->obtenerPlaca() . ')" class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
         echo '</tr>';
     }
 }
@@ -58,7 +64,7 @@ function cuerpoTablaPasivos($inventario) {
 function panelActivos($activos, $codigo) {
     $listaActivos = buscarDispositivoActivoFijo($activos, $codigo);
     echo
-    '<div type = "hidden" class="panel panel-default">'
+    '<div type = "hidden" class="informacion-dispositivos panel panel-default">'
     . ' <div class="panel-heading"><h3>Especificaciones de activos</h3></div>'
     . '     <div class="panel-body container-fluid">'
     . '        <div class="col-md-12">'
@@ -128,9 +134,9 @@ function panelActivos($activos, $codigo) {
 function panelPasivos($pasivos, $codigo) {
     $listaPasivos = buscarDispositivoInventario($pasivos, $codigo);
     echo
-    '<div type = "hidden" class="panel panel-default">'
+    '<div type = "hidden" class=" informacion-dispositivos panel panel-default">'
     . ' <div class="panel-heading"><h3>Especificaciones de inventario</h3></div>'
-    . '     <div class="panel-body container-fluid">'
+    . '     <div class="panel-body container-fluid ">'
     . '        <div class="col-md-12">'
     . '        <div class="row">'
     . '           <div><span class="col-md-4 titulo-inventario">Código: </span><span class=" col-md-8">' . $listaPasivos->obtenerCodigoArticulo() . ' </span></div> '
@@ -160,12 +166,12 @@ function panelAgregarInventario($categorias) {
     echo
     '<div type = "hidden" class="panel panel-default">'
     . ' <div class="panel-heading"><h3>Agregar a inventario</h3></div>'
-    . '     <div class="panel-body container-fluid">';
+    . '     <div class="panel-body">';
 
     echo'
         <div class="form-group  col-md-12">
             <label class="control-label col-md-3" for="codigo">Código:</label>
-            <div class="col-sm-9">
+            <div class="col-md-9">
                 <input  onfocus = "foco(1)" class="form-control" id="codigo" type="text" required>
             </div>
         </div>        
@@ -173,7 +179,7 @@ function panelAgregarInventario($categorias) {
             <label class="control-label col-md-3" for="tipo">Categoría:</label>
             <div class="col-md-9">';
     selectTipos($categorias);
-    echo'</div>
+        echo'</div>
         </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="descripcion">Descripción:</label>
@@ -234,7 +240,7 @@ function panelSumarAInventario($inventarios, $codigo) {
     $inventario = buscarDispositivoInventario($inventarios, $codigo);
     echo'<div type = "hidden" class="panel panel-default">'
     . '<div class="panel-heading"><h3>Sumar a inventario</h3></div>'
-    . '<div class="panel-body container-fluid">';
+    . '<div class="panel-body">';
     echo'<div class="form-group  col-md-12">
             <label class="control-label col-md-3" for="codigoSuma">Código:</label>
             <div class="col-md-9">
