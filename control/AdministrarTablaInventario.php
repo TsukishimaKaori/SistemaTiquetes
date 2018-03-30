@@ -125,6 +125,12 @@ function panelActivos($activos, $codigo) {
     . '         <div class="row">'
     . '           <div><span class="col-md-4 titulo-inventario">Jefatura Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerJefaturaUsuarioAsociado() . ' </span></div> '
     . '         </div>'
+            
+    . '         <div class="row">'
+    . '           <span ><button onclick = ""   class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Repuestos</button></span> '
+    . '           <span ><button onclick = ""   class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Licencias</button></span> '
+    . '         </div>'        
+            
     . '         </div>'
     . '     </div>'
     . ' </div>'
