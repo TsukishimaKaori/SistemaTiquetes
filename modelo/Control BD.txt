@@ -20,3 +20,5 @@ desde la base.
 
 6. Cree PAasociarRepuesto
 
+7. Cree PAagregarActivo
+
