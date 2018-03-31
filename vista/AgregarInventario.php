@@ -88,7 +88,7 @@
 
 
                         <div class="Midiv">    
-                            <button type="button" class="btn btn-info btn-circle btn-xl" data-toggle="modal" data-target="#modalagregarAdjunto" >Adjuntar archivo</button><br><br>
+                            <button type="button" class="btn btn-info btn-circle btn-xl " data-toggle="modal" data-target="#modalagregarAdjunto" >Adjuntar archivo</button><br><br>
                             <button type="button" class="btn btn-success" > Agregar </button>
                             <button type="reset" class="btn btn-danger">Cancelar</button> 
                         </div>                                    
