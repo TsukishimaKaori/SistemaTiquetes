@@ -262,7 +262,8 @@ function crearInventario($row) {
     $categoria = crearCategoria($row);
     $estado = utf8_encode($row['estado']);
     $cantidad = $row['cantidad'];  
-    return new Inventario($codigoArticulo, $descripcion, $costo, $categoria, $estado, $cantidad);
+    $bodega = utf8_encode($row['bodega']);
+    return new Inventario($codigoArticulo, $descripcion, $costo, $categoria, $estado, $cantidad, $bodega);
 }
 
 function crearActivo($row) {
@@ -301,6 +302,11 @@ function crearRepuesto($row) {
     $fechaAsociado = $row['fechaAsociado'];
     $placa = $row['placa'];
     return new Repuesto($descripcion, $fechaAsociado, $placa);
+}
+
+function crearBodega($row) {
+    $nombreBodega = utf8_encode($row['nombreBodega']);
+    return new Bodega($nombreBodega);
 }
 
 //$pasivos = obtenerInventario();
