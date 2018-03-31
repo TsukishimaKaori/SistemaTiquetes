@@ -328,8 +328,17 @@ function panelSumarAInventario($inventarios, $codigo) {
 function panelAgregarRepuesto($dispositivo, $repuestos, $codigo) {
     $dispositivo = buscarDispositivoActivoFijo($dispositivo, $codigo);
     echo'<div type = "hidden" class="panel panel-default">'
-    . '<div class="panel-heading"><h3>Asociar repuesto al equipo:  ' . $dispositivo->obtenerPlaca() . '</h3></div>'
-    . '<div class="panel-body">';
+    . '<div class="panel-heading"><h3>Asociar repuesto</h3></div>'
+    . '<div class="panel-body">
+                <div class="form-group col-md-12">
+            <label class="control-label col-md-12">Categoría del dispositivo: ' . $dispositivo->obtenerCategoria()->obtenerNombreCategoria() . '</label>
+        </div>  
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-12">Código del dispositivo: ' . $dispositivo->obtenerPlaca() . '</label>
+        </div>   
+    <div class="form-group  col-md-12">
+            <label class="control-label col-md-12" >Información del repuesto </label>
+        </div>';
     echo'<div class="form-group  col-md-12 ">
             <label class="control-label col-md-3" for="tipo">Repuesto a asociar:</label>
             <div class="col-md-9">';
