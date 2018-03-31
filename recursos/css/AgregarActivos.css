@@ -5,3 +5,35 @@ h4{
 .selectpicker{
     height: 100%;
 }
+.divagregar{
+    background-color: white;
+}
+
+
+
+
+
+#panelInformacionDerecha{
+    background: #f5f5f5;
+    min-width:250px; 
+    width:  40%;
+    display: inline-block;
+    margin-top: 0px;
+    float: left;
+    overflow: hidden;
+    padding: 1%;
+
+}
+#panelInformacionIzquierda{
+    background: #f5f5f5;
+    min-width:250px; 
+    width:  48%;
+    float: left;
+    margin-left:  2%;
+    overflow: hidden;
+    padding: 1%;
+
+}
+/*.row{
+    width:  100%; 
+}*/

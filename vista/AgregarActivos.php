@@ -20,13 +20,29 @@
         <link href="../recursos/bootstrap/css/bootstrap-select.min.css" rel="stylesheet"/>
         <script src="../recursos/bootstrap/js/bootstrap-select.min.js"></script>  
 
-        <div class="container " >
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2" > 
-                    <form  id ="formulario" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" enctype="multipart/form-data" >
+        <?php
+        if (isset($_GET["codigoArticulo"])) {
+            $codigoArticulo = $_GET["codigoArticulo"];
+            $Categoria = $_GET["categoria"];
+            $descripcionEquipo = $_GET["descripcion"];
+            $CategoriaCodigo = $_GET["categoriaCodigo"];
+            echo"<input type = 'hidden' id = 'codigoC' value = '" . $CategoriaCodigo . "'>";
+        }
+        ?>
+        <div class="containercontainer-fluid " >
+            <h1> Asociar equipo a usuario </h1>
+            <form  >
+                <div class="row" >
 
-                        <h1> Asociar equipo a usuario </h1>
-
+                    <div id="panelInformacionDerecha"  class=" col-md-offset-1"> 
+                        <?php
+                        echo'<div class="form-group  col-md-11"><label class="control-label  col-sm-4" for="placa">'
+                        . 'Codigo del equipo:</label><span id="codigoA" class=" col-md-8">' . $codigoArticulo . ' </span>  </div>';
+                        echo'<div class="form-group  col-md-11"><label class="control-label  col-sm-4" for="placa">Descripcion :</label>'
+                        . '<span class=" col-md-8">' . $descripcionEquipo . ' </span> </div>';
+                        echo'<div class="form-group  col-md-11"><label class="control-label  col-sm-4" for="placa">Categoria :</label>'
+                        . '<span class=" col-md-8" >' . $Categoria . ' </span> </div>';
+                        ?>
                         <div class="form-group  col-md-11">
                             <label class="control-label col-sm-2" for="placa">Placa:</label>
                             <div class="col-sm-10">
@@ -67,7 +83,7 @@
                                 <input class="form-control" id="marca" type="text" required>
                             </div>
                         </div>  
-                        <div class="form-group  col-md-11">
+                        <div class="  form-group  col-md-11">
                             <label class="control-label col-sm-3" for="fechaE">Expiracion de garantia:</label>
                             <div class='input-group date col-sm-9' id='datetimepicker1'>
                                 <?php
@@ -88,6 +104,12 @@
                                 ?>                             
                             </div>
                         </div>
+
+
+
+                    </div> 
+                    <div  id ="panelInformacionIzquierda" >
+
                         <div class="form-group  col-md-11" id="divLicencias">
                             <h5>Licencias: </h5>
                         </div> 
@@ -98,27 +120,31 @@
                             <button type="button" class="btn  btn-primary" onclick="FormularioLicencia()">Agregar Licencia</button> 
                             <button type="button" class="btn  btn-primary" onclick="FormularioRepuesto()">Agregar Repuesto</button> 
                         </div>
-                        <div id="divAgregarRepuesto">
+                        <div id="divAgregarRepuesto" class="form-group  col-md-11 divagregar">
                             <div class="form-group  col-md-11">
                                 <label class="control-label col-sm-2" for="comboRepuestos">Repuestos:</label>
+                                <button type='button' class='close' aria-label='Close' onclick='eliminarAgregarRepuestos()'> <span aria-hidden='true'>&times;</span></button>
                                 <div class="col-sm-10">
-                                <?php
-                                $repuestos = obtenerRepuestosParaAsociar();
-                                selectRepuestos($repuestos);
-                                ?>
-                               </div>
+                                    <?php
+                                    $repuestos = obtenerRepuestosParaAsociar();
+                                    selectRepuestos($repuestos);
+                                    ?>
+                                </div>
                             </div>
                             <button  id='aplicar' type='button' class='btn btn-success col-md-offset-2'  onclick='AgregarRepuesto()' > Aplicar </button>
                         </div>
-                        <div id="divAgregar">                                                  
+                        <div id="divAgregar" class="form-group  col-md-11 divagregar">                                                  
 
                         </div>
+                    </div> 
+                     </div>
+                    <div class="row">
                         <button type="button" class="btn btn-success col-md-offset-4" onclick="agregarActivo()" > Asociar equipo </button>
                         <button type="reset" class="btn btn-danger ">Cancelar</button> 
-                    </form>
+                    </div>
+               
+            </form>
 
-                </div> 
-            </div>
         </div>
 
     </body>
