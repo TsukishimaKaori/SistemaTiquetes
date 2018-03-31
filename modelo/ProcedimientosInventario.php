@@ -121,13 +121,13 @@ function agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codig
 
 
 //Aumentar la cantidad de un articulo en el inventario
-function aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $bodega, $comentarioUsuario, 
+function aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $comentarioUsuario, 
         $correoUsuarioCausante, $nombreUsuarioCausante) {
     $men = -1;
     $conexion = Conexion::getInstancia();
-    $tsql = "{call PAaumentarCantidadInventario (?, ?, ?, ?, ?, ?, ?) }";
+    $tsql = "{call PAaumentarCantidadInventario (?, ?, ?, ?, ?, ?) }";
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($cantidadEfecto, SQLSRV_PARAM_IN),
-        array($bodega, SQLSRV_PARAM_IN), array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
+        array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
         array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
         array($men, SQLSRV_PARAM_OUT));
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
