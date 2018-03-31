@@ -14,16 +14,18 @@ $(document).ready(function () {
     if (tab == 1) {
         evt = document.getElementById("link-activos");
         abrir_tab_inventario(evt, 'tab-activos');
-
     } else if (tab == 2) {
         evt = document.getElementById("link-inventario");
         abrir_tab_inventario(evt, 'tab-inventario');
+
+
     }
 });
 
 function abrir_tab_inventario(evt, id) {
-     $('#cuerpo-Tabla-Inventario').children('tr').css("background-color","#ffffff");
-     $('#cuerpo-Tabla-Activos').children('tr').css("background-color","#ffffff");
+    $('#cuerpo-Tabla-Inventario').children('tr').css("background-color", "#ffffff");
+    $('#cuerpo-Tabla-Activos').children('tr').css("background-color", "#ffffff");
+    $('#panelInformacionInventario').empty();
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
@@ -38,11 +40,11 @@ function abrir_tab_inventario(evt, id) {
 
 }
 
-function cargarPanelActivos(codigo,event) {
-    $(event).parent().parent().parent().children('tr').css("background-color","#ffffff");
-    $(event).parent().parent().css("background-color","#dff0d8");
-    
-  // $(this).parent().css( "background-color", "red" );
+function cargarPanelActivos(codigo, event) {
+    $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
+    $(event).parent().parent().css("background-color", "#dff0d8");
+
+    // $(this).parent().css( "background-color", "red" );
     $.ajax({
         data: {'codigoActivo': codigo},
         type: 'POST',
@@ -53,9 +55,9 @@ function cargarPanelActivos(codigo,event) {
     });
 }
 
-function cargarPanelPasivos(codigo,event) {
-    $(event).parent().parent().parent().children('tr').css("background-color","#ffffff");
-    $(event).parent().parent().css("background-color","#dff0d8");
+function cargarPanelPasivos(codigo, event) {
+    $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
+    $(event).parent().parent().css("background-color", "#dff0d8");
     $.ajax({
         data: {'codigoPasivo': codigo},
         type: 'POST',
@@ -66,9 +68,9 @@ function cargarPanelPasivos(codigo,event) {
     });
 }
 
-function cargarPanelSumarInventario(codigo,event) {
-    $(event).parent().parent().parent().children('tr').css("background-color","#ffffff");
-    $(event).parent().parent().css("background-color","#dff0d8");
+function cargarPanelSumarInventario(codigo, event) {
+    $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
+    $(event).parent().parent().css("background-color", "#dff0d8");
     $.ajax({
         data: {'codigoSumarInventario': codigo},
         type: 'POST',
@@ -80,10 +82,10 @@ function cargarPanelSumarInventario(codigo,event) {
 }
 
 //Carga el formulario para agregar al formurio
-function cargarPanelAgregarInventario() {   
-     $('#cuerpo-Tabla-Inventario').children('tr').css("background-color","#ffffff");
-     $('#cuerpo-Tabla-Activos').children('tr').css("background-color","#ffffff");
-     
+function cargarPanelAgregarInventario() {
+    $('#cuerpo-Tabla-Inventario').children('tr').css("background-color", "#ffffff");
+    $('#cuerpo-Tabla-Activos').children('tr').css("background-color", "#ffffff");
+
     var codigo = 1;// cambiar codigo
     $.ajax({
         data: {'codigoAgregarInventario': codigo},
@@ -96,9 +98,9 @@ function cargarPanelAgregarInventario() {
 }
 
 //Seccion de activos> repuestos
-function cargarPanelRepuestos(codigo,event) {
-    $(event).parent().parent().parent().children('tr').css("background-color","#ffffff");
-    $(event).parent().parent().css("background-color","#dff0d8");
+function cargarPanelRepuestos(codigo, event) {
+    $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
+    $(event).parent().parent().css("background-color", "#dff0d8");
     $.ajax({
         data: {'codigoAgregarRepuesto': codigo},
         type: 'POST',
@@ -109,9 +111,9 @@ function cargarPanelRepuestos(codigo,event) {
     });
 }
 //seccion de activos> licencias
-function cargarPanelLicencias(codigo,event) {
-    $(event).parent().parent().parent().children('tr').css("background-color","#ffffff");
-    $(event).parent().parent().css("background-color","#dff0d8");
+function cargarPanelLicencias(codigo, event) {
+    $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
+    $(event).parent().parent().css("background-color", "#dff0d8");
     $.ajax({
         data: {'codigoAgregarLicencia': codigo},
         type: 'POST',
@@ -476,7 +478,7 @@ function focoAsociarLicencia(evt) {
     var claveProductoLicencia = $("#clave-producto-licencia").val();
     var proveedorLicencia = $("#proveedor-licencia").val();
     var vencimientoLicencia = $("#vencimiento-licencia").val();
-        switch (evt) {
+    switch (evt) {
         case 1:
             $("#descripcion-licencia").css("border-color", "#99beda");
             break;
@@ -488,7 +490,7 @@ function focoAsociarLicencia(evt) {
             break;
         case 4:
             $("#vencimiento-licencia").css("border-color", "#99beda");
-            break;            
+            break;
         default:
             break;
     }
