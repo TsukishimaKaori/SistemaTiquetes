@@ -1,3 +1,13 @@
+$(function () {
+    var fecha= new Date();  
+    $('#datetimepicker1').datetimepicker({
+        minDate:fecha.setDate( fecha.getDate() - 1),
+        format: 'DD/MM/YYYY',
+        locale: 'es',
+    });
+
+});
+
 $(document).ready(function () {
     var tab = document.getElementById("tabInventario").value;
     var evt;

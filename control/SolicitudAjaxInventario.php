@@ -86,7 +86,12 @@ if (isset($_POST['claveProductoLicencia'])){
     $descripcionLicencia = $_POST['descripcionLicencia'];
     $claveProductoLicencia = $_POST['claveProductoLicencia'];
     $proveedorLicencia = $_POST['proveedorLicencia'];
-    $vencimientoLicencia = $_POST['vencimientoLicencia'];
+    $vencimientoLicencia = $_POST['vencimientoLicencia'];    
+    $dia = substr($vencimientoLicencia, 0, 2);
+    $mes = substr($vencimientoLicencia, 3, 2);
+    $anio = substr($vencimientoLicencia, 6, 4);
+   //$vencimientoLicencia = $anio . '-' . $dia. '-' .$mes;
+      $vencimientoLicencia = $anio . '-' .$mes. '-'. $dia ;
     $correoUsuarioCausante =  $_POST['correoUsuarioCausante'];
     $nombreUsuarioCausante =  $_POST['nombreUsuarioCausante'];
     agregarLicencia($vencimientoLicencia, $claveProductoLicencia, $proveedorLicencia, $descripcionLicencia, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);

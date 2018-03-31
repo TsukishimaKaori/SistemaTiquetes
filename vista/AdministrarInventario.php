@@ -3,19 +3,21 @@
     <head>
         <meta charset="UTF-8">
         <?php require_once ("../control/ArchivosDeCabecera.php"); ?>
+        <script src="../recursos/js/AdministrarInventario.js"></script> 
         <link rel="stylesheet" href="../recursos/bootstrap/css/bootstrap-datetimepicker.min.css" />
-        <script src="../recursos/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
-        <script src="../recursos/bootstrap/js/es.js"></script>   
-        <script src="../recursos/js/AdministrarInventario.js"></script>   
-        <link href="../recursos/css/inventario.css" rel="stylesheet"/> 
+        <link href="../recursos/css/inventario.css" rel="stylesheet"/>         
+         <script src="../recursos/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="../recursos/bootstrap/js/es.js"></script>  
         <?php
         require ("../control/AdministrarTablaInventario.php");
         require ("../modelo/ProcedimientosInventario.php");
         ?>
+
     </head>
     <body>
         <?php
         require ("../vista/Cabecera.php");
+        
         $activos = obtenerActivosFijos();
         $inventario = obtenerInventario();
         if (isset($_GET['tab'])) {
@@ -108,11 +110,11 @@
                         <div  class="table table-responsive" >  
                             <table class = "table table-hover">  
                                 <thead>                                   
-                                    <th>Descripción</th>
-                                    <th>Clave de producto</th>
-                                    <th>Proveedor</th>
-                                    <th>Fecha de vencimiento</th>
-                                    <th>Fecha asociado</th>                                    
+                                <th>Descripción</th>
+                                <th>Clave de producto</th>
+                                <th>Proveedor</th>
+                                <th>Fecha de vencimiento</th>
+                                <th>Fecha asociado</th>                                    
                                 </thead>
                                 <tbody id = "cuerpoTablaLicencias">                                           
                                 </tbody>
@@ -140,7 +142,7 @@
                                 <thead>                               
                                 <th>Descripción</th>
                                 <th>Fecha asociado</th>
-                               
+
                                 </thead>
                                 <tbody id = "cuerpoTablaRepuestos">                                           
                                 </tbody>
