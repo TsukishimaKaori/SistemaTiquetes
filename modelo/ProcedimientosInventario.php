@@ -200,15 +200,14 @@ function asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombr
 //Crear un Activo fijo y asociarlo a un usuario
 //El codigoArticulo tiene que sacarlo del inventario
 //El usuario causante es el usuario del sistema
-//La bodega tiene que pedirla en algun momento 
-function agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, $bodega, $placa,
+function agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, $placa,
 	$codigoCategoria, $serie, $proveedor, $modelo, $marca, $fechaExpiraGarantia,
 	$correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado) {
     $men = -1;
     $conexion = Conexion::getInstancia();
-    $tsql = "{call PAagregarActivo (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
+    $tsql = "{call PAagregarActivo (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($correoUsuarioCausante, SQLSRV_PARAM_IN), 
-        array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN), array($bodega, SQLSRV_PARAM_IN), 
+        array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),  
         array($placa, SQLSRV_PARAM_IN), array($codigoCategoria, SQLSRV_PARAM_IN),
         array($serie, SQLSRV_PARAM_IN), array($proveedor, SQLSRV_PARAM_IN),
         array($modelo, SQLSRV_PARAM_IN), array($marca, SQLSRV_PARAM_IN),
