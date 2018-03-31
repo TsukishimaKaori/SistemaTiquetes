@@ -33,9 +33,9 @@ function cuerpoTablaActivos($activos) {
             $fechaSalida = date_format($act->obtenerFechaSalidaInventario(), 'd/m/Y');
             echo '<td>' . $fechaSalida . '</td>';
         }
-        echo '<td><button onclick = "cargarPanelRepuestos(' . $act->obtenerPlaca() . ')" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
-        echo '<td><button onclick = "cargarPanelLicencias(' . $act->obtenerPlaca() . ')" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
-        echo '<td><button onclick = "cargarPanelActivos(' . $act->obtenerPlaca() . ')" class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelRepuestos(' . $act->obtenerPlaca() . ',this)" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelLicencias(' . $act->obtenerPlaca() . ',this)" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelActivos(' . $act->obtenerPlaca() . ',this)" class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
         echo '</tr>';
     }
 }
@@ -54,9 +54,9 @@ function cuerpoTablaPasivos($inventario) {
         . '<span>' . $act->obtenerCantidad() . '</span>';
         echo '</td>'
         . '<td>'
-        . '<button onclick = "cargarPanelSumarInventario(' . $act->obtenerCodigoArticulo() . ')"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
+        . '<button onclick = "cargarPanelSumarInventario(' . $act->obtenerCodigoArticulo() . ',this)"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
         '</td>';
-        echo '<td><button onclick = "cargarPanelPasivos(' . $act->obtenerCodigoArticulo() . ')"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelPasivos(' . $act->obtenerCodigoArticulo() . ',this)"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
         echo '</tr>';
     }
 }
@@ -347,35 +347,43 @@ function panelAgregarRepuesto($dispositivo, $repuestos, $codigo) {
 function panelAgregarLicencia($dispositivo, $codigo) {
     $dispositivo = buscarDispositivoActivoFijo($dispositivo, $codigo);
     echo'<div type = "hidden" class="panel panel-default">'
-    . '<div class="panel-heading"><h3>Agregar Licencia</h3></div>'
+    . '<div class="panel-heading"><h3>Asociar licencia</h3></div>'
     . '<div class="panel-body">';
     echo'<div class="form-group  col-md-12">
-            <label class="control-label col-md-3" for="codigoRepuesto">Código equipo asociado:</label>
-            <div class="col-md-9">
+            <label class="control-label col-md-5" for="categoriaRepuesto">Equipo asociado: </label>
+            <div class="col-md-7">
+                  <span id="categoriaRepuesto">' . $dispositivo->obtenerCategoria()->obtenerNombreCategoria() . '</span>
+            </div>
+        </div>
+        <div class="form-group  col-md-12">
+            <label class="control-label col-md-5" for="codigoRepuesto">Código del Equipo : </label>
+            <div class="col-md-7">
                   <span id="codigoRepuesto">' . $dispositivo->obtenerPlaca() . '</span>
             </div>
         </div>
-        
+        <div class="form-group  col-md-12">
+            <label class="control-label col-md-12" >Información de la licencia </label>
+        </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="descripcion-licencia">Descripción:</label>
             <div class="col-md-9">
-                <input  class="form-control" id="descripcion-licencia" required>
+                <input  onfocus = "focoAsociarLicencia(1);" class="form-control" id="descripcion-licencia" required>
             </div>
         </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="clave-producto-licencia">Clave de producto:</label>
             <div class="col-md-9">
-                <input  class="form-control" id="clave-producto-licencia" required>
+                <input  onfocus = "focoAsociarLicencia(2);"  class="form-control" id="clave-producto-licencia" required>
             </div>
         </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="proveedor-licencia">Proveedor:</label>
             <div class="col-md-9">
-                <input class="form-control" id="proveedor-licencia" required>
+                <input onfocus = "focoAsociarLicencia(3);"  class="form-control" id="proveedor-licencia" required>
             </div>
         </div>
         <div class="form-group col-md-12">
-            <label class="control-label col-md-3" for="vencimiento-licencia">Fecha de vencimiento:</label>
+            <label onfocus = "focoAsociarLicencia(4);"  class="control-label col-md-3" for="vencimiento-licencia">Fecha de vencimiento:</label>
             <div class="col-md-9">               
                 <div class="input-group date" id="datetimepicker1">';
                         $hoy = getdate();

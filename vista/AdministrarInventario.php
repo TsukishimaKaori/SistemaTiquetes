@@ -81,7 +81,7 @@
                                             <thead>
                                                 <?php cabeceraTablaActivos(); ?>                                 
                                             </thead>
-                                            <tbody>
+                                            <tbody id = "cuerpo-Tabla-Activos">
                                                 <?php cuerpoTablaActivos($activos); ?>
                                             </tbody>
                                         </table>

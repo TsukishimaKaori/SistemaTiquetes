@@ -1,7 +1,7 @@
 $(function () {
-    var fecha= new Date();  
+    var fecha = new Date();
     $('#datetimepicker1').datetimepicker({
-        minDate:fecha.setDate( fecha.getDate() - 1),
+        minDate: fecha.setDate(fecha.getDate() - 1),
         format: 'DD/MM/YYYY',
         locale: 'es',
     });
@@ -22,6 +22,8 @@ $(document).ready(function () {
 });
 
 function abrir_tab_inventario(evt, id) {
+     $('#cuerpo-Tabla-Inventario').children('tr').css("background-color","#ffffff");
+     $('#cuerpo-Tabla-Activos').children('tr').css("background-color","#ffffff");
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
@@ -36,7 +38,11 @@ function abrir_tab_inventario(evt, id) {
 
 }
 
-function cargarPanelActivos(codigo) {
+function cargarPanelActivos(codigo,event) {
+    $(event).parent().parent().parent().children('tr').css("background-color","#ffffff");
+    $(event).parent().parent().css("background-color","#dff0d8");
+    
+  // $(this).parent().css( "background-color", "red" );
     $.ajax({
         data: {'codigoActivo': codigo},
         type: 'POST',
@@ -47,7 +53,9 @@ function cargarPanelActivos(codigo) {
     });
 }
 
-function cargarPanelPasivos(codigo) {
+function cargarPanelPasivos(codigo,event) {
+    $(event).parent().parent().parent().children('tr').css("background-color","#ffffff");
+    $(event).parent().parent().css("background-color","#dff0d8");
     $.ajax({
         data: {'codigoPasivo': codigo},
         type: 'POST',
@@ -58,7 +66,9 @@ function cargarPanelPasivos(codigo) {
     });
 }
 
-function cargarPanelSumarInventario(codigo) {
+function cargarPanelSumarInventario(codigo,event) {
+    $(event).parent().parent().parent().children('tr').css("background-color","#ffffff");
+    $(event).parent().parent().css("background-color","#dff0d8");
     $.ajax({
         data: {'codigoSumarInventario': codigo},
         type: 'POST',
@@ -70,7 +80,10 @@ function cargarPanelSumarInventario(codigo) {
 }
 
 //Carga el formulario para agregar al formurio
-function cargarPanelAgregarInventario() {
+function cargarPanelAgregarInventario() {   
+     $('#cuerpo-Tabla-Inventario').children('tr').css("background-color","#ffffff");
+     $('#cuerpo-Tabla-Activos').children('tr').css("background-color","#ffffff");
+     
     var codigo = 1;// cambiar codigo
     $.ajax({
         data: {'codigoAgregarInventario': codigo},
@@ -83,8 +96,9 @@ function cargarPanelAgregarInventario() {
 }
 
 //Seccion de activos> repuestos
-function cargarPanelRepuestos(codigo) {
-
+function cargarPanelRepuestos(codigo,event) {
+    $(event).parent().parent().parent().children('tr').css("background-color","#ffffff");
+    $(event).parent().parent().css("background-color","#dff0d8");
     $.ajax({
         data: {'codigoAgregarRepuesto': codigo},
         type: 'POST',
@@ -95,8 +109,9 @@ function cargarPanelRepuestos(codigo) {
     });
 }
 //seccion de activos> licencias
-function cargarPanelLicencias(codigo) {
-
+function cargarPanelLicencias(codigo,event) {
+    $(event).parent().parent().parent().children('tr').css("background-color","#ffffff");
+    $(event).parent().parent().css("background-color","#dff0d8");
     $.ajax({
         data: {'codigoAgregarLicencia': codigo},
         type: 'POST',
@@ -115,29 +130,31 @@ function agregarLicenciaEquipo(codigo) {
     var vencimientoLicencia = $("#vencimiento-licencia").val();
     var correoUsuario = $("#correoUsuario").val();
     var nombreUsuario = $("#nombreUsuario").val();
-    $.ajax({
-        data: { 'codigoEquipo': codigo,
-            'descripcionLicencia': descripcionLicencia,
-            'claveProductoLicencia': claveProductoLicencia,
-            'proveedorLicencia': proveedorLicencia,
-            'vencimientoLicencia': vencimientoLicencia,
-            'correoUsuarioCausante': correoUsuario,
-            'nombreUsuarioCausante': nombreUsuario
-        },
-        type: 'POST',
-        url: '../control/SolicitudAjaxInventario.php',
-        success: function (response) {
-            $("#cuerpo-Tabla-Inventario").html(response);
-            limpiarFormularioLicencia();
-        }
-    });
+    if (validacionFormularioAsociarLicencia() == 0) {
+        $.ajax({
+            data: {'codigoEquipo': codigo,
+                'descripcionLicencia': descripcionLicencia,
+                'claveProductoLicencia': claveProductoLicencia,
+                'proveedorLicencia': proveedorLicencia,
+                'vencimientoLicencia': vencimientoLicencia,
+                'correoUsuarioCausante': correoUsuario,
+                'nombreUsuarioCausante': nombreUsuario
+            },
+            type: 'POST',
+            url: '../control/SolicitudAjaxInventario.php',
+            success: function (response) {
+                $("#cuerpo-Tabla-Inventario").html(response);
+                limpiarFormularioLicencia();
+            }
+        });
+    }
 }
 
 
-function obtenerLicencias(codigo){
+function obtenerLicencias(codigo) {
 
     $.ajax({
-        data: { 'codigoEquipoParaLicencia': codigo   
+        data: {'codigoEquipoParaLicencia': codigo
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
@@ -145,47 +162,47 @@ function obtenerLicencias(codigo){
             $("#cuerpoTablaLicencias").html(response);
             //limpiarFormularioLicencia();
             $("#tituloModalLicencias").empty();
-            $("#tituloModalLicencias").append('Licencias asociadas al equipo: ' +codigo);
-           $('#modalLicencias').modal('show');
+            $("#tituloModalLicencias").append('Licencias asociadas al equipo: ' + codigo);
+            $('#modalLicencias').modal('show');
         }
     });
-    
+
 }
 
-function obtenerRepuestos(codigo){
+function obtenerRepuestos(codigo) {
     $.ajax({
-        data: { 'codigoEquipoParaRepuesto': codigo   
+        data: {'codigoEquipoParaRepuesto': codigo
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
             $("#cuerpoTablaRepuestos").html(response);
             $("#tituloModalRepuestos").empty();
-            $("#tituloModalRepuestos").append('Repuestos asociadas al equipo: ' +codigo);
-           $('#modalRepuestos').modal('show');
+            $("#tituloModalRepuestos").append('Repuestos asociadas al equipo: ' + codigo);
+            $('#modalRepuestos').modal('show');
         }
     });
-    
+
 }
 //Asociar un equipo a un repuesto
-function asociarRepuestos(codigo){
+function asociarRepuestos(codigo) {
     var codigoArticulo = $("#repuestosSelect option:selected").val();
     var correoUsuario = $("#correoUsuario").val();
     var nombreUsuario = $("#nombreUsuario").val();
     //var nombreBodega  =  'bodega' + codigoArticulo;
     // var bodega = $("'#"+nombreBodega+"'").val();
     var bodega = "Central";
-        $.ajax({
-        data: { 'codigoAsociarEquipo': codigo,
+    $.ajax({
+        data: {'codigoAsociarEquipo': codigo,
             'codigoArticulo': codigoArticulo,
             'correoUsuarioCausante': correoUsuario,
             'nombreUsuarioCausante': nombreUsuario,
-            'bodega':bodega
+            'bodega': bodega
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
-                
+
         }
     });
 }
@@ -264,8 +281,7 @@ function limpiarFormularioInventario() {
     $("#comentario").val("");
 }
 
-
-function limpiarFormularioLicencia(){
+function limpiarFormularioLicencia() {
     $("#descripcion-licencia").val("");
     $("#clave-producto-licencia").val("");
     $("#proveedor-licencia").val("");
@@ -384,6 +400,32 @@ function validacionFormularioSumar() {
     return bandera;
 }
 
+function validacionFormularioAsociarLicencia() {
+    var bandera = 0;
+    var descripcionLicencia = $("#descripcion-licencia").val();
+    var claveProductoLicencia = $("#clave-producto-licencia").val();
+    var proveedorLicencia = $("#proveedor-licencia").val();
+    var vencimientoLicencia = $("#vencimiento-licencia").val();
+    if (!validacionExpRegular(descripcionLicencia)) {
+        $("#descripcion-licencia").css("border-color", "red");
+        bandera = 1;
+    }
+    if (!validacionExpRegular(proveedorLicencia)) {
+        $("#proveedor-licencia").css("border-color", "red");
+        bandera = 1;
+    }
+    if (!validacionExpRegular(claveProductoLicencia)) {
+        $("#clave-producto-licencia").css("border-color", "red");
+        bandera = 1;
+    }
+    if (!validacionExpRegular(vencimientoLicencia)) {
+        $("#vencimiento-licencia").css("border-color", "red");
+        bandera = 1;
+    }
+
+    return bandera;
+}
+
 function foco(evt) {
     switch (evt) {
         case 1:
@@ -429,3 +471,25 @@ function focoSuma(evt) {
     }
 }
 
+function focoAsociarLicencia(evt) {
+    var descripcionLicencia = $("#descripcion-licencia").val();
+    var claveProductoLicencia = $("#clave-producto-licencia").val();
+    var proveedorLicencia = $("#proveedor-licencia").val();
+    var vencimientoLicencia = $("#vencimiento-licencia").val();
+        switch (evt) {
+        case 1:
+            $("#descripcion-licencia").css("border-color", "#99beda");
+            break;
+        case 2:
+            $("#clave-producto-licencia").css("border-color", "#99beda");
+            break;
+        case 3:
+            $("#proveedor-licencia").css("border-color", "#99beda");
+            break;
+        case 4:
+            $("#vencimiento-licencia").css("border-color", "#99beda");
+            break;            
+        default:
+            break;
+    }
+}
