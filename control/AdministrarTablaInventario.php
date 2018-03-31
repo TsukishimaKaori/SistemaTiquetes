@@ -48,7 +48,7 @@ function cuerpoTablaPasivos($inventario) {
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
         echo '<td>' . $act->obtenerEstado() . '</td>';
         echo '<td>' .
-        '<a href="../vista/AgregarInventario.php?codigoArticulo=' . $act->obtenerCodigoArticulo() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
+        '<a href="../vista/AgregarActivos.php?codigoArticulo=' . $act->obtenerCodigoArticulo() . '&categoria=' . $act->obtenerCategoria()->obtenerNombreCategoria() . '&descripcion=' . $act->obtenerDescripcion() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
         echo '</td>';
         echo '<td>'
         . '<span>' . $act->obtenerCantidad() . '</span>';
@@ -395,16 +395,16 @@ function panelAgregarLicencia($dispositivo, $codigo) {
             <label onfocus = "focoAsociarLicencia(4);"  class="control-label col-md-3" for="vencimiento-licencia">Fecha de vencimiento:</label>
             <div class="col-md-9">               
                 <div class="input-group date" id="datetimepicker1">';
-                        $hoy = getdate();
-                        $anio = $hoy["year"];
-                        $mes = $hoy["mon"];
-                        if ($mes < 10)
-                            $mes = "0" . $mes;
-                        $dia = $hoy["mday"];
-                        if ($dia < 10)
-                            $dia = "0" . $dia;
-                        $fecha = $dia . "/" . $mes . "/" . $anio;
-                     echo '<input type="text" class="form-control" id="vencimiento-licencia" value="' . $fecha . '">
+    $hoy = getdate();
+    $anio = $hoy["year"];
+    $mes = $hoy["mon"];
+    if ($mes < 10)
+        $mes = "0" . $mes;
+    $dia = $hoy["mday"];
+    if ($dia < 10)
+        $dia = "0" . $dia;
+    $fecha = $dia . "/" . $mes . "/" . $anio;
+    echo '<input type="text" class="form-control" id="vencimiento-licencia" value="' . $fecha . '">
                     <span class="input-group-addon btn btn-info" onclick="document.getElementById(\'vencimiento-licencia\').focus()">
                         <span class="glyphicon glyphicon-calendar"></span>                            
                     </span>                              
