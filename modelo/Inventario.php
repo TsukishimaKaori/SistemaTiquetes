@@ -10,7 +10,7 @@ class Inventario {
         $this->categoria = $cat;
         $this->estado = $est;
         $this->cantidad = $can;
-        $this->bodega;
+        $this->bodega = $bo;
     }
     
     function obtenerCodigoArticulo() {
