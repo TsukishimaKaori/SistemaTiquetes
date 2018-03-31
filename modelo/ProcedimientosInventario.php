@@ -178,13 +178,13 @@ function obtenerRepuestosParaAsociar() {
 
 
 //Asociar un repuesto a un Activo fijo
-function asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombreUsuarioCausante, $bodega) {
+function asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombreUsuarioCausante) {
     $men = -1;
     $conexion = Conexion::getInstancia();
-    $tsql = "{call PAasociarRepuesto (?, ?, ?, ?, ?, ?) }";
+    $tsql = "{call PAasociarRepuesto (?, ?, ?, ?, ?) }";
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($placa, SQLSRV_PARAM_IN),
         array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
-        array($bodega, SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
+        array($men, SQLSRV_PARAM_OUT));
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
     sqlsrv_free_stmt($getMensaje);
     if ($men == 1) {
