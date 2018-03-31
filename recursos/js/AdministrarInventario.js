@@ -169,11 +169,12 @@ function obtenerRepuestos(codigo){
 }
 //Asociar un equipo a un repuesto
 function asociarRepuestos(codigo){
-    var codigoArticulo = $("#repuestos-select option:selected").val();
-        var correoUsuario = $("#correoUsuario").val();
+    var codigoArticulo = $("#repuestosSelect option:selected").val();
+    var correoUsuario = $("#correoUsuario").val();
     var nombreUsuario = $("#nombreUsuario").val();
-    var nombreBodega  =  'bodega' + codigoArticulo;
-    var bodega = $("'#"+nombreBodega+"'").val();
+    //var nombreBodega  =  'bodega' + codigoArticulo;
+    // var bodega = $("'#"+nombreBodega+"'").val();
+    var bodega = "Central";
         $.ajax({
         data: { 'codigoAsociarEquipo': codigo,
             'codigoArticulo': codigoArticulo,

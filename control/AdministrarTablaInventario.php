@@ -271,7 +271,7 @@ function selectTipos($categorias) {
 }
 
 function selectRepuestos($repuestos) {
-    echo'<select id = "repuestos-select" class="form-control">';
+    echo'<select id = "repuestosSelect" class="form-control">';
     foreach ($repuestos as $cat) {
         echo'<option value = "' . $cat->obtenerCodigoArticulo() . '">' . $cat->obtenerDescripcion() . '</option>';
         // echo '<input type = "hidden" id = bodega"'.$cat->obtenerCodigoArticulo().'" value = "'.$cat->obtenerBodega().'">';

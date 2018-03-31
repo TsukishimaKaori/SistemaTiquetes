@@ -114,10 +114,10 @@ if (isset($_POST['codigoEquipoParaRepuesto'])){
  
 }
 
-//Asociar un repuesto a un equipo
+//Asociar un repuesto a un equipo 
 if (isset($_POST['codigoAsociarEquipo'])){
     $placa =$_POST['codigoAsociarEquipo'];
-    $codigoArticulo =$_POST['$codigoArticulo'];
+    $codigoArticulo =$_POST['codigoArticulo'];
     $bodega = $_POST['bodega'];
     $correoUsuarioCausante =  $_POST['correoUsuarioCausante'];
     $nombreUsuarioCausante =  $_POST['nombreUsuarioCausante'];   
