@@ -108,14 +108,20 @@
 
 
                     </div> 
-                    <div  id ="panelInformacionIzquierda" >
-
-                        <div class="form-group  col-md-11" id="divLicencias">
+                    <div  id ="panelInformacionIzquierda" >                   
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 "  >
                             <h5>Licencias: </h5>
-                        </div> 
-                        <div class="form-group  col-md-11" id="divRepuestos">
+                            <div class="list-group list-group-horizontal" id="divLicencias">
+
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 "  >
                             <h5>Repuestos: </h5>
-                        </div>            
+                            <div class="list-group list-group-horizontal" id="divRepuestos">
+
+                            </div>
+                        </div>
+                                  
                         <div class="form-group  col-md-11">
                             <button type="button" class="btn  btn-primary" onclick="FormularioLicencia()">Agregar Licencia</button> 
                             <button type="button" class="btn  btn-primary" onclick="FormularioRepuesto()">Agregar Repuesto</button> 
@@ -137,12 +143,12 @@
 
                         </div>
                     </div> 
-                     </div>
-                    <div class="row">
-                        <button type="button" class="btn btn-success col-md-offset-4" onclick="agregarActivo()" > Asociar equipo </button>
-                        <button type="reset" class="btn btn-danger ">Cancelar</button> 
-                    </div>
-               
+                </div>
+                <div class="row">
+                    <button type="button" class="btn btn-success col-md-offset-4" onclick="agregarActivo()" > Asociar equipo </button>
+                    <button type="reset" class="btn btn-danger ">Cancelar</button> 
+                </div>
+
             </form>
 
         </div>

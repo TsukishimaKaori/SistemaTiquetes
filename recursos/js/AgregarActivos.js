@@ -98,7 +98,7 @@ function eliminarAgregarRepuestos(){
 }
 
 function AgregarLicencia() {
-
+                                                      
 //    if(Nlicencias==0){
 //      $("#divLicencias").html("<h5>Licencias: </h5>"); 
 //    }
@@ -109,9 +109,12 @@ function AgregarLicencia() {
     licencia[3] = document.getElementById("Ldescripcion").value;
 
     Licencias[Nlicencias] = licencia;
-    var a = $("#divLicencias").html();
-    $("#divLicencias").html(a + "<button  id='licencia" + Nlicencias + "' type='button' class='btn btn-warning ' onclick='verLicencia(" + Nlicencias + ")'   >" + licencia[3] + "</button>" +
-            "<button type='button' class='btn btn-danger' onclick='eliminarLicencia(" + Nlicencias + ")'> <span aria-hidden='true'>&times;</span></button>\n");
+    var a =  $("#divLicencias").html();
+      $("#divLicencias").html(a+"<a id='licencia" + Nlicencias + "'  onclick='verLicencia(" + Nlicencias + ")'   class='list-group-item'>" +
+                          licencia[3] + "<button type='button' onclick='eliminarLicencia(" + Nlicencias + ")' class='btn btn-default'>"+
+                      "<span class='glyphicon glyphicon-remove'></span></button></a>");
+    
+
     Nlicencias++;
     div = document.getElementById("divAgregar");
     div.style = "display: none";
@@ -127,10 +130,13 @@ function AgregarRepuesto() {
             repuesto[1]= select[$i].innerText;
             repuesto[2] = $i;
             Repuestos[Nrepuestos] = repuesto;
-           var boton=document.getElementById("repuesto"+Nrepuestos)
+          
             var a = $("#divRepuestos").html();
-            $("#divRepuestos").html(a + "<button  id='repuesto" + repuesto[0] + "' type='button' class='btn btn-warning  ' onclick='verRepuesto(" + Nrepuestos + ")' >" + repuesto[1] + "</button>" +
-                    "<button type='button' class='btn btn-danger' onclick='eliminarRepuesto(" + Nrepuestos + ")' > <span aria-hidden='true'>&times;</span></button>\n");
+             $("#divRepuestos").html(a +"<a id='repuesto" + repuesto[0] + "'  onclick='verRepuesto(" + Nrepuestos + ")'   class='list-group-item'>" +
+                          repuesto[1] + "<button type='button' onclick='eliminarRepuesto(" + Nrepuestos + ")' class='btn btn-default'>"+
+                      "<span class='glyphicon glyphicon-remove'></span></button></a>");
+            
+          
             Nrepuestos++;
         }
     }
@@ -145,11 +151,8 @@ function eliminarLicencia(numero) {
     var licencia = document.getElementById("licencia" + numero);
 
     if (licencia) {
-        var equis = licencia.nextSibling;
-
         var padre = licencia.parentNode;
-        padre.removeChild(licencia);
-        padre.removeChild(equis);
+        padre.removeChild(licencia);        
         Licencias[numero] = null;
     }
 }
@@ -158,15 +161,14 @@ function eliminarRepuesto(numero) {
     var codigo=Repuestos[numero][0];
     var repuesto = document.getElementById("repuesto" + codigo);
     if (repuesto) {
-        var equis = repuesto.nextSibling;
+       
         padre = repuesto.parentNode;
         padre.removeChild(repuesto);
-        padre.removeChild(equis);
+   
 
         var select = document.getElementById("comboRepuestos");
         select[Repuestos[numero][2]].selected=false;          
-        deseleccionar(Repuestos[numero][2]);
-        
+        deseleccionar(Repuestos[numero][2]);        
         Repuestos[numero] = null;
     }
 
@@ -185,6 +187,7 @@ function deseleccionar(numero){
 
 function verLicencia(numero) {
     var licencia = Licencias[numero];
+    if(licencia){
     var response = "<h4>Licencia</h4> <button type='button' class='close' aria-label='Close'  onclick='eliminarAgregar()'> <span aria-hidden='true'>&times;</span></button>" +
             " <div class=\"form-group  col-md-11\">" +
             " <label class=\"control-label col-sm-3\" for=\"LfechaV\">Fecha  de vencimiento:</label>" +
@@ -218,14 +221,17 @@ function verLicencia(numero) {
     div = document.getElementById("divAgregar");
     div.style = "";
     document.getElementById('aplicarL').focus();
+    }
 }
 
 function verRepuesto(numero) {
-    var div = document.getElementById("divAgregarRepuesto");
+    
+    var repuesto = Repuestos[numero];
+  if(repuesto){
+      var div = document.getElementById("divAgregarRepuesto");
     div.style = "display: none";
     div = document.getElementById("divAgregar");
     div.style = "";
-    var repuesto = Repuestos[numero];
     var response = " <h4>Repuesto</h4><button type='button' class='close' aria-label='Close' onclick='eliminarAgregar()'> <span aria-hidden='true'>&times;</span></button>" +
             "<div class=\"form-group  col-md-11\">" +
             "<label class=\"control-label col-sm-2\" for=\"Rdescripcion0\">Codigo:</label>" +
@@ -241,6 +247,7 @@ function verRepuesto(numero) {
             "  </div>";
     $("#divAgregar").html(response);
     document.getElementById('Rplaca').focus();
+  }
 }
 
 function editarLicencia(numero) {
@@ -252,7 +259,8 @@ function editarLicencia(numero) {
     if (Licencias[numero] != null) {
         Licencias[numero] = licencia;
         var boton = document.getElementById("licencia" + numero);
-        boton.innerHTML = licencia[3];
+        boton.innerHTML =   licencia[3] + "<button type='button' onclick='eliminarLicencia(" + numero + ")' class='btn btn-default'>"+
+                      "<span class='glyphicon glyphicon-remove'></span></button>";
     }
     div = document.getElementById("divAgregar");
     div.style = "display: none";
