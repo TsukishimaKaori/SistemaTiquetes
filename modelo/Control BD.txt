@@ -1,9 +1,21 @@
-1.Agregué PAobtenerCategorias
+30/02/2018
 
-2. Agregué PAagregarArticuloInventario 
+1. Dropear las tablas Inventario y Detalle
 
-3. Agregué PAaumentarCantidadInventario;
+2. Correr las tablas Inventario, Detalle y Bodega
 
+3. Correr los insert de Bodega y los de Inventario
+
+4. Volver a correr los procedimientos:
+    PAobtenerInventario                --Ahora tiene que mostrar en la tabla la bodega
+    PAagregarArticuloInventario
+    PAescribeDetalle
+    PAaumentarCantidadInventario       --Este cambia tambien en procedimientosInventario.php
+    PAobtenerRepuestosParaAsociar      --Seria bueno que se muestre la bodega
+    PAasociarRepuesto                  --Este cambia tambien en procedimientosInventario.php
+    PAagregarActivo                    --Este cambia tambien en procedimientosInventario.php
+
+5 Correr PAobtenerBodegas.    Para llenar el combo de bodegas cuando se crea un articulo del inventario
 
 29/03/2018
 
@@ -25,5 +37,11 @@ quiere asociar un activo.
 
 8. Cree PAagregarActivo
 
+28/03/2018
 
+1.Agregué PAobtenerCategorias
+
+2. Agregué PAagregarArticuloInventario 
+
+3. Agregué PAaumentarCantidadInventario;
 
