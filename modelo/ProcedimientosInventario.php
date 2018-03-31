@@ -317,6 +317,7 @@ function crearBodega($row) {
 //    echo $tema->obtenerEstado(). '<br />'; 
 //    echo $tema->obtenerCosto() . '<br />';
 //    echo $tema->obtenerCantidad() . '<br />';
+//    echo $tema->obtenerBodega() . '<br />';
 //    echo '<br />';
 //}
 //
