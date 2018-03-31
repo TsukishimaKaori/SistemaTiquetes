@@ -100,11 +100,13 @@
                         </div>
                         <div id="divAgregarRepuesto">
                             <div class="form-group  col-md-11">
-                                <label class="control-label col-sm-3" for="comboRepuestos">Repuestos:</label>
+                                <label class="control-label col-sm-2" for="comboRepuestos">Repuestos:</label>
+                                <div class="col-sm-10">
                                 <?php
                                 $repuestos = obtenerRepuestosParaAsociar();
                                 selectRepuestos($repuestos);
                                 ?>
+                               </div>
                             </div>
                             <button  id='aplicar' type='button' class='btn btn-success col-md-offset-2'  onclick='AgregarRepuesto()' > Aplicar </button>
                         </div>

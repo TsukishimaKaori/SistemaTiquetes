@@ -54,7 +54,7 @@ function FormularioLicencia() {
             " <input class=\"form-control\" id=\"Ldescripcion\" type=\"text\" required>" +
             "</div>" +
             " </div> " +
-            " </div><button id='aplicar' type='button' class='btn btn-success col-md-offset-2' onclick='AgregarLicencia()'> Aplicar </button>";
+            " </div><button id='aplicarL' type='button' class='btn btn-success col-md-offset-2' onclick='AgregarLicencia()'> Aplicar </button>";
     $("#divAgregar").html(response);
     $(function () {
         var fecha = new Date()
@@ -63,7 +63,7 @@ function FormularioLicencia() {
             locale: 'es',
         });
     });
-    document.getElementById('aplicar').focus();
+    document.getElementById('aplicarL').focus();
 
 }
 function FormularioRepuesto() {
