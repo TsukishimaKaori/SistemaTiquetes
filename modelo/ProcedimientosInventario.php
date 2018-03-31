@@ -8,6 +8,7 @@ require_once '../modelo/Licencia.php';
 require_once '../modelo/Repuesto.php';
 require_once '../modelo/Conexion.php';
 require_once '../modelo/ProcedimientosTiquetes.php';
+require_once '../modelo/Bodega.php';
 
 
 //Obtiene todos los dispositivos pasivos
@@ -242,6 +243,24 @@ function obtenerUsuariosParaAsociar() {
 }
 
 
+//Obtiene todas las bodegas 
+function obtenerBodegas() {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerBodegas }";
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener las bodegas';
+    }
+    $bodegas = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $bodegas[] = crearBodega($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $bodegas;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -393,3 +412,11 @@ function crearBodega($row) {
 
 //$mensaje = agregarActivo('11', 'CorreoSospechoso@gmail.com', 'Ali Al Shaez', 'C12', '999', 1, 'T67Y8', 'DELL', 'Inspiron', 'DELL', '2018/04/30', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante');
 //echo $mensaje;
+
+
+$bodegas = obtenerBodegas();
+
+foreach ($bodegas as $tema) {   
+    echo $tema->obtenerNombreBodega() . '<br />';
+    echo '<br />';
+}
