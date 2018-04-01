@@ -8,6 +8,7 @@ require_once '../modelo/Licencia.php';
 require_once '../modelo/Repuesto.php';
 require_once '../modelo/Conexion.php';
 require_once '../modelo/ProcedimientosTiquetes.php';
+require_once '../modelo/Bodega.php';
 
 
 //Obtiene todos los dispositivos pasivos
@@ -121,13 +122,13 @@ function agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codig
 
 
 //Aumentar la cantidad de un articulo en el inventario
-function aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $bodega, $comentarioUsuario, 
+function aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $comentarioUsuario, 
         $correoUsuarioCausante, $nombreUsuarioCausante) {
     $men = -1;
     $conexion = Conexion::getInstancia();
-    $tsql = "{call PAaumentarCantidadInventario (?, ?, ?, ?, ?, ?, ?) }";
+    $tsql = "{call PAaumentarCantidadInventario (?, ?, ?, ?, ?, ?) }";
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($cantidadEfecto, SQLSRV_PARAM_IN),
-        array($bodega, SQLSRV_PARAM_IN), array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
+        array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
         array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
         array($men, SQLSRV_PARAM_OUT));
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
@@ -178,13 +179,13 @@ function obtenerRepuestosParaAsociar() {
 
 
 //Asociar un repuesto a un Activo fijo
-function asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombreUsuarioCausante, $bodega) {
+function asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombreUsuarioCausante) {
     $men = -1;
     $conexion = Conexion::getInstancia();
-    $tsql = "{call PAasociarRepuesto (?, ?, ?, ?, ?, ?) }";
+    $tsql = "{call PAasociarRepuesto (?, ?, ?, ?, ?) }";
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($placa, SQLSRV_PARAM_IN),
         array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
-        array($bodega, SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
+        array($men, SQLSRV_PARAM_OUT));
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
     sqlsrv_free_stmt($getMensaje);
     if ($men == 1) {
@@ -200,15 +201,14 @@ function asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombr
 //Crear un Activo fijo y asociarlo a un usuario
 //El codigoArticulo tiene que sacarlo del inventario
 //El usuario causante es el usuario del sistema
-//La bodega tiene que pedirla en algun momento 
-function agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, $bodega, $placa,
+function agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, $placa,
 	$codigoCategoria, $serie, $proveedor, $modelo, $marca, $fechaExpiraGarantia,
 	$correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado) {
     $men = -1;
     $conexion = Conexion::getInstancia();
-    $tsql = "{call PAagregarActivo (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
+    $tsql = "{call PAagregarActivo (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($correoUsuarioCausante, SQLSRV_PARAM_IN), 
-        array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN), array($bodega, SQLSRV_PARAM_IN), 
+        array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),  
         array($placa, SQLSRV_PARAM_IN), array($codigoCategoria, SQLSRV_PARAM_IN),
         array($serie, SQLSRV_PARAM_IN), array($proveedor, SQLSRV_PARAM_IN),
         array($modelo, SQLSRV_PARAM_IN), array($marca, SQLSRV_PARAM_IN),
@@ -243,6 +243,24 @@ function obtenerUsuariosParaAsociar() {
 }
 
 
+//Obtiene todas las bodegas 
+function obtenerBodegas() {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerBodegas }";
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener las bodegas';
+    }
+    $bodegas = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $bodegas[] = crearBodega($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $bodegas;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -262,7 +280,8 @@ function crearInventario($row) {
     $categoria = crearCategoria($row);
     $estado = utf8_encode($row['estado']);
     $cantidad = $row['cantidad'];  
-    return new Inventario($codigoArticulo, $descripcion, $costo, $categoria, $estado, $cantidad);
+    $bodega = utf8_encode($row['bodega']);
+    return new Inventario($codigoArticulo, $descripcion, $costo, $categoria, $estado, $cantidad, $bodega);
 }
 
 function crearActivo($row) {
@@ -303,6 +322,11 @@ function crearRepuesto($row) {
     return new Repuesto($descripcion, $fechaAsociado, $placa);
 }
 
+function crearBodega($row) {
+    $nombreBodega = utf8_encode($row['nombreBodega']);
+    return new Bodega($nombreBodega);
+}
+
 //$pasivos = obtenerInventario();
 //
 //foreach ($pasivos as $tema) {   
@@ -311,6 +335,7 @@ function crearRepuesto($row) {
 //    echo $tema->obtenerEstado(). '<br />'; 
 //    echo $tema->obtenerCosto() . '<br />';
 //    echo $tema->obtenerCantidad() . '<br />';
+//    echo $tema->obtenerBodega() . '<br />';
 //    echo '<br />';
 //}
 //
@@ -387,3 +412,11 @@ function crearRepuesto($row) {
 
 //$mensaje = agregarActivo('11', 'CorreoSospechoso@gmail.com', 'Ali Al Shaez', 'C12', '999', 1, 'T67Y8', 'DELL', 'Inspiron', 'DELL', '2018/04/30', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante');
 //echo $mensaje;
+
+
+$bodegas = obtenerBodegas();
+
+foreach ($bodegas as $tema) {   
+    echo $tema->obtenerNombreBodega() . '<br />';
+    echo '<br />';
+}

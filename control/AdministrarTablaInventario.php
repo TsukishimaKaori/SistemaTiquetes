@@ -48,7 +48,7 @@ function cuerpoTablaPasivos($inventario) {
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
         echo '<td>' . $act->obtenerEstado() . '</td>';
         echo '<td>' .
-        '<a href="../vista/AgregarActivos.php?codigoArticulo=' . $act->obtenerCodigoArticulo() . '&categoria=' . $act->obtenerCategoria()->obtenerNombreCategoria() . '&descripcion=' . $act->obtenerDescripcion() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
+        '<a href="../vista/AgregarActivos.php?codigoArticulo=' . $act->obtenerCodigoArticulo().'&categoriaCodigo=' . $act->obtenerCategoria()->obtenerCodigoCategoria()  . '&categoria=' . $act->obtenerCategoria()->obtenerNombreCategoria() . '&descripcion=' . $act->obtenerDescripcion() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
         echo '</td>';
         echo '<td>'
         . '<span>' . $act->obtenerCantidad() . '</span>';

@@ -26,6 +26,11 @@ CREATE TABLE EstadoEquipoPermitido(
  )
  GO
  
+ CREATE TABLE Bodega(
+ nombreBodega varchar(150) NOT NULL,
+  CONSTRAINT PKBodega PRIMARY KEY(nombreBodega)
+ )
+ GO
 
  CREATE TABLE Inventario(
  codigoArticulo varchar(150) NOT NULL,
@@ -34,9 +39,10 @@ CREATE TABLE EstadoEquipoPermitido(
  codigoCategoria int NOT NULL,
  estado varchar(150) NOT NULL,
  cantidad int NOT NULL,
- CONSTRAINT PKInventario PRIMARY KEY(codigoArticulo),
- CONSTRAINT AK_Inventario UNIQUE (descripcion),
- CONSTRAINT FKInventarioCategoria FOREIGN KEY (codigoCategoria) REFERENCES Categoria(codigoCategoria)
+ bodega varchar(150),
+ CONSTRAINT PKInventario PRIMARY KEY(codigoArticulo, bodega),
+ CONSTRAINT FKInventarioCategoria FOREIGN KEY (codigoCategoria) REFERENCES Categoria(codigoCategoria),
+ CONSTRAINT FKInventarioBodega FOREIGN KEY (bodega) REFERENCES Bodega(nombreBodega)
  )
  GO
  
@@ -50,12 +56,12 @@ CREATE TABLE EstadoEquipoPermitido(
  fecha datetime NOT NULL,
  estado varchar(150) NOT NULL,
  efecto varchar(100) NOT NULL,    --Entrada o salida
- bodega varchar(100) NOT NULL,    --Pedirlo cuando se realiza cada accion
+ bodega varchar(150) NOT NULL, 
  comentarioUsuario ntext NOT NULL,
  correoUsuarioCausante varchar(150) NOT NULL,
  nombreUsuarioCausante varchar(150) NOT NULL,
  CONSTRAINT PKDetalle PRIMARY KEY(codigoDetalle),
- CONSTRAINT FKDetalleInventario FOREIGN KEY (codigoArticulo) REFERENCES Inventario(codigoArticulo)
+ CONSTRAINT FKDetalleInventario FOREIGN KEY (codigoArticulo, bodega) REFERENCES Inventario(codigoArticulo, bodega)
  )
  GO
   
@@ -137,12 +143,13 @@ CREATE TABLE ActivoFijo(
  CREATE PROCEDURE PAobtenerInventario
  AS
 	SET NOCOUNT ON;
-	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, inve.estado, inve.cantidad from
+	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, inve.estado, inve.cantidad,
+	inve.bodega from
 	(select codigoCategoria, nombreCategoria from Categoria) cat,
-	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad from Inventario) inve
+	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, bodega from Inventario) inve
 	where inve.codigoCategoria = cat.codigoCategoria;
  GO
-
+ --DROP PROCEDURE PAobtenerInventario
  --exec PAobtenerInventario;		
 
  CREATE PROCEDURE PAobtenerActivosFijos
@@ -198,7 +205,7 @@ CREATE PROCEDURE PAagregarArticuloInventario
 	@codigoCategoria int,
 	@estado varchar(150),
 	@cantidad int,
-	@bodega varchar(100),
+	@bodega varchar(150),
 	@comentarioUsuario ntext,
 	@correoUsuarioCausante varchar(150),
 	@nombreUsuarioCausante varchar(150),
@@ -212,8 +219,8 @@ BEGIN TRY
 	@fechaActual datetime
 
 	SET @fechaActual = (select GETDATE());
-	insert into Inventario (codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad) values
-	(@codigoArticulo, @descripcion, @costo, @codigoCategoria, @estado, @cantidad);
+	insert into Inventario (codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, bodega) values
+	(@codigoArticulo, @descripcion, @costo, @codigoCategoria, @estado, @cantidad, @bodega);
 
 	insert into Detalle (codigoArticulo, copiaCantidadInventario, cantidadEfecto, costo, fecha, estado, efecto, bodega, 
 	comentarioUsuario, correoUsuarioCausante, nombreUsuarioCausante) values 
@@ -234,17 +241,17 @@ END CATCH;
 GO
 
 --DECLARE @mens int
---exec PAagregarArticuloInventario '987','Celular Huawei Gplay mini', '30', 2, 'Activo', 2, 'Bodega A7', 'Acaban de llegar
+--exec PAagregarArticuloInventario '987','Celular Huawei Gplay mini', '30', 2, 'Activo', 2, 'Bodega de Perú', 'Acaban de llegar
 --los dos teléfono nuevos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', @men = @mens output;
 --PRINT @mens;
 
 --select * from Inventario;
 --select * from Detalle;
+--DROP PROCEDURE PAagregarArticuloInventario;
 
  CREATE PROCEDURE PAaumentarCantidadInventario
 	@codigoArticulo varchar(150),
 	@cantidadEfecto int,
-	@bodega varchar(100),
 	@comentarioUsuario ntext,
 	@correoUsuarioCausante varchar(150),
 	@nombreUsuarioCausante varchar(150),
@@ -262,7 +269,7 @@ BEGIN TRY
 
 	Update Inventario SET cantidad = (@copiaCantidad + @cantidadEfecto) where codigoArticulo = @codigoArticulo;
 
-	exec PAescribeDetalle @codigoArticulo, @cantidadEfecto, @bodega, @comentarioUsuario, @correoUsuarioCausante, 
+	exec PAescribeDetalle @codigoArticulo, @cantidadEfecto, @comentarioUsuario, @correoUsuarioCausante, 
 	@nombreUsuarioCausante, 'Entrada', @mens;
 
 	IF @mens = 1
@@ -286,7 +293,7 @@ GO
 
 
 --DECLARE @mens int
---exec PAaumentarCantidadInventario '10', 10, 'Bodega A7', 'Son muchos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', @men = @mens output;
+--exec PAaumentarCantidadInventario '987', 10, 'Son muchos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', @men = @mens output;
 --PRINT @mens;
 
 --select * from Inventario;
@@ -353,21 +360,21 @@ CREATE PROCEDURE PAobtenerRepuestosParaAsociar
 AS
 
 	SET NOCOUNT ON;
-	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, inve.estado, inve.cantidad from
+	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, inve.estado, inve.cantidad,
+	inve.bodega from
 	(select codigoCategoria, nombreCategoria from Categoria where esRepuesto = 1) cat,
-	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad from Inventario where cantidad > 0) inve
+	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, bodega from Inventario where cantidad > 0) inve
 	where inve.codigoCategoria = cat.codigoCategoria;
 GO
 --exec PAobtenerRepuestosParaAsociar;
 --select * from Inventario;
-
+--DROP PROCEDURE PAobtenerRepuestosParaAsociar;
 
 CREATE PROCEDURE PAasociarRepuesto
 	@codigoArticulo varchar(150),
 	@placa varchar(150),
 	@correoUsuarioCausante varchar(150),
 	@nombreUsuarioCausante varchar(150),
-	@bodega varchar(150),
 	@men int output	
 AS
 SET XACT_ABORT ON;
@@ -397,7 +404,6 @@ BEGIN TRY
 	SET @nombreAsociado = (select nombreUsuarioAsociado from ActivoFijo where placa = @placa);
 	SET @correoAsociado = (select correoUsuarioAsociado from ActivoFijo where placa = @placa);
 
-	--SET @copiaCantidad = (select cantidad from Inventario where codigoArticulo = @codigoArticulo);
 
 	Update Inventario SET cantidad = (cantidad-1) where codigoArticulo = @codigoArticulo;
 
@@ -408,7 +414,7 @@ BEGIN TRY
 
 	insert into Repuesto (descripcion, fechaAsociado, placa) values (@descripcion, @fechaActual,  @placa);
 
-	exec PAescribeDetalle @codigoArticulo, 1, @bodega, @comentario, @correoUsuarioCausante, 
+	exec PAescribeDetalle @codigoArticulo, 1, @comentario, @correoUsuarioCausante, 
 	@nombreUsuarioCausante, 'Salida', @mens;
 
 	IF @mens = 1
@@ -439,7 +445,7 @@ GO
 
 
 --DECLARE @mens int
---exec PAasociarRepuesto '10', '567', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 'B6', @men = @mens output;
+--exec PAasociarRepuesto '10', '456', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', @men = @mens output;
 --PRINT @mens;
 
 --select * from Inventario;
@@ -453,7 +459,6 @@ GO
  CREATE PROCEDURE PAescribeDetalle
 	@codigoArticulo varchar(150),
 	@cantidadEfecto int,
-	@bodega varchar(100),
 	@comentarioUsuario ntext,
 	@correoUsuarioCausante varchar(150),
 	@nombreUsuarioCausante varchar(150),
@@ -468,12 +473,14 @@ BEGIN TRY
 	@fechaActual datetime,
 	@copiaCantidad int,
 	@copiaCosto money,
-	@copiaEstado varchar(150)
+	@copiaEstado varchar(150),
+	@bodega varchar(150)
 
 	SET @fechaActual = (select GETDATE());
 	SET @copiaCantidad = (select cantidad from Inventario where codigoArticulo = @codigoArticulo);
 	SET @copiaCosto = (select costo from Inventario where codigoArticulo = @codigoArticulo);
 	set @copiaEstado = (select estado from Inventario where codigoArticulo = @codigoArticulo);
+	SET @bodega = (select bodega from Inventario where codigoArticulo = @codigoArticulo);
 
 	insert into Detalle (codigoArticulo, copiaCantidadInventario, cantidadEfecto, costo, fecha, estado, efecto, bodega, 
 	comentarioUsuario, correoUsuarioCausante, nombreUsuarioCausante) values 
@@ -492,13 +499,12 @@ BEGIN CATCH
     END;
 END CATCH;
 GO
-
+--DROP PROCEDURE PAescribeDetalle;
 
 CREATE PROCEDURE PAagregarActivo
 	@codigoArticulo varchar(150),
 	@correoUsuarioCausante varchar(150),
 	@nombreUsuarioCausante varchar(150),
-	@bodega varchar(150),
 	@placa varchar(150),
 	@codigoCategoria int, 
 	@serie varchar(150),
@@ -542,7 +548,7 @@ BEGIN TRY
 	@fechaExpiraGarantia, @correoUsuarioAsociado, @nombreUsuarioAsociado, @departamentoUsuarioAsociado,
 	@jefaturaUsuarioAsociado);
 
-	exec PAescribeDetalle @codigoArticulo, 1, @bodega, @comentario, @correoUsuarioCausante, 
+	exec PAescribeDetalle @codigoArticulo, 1, @comentario, @correoUsuarioCausante, 
 	@nombreUsuarioCausante, 'Salida', @mens;
 
 	IF @mens = 1
@@ -571,7 +577,7 @@ GO
 
 
 --DECLARE @mens int
---exec PAagregarActivo '11', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 'C12', '888', 1, '763U', 'Proveedor Misaki', 'Modelo con muchas manchas', 'Marca gatito', 
+--exec PAagregarActivo '11', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', '777', 1, '763U', 'Proveedor Misaki', 'Modelo con muchas manchas', 'Marca gatito', 
 -- '2018/04/30', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante',
 --  @men = @mens output;
 --PRINT @mens;
@@ -589,6 +595,14 @@ AS
 	select nombreUsuario, departamento, jefatura, correo, codigoEmpleado from RecursosHumanos;
 GO
 --exec PAobtenerUsuariosParaAsociar;
+
+
+CREATE PROCEDURE PAobtenerBodegas   
+AS  
+    SET NOCOUNT ON;
+	select nombreBodega from Bodega;
+GO
+--exec PAobtenerBodegas;
 
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
@@ -629,8 +643,8 @@ GO
 
 
  --Inventario
- insert into Inventario(codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad) values ('10', 'Bateria Dell 72X', '50', 4, 'Activo', 5);
- insert into Inventario(codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad) values ('11', 'Laptop Dell Inspiron', '60', 1, 'Activo', 2);
+ insert into Inventario(codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, bodega) values ('10', 'Bateria Dell 72X', '50', 4, 'Activo', 5, 'Bodega oficinas centrales');
+ insert into Inventario(codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, bodega) values ('11', 'Laptop Dell Inspiron', '60', 1, 'Activo', 2, 'Bodega centro de distribución');
 
 
 
@@ -668,6 +682,10 @@ GO
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (2, 'Asocia repuesto');
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (3, 'Activo creado');
 
+ insert into Bodega (nombreBodega) values ('Bodega oficinas centrales');
+ insert into Bodega (nombreBodega) values ('Bodega centro de distribución');
+ insert into Bodega (nombreBodega) values ('Bodega de Perú');
+
  --DROPS
  DROP TABLE HistorialActivos;
  DROP TABLE IndicadoresActivos;
@@ -679,6 +697,7 @@ GO
  DROP TABLE Detalle;
  DROP TABLE Inventario;
  DROP TABLE Categoria;
+ DROP TABLE Bodega;
  
 
  DROP PROCEDURE PAobtenerInventario;
@@ -694,3 +713,4 @@ GO
  DROP PROCEDURE PAasociarRepuesto;
  DROP PROCEDURE PAagregarActivo;
  DROP PROCEDURE PAobtenerUsuariosParaAsociar;        --Simula recursos humanos
+ DROP PROCEDURE PAobtenerBodegas;
