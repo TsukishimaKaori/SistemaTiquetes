@@ -34,19 +34,27 @@ if (isset($_POST["Licencias"])) {
     $departamentoUsuarioAsociado = $usuario->obtenerDepartamento();
     $jefaturaUsuarioAsociado = $usuario->obtenerJefatura();
 
-    agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, "", $placa, $codigoCategoria, $serie, $proveedor, $modelo, $marca, $fechaExpiraGarantia, $correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado);
-
-    foreach ($licencias as $licencia) {
-        $fechaDeVencimiento = $licencia[0];
-        $claveDeProducto = $licencia[1];
-        $proveedor = $licencia[2];
-        $descripcion = $licencia[3];
-        agregarLicencia($fechaDeVencimiento, $claveDeProducto, $proveedor, $descripcion, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);
+    $mensajeA = agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, "", $placa, $codigoCategoria, $serie, $proveedor, $modelo, $marca, $fechaExpiraGarantia, $correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado);
+    $mensajeL = "nada";
+    $mensajeR = "nada";
+    if ($mensajeA == '') {
+        foreach ($licencias as $licencia) {
+            if ($mensajeL == '' || $mensajeL == "nada") {
+                $fechaDeVencimiento = $licencia[0];
+                $claveDeProducto = $licencia[1];
+                $proveedor = $licencia[2];
+                $descripcion = $licencia[3];
+                $mensajeL = agregarLicencia($fechaDeVencimiento, $claveDeProducto, $proveedor, $descripcion, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);
+            }
+        }
+        foreach ($repuestos as $repuesto) {
+            if ($mensajeR == '' || $mensajeR == "nada") {
+                $codigoArticulo = $repuesto[0];
+                $mensajeR=asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombreUsuarioCausante, "");
+            }
+        }
     }
-    foreach ($repuestos as $repuesto) {
-        $codigoArticulo=$repuesto[0];
-        asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombreUsuarioCausante, "");
-    }
+    echo $mensajeA."-".$mensajeL."-".$mensajeR."-";
 }
 ?>
 
