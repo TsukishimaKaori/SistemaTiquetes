@@ -11,6 +11,7 @@
         <?php
         require ("../control/AdministrarTablaInventario.php");
         require ("../modelo/ProcedimientosInventario.php");
+         require ("../control/AlertasConfirmaciones.php");
         ?>
 
     </head>
@@ -157,7 +158,7 @@
             </div>
         </div>  
 
-
+        <?php  notificacion();?>
 
     </body>
 </html>

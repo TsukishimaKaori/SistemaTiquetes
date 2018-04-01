@@ -85,7 +85,6 @@ function cargarPanelSumarInventario(codigo, event) {
 function cargarPanelAgregarInventario() {
     $('#cuerpo-Tabla-Inventario').children('tr').css("background-color", "#ffffff");
     $('#cuerpo-Tabla-Activos').children('tr').css("background-color", "#ffffff");
-
     var codigo = 1;// cambiar codigo
     $.ajax({
         data: {'codigoAgregarInventario': codigo},
@@ -132,6 +131,7 @@ function agregarLicenciaEquipo(codigo) {
     var vencimientoLicencia = $("#vencimiento-licencia").val();
     var correoUsuario = $("#correoUsuario").val();
     var nombreUsuario = $("#nombreUsuario").val();
+    var mensaje = "";
     if (validacionFormularioAsociarLicencia() == 0) {
         $.ajax({
             data: {'codigoEquipo': codigo,
@@ -147,11 +147,15 @@ function agregarLicenciaEquipo(codigo) {
             success: function (response) {
                 $("#cuerpo-Tabla-Inventario").html(response);
                 limpiarFormularioLicencia();
+                mensaje = "Licencia asociada correctamente";
+                notificacion(mensaje);
             }
         });
+    } else {
+         mensaje = "Error al asociar la licencia, verifique los campos.";
+                notificacion(mensaje);
     }
 }
-
 
 function obtenerLicencias(codigo) {
 
@@ -191,6 +195,7 @@ function asociarRepuestos(codigo) {
     var codigoArticulo = $("#repuestosSelect option:selected").val();
     var correoUsuario = $("#correoUsuario").val();
     var nombreUsuario = $("#nombreUsuario").val();
+    var mensaje = "";
     //var nombreBodega  =  'bodega' + codigoArticulo;
     // var bodega = $("'#"+nombreBodega+"'").val();
     $.ajax({
@@ -204,6 +209,8 @@ function asociarRepuestos(codigo) {
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
             $("#cuerpo-Tabla-Inventario").html(response);
+            mensaje = "Repuesto asociada correctamente";
+            notificacion(mensaje);
         }
     });
 }
@@ -221,6 +228,7 @@ function agregarInventario() {
     var correoUsuario = $("#correoUsuario").val();
     var nombreUsuario = $("#nombreUsuario").val();
     var validacion = validacionFormularioAgregar();
+    var mensaje = "";
     if (validacion === 0) {
         $.ajax({
             data: {'codigoArticuloAgregarInventario': codigoArticulo,
@@ -239,8 +247,13 @@ function agregarInventario() {
             success: function (response) {
                 $("#cuerpo-Tabla-Inventario").html(response);
                 limpiarFormularioInventario();
+                mensaje = "Articulo agregado correctamente";
+                notificacion(mensaje);
             }
         });
+    } else {
+         mensaje = "Error al agregar el articulo, verifique los campos";
+                notificacion(mensaje);
     }
 }
 
@@ -251,6 +264,7 @@ function agregarInventarioSuma() {
     var comentario = $("#comentario-suma").val();
     var correoUsuario = $("#correoUsuario").val();
     var nombreUsuario = $("#nombreUsuario").val();
+    var mensaje = "";
     if (validacionFormularioSumar() == 0) {
         $.ajax({
             data: {'codigoArticuloSuma': codigoArticuloSuma,
@@ -264,8 +278,13 @@ function agregarInventarioSuma() {
             success: function (response) {
                 $("#cuerpo-Tabla-Inventario").html(response);
                 limpiarFormularioInventarioSuma();
+                mensaje = "Articulos agregados correctamente";
+                notificacion(mensaje);
             }
         });
+    }else {
+         mensaje = "Error al agregar el articulo, verifique los campos";
+                notificacion(mensaje);
     }
 }
 
@@ -491,3 +510,17 @@ function focoAsociarLicencia(evt) {
             break;
     }
 }
+
+
+// <editor-fold defaultstate="collapsed" desc="NOTIFICACIONES">
+function notificacion(mensaje) {
+    $("#divNotificacion").empty();
+    $("#divNotificacion").append('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+    $("#divNotificacion").append("</br><h4>" + mensaje + "</h4>");
+    $("#divNotificacion").css("display", "block");
+    setTimeout(function () {
+        $(".content").fadeOut(1500);
+    }, 3000);
+}
+
+// </editor-fold>
