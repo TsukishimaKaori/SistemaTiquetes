@@ -98,8 +98,10 @@ function cargarPanelAgregarInventario() {
 
 //Seccion de activos> repuestos
 function cargarPanelRepuestos(codigo, event) {
+    if(event != -1){
     $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
     $(event).parent().parent().css("background-color", "#dff0d8");
+}
     $.ajax({
         data: {'codigoAgregarRepuesto': codigo},
         type: 'POST',
@@ -213,6 +215,7 @@ function asociarRepuestos(codigo) {
             notificacion(mensaje);
         }
     });
+    cargarPanelRepuestos(codigo, -1);
 }
 
 //Agrega un elemento al inventario
@@ -335,7 +338,7 @@ function validacionFormularioAgregar() {
     var estado = $("#estado").val();
     var costo = $("#costo").val();
     var cantidad = $("#cantidad").val();
-    var categoria = $("#bodega option:selected").val();
+    var bodega = $("#bodega option:selected").val();
     var comentario = $("#comentario").val();
     var correoUsuario = $("#correoUsuario").val();
     var nombreUsuario = $("#nombreUsuario").val();

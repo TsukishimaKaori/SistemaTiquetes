@@ -47,8 +47,12 @@ function cuerpoTablaPasivos($inventario) {
         echo '<td>' . $act->obtenerDescripcion() . '</td>';
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
         echo '<td>' . $act->obtenerBodega() . '</td>';
-        echo '<td>' .
-        '<a href="../vista/AgregarActivos.php?codigoArticulo=' . $act->obtenerCodigoArticulo() . '&categoriaCodigo=' . $act->obtenerCategoria()->obtenerCodigoCategoria() . '&categoria=' . $act->obtenerCategoria()->obtenerNombreCategoria() . '&descripcion=' . $act->obtenerDescripcion() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
+        echo '<td>' ;
+         if( $act->obtenerCantidad() >0){       
+        echo '<a href="../vista/AgregarActivos.php?codigoArticulo=' . $act->obtenerCodigoArticulo() . '&categoriaCodigo=' . $act->obtenerCategoria()->obtenerCodigoCategoria() . '&categoria=' . $act->obtenerCategoria()->obtenerNombreCategoria() . '&descripcion=' . $act->obtenerDescripcion() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
+         }else {
+           echo '<button disabled class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button>';
+         }
         echo '</td>';
         echo '<td>'
         . '<span>' . $act->obtenerCantidad() . '</span>';
