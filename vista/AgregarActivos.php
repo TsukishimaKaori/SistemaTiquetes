@@ -5,6 +5,7 @@
         <?php require ("../control/ArchivosDeCabecera.php"); ?>
         <?php require ("../modelo/ProcedimientosInventario.php"); ?>
         <?php require ("../control/AdministrarAgregarActivos.php"); ?>
+        <?php require ("../control/AlertasConfirmaciones.php"); ?>
 
         <link href="../recursos/css/AgregarActivos.css" rel="stylesheet"/>     
         <script  type="text/javascript" src="../recursos/js/AgregarActivos.js"></script> 
@@ -29,16 +30,17 @@
             echo"<input type = 'hidden' id = 'codigoC' value = '" . $CategoriaCodigo . "'>";
         }
         ?>
-        <div class="containercontainer-fluid " >
+        <div class="container " >
             <h1> Asociar equipo a usuario </h1>
             <form  >
                 <div class="row" >
+                    <div class="panel-heading col-md-offset-1"><h3>Detalles</h3></div>
+                    <div id="panelInformacionDerecha"  class="panel-body col-md-offset-1"> 
 
-                    <div id="panelInformacionDerecha"  class=" col-md-offset-1"> 
                         <?php
                         echo'<div class="form-group  col-md-11"><label class="control-label  col-sm-4" for="placa">'
                         . 'Codigo del equipo:</label><span id="codigoA" class=" col-md-8">' . $codigoArticulo . ' </span>  </div>';
-                        echo'<div class="form-group  col-md-11"><label class="control-label  col-sm-4" for="placa">Descripcion :</label>'
+                        echo'<div class="form-group  col-md-11"><label class="control-label  col-sm-4" for="placa">Descripción :</label>'
                         . '<span class=" col-md-8">' . $descripcionEquipo . ' </span> </div>';
                         echo'<div class="form-group  col-md-11"><label class="control-label  col-sm-4" for="placa">Categoria :</label>'
                         . '<span class=" col-md-8" >' . $Categoria . ' </span> </div>';
@@ -66,7 +68,7 @@
                             </div>
                         </div> 
                         <div class="form-group  col-md-11">
-                            <label class="control-label col-sm-2" for="provedor">Provedor:</label>
+                            <label class="control-label col-sm-2" for="provedor">Proveedor:</label>
                             <div class="col-sm-10">
                                 <input class="form-control" id="provedor" type="text" required>
                             </div>
@@ -103,12 +105,7 @@
                                 </span>';
                                 ?>                             
                             </div>
-                        </div>
-
-
-
-                    </div> 
-                    <div  id ="panelInformacionIzquierda" >                   
+                        </div>                  
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 "  >
                             <h5>Licencias: </h5>
                             <div class="list-group list-group-horizontal" id="divLicencias">
@@ -121,7 +118,7 @@
 
                             </div>
                         </div>
-                                  
+
                         <div class="form-group  col-md-11">
                             <button type="button" class="btn  btn-primary" onclick="FormularioLicencia()">Agregar Licencia</button> 
                             <button type="button" class="btn  btn-primary" onclick="FormularioRepuesto()">Agregar Repuesto</button> 
@@ -142,17 +139,34 @@
                         <div id="divAgregar" class="form-group  col-md-11 divagregar">                                                  
 
                         </div>
-                    </div> 
-                </div>
-                <div class="row">
-                    <button type="button" class="btn btn-success col-md-offset-4" onclick="agregarActivo()" > Asociar equipo </button>
-                    <button type="reset" class="btn btn-danger ">Cancelar</button> 
-                </div>
 
+                        <button type="button" class="btn btn-success col-md-offset-4" onclick="agregarActivo()" > Asociar equipo </button>
+                        <button type="reset" class="btn btn-danger ">Cancelar</button> 
+                    </div>
+                </div>
             </form>
 
         </div>
-
+          <div id="errorInfo" class="modal fade " role="dialog">
+            <div class="modal-dialog modal-sm">                
+                <div class="modal-content">                
+                    <div class="modal-body">
+                        <div class="row">    
+                            <div class="" style ="text-align: center" id="errorDiv"> 
+                             
+                            </div> 
+                        </div>
+                     </div>
+                    <div class="modal-footer">
+                        <button type="button" id="aceptar" class="btn btn-danger" data-dismiss="modal" > Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+        confirmacion("confirmarAsociar", "¿Desea Asociar  el equipos?", "agregarActivoAjax();", ""); 
+        alerta("errorFormulario", "Faltan espacios por llenar", "");
+        ?>
     </body>
 </html>
 
