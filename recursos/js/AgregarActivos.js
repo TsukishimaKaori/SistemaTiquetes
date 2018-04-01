@@ -98,16 +98,13 @@ function eliminarAgregarRepuestos() {
 }
 
 function AgregarLicencia() {
-
-//    if(Nlicencias==0){
-//      $("#divLicencias").html("<h5>Licencias: </h5>"); 
-//    }
+  
     var licencia = [3];
     licencia[0] = document.getElementById("LfechaV").value;
     licencia[1] = document.getElementById("LclaveP").value;
     licencia[2] = document.getElementById("Lprovedor").value;
     licencia[3] = document.getElementById("Ldescripcion").value;
-
+ if(licencia[0]!=="" &&licencia[1]!=="" && licencia[2]!=="" && licencia[3]!=="" ) {
     Licencias[Nlicencias] = licencia;
     var a = $("#divLicencias").html();
     $("#divLicencias").html(a + "<a id='licencia" + Nlicencias + "'  onclick='verLicencia(" + Nlicencias + ")'   class='list-group-item'>" +
@@ -119,6 +116,10 @@ function AgregarLicencia() {
     div = document.getElementById("divAgregar");
     div.style = "display: none";
     $("#divAgregar").html("");
+    }
+    else{
+               $("#errorFormulario").modal("show");
+    }
 }
 function AgregarRepuesto() {
     var select = document.getElementById("comboRepuestos");
@@ -256,6 +257,7 @@ function editarLicencia(numero) {
     licencia[1] = document.getElementById("LclaveP").value;
     licencia[2] = document.getElementById("Lprovedor").value;
     licencia[3] = document.getElementById("Ldescripcion").value;
+    if(licencia[0]!=="" &&licencia[1]!=="" && licencia[2]!=="" && licencia[3]!=="" ) {
     if (Licencias[numero] != null) {
         Licencias[numero] = licencia;
         var boton = document.getElementById("licencia" + numero);
@@ -265,11 +267,17 @@ function editarLicencia(numero) {
     div = document.getElementById("divAgregar");
     div.style = "display: none";
     $("#divAgregar").html("");
+    }else{
+               $("#errorFormulario").modal("show");
+    }
 }
 
 
 
 // </editor-fold>
+
+
+// <editor-fold defaultstate="collapsed" desc="Agregar activo">
 function agregarActivo() {
 
     if (!lleno()) {
@@ -292,8 +300,6 @@ function lleno() {
     }
     return false;
 }
-
-// <editor-fold defaultstate="collapsed" desc="Agregar activo">
 function agregarActivoAjax() {
     var codigo = document.getElementById("codigoA").innerHTML;
     var codigoCategoria = document.getElementById("codigoC").value;
