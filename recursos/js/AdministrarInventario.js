@@ -312,7 +312,7 @@ function limpiarFormularioLicencia() {
 
 function limpiarFormularioInventarioSuma() {
     var cantidad = $("#cantidad-suma").val("");
-    var bodega = $("#bodega-suma").val("");
+  //  var bodega = $("#bodega-suma").val("");
     var comentario = $("#comentario-suma").val("");
 }
 
