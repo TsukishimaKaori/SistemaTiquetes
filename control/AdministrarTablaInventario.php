@@ -4,7 +4,7 @@ function cabeceraTablaPasivos() {
     echo "<th>Código</th>"
     . "<th>Descripción</th>"
     . "<th>Categoría</th>"
-    . "<th>Estado</th>"
+    . "<th>Bodega</th>"
     . "<th colspan='3'>Cantidad</th>"
     . "<th>Ver</th>";
 }
@@ -46,9 +46,9 @@ function cuerpoTablaPasivos($inventario) {
         echo '<td>' . $act->obtenerCodigoArticulo() . '</td>';
         echo '<td>' . $act->obtenerDescripcion() . '</td>';
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
-        echo '<td>' . $act->obtenerEstado() . '</td>';
+        echo '<td>' . $act->obtenerBodega() . '</td>';
         echo '<td>' .
-        '<a href="../vista/AgregarActivos.php?codigoArticulo=' . $act->obtenerCodigoArticulo().'&categoriaCodigo=' . $act->obtenerCategoria()->obtenerCodigoCategoria()  . '&categoria=' . $act->obtenerCategoria()->obtenerNombreCategoria() . '&descripcion=' . $act->obtenerDescripcion() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
+        '<a href="../vista/AgregarActivos.php?codigoArticulo=' . $act->obtenerCodigoArticulo() . '&categoriaCodigo=' . $act->obtenerCategoria()->obtenerCodigoCategoria() . '&categoria=' . $act->obtenerCategoria()->obtenerNombreCategoria() . '&descripcion=' . $act->obtenerDescripcion() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
         echo '</td>';
         echo '<td>'
         . '<span>' . $act->obtenerCantidad() . '</span>';
@@ -185,6 +185,9 @@ function panelPasivos($pasivos, $codigo) {
     . '           <div><span class="col-md-4 titulo-inventario">Categoría: </span><span class=" col-md-8">' . $listaPasivos->obtenerCategoria()->obtenerNombreCategoria() . ' </span></div> '
     . '         </div>'
     . '        <div class="row">'
+    . '           <div><span class="col-md-4 titulo-inventario">Bodega: </span><span class=" col-md-8">' . $listaPasivos->obtenerBodega() . ' </span></div> '
+    . '         </div>'
+    . '        <div class="row">'
     . '           <div><span class="col-md-4 titulo-inventario">Estado: </span><span class=" col-md-8">' . $listaPasivos->obtenerEstado() . ' </span></div> '
     . '         </div>'
     . '        <div class="row">'
@@ -199,7 +202,7 @@ function panelPasivos($pasivos, $codigo) {
     . '</div>';
 }
 
-function panelAgregarInventario($categorias) {
+function panelAgregarInventario($categorias, $bodegas) {
     echo '<div type = "hidden" class="panel panel-default">'
     . ' <div class="panel-heading"><h3>Agregar a inventario</h3></div>'
     . '     <div class="panel-body">';
@@ -239,11 +242,11 @@ function panelAgregarInventario($categorias) {
                 <input  onfocus = "foco(5)" class="form-control" id="costo" type="text" required>
             </div>
         </div>
-        <div class="form-group col-md-12">
+        <div class="form-group  col-md-12 ">
             <label class="control-label col-md-3" for="bodega">Bodega:</label>
-            <div class="col-md-9">
-                <input onfocus = "foco(6)" class="form-control" id="bodega" required>
-            </div>
+            <div class="col-md-9">';
+            selectBodegas($bodegas);
+            echo'</div>
         </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="comentario">Comentario:</label>
@@ -279,6 +282,15 @@ function selectRepuestos($repuestos) {
     echo'</select>';
 }
 
+function selectBodegas($bodegas) {
+    echo'<select id = "bodega" class="form-control">';
+    foreach ($bodegas as $cat) {
+        echo'<option value = "' . $cat->obtenerNombreBodega() . '">' . $cat->obtenerNombreBodega() . '</option>';
+        // echo '<input type = "hidden" id = bodega"'.$cat->obtenerCodigoArticulo().'" value = "'.$cat->obtenerBodega().'">';
+    }
+    echo'</select>';
+}
+
 function panelSumarAInventario($inventarios, $codigo) {
     $inventario = buscarDispositivoInventario($inventarios, $codigo);
     echo'<div type = "hidden" class="panel panel-default">'
@@ -302,12 +314,6 @@ function panelSumarAInventario($inventarios, $codigo) {
                 <input onfocus = "focoSuma(1)" class="form-control" id="cantidad-suma" type="number" required>
             </div>
         </div>        
-        <div class="form-group col-md-12">
-            <label class="control-label col-md-3" for="bodega-suma">Bodega:</label>
-            <div class="col-md-9">
-                <input onfocus = "focoSuma(2)" class="form-control" id="bodega-suma" required>
-            </div>
-        </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="comentario-suma">Comentario:</label>
             <div class="col-md-9">

@@ -413,10 +413,10 @@ function crearBodega($row) {
 //$mensaje = agregarActivo('11', 'CorreoSospechoso@gmail.com', 'Ali Al Shaez', 'C12', '999', 1, 'T67Y8', 'DELL', 'Inspiron', 'DELL', '2018/04/30', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante');
 //echo $mensaje;
 
-
-$bodegas = obtenerBodegas();
-
-foreach ($bodegas as $tema) {   
-    echo $tema->obtenerNombreBodega() . '<br />';
-    echo '<br />';
-}
+//
+//$bodegas = obtenerBodegas();
+//
+//foreach ($bodegas as $tema) {   
+//    echo $tema->obtenerNombreBodega() . '<br />';
+//    echo '<br />';
+//}

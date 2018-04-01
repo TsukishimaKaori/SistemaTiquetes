@@ -28,7 +28,8 @@ if (isset($_POST['codigoSumarInventario'])) {
 if (isset($_POST['codigoAgregarInventario'])) {
     $codigo = $_POST['codigoAgregarInventario'];
     $categorias = obtenerCategorias();
-    panelAgregarInventario($categorias);
+    $bodegas = obtenerBodegas();
+    panelAgregarInventario($categorias,$bodegas);
 }
 
 //Agrega nuevos elementos al inventario
@@ -54,11 +55,10 @@ if (isset($_POST['codigoArticuloAgregarInventario'])) {
 if (isset($_POST['codigoArticuloSuma'])) {
     $codigoArticulo = $_POST['codigoArticuloSuma'];
     $cantidadEfecto = $_POST['cantidadSuma'];
-    $bodega = $_POST['bodegaSuma'];
     $comentarioUsuario = $_POST['comentarioSuma'];
     $correoUsuarioCausante = $_POST['correoUsuario'];
     $nombreUsuarioCausante = $_POST['nombreUsuario'];
-    aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $bodega, $comentarioUsuario, 
+    aumentarCantidadInventario($codigoArticulo, $cantidadEfecto,$comentarioUsuario, 
         $correoUsuarioCausante, $nombreUsuarioCausante) ;
     $inventario = obtenerInventario();
     cuerpoTablaPasivos($inventario);
@@ -121,6 +121,7 @@ if (isset($_POST['codigoAsociarEquipo'])){
     $bodega = $_POST['bodega'];
     $correoUsuarioCausante =  $_POST['correoUsuarioCausante'];
     $nombreUsuarioCausante =  $_POST['nombreUsuarioCausante'];   
-    asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombreUsuarioCausante, $bodega);
-    
+    asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);
+    $inventario = obtenerInventario();
+    cuerpoTablaPasivos($inventario);
 }

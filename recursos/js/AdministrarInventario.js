@@ -193,18 +193,17 @@ function asociarRepuestos(codigo) {
     var nombreUsuario = $("#nombreUsuario").val();
     //var nombreBodega  =  'bodega' + codigoArticulo;
     // var bodega = $("'#"+nombreBodega+"'").val();
-    var bodega = "Central";
     $.ajax({
         data: {'codigoAsociarEquipo': codigo,
             'codigoArticulo': codigoArticulo,
             'correoUsuarioCausante': correoUsuario,
             'nombreUsuarioCausante': nombreUsuario,
-            'bodega': bodega
+
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
-
+            $("#cuerpo-Tabla-Inventario").html(response);
         }
     });
 }
@@ -217,7 +216,7 @@ function agregarInventario() {
     var estado = $("#estado").val();
     var costo = $("#costo").val();
     var cantidad = $("#cantidad").val();
-    var bodega = $("#bodega").val();
+    var bodega = $("#bodega option:selected").val();
     var comentario = $("#comentario").val();
     var correoUsuario = $("#correoUsuario").val();
     var nombreUsuario = $("#nombreUsuario").val();
@@ -249,7 +248,6 @@ function agregarInventario() {
 function agregarInventarioSuma() {
     var codigoArticuloSuma = $("#codigoSuma").text();
     var cantidad = $("#cantidad-suma").val();
-    var bodega = $("#bodega-suma").val();
     var comentario = $("#comentario-suma").val();
     var correoUsuario = $("#correoUsuario").val();
     var nombreUsuario = $("#nombreUsuario").val();
@@ -257,7 +255,6 @@ function agregarInventarioSuma() {
         $.ajax({
             data: {'codigoArticuloSuma': codigoArticuloSuma,
                 'cantidadSuma': cantidad,
-                'bodegaSuma': bodega,
                 'comentarioSuma': comentario,
                 'correoUsuario': correoUsuario,
                 'nombreUsuario': nombreUsuario
@@ -279,7 +276,6 @@ function limpiarFormularioInventario() {
     $("#estado").val("");
     $("#costo").val("");
     $("#cantidad").val("");
-    $("#bodega").val("");
     $("#comentario").val("");
 }
 
@@ -320,7 +316,7 @@ function validacionFormularioAgregar() {
     var estado = $("#estado").val();
     var costo = $("#costo").val();
     var cantidad = $("#cantidad").val();
-    var bodega = $("#bodega").val();
+    var categoria = $("#bodega option:selected").val();
     var comentario = $("#comentario").val();
     var correoUsuario = $("#correoUsuario").val();
     var nombreUsuario = $("#nombreUsuario").val();
@@ -371,7 +367,7 @@ function validacionFormularioAgregar() {
         $("#costo").css("border-color", "red");
         bandera = 1;
     }
-    if (costo >= 0) {
+    if (costo <= 0) {
         $("#costo").css("border-color", "red");
         bandera = 1;
     }
