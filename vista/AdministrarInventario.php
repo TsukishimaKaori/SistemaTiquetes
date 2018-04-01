@@ -80,7 +80,6 @@
                                     <div class="table table-responsive">  
                                         <table class="table table-hover">
                                             <thead>
-
                                                 <?php cabeceraTablaActivos(); ?>                                 
                                             </thead>
                                             <tbody id = "cuerpo-Tabla-Activos">
