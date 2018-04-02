@@ -164,7 +164,7 @@
             </div>
         </div>
         <?php
-        confirmacion("confirmarAsociar", "¿Desea Asociar  el equipos?", "agregarActivoAjax();", ""); 
+        confirmacion("confirmarAsociar", "¿Desea asociar  el equipos?", "agregarActivoAjax();", ""); 
         alerta("errorFormulario", "Faltan espacios por llenar", "");
         ?>
     </body>

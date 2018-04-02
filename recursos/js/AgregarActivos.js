@@ -50,13 +50,13 @@ function FormularioLicencia() {
             " </div>" +
             " </div>" +
             " <div class=\"form-group  col-md-12\">" +
-            "<label class=\"control-label col-sm-2\" for=\"Lprovedor\">Provedor:</label>" +
+            "<label class=\"control-label col-sm-2\" for=\"Lprovedor\">Proveedor:</label>" +
             " <div class=\"col-sm-10\">" +
             "    <input class=\"form-control\" id=\"Lprovedor\" type=\"text\" required>" +
             " </div>" +
             "</div> " +
             " <div class=\"form-group  col-md-12\">" +
-            "<label class=\"control-label col-sm-2\" for=\"Ldescripcion\">Descripcion:</label>" +
+            "<label class=\"control-label col-sm-2\" for=\"Ldescripcion\">Descripción:</label>" +
             "<div class=\"col-sm-10\">" +
             " <input class=\"form-control\" id=\"Ldescripcion\" type=\"text\" required>" +
             "</div>" +
@@ -206,13 +206,13 @@ function verLicencia(numero) {
                 " </div>" +
                 " </div>" +
                 " <div class=\"form-group  col-md-11\">" +
-                "<label class=\"control-label col-sm-2\" for=\"Lprovedor\">Provedor:</label>" +
+                "<label class=\"control-label col-sm-2\" for=\"Lprovedor\">Proveedor:</label>" +
                 " <div class=\"col-sm-10\">" +
                 "    <input class=\"form-control\" id=\"Lprovedor\" type=\"text\" value='" + licencia[2] + "' required>" +
                 " </div>" +
                 "</div> " +
                 " <div class=\"form-group  col-md-11\">" +
-                "<label class=\"control-label col-sm-2\" for=\"Ldescripcion\">Descripcion:</label>" +
+                "<label class=\"control-label col-sm-2\" for=\"Ldescripcion\">Descripción:</label>" +
                 "<div class=\"col-sm-10\">" +
                 " <input class=\"form-control\" id=\"Ldescripcion\" type=\"text\" value='" + licencia[3] + "' required>" +
                 "</div>" +
@@ -235,13 +235,13 @@ function verRepuesto(numero) {
         div.style = "";
         var response = " <h4>Repuesto</h4><button type='button' class='close' aria-label='Close' onclick='eliminarAgregar()'> <span aria-hidden='true'>&times;</span></button>" +
                 "<div class=\"form-group  col-md-11\">" +
-                "<label class=\"control-label col-sm-2\" for=\"Rdescripcion0\">Codigo:</label>" +
+                "<label class=\"control-label col-sm-2\" for=\"Rdescripcion0\">Código:</label>" +
                 "<div class=\"col-sm-10\">" +
                 " <input class=\"form-control\" id=\"Rdescripcion\" type=\"text\" value='" + repuesto[0] + "' readonly>" +
                 " </div>" +
                 " </div> " +
                 "<div class=\"form-group  col-md-11\">" +
-                " <label class=\"control-label col-sm-2\" for=\"Rplaca\">Descripcion:</label>" +
+                " <label class=\"control-label col-sm-2\" for=\"Rplaca\">Descripción:</label>" +
                 " <div class=\"col-sm-10\">" +
                 "<input class=\"form-control\" id=\"Rplaca\" type=\"text\" value='" + repuesto[1] + "' readonly>" +
                 " </div>" +
@@ -345,7 +345,7 @@ function agregarActivoAjax() {
             }
 
 
-            var mensage = '<h3>Informacion General: </h3>' +
+            var mensage = '<h3>Informacion general: </h3>' +
                     '<div class="form-group  col-md-11"><label class="control-label  col-sm-4"> Equipo:</label>' +
                     '<span id="codigoA" class=" col-md-8">' + mensageA + ' </span> </div>' +
                     '<div class="form-group  col-md-11"><label class="control-label  col-sm-4" >Licencias:</label>' +
