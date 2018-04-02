@@ -98,10 +98,10 @@ function cargarPanelAgregarInventario() {
 
 //Seccion de activos> repuestos
 function cargarPanelRepuestos(codigo, event) {
-    if(event != -1){
-    $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
-    $(event).parent().parent().css("background-color", "#dff0d8");
-}
+    if (event != -1) {
+        $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
+        $(event).parent().parent().css("background-color", "#dff0d8");
+    }
     $.ajax({
         data: {'codigoAgregarRepuesto': codigo},
         type: 'POST',
@@ -154,8 +154,8 @@ function agregarLicenciaEquipo(codigo) {
             }
         });
     } else {
-         mensaje = "Error al asociar la licencia, verifique los campos.";
-                notificacion(mensaje);
+        mensaje = "Error al asociar la licencia, verifique los campos.";
+        notificacion(mensaje);
     }
 }
 
@@ -210,9 +210,15 @@ function asociarRepuestos(codigo) {
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
-            $("#cuerpo-Tabla-Inventario").html(response);
-            mensaje = "Repuesto asociada correctamente";
-            notificacion(mensaje);
+            if (response == 1) {
+                   notificacion("Ha ocurrido un error al asociar el repuesto."); 
+            } else if (response == 2) {
+                 notificacion("El repuesto ya está asociado a este equipo.");
+            } else {
+                $("#cuerpo-Tabla-Inventario").html(response);
+                mensaje = "Repuesto asociada correctamente";
+                notificacion(mensaje);
+            }
         }
     });
     cargarPanelRepuestos(codigo, -1);
@@ -255,8 +261,8 @@ function agregarInventario() {
             }
         });
     } else {
-         mensaje = "Error al agregar el articulo, verifique los campos";
-                notificacion(mensaje);
+        mensaje = "Error al agregar el articulo, verifique los campos";
+        notificacion(mensaje);
     }
 }
 
@@ -285,9 +291,9 @@ function agregarInventarioSuma() {
                 notificacion(mensaje);
             }
         });
-    }else {
-         mensaje = "Error al agregar el articulo, verifique los campos";
-                notificacion(mensaje);
+    } else {
+        mensaje = "Error al agregar el articulo, verifique los campos";
+        notificacion(mensaje);
     }
 }
 
@@ -312,7 +318,7 @@ function limpiarFormularioLicencia() {
 
 function limpiarFormularioInventarioSuma() {
     var cantidad = $("#cantidad-suma").val("");
-  //  var bodega = $("#bodega-suma").val("");
+    //  var bodega = $("#bodega-suma").val("");
     var comentario = $("#comentario-suma").val("");
 }
 
