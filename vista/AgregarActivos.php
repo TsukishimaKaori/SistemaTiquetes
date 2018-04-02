@@ -39,10 +39,10 @@
 
                         <?php
                         echo'<div class="form-group  col-md-11"><label class="control-label  col-sm-4" for="placa">'
-                        . 'Codigo del equipo:</label><span id="codigoA" class=" col-md-8">' . $codigoArticulo . ' </span>  </div>';
+                        . 'Código del equipo:</label><span id="codigoA" class=" col-md-8">' . $codigoArticulo . ' </span>  </div>';
                         echo'<div class="form-group  col-md-11"><label class="control-label  col-sm-4" for="placa">Descripción :</label>'
                         . '<span class=" col-md-8">' . $descripcionEquipo . ' </span> </div>';
-                        echo'<div class="form-group  col-md-11"><label class="control-label  col-sm-4" for="placa">Categoria :</label>'
+                        echo'<div class="form-group  col-md-11"><label class="control-label  col-sm-4" for="placa">Categoría :</label>'
                         . '<span class=" col-md-8" >' . $Categoria . ' </span> </div>';
                         ?>
                         <div class="form-group  col-md-11">
@@ -86,7 +86,7 @@
                             </div>
                         </div>  
                         <div class="  form-group  col-md-11">
-                            <label class="control-label col-sm-3" for="fechaE">Expiracion de garantia:</label>
+                            <label class="control-label col-sm-3" for="fechaE">Expiración de garantía:</label>
                             <div class='input-group date col-sm-9' id='datetimepicker1'>
                                 <?php
                                 $hoy = getdate();
