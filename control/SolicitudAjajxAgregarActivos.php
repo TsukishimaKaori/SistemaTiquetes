@@ -34,7 +34,7 @@ if (isset($_POST["Licencias"])) {
     $departamentoUsuarioAsociado = $usuario->obtenerDepartamento();
     $jefaturaUsuarioAsociado = $usuario->obtenerJefatura();
 
-    $mensajeA = agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, "", $placa, $codigoCategoria, $serie, $proveedor, $modelo, $marca, $fechaExpiraGarantia, $correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado);
+    $mensajeA = agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante,$placa, $codigoCategoria, $serie, $proveedor, $modelo, $marca, $fechaExpiraGarantia, $correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado);
     $mensajeL = "nada";
     $mensajeR = "nada";
     if ($mensajeA == '') {
