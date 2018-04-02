@@ -1,9 +1,9 @@
 $(function () {
     var fecha = new Date();
-    $('#datetimepicker1').datetimepicker({
+    $("#datetimepicker1").datetimepicker({
         minDate: fecha.setDate(fecha.getDate() - 1),
         format: 'DD/MM/YYYY',
-        locale: 'es',
+        locale: 'es'
     });
 
 });
@@ -147,10 +147,14 @@ function agregarLicenciaEquipo(codigo) {
             type: 'POST',
             url: '../control/SolicitudAjaxInventario.php',
             success: function (response) {
-                $("#cuerpo-Tabla-Inventario").html(response);
-                limpiarFormularioLicencia();
-                mensaje = "Licencia asociada correctamente";
-                notificacion(mensaje);
+                if (response == 1) {
+                    notificacion("Ha ocurrido un error al ingresar la licencia");
+                } else {
+                    $("#cuerpo-Tabla-Inventario").html(response);
+                    limpiarFormularioLicencia();
+                    mensaje = "Licencia asociada correctamente";
+                    notificacion(mensaje);
+                }
             }
         });
     } else {
@@ -211,9 +215,9 @@ function asociarRepuestos(codigo) {
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
             if (response == 1) {
-                   notificacion("Ha ocurrido un error al asociar el repuesto."); 
+                notificacion("Ha ocurrido un error al asociar el repuesto.");
             } else if (response == 2) {
-                 notificacion("El repuesto ya está asociado a este equipo.");
+                notificacion("El repuesto ya está asociado a este equipo.");
             } else {
                 $("#cuerpo-Tabla-Inventario").html(response);
                 mensaje = "Repuesto asociada correctamente";

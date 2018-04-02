@@ -2,23 +2,23 @@
 <html> 
     <head>
         <meta charset="UTF-8">
-        <?php require_once ("../control/ArchivosDeCabecera.php"); ?>
-        <script src="../recursos/js/AdministrarInventario.js"></script> 
-        <link rel="stylesheet" href="../recursos/bootstrap/css/bootstrap-datetimepicker.min.css" />
-        <link href="../recursos/css/inventario.css" rel="stylesheet"/>         
-         <script src="../recursos/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+        <?php require_once ("../control/ArchivosDeCabecera.php"); ?>            
+        <link href="../recursos/css/inventario.css" rel="stylesheet"/>      
         <script src="../recursos/bootstrap/js/es.js"></script>  
+        <link rel="stylesheet" href="../recursos/bootstrap/css/bootstrap-datetimepicker.min.css" />
+        <script src="../recursos/bootstrap/js/bootstrap-datetimepicker.min.js"></script>     
+        <script src="../recursos/js/AdministrarInventario.js"></script>    
         <?php
         require ("../control/AdministrarTablaInventario.php");
         require ("../modelo/ProcedimientosInventario.php");
-         require ("../control/AlertasConfirmaciones.php");
+        require ("../control/AlertasConfirmaciones.php");
         ?>
 
     </head>
     <body>
         <?php
         require ("../vista/Cabecera.php");
-        
+
         $activos = obtenerActivosFijos();
         $inventario = obtenerInventario();
         if (isset($_GET['tab'])) {
@@ -157,7 +157,7 @@
             </div>
         </div>  
 
-        <?php  notificacion();?>
+        <?php notificacion(); ?>
 
     </body>
 </html>

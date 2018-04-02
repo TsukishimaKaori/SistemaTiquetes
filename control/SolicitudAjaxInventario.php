@@ -90,7 +90,11 @@ if (isset($_POST['claveProductoLicencia'])) {
     $vencimientoLicencia = $anio . '-' . $mes . '-' . $dia;
     $correoUsuarioCausante = $_POST['correoUsuarioCausante'];
     $nombreUsuarioCausante = $_POST['nombreUsuarioCausante'];
-    agregarLicencia($vencimientoLicencia, $claveProductoLicencia, $proveedorLicencia, $descripcionLicencia, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);
+    $bandera = agregarLicencia($vencimientoLicencia, $claveProductoLicencia, $proveedorLicencia, $descripcionLicencia, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);
+    if($bandera == 1) {
+        echo 1; // Ha ocurrido un error
+    }
+    
 }
 
 
