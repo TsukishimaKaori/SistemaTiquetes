@@ -26,15 +26,15 @@ class Conexion {
     }
 
 //  private $serverName = "DANNY\SQLEXPRESS01";
- //   private $serverName = "DESKTOP-HFVR94I\SQLEXPRESS01";     
+    private $serverName = "DESKTOP-HFVR94I\SQLEXPRESS01";     
    // private $serverName = "TATIANA\SQLEXPRESS02";
 
     //Conexion para el hosting gratuito
-    private $serverName = "den1.mssql5.gear.host"; 
-     private $connectionOptions = array("Database" => "sistemaTiquetes", "UID" => "sistematiquetes", "PWD" => "Jt3B_7e0GPn_");
+    //private $serverName = "den1.mssql5.gear.host"; 
+    // private $connectionOptions = array("Database" => "sistemaTiquetes", "UID" => "sistematiquetes", "PWD" => "Jt3B_7e0GPn_");
     //--------------------------------------------------------------------------
     
-  //  private $connectionOptions = array("Database" => "SistemaTiquetes", "UID" => "dbatiquetes", "PWD" => "dbatiquetes");
+    private $connectionOptions = array("Database" => "SistemaTiquetes", "UID" => "dbatiquetes", "PWD" => "dbatiquetes");
     private static $instancia = null;
     private static $conn;
     
