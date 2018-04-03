@@ -8,7 +8,7 @@
 
 4. Correr PAobtenerDocumentosAsociados
 
-5.
+5. Volver a correr obtenerInventario y obtenerActivosFijos
 
 30/03/2018
 
