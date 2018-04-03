@@ -368,6 +368,7 @@ function crearBodega($row) {
 //
 //foreach ($pasivos as $tema) {   
 //    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $tema->obtenerCategoria()->obtenerEsRepuesto() . '<br />';
 //    echo $tema->obtenerDescripcion() . '<br />';
 //    echo $tema->obtenerEstado(). '<br />'; 
 //    echo $tema->obtenerCosto() . '<br />';
