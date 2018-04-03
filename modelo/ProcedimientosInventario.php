@@ -270,7 +270,8 @@ function crearEstadoEquipo($row) {
 function crearCategoria($row) {
     $codigoCategoria = $row['codigoCategoria'];
     $nombreCategoria = utf8_encode($row['nombreCategoria']);
-    return new Categoria($codigoCategoria, $nombreCategoria);
+    $esRepuesto = $row['esRepuesto'];
+    return new Categoria($codigoCategoria, $nombreCategoria, $esRepuesto);
 }
 
 function crearInventario($row) {
@@ -378,6 +379,7 @@ function crearBodega($row) {
 //foreach ($categorias as $tema) {   
 //    echo $tema->obtenerCodigoCategoria() . '<br />';
 //    echo $tema->obtenerNombreCategoria() . '<br />';
+//    echo $tema->obtenerEsRepuesto() . '<br />';
 //    echo '<br />';
 //}
 
