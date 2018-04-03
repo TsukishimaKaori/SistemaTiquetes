@@ -10,6 +10,8 @@
 
 5. Volver a correr obtenerInventario y obtenerActivosFijos
 
+6. Correr PAobtenerEstadosEquipo
+
 30/03/2018
 
 1. Dropear las tablas Inventario y Detalle
