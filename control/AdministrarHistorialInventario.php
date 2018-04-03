@@ -1,5 +1,5 @@
 <?php
-function historialInfoTiquetes($historial, $dispositivo) {
+function historialInventario($historial, $dispositivo) {
     $tamanio = count($historial);
     if ($tamanio == 0) {
         echo '<h2 class="col-md-12 "  style = "color:black; text-align:center">No hay resultados que mostrar</h2> ';
