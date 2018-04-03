@@ -277,6 +277,26 @@ function adjuntarContrato($placa, $direccionAdjunto, $correoUsuarioCausante, $no
     return ''; //agregado correctamente
 }
 
+
+//Obtiene todos los documentos adjuntos que tiene un activo
+function obtenerDocumentosAsociados($placa) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerDocumentosAsociados (?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los documentos';
+    }
+    $direcciones = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $direcciones[] = $row['comentarioUsuario'];
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $direcciones;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -441,3 +461,10 @@ function crearBodega($row) {
 
 //$mensaje = adjuntarContrato('456', 'C:un/lugar/diferente/archivito.pdf', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //echo $mensaje;
+
+//$archivos = obtenerDocumentosAsociados('456');
+//
+//foreach ($archivos as $tema) {   
+//    echo $tema . '<br />';
+//    echo '<br />';
+//}
