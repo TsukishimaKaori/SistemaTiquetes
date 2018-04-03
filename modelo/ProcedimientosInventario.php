@@ -9,6 +9,7 @@ require_once '../modelo/Repuesto.php';
 require_once '../modelo/Conexion.php';
 require_once '../modelo/ProcedimientosTiquetes.php';
 require_once '../modelo/Bodega.php';
+require_once '../modelo/Detalle.php';
 
 
 //Obtiene todos los dispositivos pasivos
@@ -334,6 +335,25 @@ function actualizarEstadoEquipo($placa, $codigoEstadoSiguiente, $comentarioUsuar
 }
 
 
+//Obtiene los posibles estados siguientes desde el estado actual
+function obtenerDetalleArticuloInventario($codigoArticulo, $bodega) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerDetalleArticuloInventario (?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array(utf8_decode($bodega), SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los detalles';
+    }
+    $detalles = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $detalles[] = crearDetalle($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $detalles;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -399,6 +419,24 @@ function crearRepuesto($row) {
 function crearBodega($row) {
     $nombreBodega = utf8_encode($row['nombreBodega']);
     return new Bodega($nombreBodega);
+}
+
+function crearDetalle($row) {
+    $codigoDetalle = $row['codigoDetalle'];
+    $codigoArticulo = $row['codigoArticulo'];
+    $copiaCantidadInventario = $row['copiaCantidadInventario'];
+    $cantidadEfecto = $row['cantidadEfecto'];
+    $costo = $row['costo'];
+    $fecha = $row['fecha'];
+    $estado = utf8_encode($row['estado']);
+    $efecto = utf8_encode($row['efecto']);   
+    $bodega = utf8_encode($row['bodega']); 
+    $comentarioUsuario = utf8_encode($row['comentarioUsuario']);
+    $correoUsuarioCausante = $row['correoUsuarioCausante'];
+    $nombreUsuarioCausante = utf8_encode($row['nombreUsuarioCausante']);
+    return new Detalle($codigoDetalle, $codigoArticulo, $copiaCantidadInventario, $cantidadEfecto,
+            $costo, $fecha, $estado, $efecto, $bodega, $comentarioUsuario, $correoUsuarioCausante,
+            $nombreUsuarioCausante);
 }
 
 //$pasivos = obtenerInventario();
@@ -517,3 +555,11 @@ function crearBodega($row) {
 
 //$mensaje = actualizarEstadoEquipo('456', 1, 'El disposito está en perfectísimo estado :D', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //echo $mensaje;
+
+//$usuarios = obtenerDetalleArticuloInventario('11', 'Bodega centro de distribución');
+//
+//foreach ($usuarios as $tema) {   
+//    echo $tema->obtenerCodigoArticulo() . '<br />';
+//    echo $tema->obtenerComentarioUsuario() . '<br />';
+//    echo '<br />';
+//}
