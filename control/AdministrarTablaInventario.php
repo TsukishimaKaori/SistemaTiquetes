@@ -4,6 +4,7 @@ function cabeceraTablaPasivos() {
     echo "<th>Código</th>"
     . "<th>Descripción</th>"
     . "<th>Categoría</th>"
+    . "<th>Tipo</th>"
     . "<th>Bodega</th>"
     . "<th colspan='3'>Cantidad</th>"
     . "<th>Ver</th>";
@@ -45,6 +46,7 @@ function cuerpoTablaPasivos($inventario) {
         echo '<tr>';
         echo '<td>' . $act->obtenerCodigoArticulo() . '</td>';
         echo '<td>' . $act->obtenerDescripcion() . '</td>';
+        echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
         echo '<td>' . $act->obtenerBodega() . '</td>';
         echo '<td>' ;
