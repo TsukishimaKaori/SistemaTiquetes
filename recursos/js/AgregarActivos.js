@@ -98,27 +98,26 @@ function eliminarAgregarRepuestos() {
 }
 
 function AgregarLicencia() {
-  
+
     var licencia = [3];
     licencia[0] = document.getElementById("LfechaV").value;
     licencia[1] = document.getElementById("LclaveP").value;
     licencia[2] = document.getElementById("Lprovedor").value;
     licencia[3] = document.getElementById("Ldescripcion").value;
- if(licencia[0]!=="" &&licencia[1]!=="" && licencia[2]!=="" && licencia[3]!=="" ) {
-    Licencias[Nlicencias] = licencia;
-    var a = $("#divLicencias").html();
-    $("#divLicencias").html(a + "<a id='licencia" + Nlicencias + "'  onclick='verLicencia(" + Nlicencias + ")'   class='list-group-item'>" +
-            licencia[3] + "<button type='button' onclick='eliminarLicencia(" + Nlicencias + ")' class='btn btn-default'>" +
-            "<span class='glyphicon glyphicon-remove'></span></button></a>");
+    if (licencia[0] !== "" && licencia[1] !== "" && licencia[2] !== "" && licencia[3] !== "") {
+        Licencias[Nlicencias] = licencia;
+        var a = $("#divLicencias").html();
+        $("#divLicencias").html(a + "<a id='licencia" + Nlicencias + "'  onclick='verLicencia(" + Nlicencias + ")'   class='list-group-item'>" +
+                licencia[3] + "<button type='button' onclick='eliminarLicencia(" + Nlicencias + ")' class='btn btn-default'>" +
+                "<span class='glyphicon glyphicon-remove'></span></button></a>");
 
 
-    Nlicencias++;
-    div = document.getElementById("divAgregar");
-    div.style = "display: none";
-    $("#divAgregar").html("");
-    }
-    else{
-               $("#errorFormulario").modal("show");
+        Nlicencias++;
+        div = document.getElementById("divAgregar");
+        div.style = "display: none";
+        $("#divAgregar").html("");
+    } else {
+        $("#errorFormulario").modal("show");
     }
 }
 function AgregarRepuesto() {
@@ -257,18 +256,18 @@ function editarLicencia(numero) {
     licencia[1] = document.getElementById("LclaveP").value;
     licencia[2] = document.getElementById("Lprovedor").value;
     licencia[3] = document.getElementById("Ldescripcion").value;
-    if(licencia[0]!=="" &&licencia[1]!=="" && licencia[2]!=="" && licencia[3]!=="" ) {
-    if (Licencias[numero] != null) {
-        Licencias[numero] = licencia;
-        var boton = document.getElementById("licencia" + numero);
-        boton.innerHTML = licencia[3] + "<button type='button' onclick='eliminarLicencia(" + numero + ")' class='btn btn-default'>" +
-                "<span class='glyphicon glyphicon-remove'></span></button>";
-    }
-    div = document.getElementById("divAgregar");
-    div.style = "display: none";
-    $("#divAgregar").html("");
-    }else{
-               $("#errorFormulario").modal("show");
+    if (licencia[0] !== "" && licencia[1] !== "" && licencia[2] !== "" && licencia[3] !== "") {
+        if (Licencias[numero] != null) {
+            Licencias[numero] = licencia;
+            var boton = document.getElementById("licencia" + numero);
+            boton.innerHTML = licencia[3] + "<button type='button' onclick='eliminarLicencia(" + numero + ")' class='btn btn-default'>" +
+                    "<span class='glyphicon glyphicon-remove'></span></button>";
+        }
+        div = document.getElementById("divAgregar");
+        div.style = "display: none";
+        $("#divAgregar").html("");
+    } else {
+        $("#errorFormulario").modal("show");
     }
 }
 
@@ -279,7 +278,6 @@ function editarLicencia(numero) {
 
 // <editor-fold defaultstate="collapsed" desc="Agregar activo">
 function agregarActivo() {
-
     if (!lleno()) {
         $("#errorFormulario").modal("show");
 
@@ -341,6 +339,9 @@ function agregarActivoAjax() {
                     mensageE = "sin repuestos";
                 } else if (arregloDeSubCadenas[2] != "") {
                     mensageE == "Error al asociar";
+                }
+                if (arregloDeSubCadenas[3] != "No") {
+                    window.open(arregloDeSubCadenas[3]);
                 }
             }
 
