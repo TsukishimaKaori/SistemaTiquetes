@@ -84,7 +84,7 @@ function guardartiquete($r,$tematicas) {
             // basename() puede evitar ataques de denegació del sistema de ficheros;
             // podría ser apropiado más validación/saneamiento del nombre de fichero
             $archivo = basename($_FILES["archivo"]["name"]);
-            $adjuno = '..\\adjuntos\\' . $codigoT ."-". $archivo;
+            $adjuno = '../adjuntos/adjuntosTiquetes/' . $codigoT ."-". $archivo;
             move_uploaded_file($nombre_tmp, utf8_decode($adjuno));
             $mensaje = agregarAdjunto($codigoT, '', $correoU,$nombreU, $adjuno);
         }
