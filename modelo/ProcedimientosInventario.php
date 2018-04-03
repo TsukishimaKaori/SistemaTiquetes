@@ -261,6 +261,22 @@ function obtenerBodegas() {
 }
 
 
+//Adjuntar un archivo a un activo fijo
+function adjuntarContrato($placa, $direccionAdjunto, $correoUsuarioCausante, $nombreUsuarioCausante) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAadjuntarContrato (?, ?, ?, ?, ?) }";
+    $params = array( array($placa, SQLSRV_PARAM_IN), array($direccionAdjunto, SQLSRV_PARAM_IN),
+        array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } 
+    return ''; //agregado correctamente
+}
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -422,3 +438,6 @@ function crearBodega($row) {
 //    echo $tema->obtenerNombreBodega() . '<br />';
 //    echo '<br />';
 //}
+
+//$mensaje = adjuntarContrato('456', 'C:un/lugar/diferente/archivito.pdf', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//echo $mensaje;
