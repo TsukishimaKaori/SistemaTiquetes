@@ -7,7 +7,8 @@ function cabeceraTablaPasivos() {
     . "<th>Tipo</th>"
     . "<th>Bodega</th>"
     . "<th colspan='3'>Cantidad</th>"
-    . "<th>Ver</th>";
+    . "<th>Ver</th>"
+    . "<th>Historial</th>";
 }
 
 function cabeceraTablaActivos() {
@@ -18,7 +19,8 @@ function cabeceraTablaActivos() {
     . "<th>Fecha de salida de inventario </th>"
     . "<th>Repuesto</th>"
     . "<th>Licencia</th>"
-    . "<th>Ver</th>";
+    . "<th>Ver</th>"
+    . "<th>Historial</th>";
 }
 
 function cuerpoTablaActivos($activos) {
@@ -37,6 +39,7 @@ function cuerpoTablaActivos($activos) {
         echo '<td><button onclick = "cargarPanelRepuestos(' . $act->obtenerPlaca() . ',this)" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
         echo '<td><button onclick = "cargarPanelLicencias(' . $act->obtenerPlaca() . ',this)" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
         echo '<td><button onclick = "cargarPanelActivos(' . $act->obtenerPlaca() . ',this)" class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
+        echo '<td><a href = "../vista/HistorialInventario.php?pagina=1&dispositivo='.$act->obtenerPlaca().' "><button onclick = "cargarHistorial(2)" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
         echo '</tr>';
     }
 }
@@ -48,9 +51,9 @@ function cuerpoTablaPasivos($inventario) {
         echo '<td>' . $act->obtenerDescripcion() . '</td>';
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
         if($act->obtenerCategoria()->obtenerEsRepuesto()  == "1") {
-            echo '<td>'.$act->obtenerCategoria()->obtenerEsRepuesto() .'</td>';
+            echo '<td>Repuesto</td>';
         }else {
-             echo '<td>'.$act->obtenerCategoria()->obtenerEsRepuesto() .'</td>';
+             echo '<td>Activo</td>';
         }
         echo '<td>' . $act->obtenerBodega() . '</td>';
         echo '<td>';
@@ -67,6 +70,8 @@ function cuerpoTablaPasivos($inventario) {
         . '<button onclick = "cargarPanelSumarInventario(' . $act->obtenerCodigoArticulo() . ',this)"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
         '</td>';
         echo '<td><button onclick = "cargarPanelPasivos(' . $act->obtenerCodigoArticulo() . ',this)"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
+        echo '<td><a href = "../vista/HistorialInventario.php?pagina=1&dispositivo='.$act->obtenerCodigoArticulo().' "><button class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
+     
         echo '</tr>';
     }
 }
