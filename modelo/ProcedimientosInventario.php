@@ -9,6 +9,7 @@ require_once '../modelo/Repuesto.php';
 require_once '../modelo/Conexion.php';
 require_once '../modelo/ProcedimientosTiquetes.php';
 require_once '../modelo/Bodega.php';
+require_once '../modelo/Detalle.php';
 
 
 //Obtiene todos los dispositivos pasivos
@@ -297,6 +298,62 @@ function obtenerDocumentosAsociados($placa) {
 }
 
 
+//Obtiene los posibles estados siguientes desde el estado actual
+function obtenerEstadosEquipo($codigoEstadoActual) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerEstadosEquipo (?) }";
+    $params = array(array($codigoEstadoActual, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los estados';
+    }
+    $estados = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $estados[] = crearEstadoEquipo($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $estados;
+}
+
+
+//Actualizar el estado de un activo fijo
+function actualizarEstadoEquipo($placa, $codigoEstadoSiguiente, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAactualizarEstadoEquipo (?, ?, ?, ?, ?, ?) }";
+    $params = array( array($placa, SQLSRV_PARAM_IN), array($codigoEstadoSiguiente, SQLSRV_PARAM_IN),
+        array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
+        array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } 
+    return ''; //agregado correctamente
+}
+
+
+//Obtiene los posibles estados siguientes desde el estado actual
+function obtenerDetalleArticuloInventario($codigoArticulo, $bodega) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerDetalleArticuloInventario (?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array(utf8_decode($bodega), SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los detalles';
+    }
+    $detalles = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $detalles[] = crearDetalle($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $detalles;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -362,6 +419,24 @@ function crearRepuesto($row) {
 function crearBodega($row) {
     $nombreBodega = utf8_encode($row['nombreBodega']);
     return new Bodega($nombreBodega);
+}
+
+function crearDetalle($row) {
+    $codigoDetalle = $row['codigoDetalle'];
+    $codigoArticulo = $row['codigoArticulo'];
+    $copiaCantidadInventario = $row['copiaCantidadInventario'];
+    $cantidadEfecto = $row['cantidadEfecto'];
+    $costo = $row['costo'];
+    $fecha = $row['fecha'];
+    $estado = utf8_encode($row['estado']);
+    $efecto = utf8_encode($row['efecto']);   
+    $bodega = utf8_encode($row['bodega']); 
+    $comentarioUsuario = utf8_encode($row['comentarioUsuario']);
+    $correoUsuarioCausante = $row['correoUsuarioCausante'];
+    $nombreUsuarioCausante = utf8_encode($row['nombreUsuarioCausante']);
+    return new Detalle($codigoDetalle, $codigoArticulo, $copiaCantidadInventario, $cantidadEfecto,
+            $costo, $fecha, $estado, $efecto, $bodega, $comentarioUsuario, $correoUsuarioCausante,
+            $nombreUsuarioCausante);
 }
 
 //$pasivos = obtenerInventario();
@@ -467,5 +542,24 @@ function crearBodega($row) {
 //
 //foreach ($archivos as $tema) {   
 //    echo $tema . '<br />';
+//    echo '<br />';
+//}
+
+//$estados = obtenerEstadosEquipo(2);
+//
+//foreach ($estados as $tema) {   
+//    echo $tema->obtenerNombreEstado().'<br />'; 
+//    echo $tema->obtenerCodigoEstado() . '<br />';
+//    echo '<br />';
+//}
+
+//$mensaje = actualizarEstadoEquipo('456', 1, 'El disposito está en perfectísimo estado :D', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//echo $mensaje;
+
+//$usuarios = obtenerDetalleArticuloInventario('11', 'Bodega centro de distribución');
+//
+//foreach ($usuarios as $tema) {   
+//    echo $tema->obtenerCodigoArticulo() . '<br />';
+//    echo $tema->obtenerComentarioUsuario() . '<br />';
 //    echo '<br />';
 //}
