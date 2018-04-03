@@ -143,9 +143,9 @@ CREATE TABLE ActivoFijo(
  CREATE PROCEDURE PAobtenerInventario
  AS
 	SET NOCOUNT ON;
-	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, inve.estado, inve.cantidad,
+	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, inve.estado, inve.cantidad,
 	inve.bodega from
-	(select codigoCategoria, nombreCategoria from Categoria) cat,
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria) cat,
 	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, bodega from Inventario) inve
 	where inve.codigoCategoria = cat.codigoCategoria;
  GO
@@ -155,11 +155,11 @@ CREATE TABLE ActivoFijo(
  CREATE PROCEDURE PAobtenerActivosFijos
  AS
 	SET NOCOUNT ON;
-	select activo.placa, cat.codigoCategoria, cat.nombreCategoria, estado.codigoEstado, estado.nombreEstado,
+	select activo.placa, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, estado.codigoEstado, estado.nombreEstado,
 	activo.serie, activo.proveedor, activo.modelo, activo.marca, activo.fechaSalidaInventario, activo.fechaDesechado,
 	activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
 	activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
-	(select codigoCategoria, nombreCategoria from Categoria) cat,
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria) cat,
 	(select codigoEstado, nombreEstado from EstadoEquipo) estado,
 	(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
 	fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
@@ -168,6 +168,7 @@ CREATE TABLE ActivoFijo(
  GO
 
  --exec PAobtenerActivosFijos;
+ --DROP PROCEDURE PAobtenerActivosFijos;
 
  CREATE PROCEDURE PAobtenerLicencias
 	@placa varchar(150)
@@ -657,6 +658,26 @@ GO
 --select * from HistorialActivos;
 --DROP PROCEDURE PAadjuntarContrato;
 
+ CREATE PROCEDURE PAobtenerDocumentosAsociados
+	@placa varchar(150)
+ AS
+
+	SET NOCOUNT ON;
+	select comentarioUsuario from HistorialActivos where placa = @placa AND codigoIndicador = 4;
+ GO
+ --exec PAobtenerDocumentosAsociados '456';
+
+
+ CREATE PROCEDURE PAobtenerEstadosEquipo
+	@codigoEstadoActual int
+ AS
+	SET NOCOUNT ON;
+	select esta.codigoEstado, esta.nombreEstado from
+	(select estadoEquipoSiguiente from EstadoEquipoPermitido where estadoEquipoActual = @codigoEstadoActual) per,
+	(select codigoEstado, nombreEstado from EstadoEquipo) esta
+	where esta.codigoEstado = per.estadoEquipoSiguiente;
+ GO
+
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
  insert into estadoEquipo (codigoEstado, nombreEstado) values (2, 'En reparación');
@@ -770,3 +791,4 @@ GO
  DROP PROCEDURE PAobtenerUsuariosParaAsociar;        --Simula recursos humanos
  DROP PROCEDURE PAobtenerBodegas;
  DROP PROCEDURE PAadjuntarContrato;
+ DROP PROCEDURE PAobtenerDocumentosAsociados;
