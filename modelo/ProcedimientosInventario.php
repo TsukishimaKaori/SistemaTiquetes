@@ -297,6 +297,24 @@ function obtenerDocumentosAsociados($placa) {
 }
 
 
+//Obtiene los posibles estados siguientes desde el estado actual
+function obtenerEstadosEquipo($codigoEstadoActual) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerEstadosEquipo (?) }";
+    $params = array(array($codigoEstadoActual, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los estados';
+    }
+    $estados = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $estados[] = crearEstadoEquipo($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $estados;
+}
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -467,5 +485,13 @@ function crearBodega($row) {
 //
 //foreach ($archivos as $tema) {   
 //    echo $tema . '<br />';
+//    echo '<br />';
+//}
+
+//$estados = obtenerEstadosEquipo(2);
+//
+//foreach ($estados as $tema) {   
+//    echo $tema->obtenerNombreEstado().'<br />'; 
+//    echo $tema->obtenerCodigoEstado() . '<br />';
 //    echo '<br />';
 //}
