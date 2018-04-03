@@ -315,6 +315,25 @@ function obtenerEstadosEquipo($codigoEstadoActual) {
     return $estados;
 }
 
+
+//Actualizar el estado de un activo fijo
+function actualizarEstadoEquipo($placa, $codigoEstadoSiguiente, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAactualizarEstadoEquipo (?, ?, ?, ?, ?, ?) }";
+    $params = array( array($placa, SQLSRV_PARAM_IN), array($codigoEstadoSiguiente, SQLSRV_PARAM_IN),
+        array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
+        array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } 
+    return ''; //agregado correctamente
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -495,3 +514,6 @@ function crearBodega($row) {
 //    echo $tema->obtenerCodigoEstado() . '<br />';
 //    echo '<br />';
 //}
+
+//$mensaje = actualizarEstadoEquipo('456', 1, 'El disposito está en perfectísimo estado :D', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//echo $mensaje;
