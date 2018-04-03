@@ -740,6 +740,18 @@ GO
 --select * from HistorialActivos;
 --DROP PROCEDURE PAactualizarEstadoEquipo;
 
+
+ CREATE PROCEDURE PAobtenerDetalleArticuloInventario
+	@codigoArticulo varchar(150),
+	@bodega varchar(150)
+ AS
+	SET NOCOUNT ON;
+	select codigoDetalle, codigoArticulo, copiaCantidadInventario, cantidadEfecto, costo, fecha,
+	estado, efecto, bodega, comentarioUsuario, correoUsuarioCausante, nombreUsuarioCausante from Detalle 
+	where codigoArticulo = @codigoArticulo AND bodega = @bodega;
+ GO
+ exec PAobtenerDetalleArticuloInventario '10', 'Bodega oficinas centrales';
+
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
  insert into estadoEquipo (codigoEstado, nombreEstado) values (2, 'En reparación');
@@ -857,3 +869,4 @@ GO
  DROP PROCEDURE PAobtenerDocumentosAsociados;
  DROP PROCEDURE PAobtenerEstadosEquipo;
  DROP PROCEDURE PAactualizarEstadoEquipo;
+ DROP PROCEDURE PAobtenerDetalleArticuloInventario;
