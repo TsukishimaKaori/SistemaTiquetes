@@ -61,7 +61,7 @@ function FormularioLicencia() {
             " <input class=\"form-control\" id=\"Ldescripcion\" type=\"text\" required>" +
             "</div>" +
             " </div> " +
-            " </div><button id='aplicarL' type='button' class='btn btn-success col-md-offset-2' onclick='AgregarLicencia()'> Aplicar </button>";
+            " </div><div class='form-group  col-md-12'><button id='aplicarL' type='button' class='btn btn-success   col-md-offset-2' onclick='AgregarLicencia()'> Aplicar </button></div>";
     $("#divAgregar").html(response);
     $(function () {
         var fecha = new Date()
