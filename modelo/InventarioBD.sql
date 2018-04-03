@@ -677,6 +677,68 @@ GO
 	(select codigoEstado, nombreEstado from EstadoEquipo) esta
 	where esta.codigoEstado = per.estadoEquipoSiguiente;
  GO
+ --exec PAobtenerEstadosEquipo 4;
+
+
+CREATE PROCEDURE PAactualizarEstadoEquipo
+	@placa varchar(150),
+	@codigoEstadoSiguiente int,
+	@comentarioUsuario ntext,
+	@correoUsuarioCausante varchar(150),
+	@nombreUsuarioCausante varchar(150),
+	@men int output	
+AS
+SET XACT_ABORT ON;
+SET NOCOUNT ON;
+BEGIN TRY
+    BEGIN TRANSACTION;
+	DECLARE 
+	@fechaActual datetime,
+	@nombreAsociado varchar(100),
+	@correoAsociado varchar(100),
+	@aclaracion varchar(300),
+	@nombreEstadoActual varchar(100),
+	@nombreEstadoSiguiente varchar(100)
+
+	SET @fechaActual = (select GETDATE());
+	SET @nombreAsociado = (select nombreUsuarioAsociado from ActivoFijo where placa = @placa);
+	SET @correoAsociado = (select correoUsuarioAsociado from ActivoFijo where placa = @placa);
+	SET @nombreEstadoActual =
+	(select est.nombreEstado from
+	(select codigoEstado from ActivoFijo where placa = @placa) act,
+	(select codigoEstado, nombreEstado from EstadoEquipo) est
+	where act.codigoEstado = est.codigoEstado);
+	SET @nombreEstadoSiguiente = (select nombreEstado from EstadoEquipo where codigoEstado = @codigoEstadoSiguiente);
+
+	SET @aclaracion = 'El estado del activo con placa ' +  @placa + ' fue actualizado de '+ @nombreEstadoActual + ' a ' +
+	@nombreEstadoSiguiente + ' por ' + @nombreUsuarioCausante + ' el ' + CONVERT(VARCHAR, @fechaActual, 120);
+
+	update ActivoFijo SET codigoEstado = @codigoEstadoSiguiente where placa = @placa;
+
+	insert into HistorialActivos (placa, codigoIndicador, fechaHora, correoUsuarioCausante, nombreUsuarioCausante,
+	correoUsuarioAsociado, nombreUsuarioAsociado, comentarioUsuario, aclaracionSistema) values 
+	(@placa, 5, @fechaActual, @correoUsuarioCausante, @nombreUsuarioCausante, @correoAsociado, @nombreAsociado, @comentarioUsuario, @aclaracion);
+
+	COMMIT TRANSACTION;
+
+END TRY
+BEGIN CATCH
+
+    IF (XACT_STATE()) = -1
+    BEGIN
+        ROLLBACK TRANSACTION;
+		SET @men = 1;  --Error
+    END;
+END CATCH;
+GO
+
+--DECLARE @mens int
+--exec PAactualizarEstadoEquipo '456', 3, 'El dispositivo necesita ser examinado', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', @men = @mens output;
+--PRINT @mens;
+
+--select * from ActivoFijo;
+--select * from HistorialActivos;
+--DROP PROCEDURE PAactualizarEstadoEquipo;
 
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
@@ -760,6 +822,7 @@ GO
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (2, 'Asocia repuesto');
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (3, 'Activo creado');
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (4, 'Adjunta documento');
+ insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (5, 'Actualiza estado');
 
 
  --DROPS
@@ -792,3 +855,5 @@ GO
  DROP PROCEDURE PAobtenerBodegas;
  DROP PROCEDURE PAadjuntarContrato;
  DROP PROCEDURE PAobtenerDocumentosAsociados;
+ DROP PROCEDURE PAobtenerEstadosEquipo;
+ DROP PROCEDURE PAactualizarEstadoEquipo;
