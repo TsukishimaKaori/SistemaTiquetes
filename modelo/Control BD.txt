@@ -14,6 +14,8 @@
 
 7. Correr  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (5, 'Actualiza estado');
 
+8. Correr PAactualizarEstadoEquipo
+
 30/03/2018
 
 1. Dropear las tablas Inventario y Detalle
