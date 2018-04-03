@@ -192,10 +192,11 @@ CREATE TABLE ActivoFijo(
  CREATE PROCEDURE PAobtenerCategorias
  AS
 	SET NOCOUNT ON;
-	select codigoCategoria, nombreCategoria from Categoria;
+	select codigoCategoria, nombreCategoria, esRepuesto from Categoria;
  GO
 
  --exec PAobtenerCategorias;
+ --DROP PROCEDURE PAobtenerCategorias;
 
 
 CREATE PROCEDURE PAagregarArticuloInventario

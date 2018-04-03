@@ -2,9 +2,10 @@
 
 class Categoria {
     
-    public function __construct($co, $no) {
+    public function __construct($co, $no, $re) {
         $this->codigoCategoria = $co;
         $this->nombreCategoria = $no;
+        $this->esRepuesto = $re;
     }
     
     public function obtenerCodigoCategoria(){
@@ -15,7 +16,11 @@ class Categoria {
         return $this->nombreCategoria;
     }
     
+    public function obtenerEsRepuesto(){
+        return $this->esRepuesto;
+    }
     
     private $codigoCategoria;
     private $nombreCategoria;
+    private $esRepuesto;   //1 -> repuesto 0-> algo mas
 }

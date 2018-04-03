@@ -47,14 +47,18 @@ function cuerpoTablaPasivos($inventario) {
         echo '<td>' . $act->obtenerCodigoArticulo() . '</td>';
         echo '<td>' . $act->obtenerDescripcion() . '</td>';
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
-        echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
+        if($act->obtenerCategoria()->obtenerEsRepuesto()  == "1") {
+            echo '<td>'.$act->obtenerCategoria()->obtenerEsRepuesto() .'</td>';
+        }else {
+             echo '<td>'.$act->obtenerCategoria()->obtenerEsRepuesto() .'</td>';
+        }
         echo '<td>' . $act->obtenerBodega() . '</td>';
-        echo '<td>' ;
-         if( $act->obtenerCantidad() >0){       
-        echo '<a href="../vista/AgregarActivos.php?codigoArticulo=' . $act->obtenerCodigoArticulo() . '&categoriaCodigo=' . $act->obtenerCategoria()->obtenerCodigoCategoria() . '&categoria=' . $act->obtenerCategoria()->obtenerNombreCategoria() . '&descripcion=' . $act->obtenerDescripcion() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
-         }else {
-           echo '<button disabled class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button>';
-         }
+        echo '<td>';
+        if ($act->obtenerCantidad() > 0) {
+            echo '<a href="../vista/AgregarActivos.php?codigoArticulo=' . $act->obtenerCodigoArticulo() . '&categoriaCodigo=' . $act->obtenerCategoria()->obtenerCodigoCategoria() . '&categoria=' . $act->obtenerCategoria()->obtenerNombreCategoria() . '&descripcion=' . $act->obtenerDescripcion() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
+        } else {
+            echo '<button disabled class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button>';
+        }
         echo '</td>';
         echo '<td>'
         . '<span>' . $act->obtenerCantidad() . '</span>';
@@ -251,8 +255,8 @@ function panelAgregarInventario($categorias, $bodegas) {
         <div class="form-group  col-md-12 ">
             <label class="control-label col-md-3" for="bodega">Bodega:</label>
             <div class="col-md-9">';
-            selectBodegas($bodegas);
-            echo'</div>
+    selectBodegas($bodegas);
+    echo'</div>
         </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="comentario">Comentario:</label>
@@ -407,16 +411,16 @@ function panelAgregarLicencia($dispositivo, $codigo) {
             <label onfocus = "focoAsociarLicencia(4);"  class="control-label col-md-3" for="vencimiento-licencia">Fecha de vencimiento:</label>
             <div class="col-md-9">               
                 <div class="input-group date" id="datetimepicker1">';
-                    $hoy = getdate();
-                    $anio = $hoy["year"];
-                    $mes = $hoy["mon"];
-                    if ($mes < 10)
-                        $mes = "0" . $mes;
-                    $dia = $hoy["mday"];
-                    if ($dia < 10)
-                        $dia = "0" . $dia;
-                    $fecha = $dia . "/" . $mes . "/" . $anio;
-                    echo '<input type="text" class="form-control" id="vencimiento-licencia" value="' . $fecha . '">
+    $hoy = getdate();
+    $anio = $hoy["year"];
+    $mes = $hoy["mon"];
+    if ($mes < 10)
+        $mes = "0" . $mes;
+    $dia = $hoy["mday"];
+    if ($dia < 10)
+        $dia = "0" . $dia;
+    $fecha = $dia . "/" . $mes . "/" . $anio;
+    echo '<input type="text" class="form-control" id="vencimiento-licencia" value="' . $fecha . '">
                     <span class="input-group-addon btn btn-info" onclick="document.getElementById(\'vencimiento-licencia\').focus()">
                         <span class="glyphicon glyphicon-calendar"></span>                            
                     </span>                              
