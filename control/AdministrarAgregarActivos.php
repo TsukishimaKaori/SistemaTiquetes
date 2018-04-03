@@ -24,7 +24,7 @@ function selectRepuestos($repuestos) {
 }
 
 // </editor-fold>
-// <editor-fold defaultstate="collapsed" desc="Formulario">
+// <editor-fold defaultstate="collapsed" desc="Contrato">
 function generarPdf($placa) {
     $hoy = getdate();
     $anio = $hoy["year"];
@@ -41,7 +41,7 @@ function generarPdf($placa) {
     $pdf->AddPage();
 
     $pdf->SetFont('Arial', 'B', 16);
-    $pdf->Cell(40, 10, utf8_decode('¡Dánny!'));
+    $pdf->Cell(40, 10, utf8_decode('¡Contrato!'));
     $nombre=$placa."'".$fecha.".pdf";
     $url = "../adjuntos/contratos/".$nombre;
     $pdf->Output("F", $url);
