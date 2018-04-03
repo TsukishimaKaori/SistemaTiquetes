@@ -5,6 +5,7 @@ function cargarpaginaPrincipal() {
     } else {
         paginaPrincipal = $("#codigoPagina").val();
     }
+    
 }
 
 // <editor-fold defaultstate="collapsed" desc="CLASIFICACION TIQUETES">
