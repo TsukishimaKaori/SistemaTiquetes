@@ -16,6 +16,8 @@
 
 8. Correr PAactualizarEstadoEquipo
 
+9. Correr PAobtenerDetalleArticuloInventario
+
 30/03/2018
 
 1. Dropear las tablas Inventario y Detalle
