@@ -16,7 +16,7 @@ class Categoria {
         return $this->nombreCategoria;
     }
     
-    public function obtenerEsCategoria(){
+    public function obtenerEsRepuesto(){
         return $this->esRepuesto;
     }
     
