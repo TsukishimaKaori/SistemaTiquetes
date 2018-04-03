@@ -1,12 +1,17 @@
-<html>
-<head>
-  <meta charset="UTF-8">      
+
+<?php
+
+require('../recursos/pdf/fpdf.php');
 
 
-</head>
-<body>
-    
-   <h3 id="1">Informacion General: </h3>
-   <h3 id="2">Informacion General2: </h3>
-</body>
-</html>
+$pdf = new FPDF();
+
+$pdf->AddPage();
+
+$pdf->SetFont('Arial', 'B', 16);
+$pdf->Cell(40,10,utf8_decode('¡Dánny!') );
+
+
+$pdf->Output("documentos/newpdf.pdf","F");
+
+?>
