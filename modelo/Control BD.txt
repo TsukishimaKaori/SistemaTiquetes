@@ -1,8 +1,14 @@
 03/04/2018
 
-1. Cambiar el 1 PAobtenerCategorias.
+1. Cambiar el PAobtenerCategorias.
 
+2. Correr  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (4, 'Adjunta documento');
 
+3. Correr PAadjuntarContrato
+
+4. Correr PAobtenerDocumentosAsociados
+
+5. Volver a correr obtenerInventario y obtenerActivosFijos
 
 30/03/2018
 
