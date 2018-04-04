@@ -41,6 +41,7 @@ function abrir_tab_inventario(evt, id) {
 }
 
 function cargarPanelActivos(codigo, event) {
+     codigo = ""+codigo;
     $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
     $(event).parent().parent().css("background-color", "#dff0d8");
 
@@ -56,6 +57,7 @@ function cargarPanelActivos(codigo, event) {
 }
 
 function cargarPanelPasivos(codigo, event) {
+   
     $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
     $(event).parent().parent().css("background-color", "#dff0d8");
     $.ajax({

@@ -36,9 +36,9 @@ function cuerpoTablaActivos($activos) {
             $fechaSalida = date_format($act->obtenerFechaSalidaInventario(), 'd/m/Y');
             echo '<td>' . $fechaSalida . '</td>';
         }
-        echo '<td><button onclick = "cargarPanelRepuestos(' . $act->obtenerPlaca() . ',this)" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
-        echo '<td><button onclick = "cargarPanelLicencias(' . $act->obtenerPlaca() . ',this)" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
-        echo '<td><button onclick = "cargarPanelActivos(' . $act->obtenerPlaca() . ',this)" class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelRepuestos(\'' . $act->obtenerPlaca() . '\',this)" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelLicencias(\'' . $act->obtenerPlaca() . '\',this)" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelActivos(\'' . $act->obtenerPlaca() . '\',this)" class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
         echo '<td><a href = "../vista/HistorialInventario.php?pagina=1&dispositivo=' . $act->obtenerPlaca() . ' "><button onclick = "cargarHistorial(2)" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
         echo '</tr>';
     }
@@ -67,9 +67,9 @@ function cuerpoTablaPasivos($inventario) {
         . '<span>' . $act->obtenerCantidad() . '</span>';
         echo '</td>'
         . '<td>'
-        . '<button onclick = "cargarPanelSumarInventario(' . $act->obtenerCodigoArticulo() . ',this)"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
+        . '<button onclick = "cargarPanelSumarInventario(\'' . $act->obtenerCodigoArticulo() . '\',this)"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
         '</td>';
-        echo '<td><button onclick = "cargarPanelPasivos(' . $act->obtenerCodigoArticulo() . ',this)"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelPasivos(\'' . $act->obtenerCodigoArticulo() . '\',this)"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
         echo '<td><a href = "../vista/HistorialInventario.php?pagina=2&bodega=' . $act->obtenerBodega() . '&dispositivo=' . $act->obtenerCodigoArticulo() . ' "><button class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
 
         echo '</tr>';
