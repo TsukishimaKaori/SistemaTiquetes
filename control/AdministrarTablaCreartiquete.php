@@ -58,8 +58,8 @@ function guardartiquete($r,$tematicas) {
     $dia = substr($fecha, 0, 2);
     $mes = substr($fecha, 3, 2);
     $anio = substr($fecha, 6, 4);
-   $fecha = $anio . '-' . $dia. '-' .$mes;
-     // $fecha = $anio . '-' .$mes. '-'. $dia ;
+  
+      $fecha = $anio  .$mes. $dia ;
     $cometario = $_POST['comentario'];
     $adjuno = '';
     $codigoT=null;
