@@ -1,4 +1,5 @@
 <?php
+
 function historialInventario($historial, $dispositivo) {
     $tamanio = count($historial);
     if ($tamanio == 0) {
@@ -7,81 +8,81 @@ function historialInventario($historial, $dispositivo) {
         echo ' <div   class = "panel panel-info">' .
         '   <div class="panel-heading col-md-12">' .
         '       <div class="row"> ' .
-        '           <div><span class="titulo-Indicador col-md-12"><h1>Historial del tiquete</h1> </span></div> ' .
+        '           <div><span class="titulo-Indicador col-md-12"><h1>Registro de movimientos del articulo</h1> </span></div> ' .
         '       </div>  ' .
         '   </div>  ' .
         '<div class="panel-body" >' .
         '   <div class="col-md-12">' .
         '       <div class="row"> ' .
-        '           <div><h3>Información general del tiquete</h3></div> ' .
+        '           <div><h3>Información general del dispositivo en inventario</h3></div> ' .
         '       </div>  ' .
         '       <div class="row"> ' .
-        '           <div><span class="titulo-Indicador col-md-2">Código del tiquete: </span><span class=" col-md-10"> </span></div> ' .
+        '           <div><span class="titulo-Indicador col-md-3">Código del dispositivo: </span><span class=" col-md-9"> ' . $dispositivo->obtenerCodigoArticulo() . '</span></div> ' .
         '       </div>  ' .
         '       <div class="row"> ' .
-        '           <div><span class="titulo-Indicador col-md-2">Clasificación: </span><span class=" col-md-10"> </span></div> ' .
+        '           <div><span class="titulo-Indicador col-md-3">Categoria: </span><span class=" col-md-9"> ' . $dispositivo->obtenerCategoria()->obtenerNombreCategoria() . '</span></div> ' .
         '       </div>  ' .
         '       <div class="row"> ' .
-        '           <div><span class="titulo-Indicador col-md-2">Descripción: </span><span class=" col-md-10"> </span></div> ' .
+        '           <div><span class="titulo-Indicador col-md-3">Descripción: </span><span class=" col-md-9">' . $dispositivo->obtenerDescripcion() . ' </span></div> ' .
         '       </div>  ' .
         '       <div class="row"> ' .
-        '           <div><span class="titulo-Indicador col-md-2">Usuario solicitante: </span><span class=" col-md-10"> </span></div> ' .
+        '           <div><span class="titulo-Indicador col-md-3">Costo: </span><span class=" col-md-9"> ' . $dispositivo->obtenerCosto() . '</span></div> ' .
         '       </div>  ' .
         '       <div class="row"> ' .
-        '           <div><span class="titulo-Indicador col-md-2">Responsable a cargo: </span><span class=" col-md-10"> </span></div> ' .
+        '           <div><span class="titulo-Indicador col-md-3">Responsable a cargo: </span><span class=" col-md-9">' . $dispositivo->obtenerBodega() . ' </span></div> ' .
         '       </div>  ' .
         '       <div class="row"> ' .
-        '           <div><span class="titulo-Indicador col-md-2">Prioridad: </span><span class=" col-md-10"> </span></div> ' .
+        '           <div><span class="titulo-Indicador col-md-3">Cantidad actual en inventario: </span><span class=" col-md-9"> ' . $dispositivo->obtenerCantidad() . ' </span></div> ' .
         '       </div>  ' .
-                        '       <div class="row"> ' .
-        '           <div><h3>Historial del tiquete</h3></div> ' .
-        '       </div>  ' .                
+        '       <div class="row"> ' .
+        '           <div><h3>Movimientos del dispositivo</h3></div> ' .
+        '       </div>  ' .
         '   </div>  ';
         foreach ($historial as $his) {
-           // historialInformacionInventario($his);
+            historialInformacionInventario($his);
         }
         echo ' </div></div>  ';
     }
 }
 
-
 function historialInformacionInventario($historial) {
     echo
     '<div class = "col-md-12" >' .
     '       <div class="row"> ' .
-    '           <div ><span class="titulo-Indicador col-md-2">Indicador: </span><span class=" col-md-10" > ' . descripcionIndicador($historial->obtenerCodigoIndicador()) . '</span></div> ' .
+    '           <div><span class="titulo-Indicador col-md-3">Fecha del movimiento:</span><span class=" col-md-9"> ' . date_format($historial->obtenerFecha(), 'd/m/Y ') . '</span></div> ' .
     '       </div>  ' .
     '       <div class="row"> ' .
-    '           <div><span class="titulo-Indicador col-md-2">Correo del causante:</span><span class=" col-md-10"> ' . $historial->obtenerCorreoUsuarioCausante() . '</span></div> ' .
+    '           <div ><span class="titulo-Indicador col-md-3">Codigo del detalle: </span><span class=" col-md-9" > ' . $historial->obtenerCodigoDetalle() . '</span></div> ' .
     '       </div>  ' .
     '       <div class="row"> ' .
-    '           <div ><span class="titulo-Indicador col-md-2">Nombre del causante:</span><span class=" col-md-10"> ' . $historial->obtenerNombreUsuarioCausante() . '</span></div> ' .
+    '           <div><span class="titulo-Indicador col-md-3">Movimiento registrado: </span><span class=" col-md-9"><b> ' . $historial->obtenerEfecto() . '</b></span></div> ' .
     '       </div>  ' .
     '       <div class="row"> ' .
-    '           <div ><span class="titulo-Indicador col-md-2">Correo del responsable: </span><span class=" col-md-10"> ' . $historial->obtenerCorreoResponsable() . '</span></div> ' .
+    '           <div ><span class="titulo-Indicador col-md-3">Cantidad de dispositivos afectados : </span><span class=" col-md-9"><b> ' . $historial->obtenerCantidadEfecto() . '</b></span></div> ' .
     '       </div>  ' .
     '       <div class="row"> ' .
-    '           <div><span class="titulo-Indicador col-md-2">Nombre del responsable: </span><span class=" col-md-10"> ' . $historial->obtenerNombreResponsable() . '</span></div> ' .
+    '           <div ><span class="titulo-Indicador col-md-3">Cantidad registrada después del movimiento:</span><span class=" col-md-9"> ' . $historial->obtenerCopiaCantidadInventario() . '</span></div> ' .
+    '       </div>  ' .
+    '       <div class="row"> ' .
+    '           <div><span class="titulo-Indicador col-md-3">Costo: </span><span class=" col-md-9"> ' . $historial->obtenerCosto() . '</span></div> ' .
+    '       </div>  ' .
+    '       <div class="row"> ' .
+    '           <div><span class="titulo-Indicador col-md-3">Estado: </span><span class=" col-md-9"> ' . $historial->obtenerEstado() . '</span></div> ' .
+    '       </div>  ' .
+    '       <div class="row"> ' .
+    '           <div><span class="titulo-Indicador col-md-3">Bodega: </span><span class=" col-md-9"> ' . $historial->obtenerBodega() . '</span></div> ' .
+    '       </div>  ' .
+    '       <div class="row"> ' .
+    '           <div><span class="titulo-Indicador col-md-3">Correo del usuario causante: </span><span class=" col-md-9"> ' . $historial->obtenerCorreoUsuarioCausante() . '</span></div> ' .
+    '       </div>  ' .
+    '       <div class="row"> ' .
+    '           <div><span class="titulo-Indicador col-md-3">Nombre del usuario causante: </span><span class=" col-md-9"> ' . $historial->obtenerNombreUsuarioCausante() . '</span></div> ' .
+    '       </div>  ' .
+    '       <div class="row"> ' .
+    '           <div><span class="titulo-Indicador col-md-3">Comentario del causante: </span><span class=" col-md-9"> ' . $historial->obtenerComentarioUsuario() . '</span></div> ' .
     '       </div>  ';
-
-    if ($historial->obtenerComentarioUsuario() != "") {
-        echo '       <div class="row"> ' .
-        '           <div><span class="titulo-Indicador col-md-2">Comentario del usuario causante:</span><span class=" col-md-10"> ' . $historial->obtenerComentarioUsuario() . '</span></div> ' .
-        '       </div>  ';
-    }
-    echo '       <div class="row"> ' .
-    '           <div ><span class="titulo-Indicador col-md-2">Aclaración del sistema:</span><span class=" col-md-10"> ' . $historial->obtenerAclaracionSistema() . '</span></div> ' .
-    '       </div>  ';
-
-    echo '  <div class="row"> ' .
-    '           <div class=" col-md-12">&nbsp</div> ' .
-    '       </div>  ';
-
-
-    echo '</div>';
+    echo '</div><div class = "col-md-12">&nbsp</div><div class = "col-md-12">&nbsp</div>';
 }
-
-
 
 function buscarDispositivoInventario($dispositivo, $codigo) {
     foreach ($dispositivo as $act) {
