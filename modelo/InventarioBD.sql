@@ -750,7 +750,24 @@ GO
 	estado, efecto, bodega, comentarioUsuario, correoUsuarioCausante, nombreUsuarioCausante from Detalle 
 	where codigoArticulo = @codigoArticulo AND bodega = @bodega;
  GO
- exec PAobtenerDetalleArticuloInventario '10', 'Bodega oficinas centrales';
+ --exec PAobtenerDetalleArticuloInventario '10', 'Bodega oficinas centrales';
+
+
+CREATE PROCEDURE PAobtenerHistorialActivosFijos
+	@placa varchar(150)
+ AS
+	SET NOCOUNT ON;
+	select his.codigoHistorial, his.placa, indi.descripcionIndicador, his.fechaHora, his.correoUsuarioCausante,
+	his.nombreUsuarioCausante, his.correoUsuarioAsociado, his.nombreUsuarioAsociado, his.comentarioUsuario,
+	his.aclaracionSistema from
+	(select codigoIndicador, descripcionIndicador from IndicadoresActivos) indi,
+	(select codigoHistorial, placa, codigoIndicador, fechaHora, correoUsuarioCausante, nombreUsuarioCausante,
+	correoUsuarioAsociado, nombreUsuarioAsociado, comentarioUsuario, aclaracionSistema from HistorialActivos 
+	where placa = @placa) his 
+	where indi.codigoIndicador = his.codigoIndicador;
+ GO
+-- exec PAobtenerHistorialActivosFijos '456';
+ --DROP PROCEDURE PAobtenerHistorialActivosFijos;
 
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
@@ -836,7 +853,7 @@ GO
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (4, 'Adjunta documento');
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (5, 'Actualiza estado');
 
-
+ 
  --DROPS
  DROP TABLE HistorialActivos;
  DROP TABLE IndicadoresActivos;
@@ -870,3 +887,4 @@ GO
  DROP PROCEDURE PAobtenerEstadosEquipo;
  DROP PROCEDURE PAactualizarEstadoEquipo;
  DROP PROCEDURE PAobtenerDetalleArticuloInventario;
+ DROP PROCEDURE PAobtenerHistorialActivosFijos;
