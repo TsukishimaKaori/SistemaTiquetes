@@ -58,7 +58,7 @@ if (isset($_POST["Licencias"])) {
         $direccionAdjunto = generarPdf($placa);
         adjuntarContrato($placa, $direccionAdjunto, $correoUsuarioCausante, $nombreUsuarioCausante);
     }
-    echo $mensajeA . "-" . $mensajeL . "-" . $mensajeR . "-".$direccionAdjunto."-";
+    echo $mensajeA . "'" . $mensajeL . "'" . $mensajeR . "'".$direccionAdjunto."'";
 }
 ?>
 

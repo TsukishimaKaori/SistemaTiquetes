@@ -196,6 +196,21 @@ function obtenerRepuestos(codigo) {
     });
 
 }
+function obtenerContratos(codigo) {
+    $.ajax({
+        data: {'codigoEquipoParaContratos': codigo
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjaxInventario.php',
+        success: function (response) {
+            $("#cuerpoTablaContratos").html(response);
+            $("#tituloModalContratos").empty();
+            $("#tituloModalContratos").append('Contratos asociadas al equipo: ' + codigo);
+            $('#modalContratos').modal('show');
+        }
+    });
+
+}
 //Asociar un equipo a un repuesto
 function asociarRepuestos(codigo) {
     var codigoArticulo = $("#repuestosSelect option:selected").val();

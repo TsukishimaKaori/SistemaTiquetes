@@ -34,7 +34,7 @@ function generarPdf($placa) {
     $dia = $hoy["mday"];
     if ($dia < 10)
         $dia = "0" . $dia;
-    $fecha = $dia . "'" . $mes . "'" . $anio;
+    $fecha = $dia . "-" . $mes . "-" . $anio;
     
     $pdf = new FPDF();
 
@@ -42,7 +42,7 @@ function generarPdf($placa) {
 
     $pdf->SetFont('Arial', 'B', 16);
     $pdf->Cell(40, 10, utf8_decode('¡Contrato!'));
-    $nombre=$placa."'".$fecha.".pdf";
+    $nombre=$placa."-".$fecha.".pdf";
     $url = "../adjuntos/contratos/".$nombre;
     $pdf->Output("F", $url);
     return $url;

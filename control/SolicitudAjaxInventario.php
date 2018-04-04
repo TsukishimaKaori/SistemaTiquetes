@@ -111,6 +111,12 @@ if (isset($_POST['codigoEquipoParaRepuesto'])) {
     $repuestos = obtenerRepuestos($placa);
     cuerpoTablaRepuestos($repuestos);
 }
+//Listar los contratos asociados a un equipo
+if (isset($_POST['codigoEquipoParaContratos'])) {
+    $placa = $_POST['codigoEquipoParaContratos'];
+    $contratos = obtenerDocumentosAsociados($placa);
+    cuerpoTablaContratos($contratos);
+}
 
 //Asociar un repuesto a un equipo 
 if (isset($_POST['codigoAsociarEquipo'])) {
