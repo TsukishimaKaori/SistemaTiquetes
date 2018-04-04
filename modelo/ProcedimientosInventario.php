@@ -10,6 +10,7 @@ require_once '../modelo/Conexion.php';
 require_once '../modelo/ProcedimientosTiquetes.php';
 require_once '../modelo/Bodega.php';
 require_once '../modelo/Detalle.php';
+require_once '../modelo/HistorialActivos.php';
 
 
 //Obtiene todos los dispositivos pasivos
@@ -335,7 +336,7 @@ function actualizarEstadoEquipo($placa, $codigoEstadoSiguiente, $comentarioUsuar
 }
 
 
-//Obtiene los posibles estados siguientes desde el estado actual
+//Obtiene los detalles de movimientos de un articulo del inventario
 function obtenerDetalleArticuloInventario($codigoArticulo, $bodega) {
     $conexion = Conexion::getInstancia();
     $tsql = "{call PAobtenerDetalleArticuloInventario (?, ?) }";
@@ -351,6 +352,24 @@ function obtenerDetalleArticuloInventario($codigoArticulo, $bodega) {
     }
     sqlsrv_free_stmt($getMensaje);
     return $detalles;
+}
+
+//Obtiene el historial de un activo 
+function obtenerHistorialActivosFijos($placa) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerHistorialActivosFijos (?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener el historial';
+    }
+    $historial = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $historial[] = crearHistorialActivos($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $historial;
 }
 
 
@@ -437,6 +456,22 @@ function crearDetalle($row) {
     return new Detalle($codigoDetalle, $codigoArticulo, $copiaCantidadInventario, $cantidadEfecto,
             $costo, $fecha, $estado, $efecto, $bodega, $comentarioUsuario, $correoUsuarioCausante,
             $nombreUsuarioCausante);
+}
+
+function crearHistorialActivos($row) {
+    $codigoHistorial = $row['codigoHistorial'];
+    $placa = $row['placa'];
+    $descripcionIndicador = utf8_encode($row['descripcionIndicador']);
+    $fechaHora = $row['fechaHora'];
+    $correoUsuarioCausante = $row['correoUsuarioCausante'];
+    $nombreUsuarioCausante = utf8_encode($row['nombreUsuarioCausante']);
+    $correoUsuarioAsociado = $row['correoUsuarioAsociado'];
+    $nombreUsuarioAsociado = utf8_encode($row['nombreUsuarioAsociado']);
+    $comentarioUsuario = utf8_encode($row['comentarioUsuario']);
+    $aclaracionSistema = utf8_encode($row['aclaracionSistema']);
+    return new HistorialActivos($codigoHistorial, $placa, $descripcionIndicador, $fechaHora,
+            $correoUsuarioCausante, $nombreUsuarioCausante, $correoUsuarioAsociado, $nombreUsuarioAsociado,
+            $comentarioUsuario, $aclaracionSistema);
 }
 
 //$pasivos = obtenerInventario();
@@ -561,5 +596,14 @@ function crearDetalle($row) {
 //foreach ($usuarios as $tema) {   
 //    echo $tema->obtenerCodigoArticulo() . '<br />';
 //    echo $tema->obtenerComentarioUsuario() . '<br />';
+//    echo '<br />';
+//}
+
+//$usuarios = obtenerHistorialActivosFijos('456');
+//
+//foreach ($usuarios as $tema) {   
+//    echo $tema->obtenerCodigoHistorial() . '<br />';
+//    echo $tema->obtenerComentarioUsuario() . '<br />';
+//    echo $tema->obtenerAclaracionSistema() . '<br />';
 //    echo '<br />';
 //}
