@@ -27,7 +27,8 @@ if (isset($_POST["Licencias"])) {
     $marca = $_POST['marca'];
     $codigoCategoria = $_POST['codigoC'];
     $fechaExpiraGarantia = $_POST['fechaE'];
-
+    $fechaExpiraGarantia=explode("/", $fechaExpiraGarantia);
+    $fechaExpiraGarantia=$fechaExpiraGarantia[2].$fechaExpiraGarantia[1].$fechaExpiraGarantia[0];
     $usuario = obtenerDatosUsuario($correoUsuarioAsociado);
     $nombreUsuarioAsociado = $usuario->obtenerNombreUsuario();
     $departamentoUsuarioAsociado = $usuario->obtenerDepartamento();

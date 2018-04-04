@@ -4,9 +4,11 @@ function cabeceraTablaPasivos() {
     echo "<th>Código</th>"
     . "<th>Descripción</th>"
     . "<th>Categoría</th>"
+    . "<th>Tipo</th>"
     . "<th>Bodega</th>"
     . "<th colspan='3'>Cantidad</th>"
-    . "<th>Ver</th>";
+    . "<th>Ver</th>"
+    . "<th>Historial</th>";
 }
 
 function cabeceraTablaActivos() {
@@ -17,7 +19,8 @@ function cabeceraTablaActivos() {
     . "<th>Fecha de salida de inventario </th>"
     . "<th>Repuesto</th>"
     . "<th>Licencia</th>"
-    . "<th>Ver</th>";
+    . "<th>Ver</th>"
+    . "<th>Historial</th>";
 }
 
 function cuerpoTablaActivos($activos) {
@@ -36,6 +39,7 @@ function cuerpoTablaActivos($activos) {
         echo '<td><button onclick = "cargarPanelRepuestos(' . $act->obtenerPlaca() . ',this)" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
         echo '<td><button onclick = "cargarPanelLicencias(' . $act->obtenerPlaca() . ',this)" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
         echo '<td><button onclick = "cargarPanelActivos(' . $act->obtenerPlaca() . ',this)" class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
+        echo '<td><a href = "../vista/HistorialInventario.php?pagina=1&dispositivo='.$act->obtenerPlaca().' "><button onclick = "cargarHistorial(2)" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
         echo '</tr>';
     }
 }
@@ -46,13 +50,18 @@ function cuerpoTablaPasivos($inventario) {
         echo '<td>' . $act->obtenerCodigoArticulo() . '</td>';
         echo '<td>' . $act->obtenerDescripcion() . '</td>';
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
+        if($act->obtenerCategoria()->obtenerEsRepuesto()  == "1") {
+            echo '<td>Repuesto</td>';
+        }else {
+             echo '<td>Activo</td>';
+        }
         echo '<td>' . $act->obtenerBodega() . '</td>';
-        echo '<td>' ;
-         if( $act->obtenerCantidad() >0){       
-        echo '<a href="../vista/AgregarActivos.php?codigoArticulo=' . $act->obtenerCodigoArticulo() . '&categoriaCodigo=' . $act->obtenerCategoria()->obtenerCodigoCategoria() . '&categoria=' . $act->obtenerCategoria()->obtenerNombreCategoria() . '&descripcion=' . $act->obtenerDescripcion() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
-         }else {
-           echo '<button disabled class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button>';
-         }
+        echo '<td>';
+        if ($act->obtenerCantidad() > 0) {
+            echo '<a href="../vista/AgregarActivos.php?codigoArticulo=' . $act->obtenerCodigoArticulo() . '&categoriaCodigo=' . $act->obtenerCategoria()->obtenerCodigoCategoria() . '&categoria=' . $act->obtenerCategoria()->obtenerNombreCategoria() . '&descripcion=' . $act->obtenerDescripcion() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
+        } else {
+            echo '<button disabled class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button>';
+        }
         echo '</td>';
         echo '<td>'
         . '<span>' . $act->obtenerCantidad() . '</span>';
@@ -61,6 +70,8 @@ function cuerpoTablaPasivos($inventario) {
         . '<button onclick = "cargarPanelSumarInventario(' . $act->obtenerCodigoArticulo() . ',this)"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
         '</td>';
         echo '<td><button onclick = "cargarPanelPasivos(' . $act->obtenerCodigoArticulo() . ',this)"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
+        echo '<td><a href = "../vista/HistorialInventario.php?pagina=2&bodega='.$act->obtenerBodega().'&dispositivo='.$act->obtenerCodigoArticulo().' "><button class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
+     
         echo '</tr>';
     }
 }
@@ -259,8 +270,8 @@ function panelAgregarInventario($categorias, $bodegas) {
         <div class="form-group  col-md-12 ">
             <label class="control-label col-md-3" for="bodega">Bodega:</label>
             <div class="col-md-9">';
-            selectBodegas($bodegas);
-            echo'</div>
+    selectBodegas($bodegas);
+    echo'</div>
         </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="comentario">Comentario:</label>
@@ -415,16 +426,16 @@ function panelAgregarLicencia($dispositivo, $codigo) {
             <label onfocus = "focoAsociarLicencia(4);"  class="control-label col-md-3" for="vencimiento-licencia">Fecha de vencimiento:</label>
             <div class="col-md-9">               
                 <div class="input-group date" id="datetimepicker1">';
-                    $hoy = getdate();
-                    $anio = $hoy["year"];
-                    $mes = $hoy["mon"];
-                    if ($mes < 10)
-                        $mes = "0" . $mes;
-                    $dia = $hoy["mday"];
-                    if ($dia < 10)
-                        $dia = "0" . $dia;
-                    $fecha = $dia . "/" . $mes . "/" . $anio;
-                    echo '<input type="text" class="form-control" id="vencimiento-licencia" value="' . $fecha . '">
+    $hoy = getdate();
+    $anio = $hoy["year"];
+    $mes = $hoy["mon"];
+    if ($mes < 10)
+        $mes = "0" . $mes;
+    $dia = $hoy["mday"];
+    if ($dia < 10)
+        $dia = "0" . $dia;
+    $fecha = $dia . "/" . $mes . "/" . $anio;
+    echo '<input type="text" class="form-control" id="vencimiento-licencia" value="' . $fecha . '">
                     <span class="input-group-addon btn btn-info" onclick="document.getElementById(\'vencimiento-licencia\').focus()">
                         <span class="glyphicon glyphicon-calendar"></span>                            
                     </span>                              
