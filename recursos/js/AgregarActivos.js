@@ -316,7 +316,7 @@ function agregarActivoAjax() {
             'serie': serie, 'provedor': provedor, 'modelo': modelo, 'marca': marca, 'codigoC': codigoCategoria, 'fechaE': fechaE}, //capturo array     
         success: function (reponse) {
             $("#confirmarAsociar").modal("hide");
-            var separador = "-";
+            var separador = "'";
             var arregloDeSubCadenas = reponse.split(separador);
             var mensageA = "asociado";
             var mensageL = "asociado";

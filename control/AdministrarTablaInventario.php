@@ -108,6 +108,15 @@ function cuerpoTablaRepuestos($repuestos) {
         echo '</tr>';
     }
 }
+function cuerpoTablaContratos($contratos) {
+    foreach ($contratos as $act) {
+       $descripcion = explode("/", $act);
+        echo '<tr >';
+        echo '<td><a href="'.$act.'" target="_blank"><span class="glyphicon glyphicon-file"/>' . $descripcion[3] . '</a></td>';    
+        echo '</tr>';
+    }
+}
+
 
 function panelActivos($activos, $codigo) {
     $listaActivos = buscarDispositivoActivoFijo($activos, $codigo);
@@ -176,6 +185,7 @@ function panelActivos($activos, $codigo) {
     . '         <div class="row">'
     . '           <span ><button  onclick = "obtenerRepuestos(' . $codigo . ');" data-target="#modalRepuestos" data-toggle="modal" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Repuestos</button></span> '
     . '           <span ><button onclick = "obtenerLicencias(' . $codigo . ');" data-toggle="modal" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Licencias</button></span> '
+    . '           <span ><button onclick = "obtenerContratos(' . $codigo . ');" data-toggle="modal" class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Contratos</button></span> '
     . '         </div>'
     . '         </div>'
     . '     </div>'
