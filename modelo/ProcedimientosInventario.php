@@ -104,14 +104,14 @@ function obtenerCategorias() {
 
 //Agregar un articulo al inventario
 function agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codigoCategoria, $estado,
-	$cantidad, $bodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante) {
+	$cantidad, $codigoBodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante) {
     $men = -1;
     $conexion = Conexion::getInstancia();
     $tsql = "{call PAagregarArticuloInventario (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array(utf8_decode($descripcion), SQLSRV_PARAM_IN),
         array($costo, SQLSRV_PARAM_IN), array($codigoCategoria, SQLSRV_PARAM_IN),
         array($estado, SQLSRV_PARAM_IN), array($cantidad, SQLSRV_PARAM_IN),
-        array($bodega, SQLSRV_PARAM_IN), array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
+        array($codigoBodega, SQLSRV_PARAM_IN), array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
         array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
         array($men, SQLSRV_PARAM_OUT));
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
@@ -337,10 +337,10 @@ function actualizarEstadoEquipo($placa, $codigoEstadoSiguiente, $comentarioUsuar
 
 
 //Obtiene los detalles de movimientos de un articulo del inventario
-function obtenerDetalleArticuloInventario($codigoArticulo, $bodega) {
+function obtenerDetalleArticuloInventario($codigoArticulo, $codigoBodega) {
     $conexion = Conexion::getInstancia();
     $tsql = "{call PAobtenerDetalleArticuloInventario (?, ?) }";
-    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array(utf8_decode($bodega), SQLSRV_PARAM_IN));
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($codigoBodega, SQLSRV_PARAM_IN));
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
     if ($getMensaje == FALSE) {
         sqlsrv_free_stmt($getMensaje);
@@ -593,11 +593,12 @@ function crearHistorialActivos($row) {
 //$mensaje = actualizarEstadoEquipo('456', 1, 'El disposito está en perfectísimo estado :D', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //echo $mensaje;
 
-//$usuarios = obtenerDetalleArticuloInventario('11', 'Bodega centro de distribución');
+//$usuarios = obtenerDetalleArticuloInventario('10', 1);
 //
 //foreach ($usuarios as $tema) {   
 //    echo $tema->obtenerCodigoArticulo() . '<br />';
 //    echo $tema->obtenerComentarioUsuario() . '<br />';
+//    echo $tema->obtenerBodega()->obtenerNombreBodega() . '<br />';
 //    echo '<br />';
 //}
 
