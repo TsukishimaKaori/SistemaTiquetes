@@ -959,9 +959,141 @@ GO
 
 --select * from ActivoFijo;
 --select * from Repuesto;
-
 --select * from HistorialActivos;
 --DROP PROCEDURE PAeliminarRepuesto;
+
+
+CREATE PROCEDURE PAasociarUsuarioActivo
+	@placa varchar(150),
+	@correoUsuarioCausante varchar(150),
+	@nombreUsuarioCausante varchar(150),
+	@correoUsuarioAsociado varchar(300),
+	@nombreUsuarioAsociado varchar(100),
+	@departamentoUsuarioAsociado varchar(150),
+	@jefaturaUsuarioAsociado varchar(100), 
+	@men int output	
+AS
+SET XACT_ABORT ON;
+SET NOCOUNT ON;
+BEGIN TRY
+    BEGIN TRANSACTION;
+	DECLARE 
+	@fechaActual datetime,
+	@aclaracion varchar(300),
+	@mens int,
+	@nombreCategoria varchar(300)
+
+	IF (select codigoEstado from ActivoFijo where placa = @placa) = 5
+	BEGIN
+		SET @men = 2;
+		THROW  50001, 'El equipo fue desechado', 1;
+	END;
+
+	SET @nombreCategoria = (select cat.nombreCategoria from 
+	(select codigoCategoria, nombreCategoria from Categoria) cat,
+	(select codigoCategoria from ActivoFijo where placa = @placa) act
+	 where cat.codigoCategoria = act.codigoCategoria);
+	SET @fechaActual = (select GETDATE());
+
+
+	SET @aclaracion = 'El dispositivo ' + @nombreCategoria + '  con placa ' +  @placa + ' fue asociado al usuario ' +  
+	@nombreUsuarioAsociado + ' con correo ' + @correoUsuarioAsociado +
+	'  por ' + @nombreUsuarioCausante + ' el ' + CONVERT(VARCHAR, @fechaActual, 120);
+
+	update ActivoFijo SET correoUsuarioAsociado = @correoUsuarioAsociado, nombreUsuarioAsociado = @nombreUsuarioAsociado,
+	departamentoUsuarioAsociado = @departamentoUsuarioAsociado, jefaturaUsuarioAsociado = @jefaturaUsuarioAsociado
+	where placa = @placa;
+
+	insert into HistorialActivos (placa, codigoIndicador, fechaHora, correoUsuarioCausante, nombreUsuarioCausante,
+	correoUsuarioAsociado, nombreUsuarioAsociado, aclaracionSistema) values 
+	(@placa, 8, @fechaActual, @correoUsuarioCausante, @nombreUsuarioCausante, @correoUsuarioAsociado, 
+	@nombreUsuarioAsociado, @aclaracion);
+
+	COMMIT TRANSACTION;
+
+END TRY
+BEGIN CATCH
+
+    IF (XACT_STATE()) = -1
+    BEGIN
+        ROLLBACK TRANSACTION;
+    END;
+	IF @men != 2
+	BEGIN
+		SET @men = 1; 
+	END;
+END CATCH;
+GO
+
+
+--DECLARE @mens int
+--exec PAasociarUsuarioActivo '678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 'nubeblanca1997@outlook.com', 'Shimosutki Kanshikan', 'Relaciones Internacionales', 'Tsunemori Akane',
+--  @men = @mens output;
+--PRINT @mens;
+
+--select * from ActivoFijo;
+--select * from HistorialActivos;
+--DROP PROCEDURE PAasociarUsuarioActivo;
+
+
+CREATE PROCEDURE PAeliminarUsuarioActivo
+	@placa varchar(150),
+	@correoUsuarioCausante varchar(150),
+	@nombreUsuarioCausante varchar(150), 
+	@men int output	
+AS
+SET XACT_ABORT ON;
+SET NOCOUNT ON;
+BEGIN TRY
+    BEGIN TRANSACTION;
+	DECLARE 
+	@fechaActual datetime,
+	@aclaracion varchar(300),
+	@mens int,
+	@nombreCategoria varchar(300)
+
+
+	SET @nombreCategoria = (select cat.nombreCategoria from 
+	(select codigoCategoria, nombreCategoria from Categoria) cat,
+	(select codigoCategoria from ActivoFijo where placa = @placa) act
+	 where cat.codigoCategoria = act.codigoCategoria);
+	SET @fechaActual = (select GETDATE());
+
+
+	SET @aclaracion = 'Al dispositivo ' + @nombreCategoria + '  con placa ' +  @placa + ' le fue eliminado el propietario ' +  
+	'  por ' + @nombreUsuarioCausante + ' el ' + CONVERT(VARCHAR, @fechaActual, 120);
+
+	update ActivoFijo SET correoUsuarioAsociado = NULL, nombreUsuarioAsociado = NULL,
+	departamentoUsuarioAsociado = NULL, jefaturaUsuarioAsociado = NULL
+	where placa = @placa;
+
+	insert into HistorialActivos (placa, codigoIndicador, fechaHora, correoUsuarioCausante, nombreUsuarioCausante,
+	aclaracionSistema) values 
+	(@placa, 9, @fechaActual, @correoUsuarioCausante, @nombreUsuarioCausante, 
+	@aclaracion);
+
+	COMMIT TRANSACTION;
+
+END TRY
+BEGIN CATCH
+
+    IF (XACT_STATE()) = -1
+    BEGIN
+        ROLLBACK TRANSACTION;
+    END;
+	SET @men = 1; 
+
+END CATCH;
+GO
+
+
+--DECLARE @mens int
+--exec PAeliminarUsuarioActivo '678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales',@men = @mens output;
+--PRINT @mens;
+
+--select * from ActivoFijo;
+--select * from HistorialActivos;
+--DROP PROCEDURE PAeliminarUsuarioActivo;
 
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
@@ -1048,6 +1180,8 @@ GO
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (5, 'Actualiza estado');
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (6, 'Elimina licencia');
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (7, 'Elimina repuesto');
+ insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (8, 'Asocia usuario');
+ insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (9, 'Elimina usuario');
 
  
  --DROPS
@@ -1086,3 +1220,5 @@ GO
  DROP PROCEDURE PAobtenerHistorialActivosFijos;
  DROP PROCEDURE PAeliminarLicencia;
  DROP PROCEDURE PAeliminarRepuesto;
+ DROP PROCEDURE PAasociarUsuarioActivo;
+ DROP PROCEDURE PAeliminarUsuarioActivo;
