@@ -18,6 +18,7 @@ pueden realizar acciones sobre equipos desechados
 
 7. adjuntarContrato tiene lo mismo que el punto 6.
 
+8. asociarRepuesto tiene lo mismo que el punto 6.
 
 03/04/2018
 
