@@ -275,7 +275,9 @@ function adjuntarContrato($placa, $direccionAdjunto, $correoUsuarioCausante, $no
     sqlsrv_free_stmt($getMensaje);
     if ($men == 1) {
         return 1;  //Ha ocurrido un error
-    } 
+    } else if ($men == 2) {
+        return 2;  //No se pueden realizar acciones sobre activos desechados
+    }
     return ''; //agregado correctamente
 }
 
