@@ -567,6 +567,7 @@ function crearHistorialActivos($row) {
 //$bodegas = obtenerBodegas();
 //
 //foreach ($bodegas as $tema) {   
+//    echo $tema->obtenerCodigoBodega() . '<br />';
 //    echo $tema->obtenerNombreBodega() . '<br />';
 //    echo '<br />';
 //}
