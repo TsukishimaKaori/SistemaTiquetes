@@ -194,6 +194,8 @@ function asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombr
         return 1;  //Ha ocurrido un error
     } else if ($men == 2) {
         return 2;  //El activo ya tiene asociado un repuesto de ese tipo
+    } else if ($men == 3) {
+        return 3;  //No se pueden agregar repuestos a activos desechados
     } 
        
     return ''; //agregado correctamente
