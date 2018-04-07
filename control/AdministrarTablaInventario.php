@@ -36,10 +36,10 @@ function cuerpoTablaActivos($activos) {
             $fechaSalida = date_format($act->obtenerFechaSalidaInventario(), 'd/m/Y');
             echo '<td>' . $fechaSalida . '</td>';
         }
-        echo '<td><button onclick = "cargarPanelRepuestos(' . $act->obtenerPlaca() . ',this)" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
-        echo '<td><button onclick = "cargarPanelLicencias(' . $act->obtenerPlaca() . ',this)" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
-        echo '<td><button onclick = "cargarPanelActivos(' . $act->obtenerPlaca() . ',this)" class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
-        echo '<td><a href = "../vista/HistorialInventario.php?pagina=1&dispositivo='.$act->obtenerPlaca().' "><button onclick = "cargarHistorial(2)" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
+        echo '<td><button onclick = "cargarPanelRepuestos(\'' . $act->obtenerPlaca() . '\',this)" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelLicencias(\'' . $act->obtenerPlaca() . '\',this)" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelActivos(\'' . $act->obtenerPlaca() . '\',this)" class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
+        echo '<td><a href = "../vista/HistorialInventario.php?pagina=1&dispositivo=' . $act->obtenerPlaca() . ' "><button onclick = "cargarHistorial(2)" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
         echo '</tr>';
     }
 }
@@ -50,14 +50,14 @@ function cuerpoTablaPasivos($inventario) {
         echo '<td>' . $act->obtenerCodigoArticulo() . '</td>';
         echo '<td>' . $act->obtenerDescripcion() . '</td>';
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
-        if($act->obtenerCategoria()->obtenerEsRepuesto()  == "1") {
+        if ($act->obtenerCategoria()->obtenerEsRepuesto() == "1") {
             echo '<td>Repuesto</td>';
-        }else {
-             echo '<td>Activo</td>';
+        } else {
+            echo '<td>Activo</td>';
         }
         echo '<td>' . $act->obtenerBodega() . '</td>';
         echo '<td>';
-        if ($act->obtenerCantidad() > 0) {
+        if (($act->obtenerCantidad() > 0 && $act->obtenerCategoria()->obtenerEsRepuesto() == "0")) {
             echo '<a href="../vista/AgregarActivos.php?codigoArticulo=' . $act->obtenerCodigoArticulo() . '&categoriaCodigo=' . $act->obtenerCategoria()->obtenerCodigoCategoria() . '&categoria=' . $act->obtenerCategoria()->obtenerNombreCategoria() . '&descripcion=' . $act->obtenerDescripcion() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
         } else {
             echo '<button disabled class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button>';
@@ -67,11 +67,11 @@ function cuerpoTablaPasivos($inventario) {
         . '<span>' . $act->obtenerCantidad() . '</span>';
         echo '</td>'
         . '<td>'
-        . '<button onclick = "cargarPanelSumarInventario(' . $act->obtenerCodigoArticulo() . ',this)"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
+        . '<button onclick = "cargarPanelSumarInventario(\'' . $act->obtenerCodigoArticulo() . '\',this)"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
         '</td>';
-        echo '<td><button onclick = "cargarPanelPasivos(' . $act->obtenerCodigoArticulo() . ',this)"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
-        echo '<td><a href = "../vista/HistorialInventario.php?pagina=2&bodega='.$act->obtenerBodega().'&dispositivo='.$act->obtenerCodigoArticulo().' "><button class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
-     
+        echo '<td><button onclick = "cargarPanelPasivos(\'' . $act->obtenerCodigoArticulo() . '\',this)"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
+        echo '<td><a href = "../vista/HistorialInventario.php?pagina=2&bodega=' . $act->obtenerBodega() . '&dispositivo=' . $act->obtenerCodigoArticulo() . ' "><button class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
+
         echo '</tr>';
     }
 }
@@ -108,15 +108,15 @@ function cuerpoTablaRepuestos($repuestos) {
         echo '</tr>';
     }
 }
+
 function cuerpoTablaContratos($contratos) {
     foreach ($contratos as $act) {
-       $descripcion = explode("/", $act);
+        $descripcion = explode("/", $act);
         echo '<tr >';
-        echo '<td><a href="'.$act.'" target="_blank"><span class="glyphicon glyphicon-file"/>' . $descripcion[3] . '</a></td>';    
+        echo '<td><a href="' . $act . '" target="_blank"><span class="glyphicon glyphicon-file"/>' . $descripcion[3] . '</a></td>';
         echo '</tr>';
     }
 }
-
 
 function panelActivos($activos, $codigo) {
     $listaActivos = buscarDispositivoActivoFijo($activos, $codigo);

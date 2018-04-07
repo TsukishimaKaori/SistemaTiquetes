@@ -81,7 +81,7 @@ input  {
 }
 
 #panelInformacionDerecha{
-    width:  38%;
+    width:  35%;
     display: inline-block;
     margin-top: 0px;
     float: left;
@@ -90,7 +90,7 @@ input  {
 
 }
 #panelInformacionIzquierda{
-    width:  62%;
+    width:  65%;
     float: left;
     margin-top: 0px;
     overflow: hidden;
