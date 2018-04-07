@@ -16,6 +16,9 @@ La clase detalle tambien
 6. actualizarEstadoEquipo retorna un nuevo mensaje de error, porque no se 
 pueden realizar acciones sobre equipos desechados
 
+7. adjuntarContrato tiene lo mismo que el punto 6.
+
+
 03/04/2018
 
 1. Cambiar el PAobtenerCategorias.
