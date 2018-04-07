@@ -139,22 +139,22 @@ CREATE TABLE ActivoFijo(
  GO
 
 
-
-
- CREATE PROCEDURE PAobtenerInventario
- AS
+ --Obtiene los item del inventario, los prefiltra obteniendo solo los que no son repuestos
+CREATE PROCEDURE PAobtenerInventario
+AS
 	SET NOCOUNT ON;
 	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, inve.estado, inve.cantidad,
 	inve.codigoBodega, bode.nombreBodega from
-	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria) cat,
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where esRepuesto = 0) cat,
 	(select codigoBodega, nombreBodega from Bodega) bode,
 	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega from Inventario) inve
 	where inve.codigoCategoria = cat.codigoCategoria AND inve.codigoBodega = bode.codigoBodega;
- GO
+GO
  --DROP PROCEDURE PAobtenerInventario
  --exec PAobtenerInventario;	
 	
 
+ --Prefiltra por activos cuyo estado no sea espera desechado o desechado
  CREATE PROCEDURE PAobtenerActivosFijos
  AS
 	SET NOCOUNT ON;
@@ -163,10 +163,10 @@ CREATE TABLE ActivoFijo(
 	activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
 	activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
 	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria) cat,
-	(select codigoEstado, nombreEstado from EstadoEquipo) estado,
+	(select codigoEstado, nombreEstado from EstadoEquipo where codigoEstado != 4 AND codigoEstado != 5) estado,
 	(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
 	fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
-	departamentoUsuarioAsociado, jefaturaUsuarioAsociado from ActivoFijo) activo
+	departamentoUsuarioAsociado, jefaturaUsuarioAsociado from ActivoFijo where codigoEstado != 4 AND codigoEstado != 5) activo
 	where activo.codigoCategoria = cat.codigoCategoria AND activo.codigoEstado = estado.codigoEstado;
  GO
 
@@ -1095,6 +1095,70 @@ GO
 --select * from HistorialActivos;
 --DROP PROCEDURE PAeliminarUsuarioActivo;
 
+
+ CREATE PROCEDURE PAbusquedaAvanzadaInventario
+	@codigoArticulo varchar(150),
+	@descripcion varchar(150),
+	@nombreCategoria varchar(150),   
+	@esRepuesto varchar(30),
+	@nombreBodega varchar(150)   
+ AS
+	SET NOCOUNT ON;
+	SET @codigoArticulo = '%' + @codigoArticulo + '%';
+	SET @descripcion = '%' + @descripcion + '%';
+	SET @nombreCategoria = '%' + @nombreCategoria + '%';
+	SET @esRepuesto = '%' + @esRepuesto + '%';
+	SET @nombreBodega = '%' + @nombreBodega + '%';
+
+	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, inve.estado, inve.cantidad,
+	inve.codigoBodega, bode.nombreBodega from
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where nombreCategoria COLLATE Latin1_General_CI_AI like @nombreCategoria
+	AND esRepuesto like @esRepuesto) cat,
+	(select codigoBodega, nombreBodega from Bodega where nombreBodega COLLATE Latin1_General_CI_AI like @nombreBodega) bode,
+	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega from Inventario
+	where codigoArticulo like @codigoArticulo AND descripcion COLLATE Latin1_General_CI_AI like @descripcion) inve
+	where inve.codigoCategoria = cat.codigoCategoria AND inve.codigoBodega = bode.codigoBodega;
+ GO
+ --exec PAbusquedaAvanzadaInventario '', '', '', '', 'peru'; 
+ --DROP PROCEDURE PAbusquedaAvanzadaInventario;
+
+
+ 
+ CREATE PROCEDURE PAbusquedaAvanzadaActivos
+	@placa varchar(150),
+	@codigoEstado varchar(150),
+	@nombreCategoria varchar(150),   
+	@marca varchar(150),
+	@nombreUsuario varchar(150),
+	@correoUsuario varchar(150)   
+ AS
+	SET NOCOUNT ON;
+	SET @placa = '%' + @placa + '%';
+	SET @codigoEstado = '%' + @codigoEstado + '%';
+	SET @nombreCategoria = '%' + @nombreCategoria + '%';
+	SET @marca = '%' + @marca + '%';
+	SET @nombreUsuario = '%' + @nombreUsuario + '%';
+	SET @correoUsuario = '%' + @correoUsuario + '%';
+
+	select activo.placa, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, estado.codigoEstado, estado.nombreEstado,
+	activo.serie, activo.proveedor, activo.modelo, activo.marca, activo.fechaSalidaInventario, activo.fechaDesechado,
+	activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
+	activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where nombreCategoria COLLATE Latin1_General_CI_AI like @nombreCategoria) cat,
+	(select codigoEstado, nombreEstado from EstadoEquipo where codigoEstado like @codigoEstado) estado,
+	(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
+	fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
+	departamentoUsuarioAsociado, jefaturaUsuarioAsociado from ActivoFijo where codigoEstado like @codigoEstado
+	AND placa like @placa AND marca COLLATE Latin1_General_CI_AI like @marca AND 
+	nombreUsuarioAsociado COLLATE Latin1_General_CI_AI like @nombreUsuario AND correoUsuarioAsociado like @correoUsuario ) activo
+	where activo.codigoCategoria = cat.codigoCategoria AND activo.codigoEstado = estado.codigoEstado;
+ GO
+ --DROP PROCEDURE PAbusquedaAvanzadaActivos;
+ --exec PAbusquedaAvanzadaActivos '', '1', '', '', 'cas', '';
+ --select * from ActivoFijo;
+
+
+
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
  insert into estadoEquipo (codigoEstado, nombreEstado) values (2, 'En reparación');
@@ -1222,3 +1286,5 @@ GO
  DROP PROCEDURE PAeliminarRepuesto;
  DROP PROCEDURE PAasociarUsuarioActivo;
  DROP PROCEDURE PAeliminarUsuarioActivo;
+ DROP PROCEDURE PAbusquedaAvanzadaInventario;
+ DROP PROCEDURE PAbusquedaAvanzadaActivos;
