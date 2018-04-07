@@ -402,6 +402,27 @@ function eliminarLicencia($claveDeProducto, $placa, $correoUsuarioCausante, $nom
 }
 
 
+//Eliminar un repuesto asociado un Activo fijo
+function eliminarRepuesto($descripcion, $placa, $correoUsuarioCausante, $nombreUsuarioCausante) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAeliminarRepuesto (?, ?, ?, ?, ?) }";
+    $params = array(array(utf8_decode($descripcion), SQLSRV_PARAM_IN), array($placa, SQLSRV_PARAM_IN),
+        array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } else if ($men == 2) {
+        return 2;  //El repuesto no esta asociado al activo
+    } else if ($men == 3) {
+        return 3;  //No se pueden eliminar repuestos a activos desechados
+    } 
+       
+    return ''; //agregado correctamente
+}
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -641,4 +662,7 @@ function crearHistorialActivos($row) {
 //}
 
 //$mensaje = eliminarLicencia('2830-7253-UR46-HBFT', '678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//echo $mensaje;
+
+//$mensaje = eliminarRepuesto('Parlante', '567', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //echo $mensaje;
