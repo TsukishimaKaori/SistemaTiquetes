@@ -12,6 +12,10 @@ La clase detalle tambien
 4. El agregarArticuloInventario ahora recibe el codigoBodega
 
 5. El PAobtenerDetalleArticuloInventario ahora recibe el codigoArticulo y codigoBodega
+
+6. actualizarEstadoEquipo retorna un nuevo mensaje de error, porque no se 
+pueden realizar acciones sobre equipos desechados
+
 03/04/2018
 
 1. Cambiar el PAobtenerCategorias.
