@@ -41,6 +41,8 @@ if (isset($_POST["Licencias"])) {
         foreach ($licencias as $licencia) {
             if ($mensajeL == '' || $mensajeL == "nada") {
                 $fechaDeVencimiento = $licencia[0];
+                $fechaDeVencimiento=explode("/", $fechaDeVencimiento);
+                $fechaDeVencimiento=$fechaDeVencimiento[2].$fechaDeVencimiento[1].$fechaDeVencimiento[0];
                 $claveDeProducto = $licencia[1];
                 $proveedor = $licencia[2];
                 $descripcion = $licencia[3];
