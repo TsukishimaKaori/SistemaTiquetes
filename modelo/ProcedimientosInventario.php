@@ -212,8 +212,8 @@ function agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCa
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($correoUsuarioCausante, SQLSRV_PARAM_IN), 
         array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),  
         array($placa, SQLSRV_PARAM_IN), array($codigoCategoria, SQLSRV_PARAM_IN),
-        array($serie, SQLSRV_PARAM_IN), array($proveedor, SQLSRV_PARAM_IN),
-        array($modelo, SQLSRV_PARAM_IN), array($marca, SQLSRV_PARAM_IN),
+        array($serie, SQLSRV_PARAM_IN), array(utf8_decode($proveedor), SQLSRV_PARAM_IN),
+        array(utf8_decode($modelo), SQLSRV_PARAM_IN), array(utf8_decode($marca), SQLSRV_PARAM_IN),
         array($fechaExpiraGarantia, SQLSRV_PARAM_IN), array($correoUsuarioAsociado, SQLSRV_PARAM_IN),
         array(utf8_decode($nombreUsuarioAsociado), SQLSRV_PARAM_IN), array(utf8_decode($departamentoUsuarioAsociado), SQLSRV_PARAM_IN),
         array(utf8_decode($jefaturaUsuarioAsociado),SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
