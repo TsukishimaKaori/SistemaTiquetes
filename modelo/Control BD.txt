@@ -22,6 +22,8 @@ pueden realizar acciones sobre equipos desechados
 
 9. agregarLicencia tiene lo mismo que el punto 6.
 
+10. Ya hice el PAeliminarLicencia
+
 03/04/2018
 
 1. Cambiar el PAobtenerCategorias.
