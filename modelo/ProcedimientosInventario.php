@@ -157,7 +157,9 @@ function agregarLicencia($fechaDeVencimiento, $claveDeProducto, $proveedor, $des
     sqlsrv_free_stmt($getMensaje);
     if ($men == 1) {
         return 1;  //Ha ocurrido un error
-    } 
+    } else if ($men == 2) {
+        return 2;  //No se pueden asociar licencias a activos desechados
+    }
     return ''; //agregado correctamente
 }
 
