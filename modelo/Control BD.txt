@@ -3,7 +3,7 @@
 1.Correr la base de inventario de nuevo, gracias
 Cambié la bodega de inventario por código de bodega
 La clase tiene un objeto bodega
-
+La clase detalle tambien
 03/04/2018
 
 1. Cambiar el PAobtenerCategorias.
