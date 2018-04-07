@@ -28,6 +28,8 @@ pueden realizar acciones sobre equipos desechados
 
 12. Ya hice el PAasociarUsuarioActivo;
 
+13. Ya hice el PAeliminarUsuarioActivo;
+
 03/04/2018
 
 1. Cambiar el PAobtenerCategorias.
