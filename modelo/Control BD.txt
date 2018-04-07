@@ -9,7 +9,9 @@ La clase detalle tambien
 
 3. El PAobtenerBodegas devuelve un objeto bodega con codigo y nombre
 
-4. El PAobtenerDetalleArticuloInventario ahora recibe el codigoArticulo y codigoBodega
+4. El agregarArticuloInventario ahora recibe el codigoBodega
+
+5. El PAobtenerDetalleArticuloInventario ahora recibe el codigoArticulo y codigoBodega
 03/04/2018
 
 1. Cambiar el PAobtenerCategorias.
