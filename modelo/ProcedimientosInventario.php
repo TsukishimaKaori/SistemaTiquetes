@@ -393,7 +393,7 @@ function crearInventario($row) {
     $categoria = crearCategoria($row);
     $estado = utf8_encode($row['estado']);
     $cantidad = $row['cantidad'];  
-    $bodega = utf8_encode($row['bodega']);
+    $bodega = crearBodega($row);
     return new Inventario($codigoArticulo, $descripcion, $costo, $categoria, $estado, $cantidad, $bodega);
 }
 
@@ -436,8 +436,9 @@ function crearRepuesto($row) {
 }
 
 function crearBodega($row) {
+    $codigoBodega = $row['codigoBodega'];
     $nombreBodega = utf8_encode($row['nombreBodega']);
-    return new Bodega($nombreBodega);
+    return new Bodega($codigoBodega, $nombreBodega);
 }
 
 function crearDetalle($row) {
@@ -449,7 +450,7 @@ function crearDetalle($row) {
     $fecha = $row['fecha'];
     $estado = utf8_encode($row['estado']);
     $efecto = utf8_encode($row['efecto']);   
-    $bodega = utf8_encode($row['bodega']); 
+    $bodega = crearBodega($row); 
     $comentarioUsuario = utf8_encode($row['comentarioUsuario']);
     $correoUsuarioCausante = $row['correoUsuarioCausante'];
     $nombreUsuarioCausante = utf8_encode($row['nombreUsuarioCausante']);
