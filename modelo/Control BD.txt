@@ -30,6 +30,15 @@ pueden realizar acciones sobre equipos desechados
 
 13. Ya hice el PAeliminarUsuarioActivo;
 
+14. El obtenerInventario prefiltra los que no son repuestos, se tiene que hacer una
+busqueda avanzada para ver los repuestos.
+
+15. El obtenerActivosFijos prefiltra por activos cuyo estado no sea espera desechado o desechado.
+
+16. Ya hice PAbusquedaAvanzadaInventario
+
+17. Ya hice PAbusquedaAvanzadaActivos
+
 03/04/2018
 
 1. Cambiar el PAobtenerCategorias.
