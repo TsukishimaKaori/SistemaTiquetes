@@ -110,13 +110,13 @@ function historialActivos($historial, $dispositivo) {
         echo ' <div   class = "panel panel-info">' .
         '   <div class="panel-heading col-md-12">' .
         '       <div class="row"> ' .
-        '           <div><span class="titulo-Indicador col-md-12"><h1>Registro de movimientos del artículo</h1> </span></div> ' .
+        '           <div><span class="titulo-Indicador col-md-12"><h1>Historial del activo fijo</h1> </span></div> ' .
         '       </div>  ' .
         '   </div>  ' .
         '<div class="panel-body" >' .
         '   <div class="col-md-12">' .
         '       <div class="row"> ' .
-        '           <div><h3>Información general del dispositivo en inventario</h3></div> ' .
+        '           <div><h3>Información general del activo fijo</h3></div> ' .
         '       </div>  ' .
         '       <div class="row"> ' .
         '           <div><span class="titulo-Indicador col-md-3">Placa: </span><span class=" col-md-9"> ' . $dispositivo->obtenerPlaca() . '</span></div> ' .
@@ -140,7 +140,7 @@ function historialActivos($historial, $dispositivo) {
         '           <div><span class="titulo-Indicador col-md-3">Marca: </span><span class=" col-md-9"> ' . $dispositivo->obtenerMarca() . ' </span></div> ' .
         '       </div>  ' .
         '       <div class="row"> ' .
-        '           <div><h3>Movimientos del dispositivo</h3></div> ' .
+        '           <div><h3>Movimientos del activo fijo</h3></div> ' .
         '       </div>  ' .
         '   </div>  ';
         foreach ($historial as $his) {
