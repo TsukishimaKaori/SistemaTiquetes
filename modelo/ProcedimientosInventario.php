@@ -462,6 +462,49 @@ function eliminarUsuarioActivo($placa, $correoUsuarioCausante, $nombreUsuarioCau
 }
 
 
+//Busqueda avanzada de items del inventario, todos los campos se pueden poner en inputs,
+//excepto el esRepuesto, que es mejor si fuera un check
+function busquedaAvanzadaInventario($codigoArticulo, $descripcion, $nombreCategoria, $esRepuesto, $nombreBodega) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAbusquedaAvanzadaInventario (?, ?, ?, ?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array(utf8_decode($descripcion), SQLSRV_PARAM_IN), 
+        array(utf8_decode($nombreCategoria),SQLSRV_PARAM_IN), array($esRepuesto, SQLSRV_PARAM_IN),
+        array(utf8_decode($nombreBodega),SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener el inventario';
+    }
+    $pasivos = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $pasivos[] = crearInventario($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $pasivos;
+}
+
+//Busqueda avanzada de activos, todo los campos se pueden poner un inputs,
+//excepto el estado, que es mejor ponerlo en un combo
+function busquedaAvanzadaActivos($placa, $codigoEstado, $nombreCategoria, $marca, $nombreUsuario, $correoUsuario) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAbusquedaAvanzadaActivos (?, ?, ?, ?, ?, ?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN), array($codigoEstado, SQLSRV_PARAM_IN), 
+        array(utf8_decode($nombreCategoria),SQLSRV_PARAM_IN), array(utf8_decode($marca), SQLSRV_PARAM_IN),
+        array(utf8_decode($nombreUsuario),SQLSRV_PARAM_IN), array($correoUsuario,SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los activos';
+    }
+    $activos = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $activos[] = crearActivo($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $activos;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -712,3 +755,30 @@ function crearHistorialActivos($row) {
 
 //$mensaje = eliminarUsuarioActivo('678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //echo $mensaje;
+
+//$pasivos = busquedaAvanzadaInventario('', '', '', '', 'peru');
+//
+//foreach ($pasivos as $tema) {   
+//    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $tema->obtenerCategoria()->obtenerEsRepuesto() . '<br />';
+//    echo $tema->obtenerDescripcion() . '<br />';
+//    echo $tema->obtenerEstado(). '<br />'; 
+//    echo $tema->obtenerCosto() . '<br />';
+//    echo $tema->obtenerCantidad() . '<br />';
+//    echo $tema->obtenerBodega()->obtenerNombreBodega() . '<br />';
+//    echo '<br />';
+//}
+
+//echo 'Activos' . '<br />';
+//$activos = busquedaAvanzadaActivos('', '', '', '', 'cri', '');
+//
+//foreach ($activos as $tema) {   
+//    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $tema->obtenerPlaca() . '<br />';
+//    echo $tema->obtenerEstado()->obtenerNombreEstado().'<br />'; 
+//    echo $tema->obtenerProveedor() . '<br />';
+//    echo $tema->obtenerMarca() . '<br />';
+//    echo $tema->obtenerNombreUsuarioAsociado() . '<br />';
+//    echo $tema->obtenerCorreoUsuarioAsociado() . '<br />';
+//    echo '<br />';
+//}
