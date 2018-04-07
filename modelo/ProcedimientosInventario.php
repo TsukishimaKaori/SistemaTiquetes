@@ -381,6 +381,27 @@ function obtenerHistorialActivosFijos($placa) {
 }
 
 
+//Eliminar una licencia asociada a un activo fijo
+function eliminarLicencia($claveDeProducto, $placa, $correoUsuarioCausante, $nombreUsuarioCausante) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAeliminarLicencia (?, ?, ?, ?, ?) }";
+    $params = array(array($claveDeProducto, SQLSRV_PARAM_IN), array($placa, SQLSRV_PARAM_IN),
+        array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } else if ($men == 2) {
+        return 2;  //No se pueden eliminar licencias de activos desechados
+    } else if ($men == 3) {
+        return 3;  //NO existe la licencia a eliminar
+    }
+    return ''; //agregado correctamente
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -618,3 +639,6 @@ function crearHistorialActivos($row) {
 //    echo $tema->obtenerAclaracionSistema() . '<br />';
 //    echo '<br />';
 //}
+
+//$mensaje = eliminarLicencia('2830-7253-UR46-HBFT', '678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//echo $mensaje;
