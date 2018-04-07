@@ -20,6 +20,8 @@ pueden realizar acciones sobre equipos desechados
 
 8. asociarRepuesto tiene lo mismo que el punto 6.
 
+9. agregarLicencia tiene lo mismo que el punto 6.
+
 03/04/2018
 
 1. Cambiar el PAobtenerCategorias.
