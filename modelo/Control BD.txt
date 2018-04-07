@@ -24,6 +24,8 @@ pueden realizar acciones sobre equipos desechados
 
 10. Ya hice el PAeliminarLicencia
 
+11. Ya hice el PAeliminarRepuesto;
+
 03/04/2018
 
 1. Cambiar el PAobtenerCategorias.
