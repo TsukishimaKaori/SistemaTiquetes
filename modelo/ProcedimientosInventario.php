@@ -484,7 +484,7 @@ function crearHistorialActivos($row) {
 //    echo $tema->obtenerEstado(). '<br />'; 
 //    echo $tema->obtenerCosto() . '<br />';
 //    echo $tema->obtenerCantidad() . '<br />';
-//    echo $tema->obtenerBodega() . '<br />';
+//    echo $tema->obtenerBodega()->obtenerNombreBodega() . '<br />';
 //    echo '<br />';
 //}
 //
