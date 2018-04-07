@@ -331,7 +331,9 @@ function actualizarEstadoEquipo($placa, $codigoEstadoSiguiente, $comentarioUsuar
     sqlsrv_free_stmt($getMensaje);
     if ($men == 1) {
         return 1;  //Ha ocurrido un error
-    } 
+    } else if ($men == 2) {
+        return 2;  //No se pueden realizar acciones sobre activos desechados
+    }
     return ''; //agregado correctamente
 }
 
@@ -532,7 +534,7 @@ function crearHistorialActivos($row) {
 //}
 
 
-//$mensaje = agregarArticuloInventario('765','Portatil Lenovo', '30', 2, 'Activo', 2, 'Bodega C', 'La compu de la jefa ya llegó', 
+//$mensaje = agregarArticuloInventario('765','Portatil Lenovo', '30', 2, 'Activo', 2, 2, 'La compu de la jefa ya llegó', 
 //        'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //
 //echo $mensaje;
