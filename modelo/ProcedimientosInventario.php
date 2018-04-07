@@ -423,6 +423,45 @@ function eliminarRepuesto($descripcion, $placa, $correoUsuarioCausante, $nombreU
     return ''; //agregado correctamente
 }
 
+//Asociar un usuario a un activo fijo que no este desechado
+function asociarUsuarioActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante,
+	$correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAasociarUsuarioActivo (?, ?, ?, ?, ?, ?, ?, ?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN), array($correoUsuarioCausante, SQLSRV_PARAM_IN), 
+        array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN), array($correoUsuarioAsociado, SQLSRV_PARAM_IN),
+        array(utf8_decode($nombreUsuarioAsociado), SQLSRV_PARAM_IN), array(utf8_decode($departamentoUsuarioAsociado), SQLSRV_PARAM_IN),
+        array(utf8_decode($jefaturaUsuarioAsociado),SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } if ($men == 2) {
+        return 2;  //No se puede asociar un usuario a un activo desechado
+    }
+       
+    return ''; //agregado correctamente
+}
+
+
+//Eliminar un usuario a un activo fijo 
+function eliminarUsuarioActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAeliminarUsuarioActivo (?, ?, ?, ?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN), array($correoUsuarioCausante, SQLSRV_PARAM_IN), 
+        array(utf8_decode($nombreUsuarioCausante),SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    }
+       
+    return ''; //agregado correctamente
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -665,4 +704,11 @@ function crearHistorialActivos($row) {
 //echo $mensaje;
 
 //$mensaje = eliminarRepuesto('Parlante', '567', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//echo $mensaje;
+
+//$mensaje = asociarUsuarioActivo('678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 'nubeblanca1997@outlook.com', 'Shimosutki Kanshikan',
+//        'Relaciones Internacionales', 'Tsunemori Akane');
+//echo $mensaje;
+
+//$mensaje = eliminarUsuarioActivo('678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //echo $mensaje;
