@@ -1211,30 +1211,30 @@ GO
   insert into ActivoFijo (placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
  fechaSalidaInventario, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, departamentoUsuarioAsociado, jefaturaUsuarioAsociado) 
  values ('456', 1, 1, 'T67Y8', 'DELL', 'Inspiron', 'DELL', 
- '2018/03/25','2018/04/30', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante');
+ '20180325','20180430', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante');
   insert into ActivoFijo (placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
  fechaSalidaInventario, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, departamentoUsuarioAsociado, jefaturaUsuarioAsociado) 
  values ('567', 1, 1, 'T6751', 'Soluciones Electrónicas', 'Ideapad', 'Lenovo', 
- '2018/03/29','2018/07/30', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante');
+ '20180329','20180730', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante');
   insert into ActivoFijo (placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
  fechaSalidaInventario, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, departamentoUsuarioAsociado, jefaturaUsuarioAsociado) 
  values ('678', 1, 1, '8472F', 'HP', 'Spectre', 'HP',
- '2018/03/26','2018/08/30', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante');
+ '20180326','20180830', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante');
 
  
  
  insert into Licencia (fechaDeVencimiento, claveDeProducto, proveedor, fechaAsociado, descripcion, placa)
- values ('2018/08/30', '2356-7763-U746-HGFT', 'Microsoft', '2018/03/24', 'Excel', '456');
+ values ('20180830', '2356-7763-U746-HGFT', 'Microsoft', '20180324', 'Excel', '456');
  insert into Licencia (fechaDeVencimiento, claveDeProducto, proveedor, fechaAsociado, descripcion, placa)
- values ('2018/08/30', '8304-7763-U74G-HGFT', 'Microsoft', '2018/03/24', 'Word document', '567');
+ values ('20180830', '8304-7763-U74G-HGFT', 'Microsoft', '20180324', 'Word document', '567');
  insert into Licencia (fechaDeVencimiento, claveDeProducto, proveedor, fechaAsociado, descripcion, placa)
- values ('2018/08/30', '2830-7253-UR46-HBFT', 'Microsoft', '2018/03/24', 'Power Point', '678');
+ values ('20180830', '2830-7253-UR46-HBFT', 'Microsoft', '20180324', 'Power Point', '678');
 
  
- insert into Repuesto (descripcion, fechaAsociado, placa) values ('Mouse', '2018/03/24', '456');
- insert into Repuesto (descripcion, fechaAsociado, placa) values ('Teclado', '2018/03/24', '456');
- insert into Repuesto (descripcion, fechaAsociado, placa) values ('Parlante', '2018/03/24', '567');
- insert into Repuesto (descripcion, fechaAsociado, placa) values ('Adaptador HDMI', '2018/03/24', '678');
+ insert into Repuesto (descripcion, fechaAsociado, placa) values ('Mouse', '20180324', '456');
+ insert into Repuesto (descripcion, fechaAsociado, placa) values ('Teclado', '20180324', '456');
+ insert into Repuesto (descripcion, fechaAsociado, placa) values ('Parlante', '20180324', '567');
+ insert into Repuesto (descripcion, fechaAsociado, placa) values ('Adaptador HDMI', '20180324', '678');
  
 
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (1, 'Asocia licencia');

@@ -152,7 +152,7 @@ function agregarLicenciaEquipo(codigo) {
                 if (response == 1) {
                     notificacion("Ha ocurrido un error al ingresar la licencia");
                 } else {
-                    $("#cuerpo-Tabla-Inventario").html(response);
+                   // $("#cuerpo-Tabla-Inventario").html(response);
                     limpiarFormularioLicencia();
                     mensaje = "Licencia asociada correctamente";
                     notificacion(mensaje);

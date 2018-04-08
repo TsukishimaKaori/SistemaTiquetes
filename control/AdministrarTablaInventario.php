@@ -55,7 +55,7 @@ function cuerpoTablaPasivos($inventario) {
         } else {
             echo '<td>Activo</td>';
         }
-        echo '<td>' . $act->obtenerBodega() . '</td>';
+        echo '<td>' . $act->obtenerBodega()->obtenerNombreBodega() . '</td>';
         echo '<td>';
         if (($act->obtenerCantidad() > 0 && $act->obtenerCategoria()->obtenerEsRepuesto() == "0")) {
             echo '<a href="../vista/AgregarActivos.php?codigoArticulo=' . $act->obtenerCodigoArticulo() . '&categoriaCodigo=' . $act->obtenerCategoria()->obtenerCodigoCategoria() . '&categoria=' . $act->obtenerCategoria()->obtenerNombreCategoria() . '&descripcion=' . $act->obtenerDescripcion() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
@@ -70,7 +70,7 @@ function cuerpoTablaPasivos($inventario) {
         . '<button onclick = "cargarPanelSumarInventario(\'' . $act->obtenerCodigoArticulo() . '\',this)"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
         '</td>';
         echo '<td><button onclick = "cargarPanelPasivos(\'' . $act->obtenerCodigoArticulo() . '\',this)"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
-        echo '<td><a href = "../vista/HistorialInventario.php?pagina=2&bodega=' . $act->obtenerBodega() . '&dispositivo=' . $act->obtenerCodigoArticulo() . ' "><button class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
+        echo '<td><a href = "../vista/HistorialInventario.php?pagina=2&bodega=' . $act->obtenerBodega()->obtenerCodigoBodega() . '&dispositivo=' . $act->obtenerCodigoArticulo() . ' "><button class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
 
         echo '</tr>';
     }
@@ -210,7 +210,7 @@ function panelPasivos($pasivos, $codigo) {
     . '           <div><span class="col-md-4 titulo-inventario">Categoría: </span><span class=" col-md-8">' . $listaPasivos->obtenerCategoria()->obtenerNombreCategoria() . ' </span></div> '
     . '         </div>'
     . '        <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Bodega: </span><span class=" col-md-8">' . $listaPasivos->obtenerBodega() . ' </span></div> '
+    . '           <div><span class="col-md-4 titulo-inventario">Bodega: </span><span class=" col-md-8">' . $listaPasivos->obtenerBodega()->obtenerNombreBodega() . ' </span></div> '
     . '         </div>'
     . '        <div class="row">'
     . '           <div><span class="col-md-4 titulo-inventario">Estado: </span><span class=" col-md-8">' . $listaPasivos->obtenerEstado() . ' </span></div> '
@@ -310,7 +310,7 @@ function selectRepuestos($repuestos) {
 function selectBodegas($bodegas) {
     echo'<select id = "bodega" class="form-control">';
     foreach ($bodegas as $cat) {
-        echo'<option value = "' . $cat->obtenerNombreBodega() . '">' . $cat->obtenerNombreBodega() . '</option>';
+        echo'<option value = "' . $cat->obtenerCodigoBodega() . '">' . $cat->obtenerNombreBodega() . '</option>';
         // echo '<input type = "hidden" id = bodega"'.$cat->obtenerCodigoArticulo().'" value = "'.$cat->obtenerBodega().'">';
     }
     echo'</select>';
