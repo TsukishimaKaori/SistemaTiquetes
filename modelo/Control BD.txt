@@ -1,3 +1,44 @@
+06/04/2018
+
+1.Correr la base de inventario de nuevo, gracias
+Cambié la bodega de inventario por código de bodega
+La clase tiene un objeto bodega
+La clase detalle tambien
+
+2. PAagregarArticuloInventario ahora recibe el codigoBodega
+
+3. El PAobtenerBodegas devuelve un objeto bodega con codigo y nombre
+
+4. El agregarArticuloInventario ahora recibe el codigoBodega
+
+5. El PAobtenerDetalleArticuloInventario ahora recibe el codigoArticulo y codigoBodega
+
+6. actualizarEstadoEquipo retorna un nuevo mensaje de error, porque no se 
+pueden realizar acciones sobre equipos desechados
+
+7. adjuntarContrato tiene lo mismo que el punto 6.
+
+8. asociarRepuesto tiene lo mismo que el punto 6.
+
+9. agregarLicencia tiene lo mismo que el punto 6.
+
+10. Ya hice el PAeliminarLicencia
+
+11. Ya hice el PAeliminarRepuesto;
+
+12. Ya hice el PAasociarUsuarioActivo;
+
+13. Ya hice el PAeliminarUsuarioActivo;
+
+14. El obtenerInventario prefiltra los que no son repuestos, se tiene que hacer una
+busqueda avanzada para ver los repuestos.
+
+15. El obtenerActivosFijos prefiltra por activos cuyo estado no sea espera desechado o desechado.
+
+16. Ya hice PAbusquedaAvanzadaInventario
+
+17. Ya hice PAbusquedaAvanzadaActivos
+
 03/04/2018
 
 1. Cambiar el PAobtenerCategorias.

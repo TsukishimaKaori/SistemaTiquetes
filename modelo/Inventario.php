@@ -47,5 +47,5 @@ class Inventario {
     private $categoria;   //objeto de tipo Categoria
     private $estado;
     private $cantidad;
-    private $bodega;
+    private $bodega;   //objeto de tipo Bodega
 }

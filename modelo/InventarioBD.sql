@@ -27,8 +27,9 @@ CREATE TABLE EstadoEquipoPermitido(
  GO
  
  CREATE TABLE Bodega(
+ codigoBodega int NOT NULL,
  nombreBodega varchar(150) NOT NULL,
-  CONSTRAINT PKBodega PRIMARY KEY(nombreBodega)
+  CONSTRAINT PKBodega PRIMARY KEY(codigoBodega)
  )
  GO
 
@@ -39,10 +40,10 @@ CREATE TABLE EstadoEquipoPermitido(
  codigoCategoria int NOT NULL,
  estado varchar(150) NOT NULL,
  cantidad int NOT NULL,
- bodega varchar(150),
- CONSTRAINT PKInventario PRIMARY KEY(codigoArticulo, bodega),
+ codigoBodega int NOT NULL,
+ CONSTRAINT PKInventario PRIMARY KEY(codigoArticulo, codigoBodega),
  CONSTRAINT FKInventarioCategoria FOREIGN KEY (codigoCategoria) REFERENCES Categoria(codigoCategoria),
- CONSTRAINT FKInventarioBodega FOREIGN KEY (bodega) REFERENCES Bodega(nombreBodega)
+ CONSTRAINT FKInventarioBodega FOREIGN KEY (codigoBodega) REFERENCES Bodega(codigoBodega)
  )
  GO
  
@@ -56,12 +57,12 @@ CREATE TABLE EstadoEquipoPermitido(
  fecha datetime NOT NULL,
  estado varchar(150) NOT NULL,
  efecto varchar(100) NOT NULL,    --Entrada o salida
- bodega varchar(150) NOT NULL, 
+ codigoBodega int NOT NULL, 
  comentarioUsuario ntext NOT NULL,
  correoUsuarioCausante varchar(150) NOT NULL,
  nombreUsuarioCausante varchar(150) NOT NULL,
  CONSTRAINT PKDetalle PRIMARY KEY(codigoDetalle),
- CONSTRAINT FKDetalleInventario FOREIGN KEY (codigoArticulo, bodega) REFERENCES Inventario(codigoArticulo, bodega)
+ CONSTRAINT FKDetalleInventario FOREIGN KEY (codigoArticulo, codigoBodega) REFERENCES Inventario(codigoArticulo, codigoBodega)
  )
  GO
   
@@ -138,20 +139,22 @@ CREATE TABLE ActivoFijo(
  GO
 
 
-
-
- CREATE PROCEDURE PAobtenerInventario
- AS
+ --Obtiene los item del inventario, los prefiltra obteniendo solo los que no son repuestos
+CREATE PROCEDURE PAobtenerInventario
+AS
 	SET NOCOUNT ON;
 	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, inve.estado, inve.cantidad,
-	inve.bodega from
-	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria) cat,
-	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, bodega from Inventario) inve
-	where inve.codigoCategoria = cat.codigoCategoria;
- GO
+	inve.codigoBodega, bode.nombreBodega from
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where esRepuesto = 0) cat,
+	(select codigoBodega, nombreBodega from Bodega) bode,
+	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega from Inventario) inve
+	where inve.codigoCategoria = cat.codigoCategoria AND inve.codigoBodega = bode.codigoBodega;
+GO
  --DROP PROCEDURE PAobtenerInventario
- --exec PAobtenerInventario;		
+ --exec PAobtenerInventario;	
+	
 
+ --Prefiltra por activos cuyo estado no sea espera desechado o desechado
  CREATE PROCEDURE PAobtenerActivosFijos
  AS
 	SET NOCOUNT ON;
@@ -160,10 +163,10 @@ CREATE TABLE ActivoFijo(
 	activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
 	activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
 	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria) cat,
-	(select codigoEstado, nombreEstado from EstadoEquipo) estado,
+	(select codigoEstado, nombreEstado from EstadoEquipo where codigoEstado != 4 AND codigoEstado != 5) estado,
 	(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
 	fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
-	departamentoUsuarioAsociado, jefaturaUsuarioAsociado from ActivoFijo) activo
+	departamentoUsuarioAsociado, jefaturaUsuarioAsociado from ActivoFijo where codigoEstado != 4 AND codigoEstado != 5) activo
 	where activo.codigoCategoria = cat.codigoCategoria AND activo.codigoEstado = estado.codigoEstado;
  GO
 
@@ -207,7 +210,7 @@ CREATE PROCEDURE PAagregarArticuloInventario
 	@codigoCategoria int,
 	@estado varchar(150),
 	@cantidad int,
-	@bodega varchar(150),
+	@codigoBodega int,
 	@comentarioUsuario ntext,
 	@correoUsuarioCausante varchar(150),
 	@nombreUsuarioCausante varchar(150),
@@ -221,12 +224,12 @@ BEGIN TRY
 	@fechaActual datetime
 
 	SET @fechaActual = (select GETDATE());
-	insert into Inventario (codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, bodega) values
-	(@codigoArticulo, @descripcion, @costo, @codigoCategoria, @estado, @cantidad, @bodega);
+	insert into Inventario (codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega) values
+	(@codigoArticulo, @descripcion, @costo, @codigoCategoria, @estado, @cantidad, @codigoBodega);
 
-	insert into Detalle (codigoArticulo, copiaCantidadInventario, cantidadEfecto, costo, fecha, estado, efecto, bodega, 
+	insert into Detalle (codigoArticulo, copiaCantidadInventario, cantidadEfecto, costo, fecha, estado, efecto, codigoBodega, 
 	comentarioUsuario, correoUsuarioCausante, nombreUsuarioCausante) values 
-	(@codigoArticulo, @cantidad, @cantidad, @costo, @fechaActual, @estado, 'Entrada', @bodega, @comentarioUsuario,
+	(@codigoArticulo, @cantidad, @cantidad, @costo, @fechaActual, @estado, 'Entrada', @codigoBodega, @comentarioUsuario,
 	@correoUsuarioCausante, @nombreUsuarioCausante);
 
 	COMMIT TRANSACTION;
@@ -243,7 +246,7 @@ END CATCH;
 GO
 
 --DECLARE @mens int
---exec PAagregarArticuloInventario '987','Celular Huawei Gplay mini', '30', 2, 'Activo', 2, 'Bodega de Perú', 'Acaban de llegar
+--exec PAagregarArticuloInventario '987','Celular Huawei Gplay mini', '30', 2, 'Activo', 2, 3, 'Acaban de llegar
 --los dos teléfono nuevos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', @men = @mens output;
 --PRINT @mens;
 
@@ -323,6 +326,12 @@ BEGIN TRY
 	@correoAsociado varchar(100),
 	@aclaracion varchar(300)
 
+	IF (select codigoEstado from ActivoFijo where placa = @placa) = 5
+	BEGIN
+		SET @men = 2;
+		THROW  50001, 'El equipo fue desechado', 1;
+	END;
+
 	SET @fechaActual = (select GETDATE());
 	SET @nombreAsociado = (select nombreUsuarioAsociado from ActivoFijo where placa = @placa);
 	SET @correoAsociado = (select correoUsuarioAsociado from ActivoFijo where placa = @placa);
@@ -345,8 +354,12 @@ BEGIN CATCH
     IF (XACT_STATE()) = -1
     BEGIN
         ROLLBACK TRANSACTION;
-		SET @men = 1;  --Error
     END;
+	IF @men != 2
+	BEGIN
+		SET @men = 1;  --Error
+	END;
+
 END CATCH;
 GO
 
@@ -363,10 +376,11 @@ AS
 
 	SET NOCOUNT ON;
 	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, inve.estado, inve.cantidad,
-	inve.bodega from
+	inve.codigoBodega, bode.nombreBodega from
 	(select codigoCategoria, nombreCategoria from Categoria where esRepuesto = 1) cat,
-	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, bodega from Inventario where cantidad > 0) inve
-	where inve.codigoCategoria = cat.codigoCategoria;
+	(select codigoBodega, nombreBodega from Bodega) bode,
+	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega from Inventario where cantidad > 0) inve
+	where inve.codigoCategoria = cat.codigoCategoria AND inve.codigoBodega = bode.codigoBodega;
 GO
 --exec PAobtenerRepuestosParaAsociar;
 --select * from Inventario;
@@ -392,6 +406,12 @@ BEGIN TRY
 	@descripcion varchar(300),
 	@comentario varchar(300),
 	@error varchar(10)
+
+	IF (select codigoEstado from ActivoFijo where placa = @placa) = 5
+	BEGIN
+		SET @men = 3;
+		THROW  50001, 'El equipo fue desechado', 1;
+	END;
 
 	SET @descripcion = (select descripcion from Inventario where codigoArticulo = @codigoArticulo);
 
@@ -438,7 +458,7 @@ BEGIN CATCH
     BEGIN
         ROLLBACK TRANSACTION;
     END;
-	IF @error = 'OK' 
+	IF @error = 'OK' AND @men != 3
 	BEGIN
 		SET @men = 1;
 	END; 
@@ -476,15 +496,15 @@ BEGIN TRY
 	@copiaCantidad int,
 	@copiaCosto money,
 	@copiaEstado varchar(150),
-	@bodega varchar(150)
+	@bodega int
 
 	SET @fechaActual = (select GETDATE());
 	SET @copiaCantidad = (select cantidad from Inventario where codigoArticulo = @codigoArticulo);
 	SET @copiaCosto = (select costo from Inventario where codigoArticulo = @codigoArticulo);
 	set @copiaEstado = (select estado from Inventario where codigoArticulo = @codigoArticulo);
-	SET @bodega = (select bodega from Inventario where codigoArticulo = @codigoArticulo);
+	SET @bodega = (select codigoBodega from Inventario where codigoArticulo = @codigoArticulo);
 
-	insert into Detalle (codigoArticulo, copiaCantidadInventario, cantidadEfecto, costo, fecha, estado, efecto, bodega, 
+	insert into Detalle (codigoArticulo, copiaCantidadInventario, cantidadEfecto, costo, fecha, estado, efecto, codigoBodega, 
 	comentarioUsuario, correoUsuarioCausante, nombreUsuarioCausante) values 
 	(@codigoArticulo, @copiaCantidad, @cantidadEfecto, @copiaCosto, @fechaActual, @copiaEstado, @efecto, @bodega,
 	 @comentarioUsuario, @correoUsuarioCausante, @nombreUsuarioCausante);
@@ -604,9 +624,10 @@ GO
 CREATE PROCEDURE PAobtenerBodegas   
 AS  
     SET NOCOUNT ON;
-	select nombreBodega from Bodega;
+	select codigoBodega, nombreBodega from Bodega;
 GO
 --exec PAobtenerBodegas;
+--DROP PROCEDURE PAobtenerBodegas;
 
 
 CREATE PROCEDURE PAadjuntarContrato
@@ -625,6 +646,12 @@ BEGIN TRY
 	@nombreAsociado varchar(100),
 	@correoAsociado varchar(100),
 	@aclaracion varchar(300)
+
+	IF (select codigoEstado from ActivoFijo where placa = @placa) = 5
+	BEGIN
+		SET @men = 2;
+		THROW  50001, 'El equipo fue desechado', 1;
+	END;
 
 	SET @fechaActual = (select GETDATE());
 	SET @nombreAsociado = (select nombreUsuarioAsociado from ActivoFijo where placa = @placa);
@@ -645,8 +672,11 @@ BEGIN CATCH
     IF (XACT_STATE()) = -1
     BEGIN
         ROLLBACK TRANSACTION;
-		SET @men = 1;  --Error
     END;
+	IF @men != 2
+	BEGIN
+		SET @men = 1;  --Error
+	END;
 END CATCH;
 GO
 
@@ -700,6 +730,12 @@ BEGIN TRY
 	@nombreEstadoActual varchar(100),
 	@nombreEstadoSiguiente varchar(100)
 
+	IF (select codigoEstado from ActivoFijo where placa = @placa) = 5
+	BEGIN
+		SET @men = 2;
+		THROW  50001, 'Error al ingresar el detalle', 1;
+	END;
+
 	SET @fechaActual = (select GETDATE());
 	SET @nombreAsociado = (select nombreUsuarioAsociado from ActivoFijo where placa = @placa);
 	SET @correoAsociado = (select correoUsuarioAsociado from ActivoFijo where placa = @placa);
@@ -713,6 +749,11 @@ BEGIN TRY
 	SET @aclaracion = 'El estado del activo con placa ' +  @placa + ' fue actualizado de '+ @nombreEstadoActual + ' a ' +
 	@nombreEstadoSiguiente + ' por ' + @nombreUsuarioCausante + ' el ' + CONVERT(VARCHAR, @fechaActual, 120);
 
+	IF @codigoEstadoSiguiente = 5 
+	BEGIN
+		update ActivoFijo SET codigoEstado = @codigoEstadoSiguiente, fechaDesechado = @fechaActual where placa = @placa;
+	END;
+
 	update ActivoFijo SET codigoEstado = @codigoEstadoSiguiente where placa = @placa;
 
 	insert into HistorialActivos (placa, codigoIndicador, fechaHora, correoUsuarioCausante, nombreUsuarioCausante,
@@ -720,20 +761,24 @@ BEGIN TRY
 	(@placa, 5, @fechaActual, @correoUsuarioCausante, @nombreUsuarioCausante, @correoAsociado, @nombreAsociado, @comentarioUsuario, @aclaracion);
 
 	COMMIT TRANSACTION;
-
+	
 END TRY
 BEGIN CATCH
 
     IF (XACT_STATE()) = -1
     BEGIN
         ROLLBACK TRANSACTION;
-		SET @men = 1;  --Error
     END;
+	IF @men != 2
+	BEGIN
+		SET @men = 1;  --Error
+	END;
+	
 END CATCH;
 GO
 
 --DECLARE @mens int
---exec PAactualizarEstadoEquipo '456', 3, 'El dispositivo necesita ser examinado', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', @men = @mens output;
+--exec PAactualizarEstadoEquipo '567', 1, 'El dispositivo necesita ser examinado', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', @men = @mens output;
 --PRINT @mens;
 
 --select * from ActivoFijo;
@@ -743,14 +788,20 @@ GO
 
  CREATE PROCEDURE PAobtenerDetalleArticuloInventario
 	@codigoArticulo varchar(150),
-	@bodega varchar(150)
+	@codigoBodega int
  AS
 	SET NOCOUNT ON;
-	select codigoDetalle, codigoArticulo, copiaCantidadInventario, cantidadEfecto, costo, fecha,
-	estado, efecto, bodega, comentarioUsuario, correoUsuarioCausante, nombreUsuarioCausante from Detalle 
-	where codigoArticulo = @codigoArticulo AND bodega = @bodega;
+	select inve.codigoDetalle, inve.codigoArticulo, inve.copiaCantidadInventario, inve.cantidadEfecto, inve.costo, inve.fecha,
+	inve.estado, inve.efecto, inve.codigoBodega, bode.nombreBodega, inve.comentarioUsuario, inve.correoUsuarioCausante, 
+	inve.nombreUsuarioCausante from
+	(select codigoBodega, nombreBodega from Bodega where codigoBodega = @codigoBodega) bode,
+ 	(select codigoDetalle, codigoArticulo, copiaCantidadInventario, cantidadEfecto, costo, fecha,
+	estado, efecto, codigoBodega, comentarioUsuario, correoUsuarioCausante, nombreUsuarioCausante from Detalle 
+	where codigoArticulo = @codigoArticulo AND codigoBodega = @codigoBodega) inve
+	where bode.codigoBodega = inve.codigoBodega;
  GO
- --exec PAobtenerDetalleArticuloInventario '10', 'Bodega oficinas centrales';
+ --exec PAobtenerDetalleArticuloInventario '10', 1;
+-- DROP PROCEDURE PAobtenerDetalleArticuloInventario;
 
 
 CREATE PROCEDURE PAobtenerHistorialActivosFijos
@@ -768,6 +819,345 @@ CREATE PROCEDURE PAobtenerHistorialActivosFijos
  GO
 -- exec PAobtenerHistorialActivosFijos '456';
  --DROP PROCEDURE PAobtenerHistorialActivosFijos;
+
+
+ CREATE PROCEDURE PAeliminarLicencia
+	@claveDeProducto varchar(150),
+	@placa varchar(150),
+	@correoUsuarioCausante varchar(150),
+	@nombreUsuarioCausante varchar(150),
+	@men int output	
+AS
+SET XACT_ABORT ON;
+SET NOCOUNT ON;
+BEGIN TRY
+    BEGIN TRANSACTION;
+	DECLARE 
+	@fechaActual datetime,
+	@nombreAsociado varchar(100),
+	@correoAsociado varchar(100),
+	@aclaracion varchar(300),
+	@descripcion varchar(150),
+	@error varchar(150)
+
+	IF (select codigoEstado from ActivoFijo where placa = @placa) = 5
+	BEGIN
+		SET @men = 2;
+		THROW  50001, 'El equipo fue desechado', 1;
+	END;
+	SET @error = ISNULL((select claveDeProducto from Licencia where claveDeProducto = @claveDeProducto), 'Error');
+    IF @error = 'Error'
+	BEGIN
+		SET @men = 3;
+		THROW  50001, 'No existe la licencia a eliminar', 1;
+	END;
+
+	SET @fechaActual = (select GETDATE());
+	SET @nombreAsociado = (select nombreUsuarioAsociado from ActivoFijo where placa = @placa);
+	SET @correoAsociado = (select correoUsuarioAsociado from ActivoFijo where placa = @placa);
+	SET @descripcion = (select descripcion from Licencia where claveDeProducto = @claveDeProducto);
+
+	SET @aclaracion = 'La licencia ' + @descripcion + ' fue eliminada del activo con placa ' +  @placa +
+	' por ' + @nombreUsuarioCausante + ' el ' + CONVERT(VARCHAR, @fechaActual, 120);
+
+	delete Licencia where claveDeProducto = @claveDeProducto;
+
+	insert into HistorialActivos (placa, codigoIndicador, fechaHora, correoUsuarioCausante, nombreUsuarioCausante,
+	correoUsuarioAsociado, nombreUsuarioAsociado, aclaracionSistema) values 
+	(@placa, 6, @fechaActual, @correoUsuarioCausante, @nombreUsuarioCausante, @correoAsociado, @nombreAsociado, @aclaracion);
+
+	COMMIT TRANSACTION;
+
+END TRY
+BEGIN CATCH
+
+    IF (XACT_STATE()) = -1
+    BEGIN
+        ROLLBACK TRANSACTION;
+    END;
+	IF @men != 2 AND @men != 3
+	BEGIN
+		SET @men = 1;  --Error
+	END;
+
+END CATCH;
+GO
+
+--DECLARE @mens int
+--exec PAeliminarLicencia '2830-7253-UR46-HBFT', '678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', @men = @mens output;
+--PRINT @mens;
+
+--select * from Licencia;
+--select * from HistorialActivos;
+--DROP PROCEDURE PAeliminarLicencia;
+
+
+CREATE PROCEDURE PAeliminarRepuesto
+	@descripcion varchar(150),
+	@placa varchar(150),
+	@correoUsuarioCausante varchar(150),
+	@nombreUsuarioCausante varchar(150),
+	@men int output	
+AS
+SET XACT_ABORT ON;
+SET NOCOUNT ON;
+BEGIN TRY
+    BEGIN TRANSACTION;
+	DECLARE 
+	@fechaActual datetime,
+	@nombreAsociado varchar(100),
+	@correoAsociado varchar(100),
+	@aclaracion varchar(300),
+	@error varchar(10)
+
+	IF (select codigoEstado from ActivoFijo where placa = @placa) = 5
+	BEGIN
+		SET @men = 3;
+		THROW  50001, 'El equipo fue desechado', 1;
+	END;
+
+	SET @error = ISNULL((select placa from Repuesto where descripcion = @descripcion AND placa = @placa), 'Error');
+	IF @error = 'Error'
+    BEGIN
+		SET @men = 2; 
+        THROW  50001, 'El repuesto esta relacionado al activo', 1;
+    END;
+
+	SET @fechaActual = (select GETDATE());
+	SET @nombreAsociado = (select nombreUsuarioAsociado from ActivoFijo where placa = @placa);
+	SET @correoAsociado = (select correoUsuarioAsociado from ActivoFijo where placa = @placa);
+
+	SET @aclaracion = 'El repuesto ' + @descripcion + '  fue eliminado del activo con placa ' +  @placa +
+	'  por ' + @nombreUsuarioCausante + ' el ' + CONVERT(VARCHAR, @fechaActual, 120);
+
+	delete Repuesto where descripcion = @descripcion AND placa = @placa;
+
+	insert into HistorialActivos (placa, codigoIndicador, fechaHora, correoUsuarioCausante, nombreUsuarioCausante,
+	correoUsuarioAsociado, nombreUsuarioAsociado, aclaracionSistema) values 
+	(@placa, 7, @fechaActual, @correoUsuarioCausante, @nombreUsuarioCausante, @correoAsociado, @nombreAsociado, @aclaracion);
+
+	COMMIT TRANSACTION;
+
+END TRY
+BEGIN CATCH
+
+    IF (XACT_STATE()) = -1
+    BEGIN
+        ROLLBACK TRANSACTION;
+    END;
+	IF @men != 2 AND @men != 3
+	BEGIN
+		SET @men = 1;
+	END; 
+END CATCH;
+GO
+
+
+--DECLARE @mens int
+--exec PAeliminarRepuesto 'Parlante', '567', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', @men = @mens output;
+--PRINT @mens;
+
+--select * from ActivoFijo;
+--select * from Repuesto;
+--select * from HistorialActivos;
+--DROP PROCEDURE PAeliminarRepuesto;
+
+
+CREATE PROCEDURE PAasociarUsuarioActivo
+	@placa varchar(150),
+	@correoUsuarioCausante varchar(150),
+	@nombreUsuarioCausante varchar(150),
+	@correoUsuarioAsociado varchar(300),
+	@nombreUsuarioAsociado varchar(100),
+	@departamentoUsuarioAsociado varchar(150),
+	@jefaturaUsuarioAsociado varchar(100), 
+	@men int output	
+AS
+SET XACT_ABORT ON;
+SET NOCOUNT ON;
+BEGIN TRY
+    BEGIN TRANSACTION;
+	DECLARE 
+	@fechaActual datetime,
+	@aclaracion varchar(300),
+	@mens int,
+	@nombreCategoria varchar(300)
+
+	IF (select codigoEstado from ActivoFijo where placa = @placa) = 5
+	BEGIN
+		SET @men = 2;
+		THROW  50001, 'El equipo fue desechado', 1;
+	END;
+
+	SET @nombreCategoria = (select cat.nombreCategoria from 
+	(select codigoCategoria, nombreCategoria from Categoria) cat,
+	(select codigoCategoria from ActivoFijo where placa = @placa) act
+	 where cat.codigoCategoria = act.codigoCategoria);
+	SET @fechaActual = (select GETDATE());
+
+
+	SET @aclaracion = 'El dispositivo ' + @nombreCategoria + '  con placa ' +  @placa + ' fue asociado al usuario ' +  
+	@nombreUsuarioAsociado + ' con correo ' + @correoUsuarioAsociado +
+	'  por ' + @nombreUsuarioCausante + ' el ' + CONVERT(VARCHAR, @fechaActual, 120);
+
+	update ActivoFijo SET correoUsuarioAsociado = @correoUsuarioAsociado, nombreUsuarioAsociado = @nombreUsuarioAsociado,
+	departamentoUsuarioAsociado = @departamentoUsuarioAsociado, jefaturaUsuarioAsociado = @jefaturaUsuarioAsociado
+	where placa = @placa;
+
+	insert into HistorialActivos (placa, codigoIndicador, fechaHora, correoUsuarioCausante, nombreUsuarioCausante,
+	correoUsuarioAsociado, nombreUsuarioAsociado, aclaracionSistema) values 
+	(@placa, 8, @fechaActual, @correoUsuarioCausante, @nombreUsuarioCausante, @correoUsuarioAsociado, 
+	@nombreUsuarioAsociado, @aclaracion);
+
+	COMMIT TRANSACTION;
+
+END TRY
+BEGIN CATCH
+
+    IF (XACT_STATE()) = -1
+    BEGIN
+        ROLLBACK TRANSACTION;
+    END;
+	IF @men != 2
+	BEGIN
+		SET @men = 1; 
+	END;
+END CATCH;
+GO
+
+
+--DECLARE @mens int
+--exec PAasociarUsuarioActivo '678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 'nubeblanca1997@outlook.com', 'Shimosutki Kanshikan', 'Relaciones Internacionales', 'Tsunemori Akane',
+--  @men = @mens output;
+--PRINT @mens;
+
+--select * from ActivoFijo;
+--select * from HistorialActivos;
+--DROP PROCEDURE PAasociarUsuarioActivo;
+
+
+CREATE PROCEDURE PAeliminarUsuarioActivo
+	@placa varchar(150),
+	@correoUsuarioCausante varchar(150),
+	@nombreUsuarioCausante varchar(150), 
+	@men int output	
+AS
+SET XACT_ABORT ON;
+SET NOCOUNT ON;
+BEGIN TRY
+    BEGIN TRANSACTION;
+	DECLARE 
+	@fechaActual datetime,
+	@aclaracion varchar(300),
+	@mens int,
+	@nombreCategoria varchar(300)
+
+
+	SET @nombreCategoria = (select cat.nombreCategoria from 
+	(select codigoCategoria, nombreCategoria from Categoria) cat,
+	(select codigoCategoria from ActivoFijo where placa = @placa) act
+	 where cat.codigoCategoria = act.codigoCategoria);
+	SET @fechaActual = (select GETDATE());
+
+
+	SET @aclaracion = 'Al dispositivo ' + @nombreCategoria + '  con placa ' +  @placa + ' le fue eliminado el propietario ' +  
+	'  por ' + @nombreUsuarioCausante + ' el ' + CONVERT(VARCHAR, @fechaActual, 120);
+
+	update ActivoFijo SET correoUsuarioAsociado = NULL, nombreUsuarioAsociado = NULL,
+	departamentoUsuarioAsociado = NULL, jefaturaUsuarioAsociado = NULL
+	where placa = @placa;
+
+	insert into HistorialActivos (placa, codigoIndicador, fechaHora, correoUsuarioCausante, nombreUsuarioCausante,
+	aclaracionSistema) values 
+	(@placa, 9, @fechaActual, @correoUsuarioCausante, @nombreUsuarioCausante, 
+	@aclaracion);
+
+	COMMIT TRANSACTION;
+
+END TRY
+BEGIN CATCH
+
+    IF (XACT_STATE()) = -1
+    BEGIN
+        ROLLBACK TRANSACTION;
+    END;
+	SET @men = 1; 
+
+END CATCH;
+GO
+
+
+--DECLARE @mens int
+--exec PAeliminarUsuarioActivo '678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales',@men = @mens output;
+--PRINT @mens;
+
+--select * from ActivoFijo;
+--select * from HistorialActivos;
+--DROP PROCEDURE PAeliminarUsuarioActivo;
+
+
+ CREATE PROCEDURE PAbusquedaAvanzadaInventario
+	@codigoArticulo varchar(150),
+	@descripcion varchar(150),
+	@nombreCategoria varchar(150),   
+	@esRepuesto varchar(30),
+	@nombreBodega varchar(150)   
+ AS
+	SET NOCOUNT ON;
+	SET @codigoArticulo = '%' + @codigoArticulo + '%';
+	SET @descripcion = '%' + @descripcion + '%';
+	SET @nombreCategoria = '%' + @nombreCategoria + '%';
+	SET @esRepuesto = '%' + @esRepuesto + '%';
+	SET @nombreBodega = '%' + @nombreBodega + '%';
+
+	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, inve.estado, inve.cantidad,
+	inve.codigoBodega, bode.nombreBodega from
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where nombreCategoria COLLATE Latin1_General_CI_AI like @nombreCategoria
+	AND esRepuesto like @esRepuesto) cat,
+	(select codigoBodega, nombreBodega from Bodega where nombreBodega COLLATE Latin1_General_CI_AI like @nombreBodega) bode,
+	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega from Inventario
+	where codigoArticulo like @codigoArticulo AND descripcion COLLATE Latin1_General_CI_AI like @descripcion) inve
+	where inve.codigoCategoria = cat.codigoCategoria AND inve.codigoBodega = bode.codigoBodega;
+ GO
+ --exec PAbusquedaAvanzadaInventario '', '', '', '', 'peru'; 
+ --DROP PROCEDURE PAbusquedaAvanzadaInventario;
+
+
+ 
+ CREATE PROCEDURE PAbusquedaAvanzadaActivos
+	@placa varchar(150),
+	@codigoEstado varchar(150),
+	@nombreCategoria varchar(150),   
+	@marca varchar(150),
+	@nombreUsuario varchar(150),
+	@correoUsuario varchar(150)   
+ AS
+	SET NOCOUNT ON;
+	SET @placa = '%' + @placa + '%';
+	SET @codigoEstado = '%' + @codigoEstado + '%';
+	SET @nombreCategoria = '%' + @nombreCategoria + '%';
+	SET @marca = '%' + @marca + '%';
+	SET @nombreUsuario = '%' + @nombreUsuario + '%';
+	SET @correoUsuario = '%' + @correoUsuario + '%';
+
+	select activo.placa, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, estado.codigoEstado, estado.nombreEstado,
+	activo.serie, activo.proveedor, activo.modelo, activo.marca, activo.fechaSalidaInventario, activo.fechaDesechado,
+	activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
+	activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where nombreCategoria COLLATE Latin1_General_CI_AI like @nombreCategoria) cat,
+	(select codigoEstado, nombreEstado from EstadoEquipo where codigoEstado like @codigoEstado) estado,
+	(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
+	fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
+	departamentoUsuarioAsociado, jefaturaUsuarioAsociado from ActivoFijo where codigoEstado like @codigoEstado
+	AND placa like @placa AND marca COLLATE Latin1_General_CI_AI like @marca AND 
+	nombreUsuarioAsociado COLLATE Latin1_General_CI_AI like @nombreUsuario AND correoUsuarioAsociado like @correoUsuario ) activo
+	where activo.codigoCategoria = cat.codigoCategoria AND activo.codigoEstado = estado.codigoEstado;
+ GO
+ --DROP PROCEDURE PAbusquedaAvanzadaActivos;
+ --exec PAbusquedaAvanzadaActivos '', '1', '', '', 'cas', '';
+ --select * from ActivoFijo;
+
+
 
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
@@ -807,13 +1197,13 @@ CREATE PROCEDURE PAobtenerHistorialActivosFijos
  insert into Categoria(codigoCategoria, nombreCategoria, esRepuesto) values (13, 'Otros', 1);
 
  
- insert into Bodega (nombreBodega) values ('Bodega oficinas centrales');
- insert into Bodega (nombreBodega) values ('Bodega centro de distribución');
- insert into Bodega (nombreBodega) values ('Bodega de Perú');
+ insert into Bodega (codigoBodega, nombreBodega) values (1, 'Bodega oficinas centrales');
+ insert into Bodega (codigoBodega, nombreBodega) values (2, 'Bodega centro de distribución');
+ insert into Bodega (codigoBodega, nombreBodega) values (3, 'Bodega de Perú');
 
  --Inventario
- insert into Inventario(codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, bodega) values ('10', 'Bateria Dell 72X', '50', 4, 'Activo', 5, 'Bodega oficinas centrales');
- insert into Inventario(codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, bodega) values ('11', 'Laptop Dell Inspiron', '60', 1, 'Activo', 2, 'Bodega centro de distribución');
+ insert into Inventario(codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega) values ('10', 'Bateria Dell 72X', '50', 4, 'Activo', 5, 1);
+ insert into Inventario(codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega) values ('11', 'Laptop Dell Inspiron', '60', 1, 'Activo', 2, 2);
 
 
 
@@ -852,6 +1242,10 @@ CREATE PROCEDURE PAobtenerHistorialActivosFijos
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (3, 'Activo creado');
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (4, 'Adjunta documento');
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (5, 'Actualiza estado');
+ insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (6, 'Elimina licencia');
+ insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (7, 'Elimina repuesto');
+ insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (8, 'Asocia usuario');
+ insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (9, 'Elimina usuario');
 
  
  --DROPS
@@ -888,3 +1282,9 @@ CREATE PROCEDURE PAobtenerHistorialActivosFijos
  DROP PROCEDURE PAactualizarEstadoEquipo;
  DROP PROCEDURE PAobtenerDetalleArticuloInventario;
  DROP PROCEDURE PAobtenerHistorialActivosFijos;
+ DROP PROCEDURE PAeliminarLicencia;
+ DROP PROCEDURE PAeliminarRepuesto;
+ DROP PROCEDURE PAasociarUsuarioActivo;
+ DROP PROCEDURE PAeliminarUsuarioActivo;
+ DROP PROCEDURE PAbusquedaAvanzadaInventario;
+ DROP PROCEDURE PAbusquedaAvanzadaActivos;

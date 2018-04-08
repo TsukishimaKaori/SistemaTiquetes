@@ -73,7 +73,7 @@ class Detalle {
     private $fecha;
     private $estado;
     private $efecto;    //Entrada o salida
-    private $bodega; 
+    private $bodega;   //objeto de tipo Bodega
     private $comentarioUsuario;
     private $correoUsuarioCausante;
     private $nombreUsuarioCausante;

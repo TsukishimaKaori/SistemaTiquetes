@@ -104,14 +104,14 @@ function obtenerCategorias() {
 
 //Agregar un articulo al inventario
 function agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codigoCategoria, $estado,
-	$cantidad, $bodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante) {
+	$cantidad, $codigoBodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante) {
     $men = -1;
     $conexion = Conexion::getInstancia();
     $tsql = "{call PAagregarArticuloInventario (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array(utf8_decode($descripcion), SQLSRV_PARAM_IN),
         array($costo, SQLSRV_PARAM_IN), array($codigoCategoria, SQLSRV_PARAM_IN),
         array($estado, SQLSRV_PARAM_IN), array($cantidad, SQLSRV_PARAM_IN),
-        array($bodega, SQLSRV_PARAM_IN), array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
+        array($codigoBodega, SQLSRV_PARAM_IN), array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
         array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
         array($men, SQLSRV_PARAM_OUT));
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
@@ -157,7 +157,9 @@ function agregarLicencia($fechaDeVencimiento, $claveDeProducto, $proveedor, $des
     sqlsrv_free_stmt($getMensaje);
     if ($men == 1) {
         return 1;  //Ha ocurrido un error
-    } 
+    } else if ($men == 2) {
+        return 2;  //No se pueden asociar licencias a activos desechados
+    }
     return ''; //agregado correctamente
 }
 
@@ -194,6 +196,8 @@ function asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombr
         return 1;  //Ha ocurrido un error
     } else if ($men == 2) {
         return 2;  //El activo ya tiene asociado un repuesto de ese tipo
+    } else if ($men == 3) {
+        return 3;  //No se pueden agregar repuestos a activos desechados
     } 
        
     return ''; //agregado correctamente
@@ -212,8 +216,8 @@ function agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCa
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($correoUsuarioCausante, SQLSRV_PARAM_IN), 
         array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),  
         array($placa, SQLSRV_PARAM_IN), array($codigoCategoria, SQLSRV_PARAM_IN),
-        array($serie, SQLSRV_PARAM_IN), array($proveedor, SQLSRV_PARAM_IN),
-        array($modelo, SQLSRV_PARAM_IN), array($marca, SQLSRV_PARAM_IN),
+        array($serie, SQLSRV_PARAM_IN), array(utf8_decode($proveedor), SQLSRV_PARAM_IN),
+        array(utf8_decode($modelo), SQLSRV_PARAM_IN), array(utf8_decode($marca), SQLSRV_PARAM_IN),
         array($fechaExpiraGarantia, SQLSRV_PARAM_IN), array($correoUsuarioAsociado, SQLSRV_PARAM_IN),
         array(utf8_decode($nombreUsuarioAsociado), SQLSRV_PARAM_IN), array(utf8_decode($departamentoUsuarioAsociado), SQLSRV_PARAM_IN),
         array(utf8_decode($jefaturaUsuarioAsociado),SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
@@ -275,7 +279,9 @@ function adjuntarContrato($placa, $direccionAdjunto, $correoUsuarioCausante, $no
     sqlsrv_free_stmt($getMensaje);
     if ($men == 1) {
         return 1;  //Ha ocurrido un error
-    } 
+    } else if ($men == 2) {
+        return 2;  //No se pueden realizar acciones sobre activos desechados
+    }
     return ''; //agregado correctamente
 }
 
@@ -331,16 +337,18 @@ function actualizarEstadoEquipo($placa, $codigoEstadoSiguiente, $comentarioUsuar
     sqlsrv_free_stmt($getMensaje);
     if ($men == 1) {
         return 1;  //Ha ocurrido un error
-    } 
+    } else if ($men == 2) {
+        return 2;  //No se pueden realizar acciones sobre activos desechados
+    }
     return ''; //agregado correctamente
 }
 
 
 //Obtiene los detalles de movimientos de un articulo del inventario
-function obtenerDetalleArticuloInventario($codigoArticulo, $bodega) {
+function obtenerDetalleArticuloInventario($codigoArticulo, $codigoBodega) {
     $conexion = Conexion::getInstancia();
     $tsql = "{call PAobtenerDetalleArticuloInventario (?, ?) }";
-    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array(utf8_decode($bodega), SQLSRV_PARAM_IN));
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($codigoBodega, SQLSRV_PARAM_IN));
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
     if ($getMensaje == FALSE) {
         sqlsrv_free_stmt($getMensaje);
@@ -373,6 +381,130 @@ function obtenerHistorialActivosFijos($placa) {
 }
 
 
+//Eliminar una licencia asociada a un activo fijo
+function eliminarLicencia($claveDeProducto, $placa, $correoUsuarioCausante, $nombreUsuarioCausante) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAeliminarLicencia (?, ?, ?, ?, ?) }";
+    $params = array(array($claveDeProducto, SQLSRV_PARAM_IN), array($placa, SQLSRV_PARAM_IN),
+        array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } else if ($men == 2) {
+        return 2;  //No se pueden eliminar licencias de activos desechados
+    } else if ($men == 3) {
+        return 3;  //NO existe la licencia a eliminar
+    }
+    return ''; //agregado correctamente
+}
+
+
+//Eliminar un repuesto asociado un Activo fijo
+function eliminarRepuesto($descripcion, $placa, $correoUsuarioCausante, $nombreUsuarioCausante) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAeliminarRepuesto (?, ?, ?, ?, ?) }";
+    $params = array(array(utf8_decode($descripcion), SQLSRV_PARAM_IN), array($placa, SQLSRV_PARAM_IN),
+        array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } else if ($men == 2) {
+        return 2;  //El repuesto no esta asociado al activo
+    } else if ($men == 3) {
+        return 3;  //No se pueden eliminar repuestos a activos desechados
+    } 
+       
+    return ''; //agregado correctamente
+}
+
+//Asociar un usuario a un activo fijo que no este desechado
+function asociarUsuarioActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante,
+	$correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAasociarUsuarioActivo (?, ?, ?, ?, ?, ?, ?, ?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN), array($correoUsuarioCausante, SQLSRV_PARAM_IN), 
+        array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN), array($correoUsuarioAsociado, SQLSRV_PARAM_IN),
+        array(utf8_decode($nombreUsuarioAsociado), SQLSRV_PARAM_IN), array(utf8_decode($departamentoUsuarioAsociado), SQLSRV_PARAM_IN),
+        array(utf8_decode($jefaturaUsuarioAsociado),SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } if ($men == 2) {
+        return 2;  //No se puede asociar un usuario a un activo desechado
+    }
+       
+    return ''; //agregado correctamente
+}
+
+
+//Eliminar un usuario a un activo fijo 
+function eliminarUsuarioActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAeliminarUsuarioActivo (?, ?, ?, ?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN), array($correoUsuarioCausante, SQLSRV_PARAM_IN), 
+        array(utf8_decode($nombreUsuarioCausante),SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    }
+       
+    return ''; //agregado correctamente
+}
+
+
+//Busqueda avanzada de items del inventario, todos los campos se pueden poner en inputs,
+//excepto el esRepuesto, que es mejor si fuera un check
+function busquedaAvanzadaInventario($codigoArticulo, $descripcion, $nombreCategoria, $esRepuesto, $nombreBodega) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAbusquedaAvanzadaInventario (?, ?, ?, ?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array(utf8_decode($descripcion), SQLSRV_PARAM_IN), 
+        array(utf8_decode($nombreCategoria),SQLSRV_PARAM_IN), array($esRepuesto, SQLSRV_PARAM_IN),
+        array(utf8_decode($nombreBodega),SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener el inventario';
+    }
+    $pasivos = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $pasivos[] = crearInventario($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $pasivos;
+}
+
+//Busqueda avanzada de activos, todo los campos se pueden poner un inputs,
+//excepto el estado, que es mejor ponerlo en un combo
+function busquedaAvanzadaActivos($placa, $codigoEstado, $nombreCategoria, $marca, $nombreUsuario, $correoUsuario) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAbusquedaAvanzadaActivos (?, ?, ?, ?, ?, ?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN), array($codigoEstado, SQLSRV_PARAM_IN), 
+        array(utf8_decode($nombreCategoria),SQLSRV_PARAM_IN), array(utf8_decode($marca), SQLSRV_PARAM_IN),
+        array(utf8_decode($nombreUsuario),SQLSRV_PARAM_IN), array($correoUsuario,SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los activos';
+    }
+    $activos = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $activos[] = crearActivo($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $activos;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -393,7 +525,7 @@ function crearInventario($row) {
     $categoria = crearCategoria($row);
     $estado = utf8_encode($row['estado']);
     $cantidad = $row['cantidad'];  
-    $bodega = utf8_encode($row['bodega']);
+    $bodega = crearBodega($row);
     return new Inventario($codigoArticulo, $descripcion, $costo, $categoria, $estado, $cantidad, $bodega);
 }
 
@@ -436,8 +568,9 @@ function crearRepuesto($row) {
 }
 
 function crearBodega($row) {
+    $codigoBodega = $row['codigoBodega'];
     $nombreBodega = utf8_encode($row['nombreBodega']);
-    return new Bodega($nombreBodega);
+    return new Bodega($codigoBodega, $nombreBodega);
 }
 
 function crearDetalle($row) {
@@ -449,7 +582,7 @@ function crearDetalle($row) {
     $fecha = $row['fecha'];
     $estado = utf8_encode($row['estado']);
     $efecto = utf8_encode($row['efecto']);   
-    $bodega = utf8_encode($row['bodega']); 
+    $bodega = crearBodega($row); 
     $comentarioUsuario = utf8_encode($row['comentarioUsuario']);
     $correoUsuarioCausante = $row['correoUsuarioCausante'];
     $nombreUsuarioCausante = utf8_encode($row['nombreUsuarioCausante']);
@@ -483,7 +616,7 @@ function crearHistorialActivos($row) {
 //    echo $tema->obtenerEstado(). '<br />'; 
 //    echo $tema->obtenerCosto() . '<br />';
 //    echo $tema->obtenerCantidad() . '<br />';
-//    echo $tema->obtenerBodega() . '<br />';
+//    echo $tema->obtenerBodega()->obtenerNombreBodega() . '<br />';
 //    echo '<br />';
 //}
 //
@@ -531,7 +664,7 @@ function crearHistorialActivos($row) {
 //}
 
 
-//$mensaje = agregarArticuloInventario('765','Portatil Lenovo', '30', 2, 'Activo', 2, 'Bodega C', 'La compu de la jefa ya llegó', 
+//$mensaje = agregarArticuloInventario('765','Portatil Lenovo', '30', 2, 'Activo', 2, 2, 'La compu de la jefa ya llegó', 
 //        'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //
 //echo $mensaje;
@@ -566,6 +699,7 @@ function crearHistorialActivos($row) {
 //$bodegas = obtenerBodegas();
 //
 //foreach ($bodegas as $tema) {   
+//    echo $tema->obtenerCodigoBodega() . '<br />';
 //    echo $tema->obtenerNombreBodega() . '<br />';
 //    echo '<br />';
 //}
@@ -591,11 +725,12 @@ function crearHistorialActivos($row) {
 //$mensaje = actualizarEstadoEquipo('456', 1, 'El disposito está en perfectísimo estado :D', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //echo $mensaje;
 
-//$usuarios = obtenerDetalleArticuloInventario('11', 'Bodega centro de distribución');
+//$usuarios = obtenerDetalleArticuloInventario('10', 1);
 //
 //foreach ($usuarios as $tema) {   
 //    echo $tema->obtenerCodigoArticulo() . '<br />';
 //    echo $tema->obtenerComentarioUsuario() . '<br />';
+//    echo $tema->obtenerBodega()->obtenerNombreBodega() . '<br />';
 //    echo '<br />';
 //}
 
@@ -605,5 +740,45 @@ function crearHistorialActivos($row) {
 //    echo $tema->obtenerCodigoHistorial() . '<br />';
 //    echo $tema->obtenerComentarioUsuario() . '<br />';
 //    echo $tema->obtenerAclaracionSistema() . '<br />';
+//    echo '<br />';
+//}
+
+//$mensaje = eliminarLicencia('2830-7253-UR46-HBFT', '678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//echo $mensaje;
+
+//$mensaje = eliminarRepuesto('Parlante', '567', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//echo $mensaje;
+
+//$mensaje = asociarUsuarioActivo('678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 'nubeblanca1997@outlook.com', 'Shimosutki Kanshikan',
+//        'Relaciones Internacionales', 'Tsunemori Akane');
+//echo $mensaje;
+
+//$mensaje = eliminarUsuarioActivo('678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//echo $mensaje;
+
+//$pasivos = busquedaAvanzadaInventario('', '', '', '', 'peru');
+//
+//foreach ($pasivos as $tema) {   
+//    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $tema->obtenerCategoria()->obtenerEsRepuesto() . '<br />';
+//    echo $tema->obtenerDescripcion() . '<br />';
+//    echo $tema->obtenerEstado(). '<br />'; 
+//    echo $tema->obtenerCosto() . '<br />';
+//    echo $tema->obtenerCantidad() . '<br />';
+//    echo $tema->obtenerBodega()->obtenerNombreBodega() . '<br />';
+//    echo '<br />';
+//}
+
+//echo 'Activos' . '<br />';
+//$activos = busquedaAvanzadaActivos('', '', '', '', 'cri', '');
+//
+//foreach ($activos as $tema) {   
+//    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $tema->obtenerPlaca() . '<br />';
+//    echo $tema->obtenerEstado()->obtenerNombreEstado().'<br />'; 
+//    echo $tema->obtenerProveedor() . '<br />';
+//    echo $tema->obtenerMarca() . '<br />';
+//    echo $tema->obtenerNombreUsuarioAsociado() . '<br />';
+//    echo $tema->obtenerCorreoUsuarioAsociado() . '<br />';
 //    echo '<br />';
 //}
