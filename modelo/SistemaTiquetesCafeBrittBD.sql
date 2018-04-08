@@ -2461,7 +2461,7 @@ GO
 --exec PAobtenerHistorial 2;
 
 
-CREATE PROCEDURE PAbusquedaAvanzadaTiquetes
+ CREATE PROCEDURE PAbusquedaAvanzadaTiquetes
 	@codigoTiquete varchar(200),
 	@correoSolicitante varchar(200),
 	@nombreSolicitante varchar(200),
@@ -2494,7 +2494,7 @@ SET NOCOUNT ON;
 		codigoClasificacion, fechaCreacion, fechaFinalizado, fechaCalificado, fechaSolicitado, fechaEnProceso, 
 		descripcion, calificacion, horasTrabajadas, nombreUsuarioSolicitante, departamentoUsuarioSolicitante,
 		jefaturaUsuarioSolicitante, codigoPrioridad, fechaEntrega from dbo.Tiquete where codigoTiquete like @codigoTiquete 
-		AND nombreUsuarioSolicitante like @nombreSolicitante AND usuarioIngresaTiquete like @correoSolicitante 
+		AND nombreUsuarioSolicitante COLLATE Latin1_General_CI_AI like @nombreSolicitante AND usuarioIngresaTiquete like @correoSolicitante 
 		AND codigoEstado like @codigoEstado AND fechaCreacion BETWEEN @fechaInicio AND @fechaFinal) tique,
 		(select codigoPrioridad, nombrePrioridad from PrioridadTiquete) pri
 		where esta.codigoEstado = tique.codigoEstado AND are.codigoArea = tique.codigoArea 
@@ -2507,7 +2507,7 @@ SET NOCOUNT ON;
 		tique.fechaCalificado, tique.fechaSolicitado, tique.fechaEnProceso, tique.descripcion, 
 		tique.calificacion, tique.horasTrabajadas, tique.nombreUsuarioSolicitante, tique.departamentoUsuarioSolicitante,
 		tique.jefaturaUsuarioSolicitante, tique.codigoPrioridad, pri.nombrePrioridad, tique.fechaEntrega from
-		(select codigoResponsable, nombreResponsable, correo from Responsable where nombreResponsable like @nombreResponsable AND
+		(select codigoResponsable, nombreResponsable, correo from Responsable where nombreResponsable COLLATE Latin1_General_CI_AI like @nombreResponsable AND
 		correo like @correoResponsable) res,
 		(select codigoEstado, nombreEstado, enviaCorreos from dbo.Estado where codigoEstado like @codigoEstado) esta, 
 		(select codigoArea, nombreArea, activo from dbo.Area) are,
@@ -2516,7 +2516,7 @@ SET NOCOUNT ON;
 		codigoClasificacion, fechaCreacion, fechaFinalizado, fechaCalificado, fechaSolicitado, fechaEnProceso, 
 		descripcion, calificacion, horasTrabajadas, nombreUsuarioSolicitante, departamentoUsuarioSolicitante,
 		jefaturaUsuarioSolicitante, codigoPrioridad, fechaEntrega from dbo.Tiquete where codigoTiquete like @codigoTiquete 
-		AND nombreUsuarioSolicitante like @nombreSolicitante AND usuarioIngresaTiquete like @correoSolicitante 
+		AND nombreUsuarioSolicitante COLLATE Latin1_General_CI_AI like @nombreSolicitante AND usuarioIngresaTiquete like @correoSolicitante 
 		AND codigoEstado like @codigoEstado AND fechaCreacion BETWEEN @fechaInicio AND @fechaFinal) tique,
 		(select codigoPrioridad, nombrePrioridad from PrioridadTiquete) pri
 		where esta.codigoEstado = tique.codigoEstado AND are.codigoArea = tique.codigoArea 
@@ -2524,7 +2524,7 @@ SET NOCOUNT ON;
 		AND res.codigoResponsable = tique.codigoResponsable order by tique.codigoPrioridad; 
 GO
 
---exec PAbusquedaAvanzadaTiquetes '', '', '', '', 'lui', '2018-01-01', '2018-02-07', '7';
+--exec PAbusquedaAvanzadaTiquetes '', '', '', '', 'gonzalez', '2012-01-01', '2018-04-07', '';
 --DROP PROCEDURE PAbusquedaAvanzadaTiquetes;
 
 CREATE PROCEDURE PAbusquedaAvanzadaTiquetesArea
@@ -2561,7 +2561,7 @@ SET NOCOUNT ON;
 		codigoClasificacion, fechaCreacion, fechaFinalizado, fechaCalificado, fechaSolicitado, fechaEnProceso, 
 		descripcion, calificacion, horasTrabajadas, nombreUsuarioSolicitante, departamentoUsuarioSolicitante,
 		jefaturaUsuarioSolicitante, codigoPrioridad, fechaEntrega from dbo.Tiquete where codigoTiquete like @codigoTiquete 
-		AND nombreUsuarioSolicitante like @nombreSolicitante AND usuarioIngresaTiquete like @correoSolicitante 
+		AND nombreUsuarioSolicitante COLLATE Latin1_General_CI_AI like @nombreSolicitante AND usuarioIngresaTiquete like @correoSolicitante 
 		AND codigoEstado like @codigoEstado AND fechaCreacion BETWEEN @fechaInicio AND @fechaFinal AND codigoArea = @areaCoordinador) tique,
 		(select codigoPrioridad, nombrePrioridad from PrioridadTiquete) pri
 		where esta.codigoEstado = tique.codigoEstado AND are.codigoArea = tique.codigoArea 
@@ -2574,7 +2574,7 @@ SET NOCOUNT ON;
 		tique.fechaCalificado, tique.fechaSolicitado, tique.fechaEnProceso, tique.descripcion, 
 		tique.calificacion, tique.horasTrabajadas, tique.nombreUsuarioSolicitante, tique.departamentoUsuarioSolicitante,
 		tique.jefaturaUsuarioSolicitante, tique.codigoPrioridad, pri.nombrePrioridad, tique.fechaEntrega from
-		(select codigoResponsable, nombreResponsable, correo from Responsable where nombreResponsable like @nombreResponsable AND
+		(select codigoResponsable, nombreResponsable, correo from Responsable where nombreResponsable COLLATE Latin1_General_CI_AI like @nombreResponsable AND
 		correo like @correoResponsable) res,
 		(select codigoEstado, nombreEstado, enviaCorreos from dbo.Estado where codigoEstado like @codigoEstado) esta, 
 		(select codigoArea, nombreArea, activo from dbo.Area where codigoArea = @areaCoordinador) are,
@@ -2583,7 +2583,7 @@ SET NOCOUNT ON;
 		codigoClasificacion, fechaCreacion, fechaFinalizado, fechaCalificado, fechaSolicitado, fechaEnProceso, 
 		descripcion, calificacion, horasTrabajadas, nombreUsuarioSolicitante, departamentoUsuarioSolicitante,
 		jefaturaUsuarioSolicitante, codigoPrioridad, fechaEntrega from dbo.Tiquete where codigoTiquete like @codigoTiquete 
-		AND nombreUsuarioSolicitante like @nombreSolicitante AND usuarioIngresaTiquete like @correoSolicitante 
+		AND nombreUsuarioSolicitante COLLATE Latin1_General_CI_AI like @nombreSolicitante AND usuarioIngresaTiquete like @correoSolicitante 
 		AND codigoEstado like @codigoEstado AND fechaCreacion BETWEEN @fechaInicio AND @fechaFinal AND codigoArea = @areaCoordinador) tique,
 		(select codigoPrioridad, nombrePrioridad from PrioridadTiquete) pri
 		where esta.codigoEstado = tique.codigoEstado AND are.codigoArea = tique.codigoArea 
@@ -2591,7 +2591,7 @@ SET NOCOUNT ON;
 		AND res.codigoResponsable = tique.codigoResponsable order by tique.codigoPrioridad; 
 GO
 
---exec PAbusquedaAvanzadaTiquetesArea '', '', '', '', '', '2017-01-01', '2018-02-24', '', 2;
+--exec PAbusquedaAvanzadaTiquetesArea '', '', '', '', 'gonza', '2017-01-01', '2018-04-24', '', 2;
 --DROP PROCEDURE PAbusquedaAvanzadaTiquetesArea;
 --select * from Tiquete;
 
