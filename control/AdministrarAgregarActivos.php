@@ -42,6 +42,8 @@ function generarPdf($placa) {
 
     $pdf->SetFont('Arial', 'B', 16);
     $pdf->Cell(40, 10, utf8_decode('¡Contrato!'));
+    $pdf->Ln();
+    $pdf->Cell(40, 10, utf8_decode('¡BY Danny!'));
     $nombre=$placa."-".$fecha.".pdf";
     $url = "../adjuntos/contratos/".$nombre;
     $pdf->Output("F", $url);
