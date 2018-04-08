@@ -326,6 +326,7 @@ BEGIN TRY
 	@correoAsociado varchar(100),
 	@aclaracion varchar(300)
 
+	SET @men = 0;
 	IF (select codigoEstado from ActivoFijo where placa = @placa) = 5
 	BEGIN
 		SET @men = 2;
@@ -355,7 +356,7 @@ BEGIN CATCH
     BEGIN
         ROLLBACK TRANSACTION;
     END;
-	IF @men != 2
+	IF @men = 0
 	BEGIN
 		SET @men = 1;  --Error
 	END;
