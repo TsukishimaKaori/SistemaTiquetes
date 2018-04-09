@@ -26,7 +26,7 @@ function cabeceraTablaActivos() {
 function cuerpoTablaActivos($activos) {
     foreach ($activos as $act) {
         echo '<tr >';
-        echo '<td>' . $act->obtenerPlaca() . '</td>';
+        echo '<td id="placa">' . $act->obtenerPlaca() . '</td>';
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
         //      echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
         echo '<td>' . $act->obtenerNombreUsuarioAsociado() . '</td>';
@@ -78,7 +78,7 @@ function cuerpoTablaPasivos($inventario) {
 
 function cuerpoTablaLicencias($licencias) {
     foreach ($licencias as $act) {
-        echo '<tr >';
+        echo '<tr id="' . $act->obtenerClaveDeProducto() . '" >';
         echo '<td>' . $act->obtenerDescripcion() . '</td>';
         echo '<td>' . $act->obtenerClaveDeProducto() . '</td>';
         echo '<td>' . $act->obtenerProveedor() . '</td>';
@@ -92,19 +92,25 @@ function cuerpoTablaLicencias($licencias) {
             $fechaAsociado = date_format($act->obtenerFechaAsociado(), 'd/m/Y');
             echo '<td>' . $fechaAsociado . '</td>';
         }
+        echo '<td><button type="button" class="btn btn-danger" onclick="eliminarLicencia(\'' . $act->obtenerClaveDeProducto() . '\')">
+      <span class="glyphicon glyphicon-remove"></span>
+    </button></td>';
         echo '</tr>';
     }
 }
 
 function cuerpoTablaRepuestos($repuestos) {
     foreach ($repuestos as $act) {
-        echo '<tr >';
+        echo '<tr id="' . $act->obtenerDescripcion() . '">';
         echo '<td>' . $act->obtenerDescripcion() . '</td>';
         $fechaAsociado = $act->obtenerFechaAsociado();
         if ($fechaAsociado != null) {
             $fechaAsociado = date_format($act->obtenerFechaAsociado(), 'd/m/Y');
             echo '<td>' . $fechaAsociado . '</td>';
         }
+        echo '<td><button type="button" class="btn btn-danger" onclick="eliminarRepuesto(\'' . $act->obtenerDescripcion() . '\')">
+      <span class="glyphicon glyphicon-remove"></span>
+    </button></td>';
         echo '</tr>';
     }
 }
@@ -118,8 +124,7 @@ function cuerpoTablaContratos($contratos) {
     }
 }
 
-function panelActivos($activos, $codigo) {
-    $listaActivos = buscarDispositivoActivoFijo($activos, $codigo);
+function panelActivos($listaActivos, $estadosSiguentes) {
     echo
     '<div type = "hidden" class="informacion-dispositivos panel panel-default">'
     . ' <div class="panel-heading"><h3>Especificaciones de activos</h3></div>'
@@ -132,7 +137,9 @@ function panelActivos($activos, $codigo) {
     . '           <div><span class="col-md-4 titulo-inventario">Categoría: </span><span class=" col-md-8">' . $listaActivos->obtenerCategoria()->obtenerNombreCategoria() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Estado: </span><span class=" col-md-8">' . $listaActivos->obtenerEstado()->obtenerNombreEstado() . '</span></div> '
+    . '           <div><span class="col-md-4 titulo-inventario">Estado: </span><span class=" col-md-8">';
+    echo estadosSiguientes($listaActivos->obtenerEstado(), $estadosSiguentes, $listaActivos->obtenerPlaca());
+    echo '</span> </div> '
     . '         </div>'
     . '         <div class="row">'
     . '           <div><span class="col-md-4 titulo-inventario">Proveedor: </span><span class=" col-md-8">' . $listaActivos->obtenerProveedor() . ' </span></div> '
@@ -183,14 +190,23 @@ function panelActivos($activos, $codigo) {
     . '           <div><span class="col-md-4 titulo-inventario">Jefatura Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerJefaturaUsuarioAsociado() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
-    . '           <span ><button  onclick = "obtenerRepuestos(' . $codigo . ');" data-target="#modalRepuestos" data-toggle="modal" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Repuestos</button></span> '
-    . '           <span ><button onclick = "obtenerLicencias(' . $codigo . ');" data-toggle="modal" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Licencias</button></span> '
-    . '           <span ><button onclick = "obtenerContratos(' . $codigo . ');" data-toggle="modal" class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Contratos</button></span> '
+    . '           <span ><button  onclick = "obtenerRepuestos(' . $listaActivos->obtenerPlaca() . ');" data-target="#modalRepuestos" data-toggle="modal" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Repuestos</button></span> '
+    . '           <span ><button onclick = "obtenerLicencias(' . $listaActivos->obtenerPlaca() . ');" data-toggle="modal" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Licencias</button></span> '
+    . '           <span ><button onclick = "obtenerContratos(' . $listaActivos->obtenerPlaca() . ');" data-toggle="modal" class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Contratos</button></span> '
     . '         </div>'
     . '         </div>'
     . '     </div>'
     . ' </div>'
     . '</div>';
+}
+
+function estadosSiguientes($estadoActual, $estadosSiguentes, $placa) {
+    echo '<select class="form-control" onfocus="estadoAnterior();" onchange="cambiarEstado(\'' . $placa . '\')" id="estadosSiguentes">';
+    echo '<option value="' . $estadoActual->obtenerCodigoEstado() . '" selected>' . $estadoActual->obtenerNombreEstado() . '  </option>';
+    foreach ($estadosSiguentes as $estado) {
+        echo '<option value="' . $estado->obtenerCodigoEstado() . '" >' . $estado->obtenerNombreEstado() . '</option>';
+    }
+    echo '</select>';
 }
 
 function panelPasivos($pasivos, $codigo) {

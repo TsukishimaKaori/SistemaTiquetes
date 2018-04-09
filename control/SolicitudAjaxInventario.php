@@ -2,12 +2,16 @@
 
 require_once ("../control/AdministrarTablaInventario.php");
 require ("../modelo/ProcedimientosInventario.php");
-
+session_start();
+$r = $_SESSION['objetoUsuario'];
 //Muestra el panel de activos fijos
 if (isset($_POST['codigoActivo'])) {
     $codigo = $_POST['codigoActivo'];
     $activos = obtenerActivosFijos();
-    panelActivos($activos, $codigo);
+    $listaActivos = buscarDispositivoActivoFijo($activos, $codigo);
+    $codigoEstadoActual=$listaActivos->obtenerEstado()->obtenerCodigoEstado();
+    $estadosSiguentes= obtenerEstadosEquipo($codigoEstadoActual);
+    panelActivos($listaActivos,$estadosSiguentes);
 }
 
 //Muestra el panel de inventario
@@ -135,3 +139,35 @@ if (isset($_POST['codigoAsociarEquipo'])) {
         echo 2; // Ya hay un usuario asociado
     }
 }
+
+// eliminar licencias
+if (isset($_POST['codigoLicenciaEliminar'])) {
+  $claveDeProducto=$_POST["codigoLicenciaEliminar"];
+  $placa=$_POST["placa"];
+    $correoUsuarioCausante = $r->obtenerCorreo();
+    $nombreUsuarioCausante = $r->obtenerNombreResponsable();
+    $mensaje=eliminarLicencia($claveDeProducto, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);
+    echo $mensaje;
+}
+
+// eliminar repuesto
+if (isset($_POST['descripcionRepuestoEliminar'])) {
+    $descripcion=$_POST['descripcionRepuestoEliminar'];
+    $placa=$_POST["placa"];    
+    $correoUsuarioCausante = $r->obtenerCorreo();
+    $nombreUsuarioCausante = $r->obtenerNombreResponsable();
+   $mensaje=eliminarRepuesto($descripcion, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);
+     echo $mensaje;
+}
+// cambiar estado
+if (isset($_POST['codigoEstadoSiguiente'])) {
+    $codigoEstadoSiguiente=$_POST['codigoEstadoSiguiente'];
+    $placa=$_POST["placa"];    
+    $comentarioUsuario=$_POST["comentario"]; 
+    $correoUsuarioCausante = $r->obtenerCorreo();
+    $nombreUsuarioCausante = $r->obtenerNombreResponsable();
+   $mensaje= actualizarEstadoEquipo($placa, $codigoEstadoSiguiente, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante);
+     echo $mensaje;
+}
+
+ 

@@ -41,7 +41,7 @@ function abrir_tab_inventario(evt, id) {
 }
 
 function cargarPanelActivos(codigo, event) {
-     codigo = ""+codigo;
+    codigo = "" + codigo;
     $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
     $(event).parent().parent().css("background-color", "#dff0d8");
 
@@ -57,7 +57,7 @@ function cargarPanelActivos(codigo, event) {
 }
 
 function cargarPanelPasivos(codigo, event) {
-   
+
     $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
     $(event).parent().parent().css("background-color", "#dff0d8");
     $.ajax({
@@ -152,7 +152,7 @@ function agregarLicenciaEquipo(codigo) {
                 if (response == 1) {
                     notificacion("Ha ocurrido un error al ingresar la licencia");
                 } else {
-                   // $("#cuerpo-Tabla-Inventario").html(response);
+                    // $("#cuerpo-Tabla-Inventario").html(response);
                     limpiarFormularioLicencia();
                     mensaje = "Licencia asociada correctamente";
                     notificacion(mensaje);
@@ -541,7 +541,137 @@ function focoAsociarLicencia(evt) {
     }
 }
 
+var codigoRepuesto;
+var codigoLicencia;
+function eliminarRepuesto(Codigo) {
+    codigoRepuesto = Codigo;
+    $("#eliminarRepuesto").modal("show");
 
+}
+
+function eliminarRepuestoAjax() {
+    var placa = document.getElementById("placa").innerText;
+    if (codigoRepuesto != "") {
+        $.ajax({
+            data: {'descripcionRepuestoEliminar': codigoRepuesto,
+                'placa': placa
+
+            },
+            type: 'POST',
+            url: '../control/SolicitudAjaxInventario.php',
+            success: function (response) {
+                $("#eliminarRepuesto").modal("hide");
+                if (response === "") {
+                    var repuesto = document.getElementById(codigoRepuesto);
+                    if (repuesto) {
+                        var padre = repuesto.parentNode;
+                        padre.removeChild(repuesto);
+                        codigoRepuesto = "";
+                    }
+                } else {
+                    $("#ErrorRepuesto").modal("show");
+                    codigoRepuesto = "";
+                }
+            }
+        });
+    }
+}
+/// elimianr licencias
+function eliminarLicencia(Codigo) {
+    codigoLicencia = Codigo;
+    $("#eliminarLicencia").modal("show");
+}
+// eliminar repeustos
+function eliminarLicenciaAjax() {
+    var placa = document.getElementById("placa").innerText;
+    if (codigoLicencia != "") {
+        $.ajax({
+            data: {'codigoLicenciaEliminar': codigoLicencia,
+                'placa': placa
+
+            },
+            type: 'POST',
+            url: '../control/SolicitudAjaxInventario.php',
+            success: function (response) {
+                $("#eliminarLicencia").modal("hide");
+                if (response === "") {
+                    var licencia = document.getElementById(codigoLicencia);
+                    if (licencia) {
+                        var padre = licencia.parentNode;
+                        padre.removeChild(licencia);
+                        codigoLicencia = "";
+                    }
+                } else {
+                    $("#ErrorLicencia").modal("show");
+                    codigoLicencia = "";
+                }
+            }
+        });
+    }
+}
+
+
+// cambiar estado
+
+var placa;
+var EstadoAnterior;
+var estadoSiguiente;
+function estadoAnterior() {
+    EstadoAnterior = document.getElementById("estadosSiguentes").value;
+}
+function cambiarEstado(miplaca) {
+    placa = miplaca;
+    var estado = document.getElementById("estadosSiguentes");
+    var estadoNombre = estado[document.getElementById("estadosSiguentes").selectedIndex].innerText;
+    estadoSiguiente = estado.value;
+    estado.value = EstadoAnterior;
+    document.getElementById("EstadoMensaje").innerText = "Desea cambiar el estado a: " + estadoNombre;
+    $("#cambiarEstado").modal("show");
+}
+function cambiarEstadoAjax() {
+    var justificacion = document.getElementById("justificacionEstado");
+    var comentario = justificacion.value;
+    if (comentario !== "") {
+        justificacion.style = "";
+        justificacion.value = "";
+        var placa = document.getElementById("placa").innerText;
+
+        $.ajax({
+            data: {'codigoEstadoSiguiente': estadoSiguiente,
+                'placa': placa,
+                'comentario': comentario
+
+            },
+            type: 'POST',
+            url: '../control/SolicitudAjaxInventario.php',
+            success: function (response) {
+                $("#cambiarEstado").modal("hide");
+                if (response === "") {
+                    document.getElementById("estadosSiguentes").value = estadoSiguiente;
+                    var mensaje = "Estado cambiado correctamente";
+                     notificacion(mensaje);
+                } else {
+                     var mensaje = "Error al cambiar estado";
+                     notificacion(mensaje);
+                }
+
+            }
+        });
+
+    } else {
+        justificacion.style = "border-color: red;"
+    }
+}
+
+function cancelarEstado() {
+    $("#cambiarEstado").modal("hide");
+
+    document.getElementById("estadosSiguentes").value = EstadoAnterior;
+    document.getElementById("justificacionEstado").value = "";
+    document.getElementById("justificacionEstado").style = "";
+    estadoSiguiente = "";
+    EstadoAnterior = "";
+}
 // <editor-fold defaultstate="collapsed" desc="NOTIFICACIONES">
 function notificacion(mensaje) {
     $("#divNotificacion").empty();

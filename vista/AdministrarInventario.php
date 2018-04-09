@@ -115,7 +115,8 @@
                                 <th>Clave de producto</th>
                                 <th>Proveedor</th>
                                 <th>Fecha de vencimiento</th>
-                                <th>Fecha asociado</th>                                    
+                                <th>Fecha asociado</th>   
+                                <th>Eliminar</th> 
                                 </thead>
                                 <tbody id = "cuerpoTablaLicencias">                                           
                                 </tbody>
@@ -143,7 +144,7 @@
                                 <thead>                               
                                 <th>Descripción</th>
                                 <th>Fecha asociado</th>
-
+                                <th>Eliminar</th>
                                 </thead>
                                 <tbody id = "cuerpoTablaRepuestos">                                           
                                 </tbody>
@@ -183,8 +184,36 @@
                 </div>
             </div>
         </div> 
+           <div id="cambiarEstado" class="modal fade " role="dialog">
+                <div class="modal-dialog modal-sm">                
+                    <div class="modal-content">                
+                        <div class="modal-body">
+                            <div class="row">    
+                                <div style ="text-align: center" > 
+                                    <h4 id="EstadoMensaje"> </h4>
+                                </div> 
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">justificacion</label>
+                                <textarea class="form-control" rows="3"  name="justificacion" cols="2" id="justificacionEstado"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" onclick="cambiarEstadoAjax();" > Aceptar</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelarEstado();" > cancelar</button>
+                        </div>
+                    </div>
+                </div>
+           </div>
 
-        <?php notificacion(); ?>
+        <?php notificacion(); 
+        
+        confirmacion("eliminarRepuesto", "¿Desea eliminar  el repuesto?", "eliminarRepuestoAjax();", ""); 
+        confirmacion("eliminarLicencia", "¿Desea eliminar  la licencia?", "eliminarLicenciaAjax();", "");
+        
+        alerta("ErrorRepuesto", "Error al eliminar repuesto", "");
+        alerta("ErrorLicencia", "Error al eliminar licencia", "");
+        ?>
 
     </body>
 </html>
