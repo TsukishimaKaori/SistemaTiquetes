@@ -16,6 +16,7 @@ en la base antes de asociarlo
 
 5. Correr PAdesasociarTiqueteActivo elimina una asociacion entre un tiquete y un activo
 
+6. Correr PAobtenerActivosAsociadosTiquete lista los activos asociados a un tiquete, para mostrar en la info del tiquete
 
 06/04/2018
 
