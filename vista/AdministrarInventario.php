@@ -2,12 +2,12 @@
 <html> 
     <head>
         <meta charset="UTF-8">
+
         <?php require_once ("../control/ArchivosDeCabecera.php"); ?>            
-        <link href="../recursos/css/inventario.css" rel="stylesheet"/>      
-        <script src="../recursos/bootstrap/js/es.js"></script>  
-        <link rel="stylesheet" href="../recursos/bootstrap/css/bootstrap-datetimepicker.min.css" />
-        <script src="../recursos/bootstrap/js/bootstrap-datetimepicker.min.js"></script>     
-        <script src="../recursos/js/AdministrarInventario.js"></script>    
+        <link href="../recursos/css/inventario.css" rel="stylesheet"/>     
+         <script src="../recursos/js/AdministrarInventario.js"></script>  
+             
+       
         <?php
         require ("../control/AdministrarTablaInventario.php");
         require ("../modelo/ProcedimientosInventario.php");
@@ -17,8 +17,13 @@
     </head>
     <body>
         <?php
-        require ("../vista/Cabecera.php");
-
+        require ("../vista/Cabecera.php");?>
+          <link rel="stylesheet" href="../recursos/bootstrap/css/bootstrap-datetimepicker.min.css" />
+        <script src="../recursos/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="../recursos/bootstrap/js/es.js"></script>
+        <link href="../recursos/bootstrap/css/bootstrap-select.min.css" rel="stylesheet"/>
+        <script src="../recursos/bootstrap/js/bootstrap-select.min.js"></script>  
+       <?php
         $activos = obtenerActivosFijos();
         $inventario = obtenerInventario();
         if (isset($_GET['tab'])) {
@@ -26,6 +31,7 @@
         } else {
             $tab = 1;
         }
+        
         ?>
 
         <input id = 'nombreUsuario' type="hidden" value ='<?php echo $r->obtenerNombreResponsable() ?>' >
@@ -115,7 +121,8 @@
                                 <th>Clave de producto</th>
                                 <th>Proveedor</th>
                                 <th>Fecha de vencimiento</th>
-                                <th>Fecha asociado</th>                                    
+                                <th>Fecha asociado</th>   
+                                <th>Eliminar</th> 
                                 </thead>
                                 <tbody id = "cuerpoTablaLicencias">                                           
                                 </tbody>
@@ -143,7 +150,7 @@
                                 <thead>                               
                                 <th>Descripción</th>
                                 <th>Fecha asociado</th>
-
+                                <th>Eliminar</th>
                                 </thead>
                                 <tbody id = "cuerpoTablaRepuestos">                                           
                                 </tbody>
@@ -156,7 +163,7 @@
                 </div>
             </div>
         </div> 
-          <!--Ventana Repuestos asociadas-->
+        <!--Ventana Repuestos asociadas-->
         <div id="modalContratos" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">                
                 <div class="modal-content">
@@ -169,7 +176,7 @@
                             <table class = "table table-hover">  
                                 <thead>                               
                                 <th>Contrato</th>
-                                
+
 
                                 </thead>
                                 <tbody id = "cuerpoTablaContratos">                                           
@@ -183,8 +190,39 @@
                 </div>
             </div>
         </div> 
+        <div id="cambiarEstado" class="modal fade " role="dialog">
+            <div class="modal-dialog modal-sm">                
+                <div class="modal-content">                
+                    <div class="modal-body">
+                        <div class="row">    
+                            <div style ="text-align: center" > 
+                                <h4 id="EstadoMensaje"> </h4>
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label for="comment">justificacion</label>
+                            <textarea class="form-control" rows="3"  name="justificacion" cols="2" id="justificacionEstado"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" onclick="cambiarEstadoAjax();" > Aceptar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelarEstado();" > cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <?php notificacion(); ?>
+        <?php
+        notificacion();
+
+        confirmacion("eliminarRepuesto", "¿Desea eliminar  el repuesto?", "eliminarRepuestoAjax();", "");
+        confirmacion("eliminarLicencia", "¿Desea eliminar  la licencia?", "eliminarLicenciaAjax();", "");
+        confirmacion("eliminarUsuario", "¿Esta seguro de desasociar este activo?", "eliminarUsuarioAjax();", "");
+        confirmacion("AsociarACtivo", "¿Esta seguro de asociar este activo?", "asignarActivoAjax();", "cancelarasignarActivo()");
+        alerta("ErrorRepuesto", "Error al eliminar repuesto", "");
+        alerta("ErrorLicencia", "Error al eliminar licencia", "");
+        ?>
 
     </body>
+
 </html>

@@ -5,7 +5,7 @@ function cargarpaginaPrincipal() {
     } else {
         paginaPrincipal = $("#codigoPagina").val();
     }
-    
+
 }
 
 // <editor-fold defaultstate="collapsed" desc="CLASIFICACION TIQUETES">
@@ -67,16 +67,16 @@ function cancelarActualizarTematica() {
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="CAMBIAR FECHA SOLICITADA">
+ $(function () {
+                    var fecha = new Date();
+                    $('#cotizada').datetimepicker({
+                        minDate: fecha.setDate(fecha.getDate() - 1),
+                        format: 'DD/MM/YYYY',
+                        locale: 'es'
+                    });
 
-$(function () {
-    var fecha = new Date();
-    $('#cotizada').datetimepicker({
-        minDate: fecha.setDate(fecha.getDate() - 1),
-        format: 'DD/MM/YYYY',
-        locale: 'es'
-    });
+                });
 
-});
 
 var fechaVieja;
 var fechanueva;
@@ -283,6 +283,15 @@ function cambiarComboPagina(event) {
                 if (tiquete != '-1') {
                     $("h2").remove(".bandejaTiquetesVacia");
                     $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + tiquete + '&pagina=' + pagina + " #cargarTiquetePagina");
+                    $(function () {
+                        var fecha = new Date();
+                        $('#cotizada').datetimepicker({
+                            minDate: fecha.setDate(fecha.getDate() - 1),
+                            format: 'DD/MM/YYYY',
+                            locale: 'es'
+                        });
+
+                    });
 
                 } else {
                     // $("#cargarTiquetePagina").load("../vista/AdministrarInformacionTiquetes.php?#cargarTiquetePagina");
@@ -348,10 +357,18 @@ function tiqueteSiguiente() {
                         '&nuevo=' + $("#filtroNuevo").val() + '&asignado=' + $("#filtroAsignado").val() + '&reasignacion=' + $("#filtroReasignado").val() +
                         '&proceso=' + $("#filtroProceso").val() + '&anulado=' + $("#filtroAnulado").val() + '&finalizado=' + $("#filtroFinalizado").val() +
                         '&calificado=' + $("#filtroCalificado").val() + " #cargarTiquetePagina");
+                if(codigoPagina == 1){
+                $(function () {
+                    var fecha = new Date();
+                    $('#cotizada').datetimepicker({
+                        minDate: fecha.setDate(fecha.getDate() - 1),
+                        format: 'DD/MM/YYYY',
+                        locale: 'es'
+                    });
 
+                });
 
-
-
+                }
             }
         });
     } else if (codigoPagina == 4) {

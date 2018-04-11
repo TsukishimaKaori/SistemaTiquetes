@@ -29,7 +29,7 @@ function historialInventario($historial, $dispositivo) {
         '           <div><span class="titulo-Indicador col-md-3">Costo: </span><span class=" col-md-9"> ' . $dispositivo->obtenerCosto() . '</span></div> ' .
         '       </div>  ' .
         '       <div class="row"> ' .
-        '           <div><span class="titulo-Indicador col-md-3">Bodega: </span><span class=" col-md-9">' . $dispositivo->obtenerBodega() . ' </span></div> ' .
+        '           <div><span class="titulo-Indicador col-md-3">Bodega: </span><span class=" col-md-9">' . $dispositivo->obtenerBodega()->obtenerNombreBodega() . ' </span></div> ' .
         '       </div>  ' .
         '       <div class="row"> ' .
         '           <div><span class="titulo-Indicador col-md-3">Cantidad actual en inventario: </span><span class=" col-md-9"> ' . $dispositivo->obtenerCantidad() . ' </span></div> ' .
@@ -70,7 +70,7 @@ function historialInformacionInventario($historial) {
     '           <div><span class="titulo-Indicador col-md-3">Estado: </span><span class=" col-md-9"> ' . $historial->obtenerEstado() . '</span></div> ' .
     '       </div>  ' .
     '       <div class="row"> ' .
-    '           <div><span class="titulo-Indicador col-md-3">Bodega: </span><span class=" col-md-9"> ' . $historial->obtenerBodega() . '</span></div> ' .
+    '           <div><span class="titulo-Indicador col-md-3">Bodega: </span><span class=" col-md-9"> ' . $historial->obtenerBodega()->obtenerNombreBodega() . '</span></div> ' .
     '       </div>  ' .
     '       <div class="row"> ' .
     '           <div><span class="titulo-Indicador col-md-3">Correo del usuario causante: </span><span class=" col-md-9"> ' . $historial->obtenerCorreoUsuarioCausante() . '</span></div> ' .
