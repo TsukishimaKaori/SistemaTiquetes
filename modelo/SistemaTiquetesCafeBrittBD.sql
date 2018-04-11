@@ -2903,6 +2903,7 @@ insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (12, '
 insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (13, 'Cambio de fecha de entrega');
 insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (14, 'Enviado a reprocesar');
 insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (15, 'Asocia activo');
+insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (16, 'desasocia activo');
 
 insert into RecursosHumanos (nombreUsuario, departamento, jefatura, correo, codigoEmpleado) values ('Cristina Cascante', 'Tecnología de la Información', 'Cristina Cascante', 'nubeblanca1997@outlook.com', '12b3');
 insert into RecursosHumanos (nombreUsuario, departamento, jefatura, correo, codigoEmpleado) values ('Luis González', 'Tecnología de la Información', 'Cristina Cascante', 'francini113@gmail.com', '1b65');
