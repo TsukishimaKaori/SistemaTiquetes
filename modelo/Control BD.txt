@@ -6,12 +6,15 @@
     insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (10, 'Asocia tiquete');
     insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (15, 'Asocia activo');
     insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (11, 'Desasocia tiquete');
+    insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (16, 'desasocia activo');
  
 
 3.Correr PAobtenerActivosUsuario sirve para el formulario de crear tiquete, retorna los activos asociados a un usuario
 
 4.Correr PAasociarTiqueteActivo asocia un activo a un tiquete, sin embargo, necesito que el tiquete se haya insertado
 en la base antes de asociarlo
+
+5. Correr PAdesasociarTiqueteActivo elimina una asociacion entre un tiquete y un activo
 
 
 06/04/2018
