@@ -2,15 +2,16 @@
 
 1.Correr la tabla TiquetesActivos
 
-2.Correr insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (10, 'Asocia tiquete');
+2.Correr los insert:
+    insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (10, 'Asocia tiquete');
+    insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (15, 'Asocia activo');
+    insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (11, 'Desasocia tiquete');
+ 
 
-3.Correr insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (15, 'Asocia activo');
+3.Correr PAobtenerActivosUsuario sirve para el formulario de crear tiquete, retorna los activos asociados a un usuario
 
-4.Correr PAobtenerActivosUsuario sirve para el formulario de crear tiquete, retorna los activos asociados a un usuario
-
-5.Correr PAasociarTiqueteActivo asocia un activo a un tiquete, sin embargo, necesito que el tiquete se haya insertado
+4.Correr PAasociarTiqueteActivo asocia un activo a un tiquete, sin embargo, necesito que el tiquete se haya insertado
 en la base antes de asociarlo
-
 
 
 06/04/2018
