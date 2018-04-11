@@ -1,3 +1,4 @@
+// <editor-fold defaultstate="collapsed" desc="Cargar Inicio">
 var paginaPrincipal;
 function cargarpaginaPrincipal() {
     if ($("#paginaPrincipal").val() != null) {
@@ -7,6 +8,15 @@ function cargarpaginaPrincipal() {
     }
 
 }
+
+$(function () {
+    $('.datetimepicker').datetimepicker({
+
+        format: 'DD/MM/YYYY',
+        locale: 'es'
+    });
+});
+// </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="CLASIFICACION TIQUETES">
 function ClasificacionesAsignar() {
@@ -30,7 +40,6 @@ function confirmarActualizarTematica() {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInformacionTiquetes.php',
-
         success: function (response) {
             $('body').removeClass('modal-open');
             $('.modal-backdrop').remove();
@@ -57,7 +66,6 @@ function TiqueteExiste(codigoTiquete, pagina) {
             }
         }
     });
-
 }
 
 function cancelarActualizarTematica() {
@@ -67,17 +75,6 @@ function cancelarActualizarTematica() {
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="CAMBIAR FECHA SOLICITADA">
- $(function () {
-                    var fecha = new Date();
-                    $('#cotizada').datetimepicker({
-                        minDate: fecha.setDate(fecha.getDate() - 1),
-                        format: 'DD/MM/YYYY',
-                        locale: 'es'
-                    });
-
-                });
-
-
 var fechaVieja;
 var fechanueva;
 function fechaAntigua() {
@@ -98,7 +95,6 @@ function CambiarFechaSolicitadaAjax() {
             $("#confirmarFechaSolicitada").modal("hide");
         }
     });
-
 }
 function validate_fechaMayorQue(fechanueva) {
     valuesEnd = fechanueva.split("/");
@@ -175,7 +171,6 @@ function VerComentariosAjax() {
         data: {'adjuntos': codigo},
         type: 'POST',
         url: '../control/SolicitudAjaxTiquetesAsignados.php',
-
         success: function (response) {
             $(document).ready(function () {
                 $("#comentarios").html(response);
@@ -212,7 +207,7 @@ function CambiarHorastrabajadas() {
         if (horanueva == "" || (!parseInt(horanueva) && horanueva != "0") || horanueva < 0) {
             $("#HorasT").val(horavieja);
         }
-        ////else {
+////else {
 //            var a = $("#Modalinfo").val();
 //            if (a.firstChild != null) {
 //                a.removeChild(a.firstChild);
@@ -230,7 +225,6 @@ function CambiarHorasAjax() {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInformacionTiquetes.php',
-
         success: function (response) {
             $(document).ready(function () {
                 $("#HorasT").val(horanueva);
@@ -246,7 +240,7 @@ function CambiarHorasAjax() {
 // <editor-fold defaultstate="collapsed" desc="ADMINISTRADOR DE CONTROLES">
 function cambiarComboPagina(event) {
     paginaSeleccionada = event.value;
-    var codigoTiquete = '-1';  //Si el codigo es -1 se carga el primer tiquete que se encuentra OJO
+    var codigoTiquete = '-1'; //Si el codigo es -1 se carga el primer tiquete que se encuentra OJO
     var codigoPagina = paginaSeleccionada; //codigo de la pagina actual
     if (codigoPagina == paginaPrincipal) {
         var fechaI = $("#filtroFechaI").val(); //codigo de la pagina actual
@@ -284,15 +278,12 @@ function cambiarComboPagina(event) {
                     $("h2").remove(".bandejaTiquetesVacia");
                     $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + tiquete + '&pagina=' + pagina + " #cargarTiquetePagina");
                     $(function () {
-                        var fecha = new Date();
-                        $('#cotizada').datetimepicker({
-                            minDate: fecha.setDate(fecha.getDate() - 1),
+                        $('.datetimepicker').datetimepicker({
+
                             format: 'DD/MM/YYYY',
                             locale: 'es'
                         });
-
                     });
-
                 } else {
                     // $("#cargarTiquetePagina").load("../vista/AdministrarInformacionTiquetes.php?#cargarTiquetePagina");
                     $("h2").remove(".bandejaTiquetesVacia");
@@ -351,26 +342,21 @@ function tiqueteSiguiente() {
             success: function (response) {
                 var tiquete = response['tiquete'];
                 var pagina = response['pagina'];
-
+               
                 $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + tiquete + '&pagina='
                         + pagina + '&fechaInicioFiltros=' + $("#filtroFechaI").val() + '&fechaFinalizacionFiltros=' + $("#filtroFechaF").val() +
                         '&nuevo=' + $("#filtroNuevo").val() + '&asignado=' + $("#filtroAsignado").val() + '&reasignacion=' + $("#filtroReasignado").val() +
                         '&proceso=' + $("#filtroProceso").val() + '&anulado=' + $("#filtroAnulado").val() + '&finalizado=' + $("#filtroFinalizado").val() +
                         '&calificado=' + $("#filtroCalificado").val() + " #cargarTiquetePagina");
-                if(codigoPagina == 1){
-                $(function () {
-                    var fecha = new Date();
-                    $('#cotizada').datetimepicker({
-                        minDate: fecha.setDate(fecha.getDate() - 1),
-                        format: 'DD/MM/YYYY',
-                        locale: 'es'
-                    });
+                $('.datetimepicker').datetimepicker({
+                    format: 'DD/MM/YYYY',
+                    locale: 'es'
+                })
 
-                });
-
-                }
             }
         });
+    
+
     } else if (codigoPagina == 4) {
         if (codigoPagina == paginaPrincipal) {
             var codigoFiltroG = $("#codigoFiltroG").val();
@@ -461,6 +447,13 @@ function tiqueteAnterior() {
                         '&nuevo=' + $("#filtroNuevo").val() + '&asignado=' + $("#filtroAsignado").val() + '&reasignacion=' + $("#filtroReasignado").val() +
                         '&proceso=' + $("#filtroProceso").val() + '&anulado=' + $("#filtroAnulado").val() + '&finalizado=' + $("#filtroFinalizado").val() +
                         '&calificado=' + $("#filtroCalificado").val() + " #cargarTiquetePagina");
+                $(function () {
+                    $('.datetimepicker').datetimepicker({
+
+                        format: 'DD/MM/YYYY',
+                        locale: 'es'
+                    });
+                });
             }
         });
     } else if (codigoPagina == 4) {
@@ -538,7 +531,6 @@ function asignarResponsableAjax() {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInformacionTiquetes.php',
-
         success: function (response) {
             $('body').removeClass('modal-open');
             $('.modal-backdrop').remove();
@@ -585,14 +577,12 @@ function reasignarAjax() {
             },
             type: 'POST',
             url: '../control/SolicitudAjaxInformacionTiquetes.php',
-
             success: function (response) {
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
                 var pagina = document.getElementById("comboPagina");
                 cambiarComboPagina(pagina);
                 document.getElementById("justificacion").value = "";
-
                 if (response == "") {
                     var mensaje = "Tiquete reasignado correctamente";
                     notificacion(mensaje);
@@ -615,7 +605,6 @@ $(function () {
         format: 'DD/MM/YYYY',
         locale: 'es'
     });
-
 });
 $(function () {
     var fecha = new Date();
@@ -624,9 +613,7 @@ $(function () {
         format: 'DD/MM/YYYY',
         locale: 'es'
     });
-
 });
-
 function enProceso() {
 
     $("#ModalProceso").modal("show");
@@ -643,7 +630,6 @@ function enProcesoAjax() {
             },
             type: 'POST',
             url: '../control/SolicitudAjaxInformacionTiquetes.php',
-
             success: function (response) {
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
@@ -739,7 +725,6 @@ function AnularAjax() {
             },
             type: 'POST',
             url: '../control/SolicitudAjaxInformacionTiquetes.php',
-
             success: function (response) {
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
@@ -782,7 +767,6 @@ function FinalizarAjax() {
             },
             type: 'POST',
             url: '../control/SolicitudAjaxInformacionTiquetes.php',
-
             success: function (response) {
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
@@ -830,7 +814,6 @@ function calificar(event) {
         cancelarcalificar()
     };
     $("#ModalJustificacion").modal("show");
-
 }
 function  cancelarcalificar() {
     calificacion = null;
@@ -849,7 +832,6 @@ function calificarAjax() {
             },
             type: 'POST',
             url: '../control/SolicitudAjaxInformacionTiquetes.php',
-
             success: function (response) {
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
@@ -875,7 +857,6 @@ function cambiarPrioridad(event) {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInformacionTiquetes.php',
-
         success: function (response) {
             var pagina = document.getElementById("comboPagina").value;
             $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + codigoTiquete + '&pagina=' + pagina + " #cargarTiquetePagina");
@@ -911,7 +892,6 @@ function ReprocesarAjax() {
             },
             type: 'POST',
             url: '../control/SolicitudAjaxInformacionTiquetes.php',
-
             success: function (response) {
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
@@ -926,7 +906,7 @@ function ReprocesarAjax() {
 
 //Historial
 function mostrarHistorialTiquetes() {
-    //  var codigoTiquete = event.parentNode.firstChild.nextSibling.innerHTML;
+//  var codigoTiquete = event.parentNode.firstChild.nextSibling.innerHTML;
     var codigoPagina = $("#codigoPagina").val();
     var codigoTiquete = $("#codigoTique").val();
     if (codigoPagina == 4) {

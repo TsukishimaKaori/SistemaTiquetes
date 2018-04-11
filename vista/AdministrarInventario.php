@@ -6,7 +6,11 @@
         <?php require_once ("../control/ArchivosDeCabecera.php"); ?>            
         <link href="../recursos/css/inventario.css" rel="stylesheet"/>     
          <script src="../recursos/js/AdministrarInventario.js"></script>  
-             
+        <link rel="stylesheet" href="../recursos/bootstrap/css/bootstrap-datetimepicker.min.css" />
+        <script src="../recursos/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="../recursos/bootstrap/js/es.js"></script>
+        <link href="../recursos/bootstrap/css/bootstrap-select.min.css" rel="stylesheet"/>
+        <script src="../recursos/bootstrap/js/bootstrap-select.min.js"></script>  
        
         <?php
         require ("../control/AdministrarTablaInventario.php");
@@ -18,11 +22,7 @@
     <body>
         <?php
         require ("../vista/Cabecera.php");?>
-          <link rel="stylesheet" href="../recursos/bootstrap/css/bootstrap-datetimepicker.min.css" />
-        <script src="../recursos/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
-        <script src="../recursos/bootstrap/js/es.js"></script>
-        <link href="../recursos/bootstrap/css/bootstrap-select.min.css" rel="stylesheet"/>
-        <script src="../recursos/bootstrap/js/bootstrap-select.min.js"></script>  
+          
        <?php
         $activos = obtenerActivosFijos();
         $inventario = obtenerInventario();
