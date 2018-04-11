@@ -138,6 +138,15 @@ CREATE TABLE ActivoFijo(
  )
  GO
 
+ CREATE TABLE TiquetesActivos(
+ codigoTiquete int NOT NULL,
+ placa varchar(150) NOT NULL,
+ CONSTRAINT PKTiquetesActivos PRIMARY KEY(codigoTiquete, placa),
+ CONSTRAINT FKTiquetesActivosActivo FOREIGN KEY (placa) REFERENCES ActivoFijo(placa),
+ CONSTRAINT FKTiquetesActivosTiquete  FOREIGN KEY (codigoTiquete) REFERENCES Tiquete(codigoTiquete)
+ )
+ GO
+
 
  --Obtiene los item del inventario, los prefiltra obteniendo solo los que no son repuestos
 CREATE PROCEDURE PAobtenerInventario
@@ -162,7 +171,7 @@ GO
 	activo.serie, activo.proveedor, activo.modelo, activo.marca, activo.fechaSalidaInventario, activo.fechaDesechado,
 	activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
 	activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
-	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria) cat,
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where esRepuesto = 0) cat,
 	(select codigoEstado, nombreEstado from EstadoEquipo where codigoEstado != 4 AND codigoEstado != 5) estado,
 	(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
 	fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
@@ -1145,7 +1154,8 @@ GO
 	activo.serie, activo.proveedor, activo.modelo, activo.marca, activo.fechaSalidaInventario, activo.fechaDesechado,
 	activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
 	activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
-	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where nombreCategoria COLLATE Latin1_General_CI_AI like @nombreCategoria) cat,
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where nombreCategoria COLLATE Latin1_General_CI_AI 
+	like @nombreCategoria AND esRepuesto = 0) cat,
 	(select codigoEstado, nombreEstado from EstadoEquipo where codigoEstado like @codigoEstado) estado,
 	(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
 	fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
@@ -1158,7 +1168,27 @@ GO
  --exec PAbusquedaAvanzadaActivos '', '1', '', '', 'cas', '';
  --select * from ActivoFijo;
 
+ --Obtiene todos los activos relacionados a un usuario que no se encuentren en estado Espera ser desechado o desechado 
+ CREATE PROCEDURE PAobtenerActivosUsuario
+	@correoUsuarioAsociado varchar(150)
+ AS
+	SET NOCOUNT ON;
+	select activo.placa, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, estado.codigoEstado, estado.nombreEstado,
+	activo.serie, activo.proveedor, activo.modelo, activo.marca, activo.fechaSalidaInventario, activo.fechaDesechado,
+	activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
+	activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where esRepuesto = 0) cat,
+	(select codigoEstado, nombreEstado from EstadoEquipo where codigoEstado != 4 AND codigoEstado != 5) estado,
+	(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
+	fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
+	departamentoUsuarioAsociado, jefaturaUsuarioAsociado from ActivoFijo where codigoEstado != 4 AND codigoEstado != 5 AND
+	correoUsuarioAsociado = @correoUsuarioAsociado) activo
+	where activo.codigoCategoria = cat.codigoCategoria AND activo.codigoEstado = estado.codigoEstado;
+ GO
 
+ --select * from ActivoFijo;
+ --exec PAobtenerActivosUsuario 'nubeblanca1997@outlook.com';
+ --DROP PROCEDURE PAobtenerActivosUsuario;
 
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
@@ -1247,6 +1277,10 @@ GO
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (7, 'Elimina repuesto');
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (8, 'Asocia usuario');
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (9, 'Elimina usuario');
+ insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (10, 'Asocia tiquete');
+
+
+
 
  
  --DROPS
@@ -1289,3 +1323,4 @@ GO
  DROP PROCEDURE PAeliminarUsuarioActivo;
  DROP PROCEDURE PAbusquedaAvanzadaInventario;
  DROP PROCEDURE PAbusquedaAvanzadaActivos;
+ DROP PROCEDURE PAobtenerActivosUsuario;
