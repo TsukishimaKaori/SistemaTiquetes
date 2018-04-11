@@ -441,7 +441,7 @@ function fechaSolicitudTiquete($tiquete, $codigoPagina) {
 
     if ($codigoPagina == 1) {
         echo '<div class="form-group input-group date" id="datetimepicker1"  >
-    <input type="text"  class="form-control" name="cotizada" id="cotizada" onblur="CambiarFechaSolicitada()" onfocus="fechaAntigua()"
+    <input type="text"  class="datetimepicker form-control" name="cotizada" id="cotizada" onblur="CambiarFechaSolicitada()" onfocus="fechaAntigua()"
            value="' . date_format($tiquete->obtenerFechaCotizado(), 'd/m/Y') . '" >
     <span class="input-group-addon btn btn-info" id="fecha" onclick="document.getElementById(\'cotizada\').focus()"  >
         <span class="glyphicon glyphicon-calendar" ></span>
