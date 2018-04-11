@@ -2,6 +2,7 @@
 
 require_once ("../control/AdministrarTablaInventario.php");
 require ("../modelo/ProcedimientosInventario.php");
+
 session_start();
 $r = $_SESSION['objetoUsuario'];
 //Muestra el panel de activos fijos
@@ -11,7 +12,12 @@ if (isset($_POST['codigoActivo'])) {
     $listaActivos = buscarDispositivoActivoFijo($activos, $codigo);
     $codigoEstadoActual=$listaActivos->obtenerEstado()->obtenerCodigoEstado();
     $estadosSiguentes= obtenerEstadosEquipo($codigoEstadoActual);
-    panelActivos($listaActivos,$estadosSiguentes);
+     $responsables=null;
+    if($listaActivos->obtenerNombreUsuarioAsociado()==null){
+        $responsables = obtenerUsuariosParaAsociar();
+    }
+    panelActivos($listaActivos,$estadosSiguentes,$responsables);
+    
 }
 
 //Muestra el panel de inventario
@@ -169,5 +175,49 @@ if (isset($_POST['codigoEstadoSiguiente'])) {
    $mensaje= actualizarEstadoEquipo($placa, $codigoEstadoSiguiente, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante);
      echo $mensaje;
 }
+// desasociar
+if (isset($_POST['codigoDesasociar'])) { 
+    $placa=$_POST["codigoDesasociar"];       
+    $correoUsuarioCausante = $r->obtenerCorreo();
+    $nombreUsuarioCausante = $r->obtenerNombreResponsable();
+   $mensaje= eliminarUsuarioActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante);
+   if($mensaje===""){     
+    $activos = obtenerActivosFijos();
+    $listaActivos = buscarDispositivoActivoFijo($activos, $placa);
+    $codigoEstadoActual=$listaActivos->obtenerEstado()->obtenerCodigoEstado();
+    $estadosSiguentes= obtenerEstadosEquipo($codigoEstadoActual);
+    $responsables=null;
+    if($listaActivos->obtenerNombreUsuarioAsociado()==null){
+        $responsables = obtenerUsuariosParaAsociar();
+    }
+    panelActivos($listaActivos,$estadosSiguentes,$responsables);
+   }else{
+       echo "Error";
+   }
+}
 
- 
+// cambiar estado
+if (isset($_POST['usuarioAsociado'])) {
+    $correoUsuarioAsociado=$_POST['usuarioAsociado'];
+    $placa=$_POST["placa"];        
+    $correoUsuarioCausante = $r->obtenerCorreo();
+    $nombreUsuarioCausante = $r->obtenerNombreResponsable();
+    $usuario = obtenerDatosUsuario($correoUsuarioAsociado);
+    $nombreUsuarioAsociado = $usuario->obtenerNombreUsuario();
+    $departamentoUsuarioAsociado = $usuario->obtenerDepartamento();
+    $jefaturaUsuarioAsociado = $usuario->obtenerJefatura();    
+    $mensaje= asociarUsuarioActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante, $correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado);
+    if($mensaje===""){     
+    $activos = obtenerActivosFijos();
+    $listaActivos = buscarDispositivoActivoFijo($activos, $placa);
+    $codigoEstadoActual=$listaActivos->obtenerEstado()->obtenerCodigoEstado();
+    $estadosSiguentes= obtenerEstadosEquipo($codigoEstadoActual);
+    $responsables=null;
+    if($listaActivos->obtenerNombreUsuarioAsociado()==null){
+        $responsables = obtenerUsuariosParaAsociar();
+    }
+    panelActivos($listaActivos,$estadosSiguentes,$responsables);
+   }else{
+       echo "Error";
+   }
+}

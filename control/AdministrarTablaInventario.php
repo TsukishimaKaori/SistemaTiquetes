@@ -124,7 +124,7 @@ function cuerpoTablaContratos($contratos) {
     }
 }
 
-function panelActivos($listaActivos, $estadosSiguentes) {
+function panelActivos($listaActivos, $estadosSiguentes, $responsables) {
     echo
     '<div type = "hidden" class="informacion-dispositivos panel panel-default">'
     . ' <div class="panel-heading"><h3>Especificaciones de activos</h3></div>'
@@ -177,27 +177,46 @@ function panelActivos($listaActivos, $estadosSiguentes) {
         echo '<div><span class="col-md-4 titulo-inventario">Expira garantía: </span><span class=" col-md-8">Fecha no registrada </span></div> ';
     }
     echo '</div>'
-    . '         <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerNombreUsuarioAsociado() . ' </span></div> '
-    . '         </div>'
-    . '         <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Correo usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerCorreoUsuarioAsociado() . ' </span></div> '
-    . '         </div>'
-    . '         <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Departamento usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerDepartamentoUsuarioAsociado() . ' </span></div> '
-    . '         </div>'
-    . '         <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Jefatura Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerJefaturaUsuarioAsociado() . ' </span></div> '
-    . '         </div>'
-    . '         <div class="row">'
-    . '           <span ><button  onclick = "obtenerRepuestos(' . $listaActivos->obtenerPlaca() . ');" data-target="#modalRepuestos" data-toggle="modal" class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Repuestos</button></span> '
-    . '           <span ><button onclick = "obtenerLicencias(' . $listaActivos->obtenerPlaca() . ');" data-toggle="modal" class="btn btn-primary btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Licencias</button></span> '
-    . '           <span ><button onclick = "obtenerContratos(' . $listaActivos->obtenerPlaca() . ');" data-toggle="modal" class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-list"></i> Contratos</button></span> '
-    . '         </div>'
-    . '         </div>'
-    . '     </div>'
-    . ' </div>'
-    . '</div>';
+    . '         <div class="row">';
+    if ($responsables == null) {
+        echo '           <div><span class="col-md-4 titulo-inventario">Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerNombreUsuarioAsociado() . ' </span></div> '
+        . '         </div>'
+        . '         <div class="row">'
+        . '           <div><span class="col-md-4 titulo-inventario">Correo usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerCorreoUsuarioAsociado() . ' </span></div> '
+        . '         </div>'
+        . '         <div class="row">'
+        . '           <div><span class="col-md-4 titulo-inventario">Departamento usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerDepartamentoUsuarioAsociado() . ' </span></div> '
+        . '         </div>'
+        . '         <div class="row">'
+        . '           <div><span class="col-md-4 titulo-inventario">Jefatura Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerJefaturaUsuarioAsociado() . ' </span></div> ';
+    }else{
+         echo '           <div><span class="col-md-4 titulo-inventario">Usuario asociado: </span><span class=" col-md-8">';
+        echo selectUsuariosActivos($responsables); 
+        echo  ' </span></div> '
+        . '         </div>'
+        . '         <div class="row">'
+        . '           <div><span class="col-md-4 titulo-inventario">Correo usuario asociado: </span><span class=" col-md-8"> Sin asignar  </span></div> '
+        . '         </div>'
+        . '         <div class="row">'
+        . '           <div><span class="col-md-4 titulo-inventario">Departamento usuario asociado: </span><span class=" col-md-8">Sin asignar </span></div> '
+        . '         </div>'
+        . '         <div class="row">'
+        . '           <div><span class="col-md-4 titulo-inventario">Jefatura Usuario asociado: </span><span class=" col-md-8"> Sin asignar</span></div> ';
+    }
+    echo  '         </div>'
+        . '         <div class="row">'
+        . '           <span ><button  onclick = "obtenerRepuestos(' . $listaActivos->obtenerPlaca() . ');" data-target="#modalRepuestos" data-toggle="modal" class="btn btn-warning btn-circle " ><i class="glyphicon glyphicon-list"></i> Repuestos</button></span> '
+        . '           <span ><button onclick = "obtenerLicencias(' . $listaActivos->obtenerPlaca() . ');" data-toggle="modal" class="btn btn-primary btn-circle " ><i class="glyphicon glyphicon-list"></i> Licencias</button></span> '
+        . '           <span ><button onclick = "obtenerContratos(' . $listaActivos->obtenerPlaca() . ');" data-toggle="modal" class="btn btn-info btn-circle " ><i class="glyphicon glyphicon-list"></i> Contratos</button></span> ';
+    if ($responsables == null) {
+    echo '           <span ><button onclick = "eliminarUsuario();" data-toggle="modal" class="btn btn-danger btn-circle  " ><i class="glyphicon glyphicon-remove"></i> Desasociar</button></span> ';
+    }   
+    echo '         </div>'
+        . '         </div>'
+        . '     </div>'
+        . ' </div>'
+        . '</div>';
+      
 }
 
 function estadosSiguientes($estadoActual, $estadosSiguentes, $placa) {
@@ -205,6 +224,14 @@ function estadosSiguientes($estadoActual, $estadosSiguentes, $placa) {
     echo '<option value="' . $estadoActual->obtenerCodigoEstado() . '" selected>' . $estadoActual->obtenerNombreEstado() . '  </option>';
     foreach ($estadosSiguentes as $estado) {
         echo '<option value="' . $estado->obtenerCodigoEstado() . '" >' . $estado->obtenerNombreEstado() . '</option>';
+    }
+    echo '</select>';
+}
+function selectUsuariosActivos($responsables) {
+    echo '<select class="selectpicker form-control" data-size="5" data-live-search="true"  onchange="asignarActivo();" id="Usuarios">';
+    echo '<option data-tokens="Sin asignar" value="-1" selected >Sin asigna </option>';
+    foreach ($responsables as $responsable) {
+        echo '<option data-tokens="' . $responsable->obtenerNombreUsuario() . '" value="' . $responsable->obtenerCorreo() . '" >' . $responsable->obtenerNombreUsuario() . '</option>';
     }
     echo '</select>';
 }
@@ -239,7 +266,7 @@ function panelPasivos($pasivos, $codigo) {
     . '         </div>'
     . '     </div>'
     . ' </div>'
-    . ' </div>'
+    . ' </div>'      
     . '</div>';
 }
 

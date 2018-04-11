@@ -37,6 +37,7 @@ function subirarchivo(event) {
 function enviar(event) {
 
     var tematica = document.getElementById("clasificacion").value;
+     var comentario = document.getElementById("comment").value;
     var a = document.getElementById("errorDiv");
     if (a.firstChild != null)
         a.removeChild(a.firstChild);
@@ -45,7 +46,11 @@ function enviar(event) {
         node.appendChild(document.createTextNode("Escoga una Clasificación"));
         document.getElementById("errorDiv").appendChild(node);
         $("#errorInfo").modal("show");
-    }  else {
+    } else if(comentario==""){
+          node.appendChild(document.createTextNode("debe agregar un comentario"));
+        document.getElementById("errorDiv").appendChild(node);
+        $("#errorInfo").modal("show");
+    } else {
         if (documento = document.getElementById("archivo").files.length > 0) {
             var documento = document.getElementById("archivo").value;
             var tipo = documento.substring(documento.length - 3, documento.length);
