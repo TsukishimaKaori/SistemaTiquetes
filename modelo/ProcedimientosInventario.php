@@ -30,7 +30,7 @@ function obtenerInventario() {
     return $pasivos;
 }
 
-//Obtiene todos los dispositivos activos
+//Obtiene todos los activos
 function obtenerActivosFijos() {
     $conexion = Conexion::getInstancia();
     $tsql = "{call PAobtenerActivosFijos }";
@@ -505,6 +505,89 @@ function busquedaAvanzadaActivos($placa, $codigoEstado, $nombreCategoria, $marca
 }
 
 
+//Obtiene todos los activos asociados a un usuario
+function obtenerActivosUsuario($correoUsuarioAsociado) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerActivosUsuario (?) }";
+    $params = array(array($correoUsuarioAsociado, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los activos';
+    }
+    $activos = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $activos[] = crearActivo($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $activos;
+}
+
+//Asociar un activo a un tiquete que no este desechado
+function asociarTiqueteActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante, $codigoTiquete) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAasociarTiqueteActivo (?, ?, ?, ?, ?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN), array($correoUsuarioCausante, SQLSRV_PARAM_IN), 
+        array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN), array($codigoTiquete, SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } if ($men == 2) {
+        return 2;  //No se puede asociar un tiquete a un activo desechado
+    } if ($men == 3) {
+        return 3;  //La asociación ya fue realizada
+    } if ($men == 4) {
+        return 4;  //No se puede asociar un activo a un tiquete calificado
+    }
+       
+    return ''; //agregado correctamente
+}
+
+
+//Desasociar un activo a un tiquete que no este desechado
+function desasociarTiqueteActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante, $codigoTiquete) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAdesasociarTiqueteActivo (?, ?, ?, ?, ?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN), array($correoUsuarioCausante, SQLSRV_PARAM_IN), 
+        array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN), array($codigoTiquete, SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ha ocurrido un error
+    } if ($men == 3) {
+        return 3;  //La asociación ya fue realizada
+    } if ($men == 4) {
+        return 4;  //No se puede asociar un activo a un tiquete calificado
+    }
+       
+    return ''; //agregado correctamente
+}
+
+
+//Obtiene todos los activos asociados a un tiquete
+function obtenerActivosAsociadosTiquete($codigoTiquete) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerActivosAsociadosTiquete (?) }";
+    $params = array(array($codigoTiquete, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los activos';
+    }
+    $activos = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $activos[] = crearActivo($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $activos;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -771,6 +854,38 @@ function crearHistorialActivos($row) {
 
 //echo 'Activos' . '<br />';
 //$activos = busquedaAvanzadaActivos('', '', '', '', 'cri', '');
+//
+//foreach ($activos as $tema) {   
+//    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $tema->obtenerPlaca() . '<br />';
+//    echo $tema->obtenerEstado()->obtenerNombreEstado().'<br />'; 
+//    echo $tema->obtenerProveedor() . '<br />';
+//    echo $tema->obtenerMarca() . '<br />';
+//    echo $tema->obtenerNombreUsuarioAsociado() . '<br />';
+//    echo $tema->obtenerCorreoUsuarioAsociado() . '<br />';
+//    echo '<br />';
+//}
+
+//$activos = obtenerActivosUsuario('nubeblanca1997@outlook.com');
+//
+//foreach ($activos as $tema) {   
+//    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $tema->obtenerPlaca() . '<br />';
+//    echo $tema->obtenerEstado()->obtenerNombreEstado().'<br />'; 
+//    echo $tema->obtenerProveedor() . '<br />';
+//    echo $tema->obtenerMarca() . '<br />';
+//    echo $tema->obtenerNombreUsuarioAsociado() . '<br />';
+//    echo $tema->obtenerCorreoUsuarioAsociado() . '<br />';
+//    echo '<br />';
+//}
+
+//$mensaje = asociarTiqueteActivo('567', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 10);
+//echo $mensaje;
+
+//$mensaje = desasociarTiqueteActivo('567', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 10);
+//echo $mensaje;
+
+//$activos = obtenerActivosAsociadosTiquete(10);
 //
 //foreach ($activos as $tema) {   
 //    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
