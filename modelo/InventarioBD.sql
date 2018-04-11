@@ -141,12 +141,13 @@ CREATE TABLE ActivoFijo(
  CREATE TABLE TiquetesActivos(
  codigoTiquete int NOT NULL,
  placa varchar(150) NOT NULL,
+ fechaAsociado datetime NOT NULL,
  CONSTRAINT PKTiquetesActivos PRIMARY KEY(codigoTiquete, placa),
  CONSTRAINT FKTiquetesActivosActivo FOREIGN KEY (placa) REFERENCES ActivoFijo(placa),
  CONSTRAINT FKTiquetesActivosTiquete  FOREIGN KEY (codigoTiquete) REFERENCES Tiquete(codigoTiquete)
  )
  GO
-
+-- DROP TABLE TiquetesActivos;
 
  --Obtiene los item del inventario, los prefiltra obteniendo solo los que no son repuestos
 CREATE PROCEDURE PAobtenerInventario
@@ -1190,6 +1191,232 @@ GO
  --exec PAobtenerActivosUsuario 'nubeblanca1997@outlook.com';
  --DROP PROCEDURE PAobtenerActivosUsuario;
 
+
+
+ CREATE PROCEDURE PAasociarTiqueteActivo
+	@placa varchar(150),
+	@correoUsuarioCausante varchar(150),
+	@nombreUsuarioCausante varchar(150),
+	@codigoTiquete int, 
+	@men int output	
+AS
+SET XACT_ABORT ON;
+SET NOCOUNT ON;
+BEGIN TRY
+    BEGIN TRANSACTION;
+	DECLARE 
+	@fechaActual datetime,
+	@aclaracion varchar(500),
+	@nombreCategoria varchar(300),
+	@descripcion varchar(400),
+	@nombreUsuarioAsociado varchar(150),
+	@correoUsuarioAsociado varchar(150),
+	@error int,
+	@responsableActual varchar(60)
+
+	SET @men = 0;
+	IF (select codigoEstado from ActivoFijo where placa = @placa) = 5  --Activo desechado
+	BEGIN
+		SET @men = 2;
+		THROW  50001, 'El equipo fue desechado', 1;
+	END;
+
+	SET @error = ISNULL((select codigoTiquete from TiquetesActivos where codigoTiquete = @codigoTiquete AND placa = @placa), -1);
+	IF @error != -1
+    BEGIN
+		SET @men = 3; 
+        THROW  50001, 'El activo ya tiene asociado ese tiquete', 1;
+    END;
+
+	IF (select codigoEstado from Tiquete where codigoTiquete = @codigoTiquete) = 7  --Tiquete finalizado
+	BEGIN
+		SET @men = 4;
+		THROW  50001, 'El tiquete fue finalizado', 1;
+	END;
+
+	SET @nombreCategoria = (select cat.nombreCategoria from 
+	(select codigoCategoria, nombreCategoria from Categoria) cat,
+	(select codigoCategoria from ActivoFijo where placa = @placa) act
+	 where cat.codigoCategoria = act.codigoCategoria);
+
+	SET @fechaActual = (select GETDATE());
+
+	SET @descripcion = (select descripcion from Tiquete where codigoTiquete = @codigoTiquete);
+
+	SET @nombreUsuarioAsociado = (select nombreUsuarioAsociado from ActivoFijo where placa = @placa);
+	SET @correoUsuarioAsociado = (select correoUsuarioAsociado from ActivoFijo where placa = @placa);
+
+	SET @responsableActual = 
+	(select resp.codigoEmpleado from 
+	(select codigoResponsable, codigoEmpleado from Responsable) resp,
+	(select codigoResponsable from dbo.Tiquete where codigoTiquete = @codigoTiquete) tiq
+	where resp.codigoResponsable = tiq.codigoResponsable);
+
+	SET @aclaracion = 'El dispositivo ' + @nombreCategoria + '  con placa ' +  @placa + ' fue asociado al tiquete ' +  
+	CAST(@codigoTiquete as varchar) + ' con descripcion: "' + @descripcion +
+	'",  por ' + @nombreUsuarioCausante + ' el ' + CONVERT(VARCHAR, @fechaActual, 120);
+
+	insert TiquetesActivos (codigoTiquete, placa, fechaAsociado) values (@codigoTiquete, @placa, @fechaActual); 
+
+	insert into HistorialActivos (placa, codigoIndicador, fechaHora, correoUsuarioCausante, nombreUsuarioCausante,
+	correoUsuarioAsociado, nombreUsuarioAsociado, aclaracionSistema) values 
+	(@placa, 10, @fechaActual, @correoUsuarioCausante, @nombreUsuarioCausante, @correoUsuarioAsociado, 
+	@nombreUsuarioAsociado, @aclaracion);
+
+	insert into dbo.HistorialTiquete(codigoTiquete, codigoIndicador, codigoResponsable, fechaHora, 
+	correoUsuarioCausante, nombreUsuarioCausante,aclaracionSistema)
+	values (@codigoTiquete, 15, @responsableActual, @fechaActual, @correoUsuarioCausante, 
+	@nombreUsuarioCausante, @aclaracion);
+
+	COMMIT TRANSACTION;
+
+END TRY
+BEGIN CATCH
+
+    IF (XACT_STATE()) = -1
+    BEGIN
+        ROLLBACK TRANSACTION;
+    END;
+	IF @men != 2 AND @error = -1 AND @men != 4
+	BEGIN
+		SET @men = 1; 
+	END;
+END CATCH;
+GO
+
+
+--DECLARE @mens int
+--exec PAasociarTiqueteActivo '567', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 10,  @men = @mens output;
+--PRINT @mens;
+
+--select * from ActivoFijo;
+--select * from Tiquete;
+--select * from TiquetesActivos;
+--select * from HistorialTiquete;
+--select * from HistorialActivos;
+--DROP PROCEDURE PAasociarTiqueteActivo;
+
+
+CREATE PROCEDURE PAdesasociarTiqueteActivo
+	@placa varchar(150),
+	@correoUsuarioCausante varchar(150),
+	@nombreUsuarioCausante varchar(150),
+	@codigoTiquete int, 
+	@men int output	
+AS
+SET XACT_ABORT ON;
+SET NOCOUNT ON;
+BEGIN TRY
+    BEGIN TRANSACTION;
+	DECLARE 
+	@fechaActual datetime,
+	@aclaracion varchar(500),
+	@nombreCategoria varchar(300),
+	@descripcion varchar(400),
+	@nombreUsuarioAsociado varchar(150),
+	@correoUsuarioAsociado varchar(150),
+	@error int,
+	@responsableActual varchar(60)
+
+	SET @men = 0;
+	SET @error = ISNULL((select codigoTiquete from TiquetesActivos where codigoTiquete = @codigoTiquete AND placa = @placa), -1);
+	IF @error = -1
+    BEGIN
+		SET @men = 3; 
+        THROW  50001, 'El activo no esta asociado al tiquete', 1;
+    END;
+
+	IF (select codigoEstado from Tiquete where codigoTiquete = @codigoTiquete) = 7  --Tiquete finalizado
+	BEGIN
+		SET @men = 4;
+		THROW  50001, 'El tiquete fue finalizado', 1;
+	END;
+
+	SET @nombreCategoria = (select cat.nombreCategoria from 
+	(select codigoCategoria, nombreCategoria from Categoria) cat,
+	(select codigoCategoria from ActivoFijo where placa = @placa) act
+	 where cat.codigoCategoria = act.codigoCategoria);
+
+	SET @fechaActual = (select GETDATE());
+
+	SET @descripcion = (select descripcion from Tiquete where codigoTiquete = @codigoTiquete);
+
+	SET @nombreUsuarioAsociado = (select nombreUsuarioAsociado from ActivoFijo where placa = @placa);
+	SET @correoUsuarioAsociado = (select correoUsuarioAsociado from ActivoFijo where placa = @placa);
+
+	SET @responsableActual = 
+	(select resp.codigoEmpleado from 
+	(select codigoResponsable, codigoEmpleado from Responsable) resp,
+	(select codigoResponsable from dbo.Tiquete where codigoTiquete = @codigoTiquete) tiq
+	where resp.codigoResponsable = tiq.codigoResponsable);
+
+	SET @aclaracion = 'El dispositivo ' + @nombreCategoria + '  con placa ' +  @placa + ' fue desasociado al tiquete ' +  
+	CAST(@codigoTiquete as varchar) + ' con descripcion: "' + @descripcion +
+	'",  por ' + @nombreUsuarioCausante + ' el ' + CONVERT(VARCHAR, @fechaActual, 120);
+
+	Delete TiquetesActivos where codigoTiquete = @codigoTiquete AND placa = @placa;
+
+	insert into HistorialActivos (placa, codigoIndicador, fechaHora, correoUsuarioCausante, nombreUsuarioCausante,
+	correoUsuarioAsociado, nombreUsuarioAsociado, aclaracionSistema) values 
+	(@placa, 11, @fechaActual, @correoUsuarioCausante, @nombreUsuarioCausante, @correoUsuarioAsociado, 
+	@nombreUsuarioAsociado, @aclaracion);
+
+	insert into dbo.HistorialTiquete(codigoTiquete, codigoIndicador, codigoResponsable, fechaHora, 
+	correoUsuarioCausante, nombreUsuarioCausante,aclaracionSistema)
+	values (@codigoTiquete, 16, @responsableActual, @fechaActual, @correoUsuarioCausante, 
+	@nombreUsuarioCausante, @aclaracion);
+
+	COMMIT TRANSACTION;
+
+END TRY
+BEGIN CATCH
+
+    IF (XACT_STATE()) = -1
+    BEGIN
+        ROLLBACK TRANSACTION;
+    END;
+	IF @error != -1 AND @men != 4
+	BEGIN
+		SET @men = 1; 
+	END;
+END CATCH;
+GO
+
+
+--DECLARE @mens int
+--exec PAdesasociarTiqueteActivo '567', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 10,  @men = @mens output;
+--PRINT @mens;
+
+--select * from ActivoFijo;
+--select * from Tiquete;
+--select * from TiquetesActivos;
+--select * from HistorialTiquete;
+--select * from HistorialActivos;
+--DROP PROCEDURE PAdesasociarTiqueteActivo;
+
+
+--Obtiene todos los activos relacionados a un tiquete 
+ CREATE PROCEDURE PAobtenerActivosAsociadosTiquete
+	@codigoTiquete int
+ AS
+	SET NOCOUNT ON;
+	select activo.placa, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, estado.codigoEstado, estado.nombreEstado,
+	activo.serie, activo.proveedor, activo.modelo, activo.marca, activo.fechaSalidaInventario, activo.fechaDesechado,
+	activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
+	activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where esRepuesto = 0) cat,
+	(select codigoEstado, nombreEstado from EstadoEquipo) estado,
+	(select placa from TiquetesActivos where codigoTiquete = @codigoTiquete) aso,
+	(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
+	fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
+	departamentoUsuarioAsociado, jefaturaUsuarioAsociado from ActivoFijo) activo
+	where activo.codigoCategoria = cat.codigoCategoria AND activo.codigoEstado = estado.codigoEstado AND activo.placa = aso.placa;
+ GO
+
+ --select * from ActivoFijo;
+ --exec PAobtenerActivosAsociadosTiquete 10;
+ --DROP PROCEDURE PAobtenerActivosAsociadosTiquete;
+
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
  insert into estadoEquipo (codigoEstado, nombreEstado) values (2, 'En reparación');
@@ -1278,12 +1505,14 @@ GO
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (8, 'Asocia usuario');
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (9, 'Elimina usuario');
  insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (10, 'Asocia tiquete');
+ insert into IndicadoresActivos (codigoIndicador, descripcionIndicador) values (11, 'Desasocia tiquete');
 
-
+ 
 
 
  
  --DROPS
+ DROP TABLE TiquetesActivos
  DROP TABLE HistorialActivos;
  DROP TABLE IndicadoresActivos;
  DROP TABLE Licencia;
@@ -1324,3 +1553,6 @@ GO
  DROP PROCEDURE PAbusquedaAvanzadaInventario;
  DROP PROCEDURE PAbusquedaAvanzadaActivos;
  DROP PROCEDURE PAobtenerActivosUsuario;
+ DROP PROCEDURE PAasociarTiqueteActivo;
+ DROP PROCEDURE PAdesasociarTiqueteActivo;
+ DROP PROCEDURE PAobtenerActivosAsociadosTiquete;
