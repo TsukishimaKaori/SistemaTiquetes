@@ -935,3 +935,30 @@ function crearHistorialActivos($row) {
 //    echo $tema->obtenerCorreoUsuarioAsociado() . '<br />';
 //    echo '<br />';
 //}
+
+
+//$pasivos = obtenerArticuloFiltradoCodigoBodega("11", 2);
+//
+//foreach ($pasivos as $tema) {   
+//    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $tema->obtenerCategoria()->obtenerEsRepuesto() . '<br />';
+//    echo $tema->obtenerDescripcion() . '<br />';
+//    echo $tema->obtenerEstado(). '<br />'; 
+//    echo $tema->obtenerCosto() . '<br />';
+//    echo $tema->obtenerCantidad() . '<br />';
+//    echo $tema->obtenerBodega()->obtenerNombreBodega() . '<br />';
+//    echo '<br />';
+//}
+//
+//$activos = obtenerActivosFiltradosPlaca("567");
+//
+//foreach ($activos as $tema) {   
+//    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $tema->obtenerPlaca() . '<br />';
+//    echo $tema->obtenerEstado()->obtenerNombreEstado().'<br />'; 
+//    echo $tema->obtenerProveedor() . '<br />';
+//    echo $tema->obtenerMarca() . '<br />';
+//    echo $tema->obtenerNombreUsuarioAsociado() . '<br />';
+//    echo $tema->obtenerCorreoUsuarioAsociado() . '<br />';
+//    echo '<br />';
+//}
