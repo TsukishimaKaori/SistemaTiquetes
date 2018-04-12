@@ -1,3 +1,9 @@
+11/04/2018
+
+1. PAobtenerActivosFiltradosPlaca
+
+2. PAobtenerArticuloFiltradoCodigoBodega;
+
 10/04/2018
 
 1.Correr la tabla TiquetesActivos
