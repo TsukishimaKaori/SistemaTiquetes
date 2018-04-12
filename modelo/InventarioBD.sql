@@ -1417,6 +1417,47 @@ GO
  --exec PAobtenerActivosAsociadosTiquete 10;
  --DROP PROCEDURE PAobtenerActivosAsociadosTiquete;
 
+
+ --Obtiene un activo filtrado por placa
+ CREATE PROCEDURE PAobtenerActivosFiltradosPlaca
+	@placa varchar(150)
+ AS
+	SET NOCOUNT ON;
+	select activo.placa, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, estado.codigoEstado, estado.nombreEstado,
+	activo.serie, activo.proveedor, activo.modelo, activo.marca, activo.fechaSalidaInventario, activo.fechaDesechado,
+	activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
+	activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where esRepuesto = 0) cat,
+	(select codigoEstado, nombreEstado from EstadoEquipo) estado,
+	(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
+	fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
+	departamentoUsuarioAsociado, jefaturaUsuarioAsociado from ActivoFijo where placa = @placa) activo
+	where activo.codigoCategoria = cat.codigoCategoria AND activo.codigoEstado = estado.codigoEstado;
+ GO
+
+ --select * from ActivoFijo;
+ --exec PAobtenerActivosFiltradosPlaca 567;
+ --DROP PROCEDURE PAobtenerActivosFiltradosPlaca;
+
+ --Obtiene un activo filtrado por placa
+ CREATE PROCEDURE PAobtenerArticuloFiltradoCodigoBodega
+	@codigo varchar(150),
+	@codigoBodega int
+ AS
+	SET NOCOUNT ON;
+	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, inve.estado, inve.cantidad,
+	inve.codigoBodega, bode.nombreBodega from
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where esRepuesto = 0) cat,
+	(select codigoBodega, nombreBodega from Bodega where codigoBodega = @codigoBodega) bode,
+	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega from Inventario 
+	where codigoArticulo = @codigo AND codigoBodega = @codigoBodega) inve
+	where inve.codigoCategoria = cat.codigoCategoria AND inve.codigoBodega = bode.codigoBodega;
+ GO
+
+ --select * from Inventario;
+ --exec PAobtenerArticuloFiltradoCodigoBodega '11', 2;
+ --DROP PROCEDURE PAobtenerArticuloFiltradoCodigoBodega;
+
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
  insert into estadoEquipo (codigoEstado, nombreEstado) values (2, 'En reparación');
@@ -1556,3 +1597,5 @@ GO
  DROP PROCEDURE PAasociarTiqueteActivo;
  DROP PROCEDURE PAdesasociarTiqueteActivo;
  DROP PROCEDURE PAobtenerActivosAsociadosTiquete;
+ DROP PROCEDURE PAobtenerActivosFiltradosPlaca;
+ DROP PROCEDURE PAobtenerArticuloFiltradoCodigoBodega;
