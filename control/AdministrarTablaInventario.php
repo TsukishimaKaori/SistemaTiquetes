@@ -6,7 +6,9 @@ function cabeceraTablaPasivos() {
     . "<th>Categoría</th>"
     . "<th>Tipo</th>"
     . "<th>Bodega</th>"
-    . "<th colspan='3'>Cantidad</th>"
+    . "<th>+</th>"
+    . "<th>Cantidad</th>"
+    . "<th>-</th>"
     . "<th>Ver</th>"
     . "<th>Historial</th>";
 }
@@ -189,10 +191,10 @@ function panelActivos($listaActivos, $estadosSiguentes, $responsables) {
         . '         </div>'
         . '         <div class="row">'
         . '           <div><span class="col-md-4 titulo-inventario">Jefatura Usuario asociado: </span><span class=" col-md-8">' . $listaActivos->obtenerJefaturaUsuarioAsociado() . ' </span></div> ';
-    }else{
-         echo '           <div><span class="col-md-4 titulo-inventario">Usuario asociado: </span><span class=" col-md-8">';
-        echo selectUsuariosActivos($responsables); 
-        echo  ' </span></div> '
+    } else {
+        echo '           <div><span class="col-md-4 titulo-inventario">Usuario asociado: </span><span class=" col-md-8">';
+        echo selectUsuariosActivos($responsables);
+        echo ' </span></div> '
         . '         </div>'
         . '         <div class="row">'
         . '           <div><span class="col-md-4 titulo-inventario">Correo usuario asociado: </span><span class=" col-md-8"> Sin asignar  </span></div> '
@@ -203,20 +205,19 @@ function panelActivos($listaActivos, $estadosSiguentes, $responsables) {
         . '         <div class="row">'
         . '           <div><span class="col-md-4 titulo-inventario">Jefatura Usuario asociado: </span><span class=" col-md-8"> Sin asignar</span></div> ';
     }
-    echo  '         </div>'
-        . '         <div class="row">'
-        . '           <span ><button  onclick = "obtenerRepuestos(' . $listaActivos->obtenerPlaca() . ');" data-target="#modalRepuestos" data-toggle="modal" class="btn btn-warning btn-circle " ><i class="glyphicon glyphicon-list"></i> Repuestos</button></span> '
-        . '           <span ><button onclick = "obtenerLicencias(' . $listaActivos->obtenerPlaca() . ');" data-toggle="modal" class="btn btn-primary btn-circle " ><i class="glyphicon glyphicon-list"></i> Licencias</button></span> '
-        . '           <span ><button onclick = "obtenerContratos(' . $listaActivos->obtenerPlaca() . ');" data-toggle="modal" class="btn btn-info btn-circle " ><i class="glyphicon glyphicon-list"></i> Contratos</button></span> ';
-    if ($responsables == null) {
-    echo '           <span ><button onclick = "eliminarUsuario();" data-toggle="modal" class="btn btn-danger btn-circle  " ><i class="glyphicon glyphicon-remove"></i> Desasociar</button></span> ';
-    }   
     echo '         </div>'
-        . '         </div>'
-        . '     </div>'
-        . ' </div>'
-        . '</div>';
-      
+    . '         <div class="row">'
+    . '           <span ><button  onclick = "obtenerRepuestos(' . $listaActivos->obtenerPlaca() . ');" data-target="#modalRepuestos" data-toggle="modal" class="btn btn-warning btn-circle " ><i class="glyphicon glyphicon-list"></i> Repuestos</button></span> '
+    . '           <span ><button onclick = "obtenerLicencias(' . $listaActivos->obtenerPlaca() . ');" data-toggle="modal" class="btn btn-primary btn-circle " ><i class="glyphicon glyphicon-list"></i> Licencias</button></span> '
+    . '           <span ><button onclick = "obtenerContratos(' . $listaActivos->obtenerPlaca() . ');" data-toggle="modal" class="btn btn-info btn-circle " ><i class="glyphicon glyphicon-list"></i> Contratos</button></span> ';
+    if ($responsables == null) {
+        echo '           <span ><button onclick = "eliminarUsuario();" data-toggle="modal" class="btn btn-danger btn-circle  " ><i class="glyphicon glyphicon-remove"></i> Desasociar</button></span> ';
+    }
+    echo '         </div>'
+    . '         </div>'
+    . '     </div>'
+    . ' </div>'
+    . '</div>';
 }
 
 function estadosSiguientes($estadoActual, $estadosSiguentes, $placa) {
@@ -227,6 +228,7 @@ function estadosSiguientes($estadoActual, $estadosSiguentes, $placa) {
     }
     echo '</select>';
 }
+
 function selectUsuariosActivos($responsables) {
     echo '<select class="selectpicker form-control" data-size="5" data-live-search="true"  onchange="asignarActivo();" id="Usuarios">';
     echo '<option data-tokens="Sin asignar" value="-1" selected >Sin asigna </option>';
@@ -266,7 +268,7 @@ function panelPasivos($pasivos, $codigo) {
     . '         </div>'
     . '     </div>'
     . ' </div>'
-    . ' </div>'      
+    . ' </div>'
     . '</div>';
 }
 
@@ -301,7 +303,7 @@ function panelAgregarInventario($categorias, $bodegas) {
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="cantidad">Cantidad:</label>
             <div class="col-md-9">
-                <input  onfocus = "foco(4)" class="form-control" id="cantidad" type="number" required>
+                <input  onfocus = "foco(4)" class="form-control" id="cantidad" min="1" type="number" required>
             </div>
         </div>
         <div class="form-group col-md-12">
@@ -379,7 +381,7 @@ function panelSumarAInventario($inventarios, $codigo) {
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="cantidad-suma">Cantidad:</label>
             <div class="col-md-9">
-                <input onfocus = "focoSuma(1)" class="form-control" id="cantidad-suma" type="number" required>
+                <input onfocus = "focoSuma(1)" class="form-control" id="cantidad-suma" min="1" type="number" required>
             </div>
         </div>        
         <div class="form-group col-md-12">
@@ -511,4 +513,12 @@ function buscarDispositivoActivoFijo($dispositivo, $codigo) {
         }
     }
     return null;
+}
+
+function selectEstado($estados) {
+    echo '<select class="form-control" id="estadosA">';
+    foreach ($estados as $estados) {
+        echo '<option  value="' . $estados->obtenerCodigoEstado() . '" >' . $estados->obtenerNombreEstado() . '</option>';
+    }
+    echo '</select>';
 }

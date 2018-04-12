@@ -1,4 +1,4 @@
-CREATE TABLE EstadoEquipo(
+PACREATE TABLE EstadoEquipo(
  codigoEstado int NOT NULL,
  nombreEstado varchar(60) NOT NULL,
   CONSTRAINT PKEstadoEquipo PRIMARY KEY(codigoEstado),

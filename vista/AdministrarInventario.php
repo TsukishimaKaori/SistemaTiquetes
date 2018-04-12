@@ -5,13 +5,13 @@
 
         <?php require_once ("../control/ArchivosDeCabecera.php"); ?>            
         <link href="../recursos/css/inventario.css" rel="stylesheet"/>     
-         <script src="../recursos/js/AdministrarInventario.js"></script>  
+        <script src="../recursos/js/AdministrarInventario.js"></script>  
         <link rel="stylesheet" href="../recursos/bootstrap/css/bootstrap-datetimepicker.min.css" />
         <script src="../recursos/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
         <script src="../recursos/bootstrap/js/es.js"></script>
         <link href="../recursos/bootstrap/css/bootstrap-select.min.css" rel="stylesheet"/>
         <script src="../recursos/bootstrap/js/bootstrap-select.min.js"></script>  
-       
+
         <?php
         require ("../control/AdministrarTablaInventario.php");
         require ("../modelo/ProcedimientosInventario.php");
@@ -20,10 +20,9 @@
 
     </head>
     <body>
+        <?php require ("../vista/Cabecera.php"); ?>
+
         <?php
-        require ("../vista/Cabecera.php");?>
-          
-       <?php
         $activos = obtenerActivosFijos();
         $inventario = obtenerInventario();
         if (isset($_GET['tab'])) {
@@ -31,7 +30,6 @@
         } else {
             $tab = 1;
         }
-        
         ?>
 
         <input id = 'nombreUsuario' type="hidden" value ='<?php echo $r->obtenerNombreResponsable() ?>' >
@@ -39,189 +37,254 @@
 
         <input id = 'tabInventario' type="hidden" value ='<?php echo $tab ?>' >
         <div class="container-fluid">
-            <div >                
-                <div id = "panelInformacionIzquierda">
-                    <div id="tab-indice" class="tab">                        
-                        <button id = "link-inventario" class="tablinks" onclick="abrir_tab_inventario(this, 'tab-inventario')" id="defaultOpen">Inventario</button>
-                        <button id = "link-activos"  class="tablinks" onclick="abrir_tab_inventario(this, 'tab-activos')" >Activos fijos</button>                        
-                    </div>                                   
-                    <section id="tab-inventario" class="tabcontent">
-                        <h2>Inventario</h2>
-                        <div class="container-fluid">
-                            <div class="row">                                                           
-                                <div id ="" class="col-md-10"></div>                
-                                <div class="row">                                             
-                                    <div class="col-md-offset-10">                   
-                                        <button onclick = "cargarPanelAgregarInventario()" type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>    
+            <div>  
+                <div class="row">  
+
+
+                    <div id = "panelInformacionIzquierda">
+
+                        <div id="filtros"class="col-md-8 ">
+                            <div class="panel panel-primary">
+                                <div class="panel-body filtrosVisible">
+                                  
+                                    <div class="row">  
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="placaA">Placa:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="placaA" type="text">
+                                            </div>
+                                        </div>  
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="categoriaA">Categoría:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="categoriaA" type="text">
+                                            </div>
+                                        </div> 
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="marcaA">Marca:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="marcaA" type="text">
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div class="row"> 
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="usuarioA">Usuario:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="usuarioA" type="text">
+                                            </div>
+                                        </div> 
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="correoA">Correo:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="correoA" type="text">
+                                            </div>
+                                        </div> 
+                                        <div class="form-check col-md-4">                           
+                                            <label class="control-label col-md-3" for="estadosA">Estado:</label>
+                                            <div class="col-md-9">
+                                                <?php
+                                                $estados = obtenerEstados();
+                                                selectEstado($estados);
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row"> 
+                                        <div class="col-md-10">
+                                            <button onclick = "filtrarActivos()" type="button" class="btn btn-success  btn-circle col-md-3" data-toggle="modal" > buscar </button> 
+                                        </div>                       
+                                    </div> 
                                 </div>
+                            </div>
+                        </div>
+                        <div id="tab-indice" class="tab"> 
+                            <button onclick = "filtrar()" type="button"  class="tablinks" data-toggle="modal" ><i class="glyphicon glyphicon-wrench"></i>Filtrar búsqueda</button>    
+                            <button id = "link-inventario" class="tablinks" onclick="abrir_tab_inventario(this, 'tab-inventario')" id="defaultOpen">Inventario</button>
+                            <button id = "link-activos"  class="tablinks" onclick="abrir_tab_inventario(this, 'tab-activos')" >Activos fijos</button>                        
+                        </div> 
+
+                        <section id="tab-inventario" class="tabcontent">
+
+                            <h2>Inventario</h2>                         
+
+
+                            <div class="container-fluid">
+
+                                <div class="row">                                                           
+                                    <div id ="" class="col-md-10"></div>                
+                                    <div class="row">                                             
+                                        <div class="col-md-offset-10">                   
+                                            <button onclick = "cargarPanelAgregarInventario()" type="button" class="btn btn-success  btn-circle btn-xl" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i></button>    
+                                        </div>
+                                    </div>
+                                    <div class="row"> 
+                                        <div class="col-md-offset-12">&nbsp;</div>
+                                    </div>
+                                    <div class="row">                                
+                                        <div class="col-md-12 ">
+                                            <div class="table table-responsive">  
+                                                <table class="table table-hover" id="tablaPasivos">
+                                                    <thead>
+                                                        <?php cabeceraTablaPasivos(); ?>                                 
+                                                    </thead>
+                                                    <tbody id = "cuerpo-Tabla-Inventario">
+                                                        <?php cuerpoTablaPasivos($inventario); ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </section>
+                        <section id="tab-activos" class="tabcontent tab-oculto">
+                            <h2>Activos</h2>
+                            <div class="container-fluid">
                                 <div class="row"> 
                                     <div class="col-md-offset-12">&nbsp;</div>
                                 </div>
                                 <div class="row">                                
                                     <div class="col-md-12 ">
                                         <div class="table table-responsive">  
-                                            <table class="table table-hover">
+                                            <table class="table table-hover" id="tablaActivos">
                                                 <thead>
-                                                    <?php cabeceraTablaPasivos(); ?>                                 
+                                                    <?php cabeceraTablaActivos(); ?>                                 
                                                 </thead>
-                                                <tbody id = "cuerpo-Tabla-Inventario">
-                                                    <?php cuerpoTablaPasivos($inventario); ?>
+                                                <tbody id = "cuerpo-Tabla-Activos">
+                                                    <?php cuerpoTablaActivos($activos); ?>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
-                        </div>
-                    </section>
-                    <section id="tab-activos" class="tabcontent tab-oculto">
-                        <h2>Activos</h2>
-                        <div class="container-fluid">
-                            <div class="row"> 
-                                <div class="col-md-offset-12">&nbsp;</div>
                             </div>
-                            <div class="row">                                
-                                <div class="col-md-12 ">
-                                    <div class="table table-responsive">  
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <?php cabeceraTablaActivos(); ?>                                 
-                                            </thead>
-                                            <tbody id = "cuerpo-Tabla-Activos">
-                                                <?php cuerpoTablaActivos($activos); ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                        </section>
+                    </div>            
+                    <div  id = "panelInformacionDerecha" >                   
+                        <section  id = "panelInformacionInventario"></section>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--Ventana Licencias asociadas-->
+            <div id="modalLicencias" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg">                
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 id = 'tituloModalLicencias' class="modal-title"></h4>
+                        </div>                  
+                        <div class="modal-body">                              
+                            <div  class="table table-responsive" >  
+                                <table class = "table table-hover">  
+                                    <thead>                                   
+                                    <th>Descripción</th>
+                                    <th>Clave de producto</th>
+                                    <th>Proveedor</th>
+                                    <th>Fecha de vencimiento</th>
+                                    <th>Fecha asociado</th>   
+                                    <th>Eliminar</th> 
+                                    </thead>
+                                    <tbody id = "cuerpoTablaLicencias">                                           
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </section>
-                </div>            
-                <div  id = "panelInformacionDerecha" >                   
-                    <section  id = "panelInformacionInventario"></section>
-                </div>
-            </div>
-        </div>
-
-
-        <!--Ventana Licencias asociadas-->
-        <div id="modalLicencias" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">                
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 id = 'tituloModalLicencias' class="modal-title"></h4>
-                    </div>                  
-                    <div class="modal-body">                              
-                        <div  class="table table-responsive" >  
-                            <table class = "table table-hover">  
-                                <thead>                                   
-                                <th>Descripción</th>
-                                <th>Clave de producto</th>
-                                <th>Proveedor</th>
-                                <th>Fecha de vencimiento</th>
-                                <th>Fecha asociado</th>   
-                                <th>Eliminar</th> 
-                                </thead>
-                                <tbody id = "cuerpoTablaLicencias">                                           
-                                </tbody>
-                            </table>
-                        </div>
+                        <div class="modal-footer">                                                        
+                            <button type="button" class="btn btn-success"   data-dismiss="modal">Aceptar</button>
+                        </div>                   
                     </div>
-                    <div class="modal-footer">                                                        
-                        <button type="button" class="btn btn-success"   data-dismiss="modal">Aceptar</button>
-                    </div>                   
                 </div>
-            </div>
-        </div>  
+            </div>  
 
-        <!--Ventana Repuestos asociadas-->
-        <div id="modalRepuestos" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">                
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 id = "tituloModalRepuestos" class="modal-title"></h4>
-                    </div>                  
-                    <div class="modal-body">                              
-                        <div  class="table table-responsive" >  
-                            <table class = "table table-hover">  
-                                <thead>                               
-                                <th>Descripción</th>
-                                <th>Fecha asociado</th>
-                                <th>Eliminar</th>
-                                </thead>
-                                <tbody id = "cuerpoTablaRepuestos">                                           
-                                </tbody>
-                            </table>
+            <!--Ventana Repuestos asociadas-->
+            <div id="modalRepuestos" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg">                
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 id = "tituloModalRepuestos" class="modal-title"></h4>
+                        </div>                  
+                        <div class="modal-body">                              
+                            <div  class="table table-responsive" >  
+                                <table class = "table table-hover">  
+                                    <thead>                               
+                                    <th>Descripción</th>
+                                    <th>Fecha asociado</th>
+                                    <th>Eliminar</th>
+                                    </thead>
+                                    <tbody id = "cuerpoTablaRepuestos">                                           
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+                        <div class="modal-footer">                                                        
+                            <button type="button" class="btn btn-success"   data-dismiss="modal">Aceptar</button>
+                        </div>                   
                     </div>
-                    <div class="modal-footer">                                                        
-                        <button type="button" class="btn btn-success"   data-dismiss="modal">Aceptar</button>
-                    </div>                   
                 </div>
-            </div>
-        </div> 
-        <!--Ventana Repuestos asociadas-->
-        <div id="modalContratos" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">                
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 id = "tituloModalContratos" class="modal-title"></h4>
-                    </div>                  
-                    <div class="modal-body">                              
-                        <div  class="table table-responsive" >  
-                            <table class = "table table-hover">  
-                                <thead>                               
-                                <th>Contrato</th>
+            </div> 
+            <!--Ventana Repuestos asociadas-->
+            <div id="modalContratos" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg">                
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 id = "tituloModalContratos" class="modal-title"></h4>
+                        </div>                  
+                        <div class="modal-body">                              
+                            <div  class="table table-responsive" >  
+                                <table class = "table table-hover">  
+                                    <thead>                               
+                                    <th>Contrato</th>
 
 
-                                </thead>
-                                <tbody id = "cuerpoTablaContratos">                                           
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody id = "cuerpoTablaContratos">                                           
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+                        <div class="modal-footer">                                                        
+                            <button type="button" class="btn btn-success"   data-dismiss="modal">Aceptar</button>
+                        </div>                   
                     </div>
-                    <div class="modal-footer">                                                        
-                        <button type="button" class="btn btn-success"   data-dismiss="modal">Aceptar</button>
-                    </div>                   
                 </div>
-            </div>
-        </div> 
-        <div id="cambiarEstado" class="modal fade " role="dialog">
-            <div class="modal-dialog modal-sm">                
-                <div class="modal-content">                
-                    <div class="modal-body">
-                        <div class="row">    
-                            <div style ="text-align: center" > 
-                                <h4 id="EstadoMensaje"> </h4>
-                            </div> 
+            </div> 
+            <div id="cambiarEstado" class="modal fade " role="dialog">
+                <div class="modal-dialog modal-sm">                
+                    <div class="modal-content">                
+                        <div class="modal-body">
+                            <div class="row">    
+                                <div style ="text-align: center" > 
+                                    <h4 id="EstadoMensaje"> </h4>
+                                </div> 
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">justificacion</label>
+                                <textarea class="form-control" rows="3"  name="justificacion" cols="2" id="justificacionEstado"></textarea>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="comment">justificacion</label>
-                            <textarea class="form-control" rows="3"  name="justificacion" cols="2" id="justificacionEstado"></textarea>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" onclick="cambiarEstadoAjax();" > Aceptar</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelarEstado();" > cancelar</button>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" onclick="cambiarEstadoAjax();" > Aceptar</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelarEstado();" > cancelar</button>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <?php
-        notificacion();
+            <?php
+            notificacion();
 
-        confirmacion("eliminarRepuesto", "¿Desea eliminar  el repuesto?", "eliminarRepuestoAjax();", "");
-        confirmacion("eliminarLicencia", "¿Desea eliminar  la licencia?", "eliminarLicenciaAjax();", "");
-        confirmacion("eliminarUsuario", "¿Esta seguro de desasociar este activo?", "eliminarUsuarioAjax();", "");
-        confirmacion("AsociarACtivo", "¿Esta seguro de asociar este activo?", "asignarActivoAjax();", "cancelarasignarActivo()");
-        alerta("ErrorRepuesto", "Error al eliminar repuesto", "");
-        alerta("ErrorLicencia", "Error al eliminar licencia", "");
-        ?>
+            confirmacion("eliminarRepuesto", "¿Desea eliminar  el repuesto?", "eliminarRepuestoAjax();", "");
+            confirmacion("eliminarLicencia", "¿Desea eliminar  la licencia?", "eliminarLicenciaAjax();", "");
+            confirmacion("eliminarUsuario", "¿Esta seguro de desasociar este activo?", "eliminarUsuarioAjax();", "");
+            confirmacion("AsociarACtivo", "¿Esta seguro de asociar este activo?", "asignarActivoAjax();", "cancelarasignarActivo()");
+            alerta("ErrorRepuesto", "Error al eliminar repuesto", "");
+            alerta("ErrorLicencia", "Error al eliminar licencia", "");
+            ?>
 
     </body>
 

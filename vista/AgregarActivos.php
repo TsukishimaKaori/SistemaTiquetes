@@ -38,22 +38,22 @@
                     <div id="panelInformacionDerecha"  class="panel-body col-md-offset-1"> 
 
                         <?php
-                        echo'<div class="form-group  col-md-11"><label class="control-label  col-sm-4" for="placa">'
+                        echo'<div class="form-group  col-md-11"><label class="control-label  col-md-4" for="placa">'
                         . 'Código del equipo:</label><span id="codigoA" class=" col-md-8">' . $codigoArticulo . ' </span>  </div>';
-                        echo'<div class="form-group  col-md-11"><label class="control-label  col-sm-4" for="placa">Descripción :</label>'
+                        echo'<div class="form-group  col-md-11"><label class="control-label  col-md-4" for="placa">Descripción :</label>'
                         . '<span class=" col-md-8">' . $descripcionEquipo . ' </span> </div>';
-                        echo'<div class="form-group  col-md-11"><label class="control-label  col-sm-4" for="placa">Categoría :</label>'
+                        echo'<div class="form-group  col-md-11"><label class="control-label  col-md-4" for="placa">Categoría :</label>'
                         . '<span class=" col-md-8" >' . $Categoria . ' </span> </div>';
                         ?>
                         <div class="form-group  col-md-11">
-                            <label class="control-label col-sm-2" for="placa">Placa:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-md-2" for="placa">Placa:</label>
+                            <div class="col-md-10">
                                 <input class="form-control" id="placa" type="text" required>
                             </div>
                         </div>                   
                         <div class="form-group  col-md-11">
-                            <label class="control-label col-sm-2" for="Usuarios">Usuario:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-md-2" for="Usuarios">Usuario:</label>
+                            <div class="col-md-10">
                                 <?php
                                 $responsables = obtenerUsuariosParaAsociar();
                                 selectTiposActivos($responsables);
@@ -62,32 +62,32 @@
                         </div>  
 
                         <div class="form-group  col-md-11">
-                            <label class="control-label col-sm-2" for="serie">Serie:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-md-2" for="serie">Serie:</label>
+                            <div class="col-md-10">
                                 <input class="form-control" id="serie" type="text" required>
                             </div>
                         </div> 
                         <div class="form-group  col-md-11">
-                            <label class="control-label col-sm-2" for="provedor">Proveedor:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-md-2" for="provedor">Proveedor:</label>
+                            <div class="col-md-10">
                                 <input class="form-control" id="provedor" type="text" required>
                             </div>
                         </div> 
                         <div class="form-group  col-md-11">
-                            <label class="control-label col-sm-2" for="modelo">Modelo:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-md-2" for="modelo">Modelo:</label>
+                            <div class="col-md-10">
                                 <input class="form-control" id="modelo" type="text" required>
                             </div>
                         </div> 
                         <div class="form-group  col-md-11">
-                            <label class="control-label col-sm-2" for="marca">Marca:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-md-2" for="marca">Marca:</label>
+                            <div class="col-md-10">
                                 <input class="form-control" id="marca" type="text" required>
                             </div>
                         </div>  
                         <div class="  form-group  col-md-11">
-                            <label class="control-label col-sm-3" for="fechaE">Expiración de garantía:</label>
-                            <div class='input-group date col-sm-9' id='datetimepicker1'>
+                            <label class="control-label col-md-3" for="fechaE">Expiración de garantía:</label>
+                            <div class='input-group date col-md-9' id='datetimepicker1'>
                                 <?php
                                 $hoy = getdate();
                                 $anio = $hoy["year"];
@@ -106,13 +106,13 @@
                                 ?>                             
                             </div>
                         </div>                  
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 "  >
+                        <div class="col-xs-12 col-md-12 col-md-12 col-lg-12 "  >
                             <h5>Licencias: </h5>
                             <div class="list-group list-group-horizontal" id="divLicencias">
 
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 "  >
+                        <div class="col-xs-12 col-md-12 col-md-12 col-lg-12 "  >
                             <h5>Repuestos: </h5>
                             <div class="list-group list-group-horizontal" id="divRepuestos">
 
@@ -125,9 +125,9 @@
                         </div>
                         <div id="divAgregarRepuesto" class="form-group  col-md-11 divagregar">
                             <div class="form-group  col-md-11">
-                                <label class="control-label col-sm-2" for="comboRepuestos">Repuestos:</label>
+                                <label class="control-label col-md-2" for="comboRepuestos">Repuestos:</label>
                                 <button type='button' class='close' aria-label='Close' onclick='eliminarAgregarRepuestos()'> <span aria-hidden='true'>&times;</span></button>
-                                <div class="col-sm-10">
+                                <div class="col-md-10">
                                     <?php
                                     $repuestos = obtenerRepuestosParaAsociar();
                                     selectRepuestos($repuestos);
@@ -148,7 +148,7 @@
 
         </div>
           <div id="errorInfo" class="modal fade " role="dialog">
-            <div class="modal-dialog modal-sm">                
+            <div class="modal-dialog modal-md">                
                 <div class="modal-content">                
                     <div class="modal-body">
                         <div class="row">    

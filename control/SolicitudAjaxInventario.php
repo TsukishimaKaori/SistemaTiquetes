@@ -10,14 +10,13 @@ if (isset($_POST['codigoActivo'])) {
     $codigo = $_POST['codigoActivo'];
     $activos = obtenerActivosFijos();
     $listaActivos = buscarDispositivoActivoFijo($activos, $codigo);
-    $codigoEstadoActual=$listaActivos->obtenerEstado()->obtenerCodigoEstado();
-    $estadosSiguentes= obtenerEstadosEquipo($codigoEstadoActual);
-     $responsables=null;
-    if($listaActivos->obtenerNombreUsuarioAsociado()==null){
+    $codigoEstadoActual = $listaActivos->obtenerEstado()->obtenerCodigoEstado();
+    $estadosSiguentes = obtenerEstadosEquipo($codigoEstadoActual);
+    $responsables = null;
+    if ($listaActivos->obtenerNombreUsuarioAsociado() == null) {
         $responsables = obtenerUsuariosParaAsociar();
     }
-    panelActivos($listaActivos,$estadosSiguentes,$responsables);
-    
+    panelActivos($listaActivos, $estadosSiguentes, $responsables);
 }
 
 //Muestra el panel de inventario
@@ -96,15 +95,14 @@ if (isset($_POST['claveProductoLicencia'])) {
     $dia = substr($vencimientoLicencia, 0, 2);
     $mes = substr($vencimientoLicencia, 3, 2);
     $anio = substr($vencimientoLicencia, 6, 4);
-   
-    $vencimientoLicencia = $anio . $mes  . $dia;
+
+    $vencimientoLicencia = $anio . $mes . $dia;
     $correoUsuarioCausante = $_POST['correoUsuarioCausante'];
     $nombreUsuarioCausante = $_POST['nombreUsuarioCausante'];
     $bandera = agregarLicencia($vencimientoLicencia, $claveProductoLicencia, $proveedorLicencia, $descripcionLicencia, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);
-    if($bandera == 1) {
+    if ($bandera == 1) {
         echo 1; // Ha ocurrido un error
     }
-    
 }
 
 
@@ -139,85 +137,119 @@ if (isset($_POST['codigoAsociarEquipo'])) {
     if ($bandera == "") {
         $inventario = obtenerInventario();
         cuerpoTablaPasivos($inventario);
-    }else if($bandera == 1) {
+    } else if ($bandera == 1) {
         echo 1; // Ha ocurrido un error
-    }else if($bandera == 2) {
+    } else if ($bandera == 2) {
         echo 2; // Ya hay un usuario asociado
     }
 }
 
 // eliminar licencias
 if (isset($_POST['codigoLicenciaEliminar'])) {
-  $claveDeProducto=$_POST["codigoLicenciaEliminar"];
-  $placa=$_POST["placa"];
+    $claveDeProducto = $_POST["codigoLicenciaEliminar"];
+    $placa = $_POST["placa"];
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
-    $mensaje=eliminarLicencia($claveDeProducto, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);
+    $mensaje = eliminarLicencia($claveDeProducto, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);
     echo $mensaje;
 }
 
 // eliminar repuesto
 if (isset($_POST['descripcionRepuestoEliminar'])) {
-    $descripcion=$_POST['descripcionRepuestoEliminar'];
-    $placa=$_POST["placa"];    
+    $descripcion = $_POST['descripcionRepuestoEliminar'];
+    $placa = $_POST["placa"];
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
-   $mensaje=eliminarRepuesto($descripcion, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);
-     echo $mensaje;
+    $mensaje = eliminarRepuesto($descripcion, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);
+    echo $mensaje;
 }
 // cambiar estado
 if (isset($_POST['codigoEstadoSiguiente'])) {
-    $codigoEstadoSiguiente=$_POST['codigoEstadoSiguiente'];
-    $placa=$_POST["placa"];    
-    $comentarioUsuario=$_POST["comentario"]; 
+    $codigoEstadoSiguiente = $_POST['codigoEstadoSiguiente'];
+    $placa = $_POST["placa"];
+    $comentarioUsuario = $_POST["comentario"];
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
-   $mensaje= actualizarEstadoEquipo($placa, $codigoEstadoSiguiente, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante);
-     echo $mensaje;
+    $mensaje = actualizarEstadoEquipo($placa, $codigoEstadoSiguiente, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante);
+    echo $mensaje;
 }
 // desasociar
-if (isset($_POST['codigoDesasociar'])) { 
-    $placa=$_POST["codigoDesasociar"];       
+if (isset($_POST['codigoDesasociar'])) {
+    $placa = $_POST["codigoDesasociar"];
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
-   $mensaje= eliminarUsuarioActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante);
-   if($mensaje===""){     
-    $activos = obtenerActivosFijos();
-    $listaActivos = buscarDispositivoActivoFijo($activos, $placa);
-    $codigoEstadoActual=$listaActivos->obtenerEstado()->obtenerCodigoEstado();
-    $estadosSiguentes= obtenerEstadosEquipo($codigoEstadoActual);
-    $responsables=null;
-    if($listaActivos->obtenerNombreUsuarioAsociado()==null){
-        $responsables = obtenerUsuariosParaAsociar();
+    $mensaje = eliminarUsuarioActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante);
+    if ($mensaje === "") {
+        $activos = obtenerActivosFijos();
+        $listaActivos = buscarDispositivoActivoFijo($activos, $placa);
+        $codigoEstadoActual = $listaActivos->obtenerEstado()->obtenerCodigoEstado();
+        $estadosSiguentes = obtenerEstadosEquipo($codigoEstadoActual);
+        $responsables = null;
+        if ($listaActivos->obtenerNombreUsuarioAsociado() == null) {
+            $responsables = obtenerUsuariosParaAsociar();
+        }
+        panelActivos($listaActivos, $estadosSiguentes, $responsables);
+    } else {
+        echo "Error";
     }
-    panelActivos($listaActivos,$estadosSiguentes,$responsables);
-   }else{
-       echo "Error";
-   }
 }
 
 // cambiar estado
 if (isset($_POST['usuarioAsociado'])) {
-    $correoUsuarioAsociado=$_POST['usuarioAsociado'];
-    $placa=$_POST["placa"];        
+    $correoUsuarioAsociado = $_POST['usuarioAsociado'];
+    $placa = $_POST["placa"];
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
     $usuario = obtenerDatosUsuario($correoUsuarioAsociado);
     $nombreUsuarioAsociado = $usuario->obtenerNombreUsuario();
     $departamentoUsuarioAsociado = $usuario->obtenerDepartamento();
-    $jefaturaUsuarioAsociado = $usuario->obtenerJefatura();    
-    $mensaje= asociarUsuarioActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante, $correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado);
-    if($mensaje===""){     
-    $activos = obtenerActivosFijos();
-    $listaActivos = buscarDispositivoActivoFijo($activos, $placa);
-    $codigoEstadoActual=$listaActivos->obtenerEstado()->obtenerCodigoEstado();
-    $estadosSiguentes= obtenerEstadosEquipo($codigoEstadoActual);
-    $responsables=null;
-    if($listaActivos->obtenerNombreUsuarioAsociado()==null){
-        $responsables = obtenerUsuariosParaAsociar();
+    $jefaturaUsuarioAsociado = $usuario->obtenerJefatura();
+    $mensaje = asociarUsuarioActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante, $correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado);
+    if ($mensaje === "") {
+        $activos = obtenerActivosFijos();
+        $listaActivos = buscarDispositivoActivoFijo($activos, $placa);
+        $codigoEstadoActual = $listaActivos->obtenerEstado()->obtenerCodigoEstado();
+        $estadosSiguentes = obtenerEstadosEquipo($codigoEstadoActual);
+        $responsables = null;
+        if ($listaActivos->obtenerNombreUsuarioAsociado() == null) {
+            $responsables = obtenerUsuariosParaAsociar();
+        }
+        panelActivos($listaActivos, $estadosSiguentes, $responsables);
+    } else {
+        echo "Error";
     }
-    panelActivos($listaActivos,$estadosSiguentes,$responsables);
-   }else{
-       echo "Error";
-   }
+}
+if (isset($_POST['filtrarActivo'])) {
+    $placa = $_POST['filtrarActivo'];
+    $nombreCategoria = $_POST['categoria'];
+    $marca = $_POST['marca'];
+    $nombreUsuario = $_POST['usuario'];
+    $correoUsuario = $_POST['correo'];
+    $codigoEstado = $_POST['estado'];
+    $activos = busquedaAvanzadaActivos($placa, $codigoEstado, $nombreCategoria, $marca, $nombreUsuario, $correoUsuario);
+    if ($activos === 'Ha ocurrido un error al obtener los activos') {
+        echo'Error';
+    } else {
+           cuerpoTablaActivos($activos);
+    }
+}
+if (isset($_POST['filtrarInventario'])) {
+
+    $codigoArticulo = $_POST['filtrarInventario'];
+    $descripcion = $_POST['descripcion'];
+    $nombreCategoria = $_POST['categoria'];
+    $nombreBodega = $_POST['bodega'];
+    $esRepuesto = $_POST['repuesto'];
+    if($esRepuesto== 'true'){
+        $esRepuesto=1;
+    }
+    else{
+        $esRepuesto=0;
+    }
+    $inventario = busquedaAvanzadaInventario($codigoArticulo, $descripcion, $nombreCategoria, $esRepuesto, $nombreBodega);
+    if ($inventario === 'Ha ocurrido un error al obtener el inventario') {
+        echo'Error';
+    } else {     
+        cuerpoTablaPasivos($inventario);
+    }
 }
