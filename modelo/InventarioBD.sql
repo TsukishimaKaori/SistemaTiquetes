@@ -1439,7 +1439,7 @@ GO
  --exec PAobtenerActivosFiltradosPlaca 567;
  --DROP PROCEDURE PAobtenerActivosFiltradosPlaca;
 
- --Obtiene un activo filtrado por placa
+ --Obtiene un articulo del inventario filtrado por codigoArticulo y codigoBodega
  CREATE PROCEDURE PAobtenerArticuloFiltradoCodigoBodega
 	@codigo varchar(150),
 	@codigoBodega int
