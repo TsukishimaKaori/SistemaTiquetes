@@ -588,6 +588,44 @@ function obtenerActivosAsociadosTiquete($codigoTiquete) {
 }
 
 
+//Obtiene un activo filtrado por placa
+function obtenerActivosFiltradosPlaca($placa) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerActivosFiltradosPlaca (?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los activos';
+    }
+    $activos = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $activos[] = crearActivo($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $activos;
+}
+
+
+ //Obtiene un articulo del inventario filtrado por codigoArticulo y codigoBodega
+function obtenerArticuloFiltradoCodigoBodega($codigoArticulo, $codigoBodega) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerArticuloFiltradoCodigoBodega (?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($codigoBodega, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener el inventario';
+    }
+    $pasivos = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $pasivos[] = crearInventario($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $pasivos;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
