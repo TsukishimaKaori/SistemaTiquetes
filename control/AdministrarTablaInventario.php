@@ -402,7 +402,7 @@ function panelSumarAInventario($inventario, $codigo) {
 }
 
 function panelAgregarRepuesto($dispositivo, $repuestos, $codigo) {
-    $dispositivo = buscarDispositivoActivoFijo($dispositivo, $codigo);
+    
     echo'<div type = "hidden" class="panel panel-default">'
     . '<div class="panel-heading"><h3>Asociar repuesto</h3></div>'
     . '<div class="panel-body">
@@ -430,7 +430,7 @@ function panelAgregarRepuesto($dispositivo, $repuestos, $codigo) {
 }
 
 function panelAgregarLicencia($dispositivo, $codigo) {
-    $dispositivo = buscarDispositivoActivoFijo($dispositivo, $codigo);
+    
     echo'<div type = "hidden" class="panel panel-default">'
     . '<div class="panel-heading"><h3>Asociar licencia</h3></div>'
     . '<div class="panel-body">';
