@@ -934,6 +934,7 @@ function filtrarActivos() {
             } else {
                 $('#tablaActivos').DataTable().destroy();
                 $("#cuerpo-Tabla-Activos").html(response);
+                $("#panelInformacionInventario").html("");
                 tablaActivos();
             }
 
@@ -962,6 +963,7 @@ function filtrarInventario() {
             } else {
                 $('#tablaPasivos').DataTable().destroy();
                 $("#cuerpo-Tabla-Inventario").html(response);
+                $("#panelInformacionInventario").html("");
                 tablaPasivos();
             }
 
