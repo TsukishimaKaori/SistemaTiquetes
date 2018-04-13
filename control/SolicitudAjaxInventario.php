@@ -9,7 +9,7 @@ $r = $_SESSION['objetoUsuario'];
 if (isset($_POST['codigoActivo'])) {
     $codigo = $_POST['codigoActivo'];
     $activos = obtenerActivosFijos();
-    $listaActivos = buscarDispositivoActivoFijo($activos, $codigo);
+    $listaActivos = obtenerActivosFiltradosPlaca($codigo);
     $codigoEstadoActual = $listaActivos->obtenerEstado()->obtenerCodigoEstado();
     $estadosSiguentes = obtenerEstadosEquipo($codigoEstadoActual);
     $responsables = null;
@@ -22,8 +22,10 @@ if (isset($_POST['codigoActivo'])) {
 //Muestra el panel de inventario
 if (isset($_POST['codigoPasivo'])) {
     $codigo = $_POST['codigoPasivo'];
+    $bodega = $_POST['bodega'];
     $inventario = obtenerInventario();
-    panelPasivos($inventario, $codigo);
+     $listaPasivos = obtenerArticuloFiltradoCodigoBodega($codigo, $bodega);
+    panelPasivos($listaPasivos);
 }
 
 //MOstrar el panel que suma elemetnos al inventario

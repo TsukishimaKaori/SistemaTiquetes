@@ -58,6 +58,7 @@ function cuerpoTablaPasivos($inventario) {
             echo '<td>Activo</td>';
         }
         echo '<td>' . $act->obtenerBodega()->obtenerNombreBodega() . '</td>';
+
         echo '<td>';
         if (($act->obtenerCantidad() > 0 && $act->obtenerCategoria()->obtenerEsRepuesto() == "0")) {
             echo '<a href="../vista/AgregarActivos.php?codigoArticulo=' . $act->obtenerCodigoArticulo() . '&categoriaCodigo=' . $act->obtenerCategoria()->obtenerCodigoCategoria() . '&categoria=' . $act->obtenerCategoria()->obtenerNombreCategoria() . '&descripcion=' . $act->obtenerDescripcion() . '"><button  class="btn btn-danger btn-circle btn" ><i class="glyphicon glyphicon-minus"></i></button></a>';
@@ -71,9 +72,9 @@ function cuerpoTablaPasivos($inventario) {
         . '<td>'
         . '<button onclick = "cargarPanelSumarInventario(\'' . $act->obtenerCodigoArticulo() . '\',this)"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
         '</td>';
-        echo '<td><button onclick = "cargarPanelPasivos(\'' . $act->obtenerCodigoArticulo() . '\',this)"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelPasivos(\'' . $act->obtenerCodigoArticulo() . '\',\''. $act->obtenerBodega()->obtenerCodigoBodega().'\',this)"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
         echo '<td><a href = "../vista/HistorialInventario.php?pagina=2&bodega=' . $act->obtenerBodega()->obtenerCodigoBodega() . '&dispositivo=' . $act->obtenerCodigoArticulo() . ' "><button class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
-
+       
         echo '</tr>';
     }
 }
@@ -238,8 +239,7 @@ function selectUsuariosActivos($responsables) {
     echo '</select>';
 }
 
-function panelPasivos($pasivos, $codigo) {
-    $listaPasivos = buscarDispositivoInventario($pasivos, $codigo);
+function panelPasivos($listaPasivos) {   
     echo
     '<div type = "hidden" class=" informacion-dispositivos panel panel-default">'
     . ' <div class="panel-heading"><h3>Especificaciones de inventario</h3></div>'

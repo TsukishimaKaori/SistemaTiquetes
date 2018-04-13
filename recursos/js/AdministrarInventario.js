@@ -168,7 +168,7 @@ function cargarPanelActivos(codigo, event) {
 
     // $(this).parent().css( "background-color", "red" );
     $.ajax({
-        data: {'codigoActivo': codigo},
+        data: {'codigoActivo': codigo  },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
@@ -183,12 +183,12 @@ function cargarPanelActivos(codigo, event) {
     });
 }
 
-function cargarPanelPasivos(codigo, event) {
-
+function cargarPanelPasivos(codigo,bodega, event) {
     $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
     $(event).parent().parent().css("background-color", "#dff0d8");
     $.ajax({
-        data: {'codigoPasivo': codigo},
+        data: {'codigoPasivo': codigo,
+        'bodega':bodega},
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
