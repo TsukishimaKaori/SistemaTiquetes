@@ -162,6 +162,7 @@ function filtrar() {
 }
 
 function cargarPanelActivos(codigo, event) {
+    eventoAsociar=event;
     codigo = "" + codigo;
     $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
     $(event).parent().parent().css("background-color", "#dff0d8");
@@ -818,6 +819,7 @@ function eliminarUsuario() {
 }
 function eliminarUsuarioAjax() {
     var placa = document.getElementById("placa").innerText;
+    var usuari= eventoAsociar.parentNode.parentNode.firstChild.nextSibling.nextSibling;
     $.ajax({
         data: {'codigoDesasociar': placa
 
@@ -831,6 +833,7 @@ function eliminarUsuarioAjax() {
                 notificacion(mensaje);
             } else {
                 $("#panelInformacionInventario").html(response);
+                 usuari.innerText="";
                 $('.selectpicker').selectpicker({
                     size: 5
                 });
@@ -842,7 +845,9 @@ function eliminarUsuarioAjax() {
     });
 }
 // asignar activo
+var eventoAsociar;
 function asignarActivo() {
+    
     $("#AsociarACtivo").modal("show");
 }
 function cancelarasignarActivo() {
@@ -875,6 +880,7 @@ function asignarActivoAjax() {
     var usuarioAsociado = document.getElementById("Usuarios");
     var usuarioAsociado = usuarioAsociado[document.getElementById("Usuarios").selectedIndex].value;
     var placa = document.getElementById("placa").innerText;
+    var usuari= eventoAsociar.parentNode.parentNode.firstChild.nextSibling.nextSibling;
     $.ajax({
         data: {'usuarioAsociado': usuarioAsociado,
             'placa': placa
@@ -883,13 +889,18 @@ function asignarActivoAjax() {
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
+           
             $("#AsociarACtivo").modal("hide");
             if (response === "Error") {
                 var mensaje = "Error al desasociar tiquete";
                 notificacion(mensaje);
             } else {
+                usuarioAsociado = document.getElementById("Usuarios");
+               usuarioAsociado= usuarioAsociado[document.getElementById("Usuarios").selectedIndex];
+               usuari.innerText=usuarioAsociado.innerText ;
                 $("#panelInformacionInventario").html(response);
-                var mensaje = "Tiquete desasociado correctamente";
+                
+                var mensaje = "Activo desasociado correctamente";
                 notificacion(mensaje);
             }
 
