@@ -1,4 +1,4 @@
-PACREATE TABLE EstadoEquipo(
+CREATE TABLE EstadoEquipo(
  codigoEstado int NOT NULL,
  nombreEstado varchar(60) NOT NULL,
   CONSTRAINT PKEstadoEquipo PRIMARY KEY(codigoEstado),
@@ -6,7 +6,6 @@ PACREATE TABLE EstadoEquipo(
  )
  GO
  
-
 CREATE TABLE EstadoEquipoPermitido(
  estadoEquipoActual int NOT NULL,
  estadoEquipoSiguiente int NOT NULL,
@@ -1447,7 +1446,7 @@ GO
 	SET NOCOUNT ON;
 	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, inve.estado, inve.cantidad,
 	inve.codigoBodega, bode.nombreBodega from
-	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where esRepuesto = 0) cat,
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria) cat,
 	(select codigoBodega, nombreBodega from Bodega where codigoBodega = @codigoBodega) bode,
 	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega from Inventario 
 	where codigoArticulo = @codigo AND codigoBodega = @codigoBodega) inve
@@ -1457,6 +1456,14 @@ GO
  --select * from Inventario;
  --exec PAobtenerArticuloFiltradoCodigoBodega '11', 2;
  --DROP PROCEDURE PAobtenerArticuloFiltradoCodigoBodega;
+
+
+ CREATE PROCEDURE PAobtenerEstadosEquipoParaFiltrar
+ AS
+	SET NOCOUNT ON;
+	select codigoEstado, nombreEstado from EstadoEquipo;
+ GO
+ --exec PAobtenerEstadosEquipoParaFiltrar;
 
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
@@ -1599,3 +1606,4 @@ GO
  DROP PROCEDURE PAobtenerActivosAsociadosTiquete;
  DROP PROCEDURE PAobtenerActivosFiltradosPlaca;
  DROP PROCEDURE PAobtenerArticuloFiltradoCodigoBodega;
+ DROP PROCEDURE PAobtenerEstadosEquipoParaFiltrar;

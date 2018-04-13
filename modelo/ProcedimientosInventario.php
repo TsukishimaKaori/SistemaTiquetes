@@ -598,12 +598,12 @@ function obtenerActivosFiltradosPlaca($placa) {
         sqlsrv_free_stmt($getMensaje);
         return 'Ha ocurrido un error al obtener los activos';
     }
-    $activos = array();
+    $activo;
     while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
-        $activos[] = crearActivo($row);
+        $activo = crearActivo($row);
     }
     sqlsrv_free_stmt($getMensaje);
-    return $activos;
+    return $activo;
 }
 
 
@@ -617,12 +617,12 @@ function obtenerArticuloFiltradoCodigoBodega($codigoArticulo, $codigoBodega) {
         sqlsrv_free_stmt($getMensaje);
         return 'Ha ocurrido un error al obtener el inventario';
     }
-    $pasivos = array();
+    $pasivo;
     while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
-        $pasivos[] = crearInventario($row);
+        $pasivo = crearInventario($row);
     }
     sqlsrv_free_stmt($getMensaje);
-    return $pasivos;
+    return $pasivo;
 }
 
 
@@ -937,28 +937,25 @@ function crearHistorialActivos($row) {
 //}
 
 
-//$pasivos = obtenerArticuloFiltradoCodigoBodega("11", 2);
-//
-//foreach ($pasivos as $tema) {   
-//    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
-//    echo $tema->obtenerCategoria()->obtenerEsRepuesto() . '<br />';
-//    echo $tema->obtenerDescripcion() . '<br />';
-//    echo $tema->obtenerEstado(). '<br />'; 
-//    echo $tema->obtenerCosto() . '<br />';
-//    echo $tema->obtenerCantidad() . '<br />';
-//    echo $tema->obtenerBodega()->obtenerNombreBodega() . '<br />';
+//$pasivo = obtenerArticuloFiltradoCodigoBodega("10", 1);
+//   
+//    echo $pasivo->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $pasivo->obtenerCategoria()->obtenerEsRepuesto() . '<br />';
+//    echo $pasivo->obtenerDescripcion() . '<br />';
+//    echo $pasivo->obtenerEstado(). '<br />'; 
+//    echo $pasivo->obtenerCosto() . '<br />';
+//    echo $pasivo->obtenerCantidad() . '<br />';
+//    echo $pasivo->obtenerBodega()->obtenerNombreBodega() . '<br />';
 //    echo '<br />';
-//}
-//
-//$activos = obtenerActivosFiltradosPlaca("567");
-//
-//foreach ($activos as $tema) {   
-//    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
-//    echo $tema->obtenerPlaca() . '<br />';
-//    echo $tema->obtenerEstado()->obtenerNombreEstado().'<br />'; 
-//    echo $tema->obtenerProveedor() . '<br />';
-//    echo $tema->obtenerMarca() . '<br />';
-//    echo $tema->obtenerNombreUsuarioAsociado() . '<br />';
-//    echo $tema->obtenerCorreoUsuarioAsociado() . '<br />';
+
+
+//$activo = obtenerActivosFiltradosPlaca("567");
+//  
+//    echo $activo->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $activo->obtenerPlaca() . '<br />';
+//    echo $activo->obtenerEstado()->obtenerNombreEstado().'<br />'; 
+//    echo $activo->obtenerProveedor() . '<br />';
+//    echo $activo->obtenerMarca() . '<br />';
+//    echo $activo->obtenerNombreUsuarioAsociado() . '<br />';
+//    echo $activo->obtenerCorreoUsuarioAsociado() . '<br />';
 //    echo '<br />';
-//}
