@@ -1447,7 +1447,7 @@ GO
 	SET NOCOUNT ON;
 	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, inve.estado, inve.cantidad,
 	inve.codigoBodega, bode.nombreBodega from
-	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where esRepuesto = 0) cat,
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria) cat,
 	(select codigoBodega, nombreBodega from Bodega where codigoBodega = @codigoBodega) bode,
 	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega from Inventario 
 	where codigoArticulo = @codigo AND codigoBodega = @codigoBodega) inve
