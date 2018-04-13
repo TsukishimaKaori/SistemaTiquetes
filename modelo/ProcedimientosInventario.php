@@ -626,6 +626,24 @@ function obtenerArticuloFiltradoCodigoBodega($codigoArticulo, $codigoBodega) {
 }
 
 
+//Obtiene todos los estados para los filtros 
+function obtenerEstadosEquipoParaFiltrar() {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerEstadosEquipoParaFiltrar }";
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los estados';
+    }
+    $estados = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $estados[] = crearEstadoEquipo($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $estados;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -959,3 +977,13 @@ function crearHistorialActivos($row) {
 //    echo $activo->obtenerNombreUsuarioAsociado() . '<br />';
 //    echo $activo->obtenerCorreoUsuarioAsociado() . '<br />';
 //    echo '<br />';
+
+
+
+//$estados = obtenerEstadosEquipoParaFiltrar();
+//
+//foreach ($estados as $tema) {   
+//    echo $tema->obtenerNombreEstado().'<br />'; 
+//    echo $tema->obtenerCodigoEstado() . '<br />';
+//    echo '<br />';
+//}
