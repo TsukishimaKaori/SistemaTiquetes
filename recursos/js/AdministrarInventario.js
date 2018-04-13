@@ -198,11 +198,12 @@ function cargarPanelPasivos(codigo,bodega, event) {
     });
 }
 
-function cargarPanelSumarInventario(codigo, event) {
+function cargarPanelSumarInventario(codigo,bodega, event) {
     $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
     $(event).parent().parent().css("background-color", "#dff0d8");
     $.ajax({
-        data: {'codigoSumarInventario': codigo},
+        data: {'codigoSumarInventario': codigo,
+            'bodega':bodega},
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {

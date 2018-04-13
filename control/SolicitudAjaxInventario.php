@@ -31,7 +31,9 @@ if (isset($_POST['codigoPasivo'])) {
 //MOstrar el panel que suma elemetnos al inventario
 if (isset($_POST['codigoSumarInventario'])) {
     $codigo = $_POST['codigoSumarInventario'];
-    $inventario = obtenerInventario();
+    $bodega  = $_POST['bodega'];
+    ////////////////////////////////////////
+    $inventario = obtenerArticuloFiltradoCodigoBodega($codigo, $bodega);
     panelSumarAInventario($inventario, $codigo);
 }
 

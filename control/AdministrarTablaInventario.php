@@ -70,7 +70,7 @@ function cuerpoTablaPasivos($inventario) {
         . '<span>' . $act->obtenerCantidad() . '</span>';
         echo '</td>'
         . '<td>'
-        . '<button onclick = "cargarPanelSumarInventario(\'' . $act->obtenerCodigoArticulo() . '\',this)"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
+        . '<button onclick = "cargarPanelSumarInventario(\'' . $act->obtenerCodigoArticulo() . '\',\''. $act->obtenerBodega()->obtenerCodigoBodega().'\',this)"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
         '</td>';
         echo '<td><button onclick = "cargarPanelPasivos(\'' . $act->obtenerCodigoArticulo() . '\',\''. $act->obtenerBodega()->obtenerCodigoBodega().'\',this)"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
         echo '<td><a href = "../vista/HistorialInventario.php?pagina=2&bodega=' . $act->obtenerBodega()->obtenerCodigoBodega() . '&dispositivo=' . $act->obtenerCodigoArticulo() . ' "><button class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
@@ -361,8 +361,8 @@ function selectBodegas($bodegas) {
     echo'</select>';
 }
 
-function panelSumarAInventario($inventarios, $codigo) {
-    $inventario = buscarDispositivoInventario($inventarios, $codigo);
+function panelSumarAInventario($inventario, $codigo) {
+  //  $inventario = buscarDispositivoInventario($inventarios, $codigo);
     echo'<div type = "hidden" class="panel panel-default">'
     . '<div class="panel-heading"><h3>Sumar a inventario</h3></div>'
     . '<div class="panel-body">';
