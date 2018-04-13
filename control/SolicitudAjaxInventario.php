@@ -77,7 +77,7 @@ if (isset($_POST['codigoArticuloSuma'])) {
 //Muestra el panel para asociar repuestos 
 if (isset($_POST['codigoAgregarRepuesto'])) {
     $codigoArticulo = $_POST['codigoAgregarRepuesto'];
-    $dispositivos = obtenerActivosFijos();
+    $dispositivos = obtenerActivosFiltradosPlaca($codigoArticulo);
     $repuestos = obtenerRepuestosParaAsociar();
     panelAgregarRepuesto($dispositivos, $repuestos, $codigoArticulo);
 }
@@ -85,7 +85,7 @@ if (isset($_POST['codigoAgregarRepuesto'])) {
 //Muestra el panel para agregar licencias 
 if (isset($_POST['codigoAgregarLicencia'])) {
     $codigoArticulo = $_POST['codigoAgregarLicencia'];
-    $dispositivos = obtenerActivosFijos();
+    $dispositivos = obtenerActivosFiltradosPlaca($codigoArticulo);
     panelAgregarLicencia($dispositivos, $codigoArticulo);
 }
 
