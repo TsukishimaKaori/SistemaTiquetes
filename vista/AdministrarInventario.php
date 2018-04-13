@@ -84,7 +84,7 @@
                                             <label class="control-label col-md-3" for="estadosA">Estado:</label>
                                             <div class="col-md-9">
                                                 <?php
-                                                $estados = obtenerEstados();
+                                                $estados = obtenerEstadosEquipoParaFiltrar();
                                                 selectEstado($estados);
                                                 ?>
                                             </div>
