@@ -1074,7 +1074,7 @@ BEGIN TRY
 	'  por ' + @nombreUsuarioCausante + ' el ' + CONVERT(VARCHAR, @fechaActual, 120);
 
 	update ActivoFijo SET correoUsuarioAsociado = NULL, nombreUsuarioAsociado = NULL,
-	departamentoUsuarioAsociado = NULL, jefaturaUsuarioAsociado = NULL
+	departamentoUsuarioAsociado = NULL, jefaturaUsuarioAsociado = NULL, codigoEstado = 6
 	where placa = @placa;
 
 	insert into HistorialActivos (placa, codigoIndicador, fechaHora, correoUsuarioCausante, nombreUsuarioCausante,
@@ -1098,7 +1098,7 @@ GO
 
 
 --DECLARE @mens int
---exec PAeliminarUsuarioActivo '678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales',@men = @mens output;
+--exec PAeliminarUsuarioActivo '567', 'nubeblanca1997@outlook.com', 'Tatiana Corrales',@men = @mens output;
 --PRINT @mens;
 
 --select * from ActivoFijo;
