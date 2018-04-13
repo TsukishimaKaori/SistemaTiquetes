@@ -28,7 +28,7 @@ function cabeceraTablaActivos() {
 function cuerpoTablaActivos($activos) {
     foreach ($activos as $act) {
         echo '<tr >';
-        echo '<td id="placa">' . $act->obtenerPlaca() . '</td>';
+        echo '<td >' . $act->obtenerPlaca() . '</td>';
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
         //      echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
         echo '<td>' . $act->obtenerNombreUsuarioAsociado() . '</td>';
@@ -134,7 +134,7 @@ function panelActivos($listaActivos, $estadosSiguentes, $responsables) {
     . '     <div class="panel-body container-fluid">'
     . '        <div class="col-md-12">'
     . '        <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Placa: </span><span class=" col-md-8">' . $listaActivos->obtenerPlaca() . ' </span></div> '
+    . '           <div><span class="col-md-4 titulo-inventario">Placa: </span><span  id="placa" class=" col-md-8">' . $listaActivos->obtenerPlaca() . ' </span></div> '
     . '         </div>'
     . '         <div class="row">'
     . '           <div><span class="col-md-4 titulo-inventario">Categoría: </span><span class=" col-md-8">' . $listaActivos->obtenerCategoria()->obtenerNombreCategoria() . ' </span></div> '
