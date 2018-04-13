@@ -19,11 +19,11 @@
             if ($codigoPagina == 2) {
                 $dispositivo = obtenerInventario();
                   $bodega = $_GET['bodega'];
-                $disp = buscarDispositivoInventario($dispositivo, $codigoDispositivo);
+                $disp = obtenerArticuloFiltradoCodigoBodega($codigoDispositivo, $bodega);
                 $historial = obtenerDetalleArticuloInventario($codigoDispositivo, $bodega);
             } else if ($codigoPagina == 1) {
                 $dispositivo = obtenerActivosFijos();
-                $disp = buscarDispositivoActivoFijo($dispositivo, $codigoDispositivo);
+                $disp = obtenerActivosFiltradosPlaca($codigoDispositivo);
                 $historial = obtenerHistorialActivosFijos($codigoDispositivo);
             }
         } else {
