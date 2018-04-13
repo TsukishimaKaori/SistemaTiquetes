@@ -17,7 +17,6 @@
         require ("../modelo/ProcedimientosInventario.php");
         require ("../control/AlertasConfirmaciones.php");
         ?>
-
     </head>
     <body>
         <?php require ("../vista/Cabecera.php"); ?>
@@ -34,15 +33,11 @@
 
         <input id = 'nombreUsuario' type="hidden" value ='<?php echo $r->obtenerNombreResponsable() ?>' >
         <input id = 'correoUsuario' type="hidden" value ='<?php echo $r->obtenerCorreo() ?>' >
-
         <input id = 'tabInventario' type="hidden" value ='<?php echo $tab ?>' >
-        <div class="container-fluid">
-            <div>  
+       <!-- <div class="container-fluid">   -->
+       <div class="container-fluid">  
                 <div class="row">  
-
-
                     <div id = "panelInformacionIzquierda">
-
                         <div id="filtros"class="col-md-8 ">
                             <div class="panel panel-primary">
                                 <div class="panel-body filtrosVisible">
@@ -103,14 +98,11 @@
                             <button id = "link-inventario" class="tablinks" onclick="abrir_tab_inventario(this, 'tab-inventario')" id="defaultOpen">Inventario</button>
                             <button id = "link-activos"  class="tablinks" onclick="abrir_tab_inventario(this, 'tab-activos')" >Activos fijos</button>                        
                         </div> 
+                                        
 
                         <section id="tab-inventario" class="tabcontent">
-
-                            <h2>Inventario</h2>                         
-
-
+                            <h2>Inventario</h2>
                             <div class="container-fluid">
-
                                 <div class="row">                                                           
                                     <div id ="" class="col-md-10"></div>                
                                     <div class="row">                                             
@@ -166,7 +158,6 @@
                     </div>
                 </div>
             </div>
-
 
             <!--Ventana Licencias asociadas-->
             <div id="modalLicencias" class="modal fade" role="dialog">
