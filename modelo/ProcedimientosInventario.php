@@ -103,6 +103,7 @@ function obtenerCategorias() {
 }
 
 //Agregar un articulo al inventario
+//Si no se asocia un tiquete, entonces mande null en el codigoTiquete
 function agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codigoCategoria, $estado,
 	$cantidad, $codigoBodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante,
         $proveedor, $marca, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete) {
@@ -127,15 +128,17 @@ function agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codig
 
 
 //Aumentar la cantidad de un articulo en el inventario
+//Si no se asocia un tiquete, entonces mande null en el codigoTiquete
 function aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $comentarioUsuario, 
-        $correoUsuarioCausante, $nombreUsuarioCausante) {
+        $correoUsuarioCausante, $nombreUsuarioCausante, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete) {
     $men = -1;
     $conexion = Conexion::getInstancia();
-    $tsql = "{call PAaumentarCantidadInventario (?, ?, ?, ?, ?, ?) }";
+    $tsql = "{call PAaumentarCantidadInventario (?, ?, ?, ?, ?, ?, ?, ?, ?) }";
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($cantidadEfecto, SQLSRV_PARAM_IN),
         array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
         array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
-        array($men, SQLSRV_PARAM_OUT));
+        array($numeroOrdenDeCompra, SQLSRV_PARAM_IN), array($direccionOrdenDeCompra, SQLSRV_PARAM_IN),
+        array($codigoTiquete, SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
     sqlsrv_free_stmt($getMensaje);
     if ($men == 1) {
@@ -893,8 +896,8 @@ function crearHistorialActivos($row) {
 //
 //echo $mensaje;
 
-//'876', 2, 'Bodega A7', 'Son muchísimos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales'
-//$mensaje = aumentarCantidadInventario('987', 5, 'Bodega A7', 'Son muchos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+
+//$mensaje = aumentarCantidadInventario('987', 5, 'Son muchos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 9021, 'C:diferente/direccion/', 4);
 //
 //echo $mensaje;
 
