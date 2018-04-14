@@ -648,16 +648,6 @@ GO
 --DROP PROCEDURE PAagregarActivo;
 
 
-
---Para llenar el combo de usuarios cuando se quiere asociar un activo 
-CREATE PROCEDURE PAobtenerUsuariosParaAsociar   
-AS  
-    SET NOCOUNT ON;
-	select nombreUsuario, departamento, jefatura, correo, codigoEmpleado from RecursosHumanos;
-GO
---exec PAobtenerUsuariosParaAsociar;
-
-
 CREATE PROCEDURE PAobtenerBodegas   
 AS  
     SET NOCOUNT ON;
@@ -1734,7 +1724,6 @@ CREATE PROCEDURE PAobtenerHistorialActivosFijosFiltrado
  DROP PROCEDURE PAescribeDetalle;
  DROP PROCEDURE PAasociarRepuesto;
  DROP PROCEDURE PAagregarActivo;
- DROP PROCEDURE PAobtenerUsuariosParaAsociar;        --Simula recursos humanos
  DROP PROCEDURE PAobtenerBodegas;
  DROP PROCEDURE PAadjuntarContrato;
  DROP PROCEDURE PAobtenerDocumentosAsociados;
