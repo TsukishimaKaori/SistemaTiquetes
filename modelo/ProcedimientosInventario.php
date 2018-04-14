@@ -1022,3 +1022,10 @@ function crearHistorialActivos($row) {
 //    echo $tema->obtenerCodigoEstado() . '<br />';
 //    echo '<br />';
 //}
+
+//$mensaje = agregarCategoria("Moden", 0);
+//echo $mensaje;
+
+//$mensaje = eliminarCategoria(15);
+//echo $mensaje;
+
