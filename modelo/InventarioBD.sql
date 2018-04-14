@@ -1183,29 +1183,6 @@ GO
  --exec PAbusquedaAvanzadaActivos '', '1', '', '', 'cas', '';
  --select * from ActivoFijo;
 
- --Obtiene todos los activos relacionados a un usuario que no se encuentren en estado Espera ser desechado o desechado 
- CREATE PROCEDURE PAobtenerActivosUsuario
-	@correoUsuarioAsociado varchar(150)
- AS
-	SET NOCOUNT ON;
-	select activo.placa, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, estado.codigoEstado, estado.nombreEstado,
-	activo.serie, activo.proveedor, activo.modelo, activo.marca, activo.fechaSalidaInventario, activo.fechaDesechado,
-	activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
-	activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
-	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where esRepuesto = 0) cat,
-	(select codigoEstado, nombreEstado from EstadoEquipo where codigoEstado != 4 AND codigoEstado != 5) estado,
-	(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
-	fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
-	departamentoUsuarioAsociado, jefaturaUsuarioAsociado from ActivoFijo where codigoEstado != 4 AND codigoEstado != 5 AND
-	correoUsuarioAsociado = @correoUsuarioAsociado) activo
-	where activo.codigoCategoria = cat.codigoCategoria AND activo.codigoEstado = estado.codigoEstado;
- GO
-
- --select * from ActivoFijo;
- --exec PAobtenerActivosUsuario 'nubeblanca1997@outlook.com';
- --DROP PROCEDURE PAobtenerActivosUsuario;
-
-
 
  CREATE PROCEDURE PAasociarTiqueteActivo
 	@placa varchar(150),
@@ -1742,7 +1719,6 @@ CREATE PROCEDURE PAobtenerHistorialActivosFijosFiltrado
  DROP PROCEDURE PAeliminarUsuarioActivo;
  DROP PROCEDURE PAbusquedaAvanzadaInventario;
  DROP PROCEDURE PAbusquedaAvanzadaActivos;
- DROP PROCEDURE PAobtenerActivosUsuario;
  DROP PROCEDURE PAasociarTiqueteActivo;
  DROP PROCEDURE PAdesasociarTiqueteActivo;
  DROP PROCEDURE PAobtenerActivosAsociadosTiquete;
