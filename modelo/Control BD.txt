@@ -22,6 +22,8 @@
 
 11. Correr DROP PROCEDURE PAobtenerActivosUsuario; eliminé ese procedimiento, ya no se va a usar
 
+12. La clases Detalle y Inventario tienen atributos nuevo
+
 11/04/2018
 
 1. PAobtenerActivosFiltradosPlaca
