@@ -17,7 +17,7 @@ CREATE TABLE EstadoEquipoPermitido(
  
 
  CREATE TABLE Categoria(
- codigoCategoria int NOT NULL,
+ codigoCategoria int NOT NULL identity(1,1),
  nombreCategoria varchar(150) NOT NULL,
  esRepuesto bit NOT NULL,                      -- 1 -> repuesto 0-> algo mas
   CONSTRAINT PKCategoria PRIMARY KEY(codigoCategoria),
@@ -1150,19 +1150,33 @@ GO
 	SET @nombreUsuario = '%' + @nombreUsuario + '%';
 	SET @correoUsuario = '%' + @correoUsuario + '%';
 
-	select activo.placa, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, estado.codigoEstado, estado.nombreEstado,
-	activo.serie, activo.proveedor, activo.modelo, activo.marca, activo.fechaSalidaInventario, activo.fechaDesechado,
-	activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
-	activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
-	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where nombreCategoria COLLATE Latin1_General_CI_AI 
-	like @nombreCategoria AND esRepuesto = 0) cat,
-	(select codigoEstado, nombreEstado from EstadoEquipo where codigoEstado like @codigoEstado) estado,
-	(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
-	fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
-	departamentoUsuarioAsociado, jefaturaUsuarioAsociado from ActivoFijo where codigoEstado like @codigoEstado
-	AND placa like @placa AND marca COLLATE Latin1_General_CI_AI like @marca AND 
-	nombreUsuarioAsociado COLLATE Latin1_General_CI_AI like @nombreUsuario AND correoUsuarioAsociado like @correoUsuario ) activo
-	where activo.codigoCategoria = cat.codigoCategoria AND activo.codigoEstado = estado.codigoEstado;
+	IF @nombreUsuario = '%%' AND @correoUsuario = '%%'
+		select activo.placa, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, estado.codigoEstado, estado.nombreEstado,
+		activo.serie, activo.proveedor, activo.modelo, activo.marca, activo.fechaSalidaInventario, activo.fechaDesechado,
+		activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
+		activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
+		(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where nombreCategoria COLLATE Latin1_General_CI_AI 
+		like @nombreCategoria AND esRepuesto = 0) cat,
+		(select codigoEstado, nombreEstado from EstadoEquipo where codigoEstado like @codigoEstado) estado,
+		(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
+		fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
+		departamentoUsuarioAsociado, jefaturaUsuarioAsociado from ActivoFijo where codigoEstado like @codigoEstado
+		AND placa like @placa AND marca COLLATE Latin1_General_CI_AI like @marca) activo
+		where activo.codigoCategoria = cat.codigoCategoria AND activo.codigoEstado = estado.codigoEstado;
+	ELSE
+		select activo.placa, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, estado.codigoEstado, estado.nombreEstado,
+		activo.serie, activo.proveedor, activo.modelo, activo.marca, activo.fechaSalidaInventario, activo.fechaDesechado,
+		activo.fechaExpiraGarantia, activo.correoUsuarioAsociado, activo.nombreUsuarioAsociado,
+		activo.departamentoUsuarioAsociado, activo.jefaturaUsuarioAsociado from
+		(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where nombreCategoria COLLATE Latin1_General_CI_AI 
+		like @nombreCategoria AND esRepuesto = 0) cat,
+		(select codigoEstado, nombreEstado from EstadoEquipo where codigoEstado like @codigoEstado) estado,
+		(select placa, codigoCategoria, codigoEstado, serie, proveedor, modelo, marca, 
+		fechaSalidaInventario, fechaDesechado, fechaExpiraGarantia, correoUsuarioAsociado, nombreUsuarioAsociado, 
+		departamentoUsuarioAsociado, jefaturaUsuarioAsociado from ActivoFijo where codigoEstado like @codigoEstado
+		AND placa like @placa AND marca COLLATE Latin1_General_CI_AI like @marca AND 
+		nombreUsuarioAsociado COLLATE Latin1_General_CI_AI like @nombreUsuario AND correoUsuarioAsociado like @correoUsuario ) activo
+		where activo.codigoCategoria = cat.codigoCategoria AND activo.codigoEstado = estado.codigoEstado;
  GO
  --DROP PROCEDURE PAbusquedaAvanzadaActivos;
  --exec PAbusquedaAvanzadaActivos '', '1', '', '', 'cas', '';
@@ -1461,9 +1475,91 @@ GO
  CREATE PROCEDURE PAobtenerEstadosEquipoParaFiltrar
  AS
 	SET NOCOUNT ON;
-	select codigoEstado, nombreEstado from EstadoEquipo;
+	select codigoEstado, nombreEstado from EstadoEquipo order by codigoEstado;
  GO
  --exec PAobtenerEstadosEquipoParaFiltrar;
+ --DROP PROCEDURE PAobtenerEstadosEquipoParaFiltrar;
+
+
+ -- Agregar categoria
+CREATE PROCEDURE PAagregarCategoria
+	@nombreCategoria varchar(100),
+	@esRepuesto bit,
+	@men int output
+AS
+SET XACT_ABORT ON;
+SET NOCOUNT ON;
+BEGIN TRY
+    BEGIN TRANSACTION;
+    DECLARE
+    @nombre varchar(100)
+
+    SET @nombre = ISNULL((select UPPER(REPLACE(nombreCategoria,' ','')) from Categoria where UPPER(REPLACE(@nombreCategoria,' ','')) = UPPER(REPLACE(nombreCategoria,' ',''))), 'Error');
+        IF @nombre != 'Error'
+        BEGIN
+			SET @men = 1;
+			THROW  50001, 'Ya existe el nombre de categoria', 1;
+        END;
+
+		insert into Categoria(nombreCategoria, esRepuesto) values (@nombreCategoria, @esRepuesto);
+		COMMIT TRANSACTION;
+END TRY
+BEGIN CATCH
+     ROLLBACK TRANSACTION;
+	 if @nombre = 'Error'
+	 BEGIN
+		SET @men = 2;
+	 END; 
+END CATCH;
+GO
+
+--DECLARE @mens int
+--exec PAagregarCategoria 'Servidor', 0, @men = @mens output;
+--PRINT @mens;
+
+--select * from Categoria;
+
+--Eliminar categoria, determina si tiene activos o inventario asociado y devuelve
+--un mensaje de error
+CREATE PROCEDURE PAeliminarCategoria
+	@codigoCategoria int,
+	@men int output	
+AS 
+SET XACT_ABORT ON;
+SET NOCOUNT ON;
+BEGIN TRY
+    BEGIN TRANSACTION;
+		DECLARE  
+		@codigo int
+
+		SET @codigo = ISNULL((select codigoCategoria from Categoria where codigoCategoria = @codigoCategoria), -1);
+        IF @codigo = -1
+        BEGIN
+            SET @men = 1; 
+            THROW  50001, 'No existe el código de categoria', 1;
+        END;
+
+        delete Categoria where codigoCategoria = @codigoCategoria;
+        COMMIT TRANSACTION;
+END TRY
+BEGIN CATCH
+
+    IF (XACT_STATE()) = -1
+    BEGIN
+        ROLLBACK TRANSACTION;
+    END;
+	IF @codigo != -1
+    BEGIN
+        SET @men = 3; --La categoria tiene algo asociado
+	END;
+END CATCH;
+GO
+
+--DECLARE @mens int
+--exec PAeliminarCategoria 1, @men = @mens output;
+--PRINT @mens;
+
+--select * from Categoria;
 
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
@@ -1488,19 +1584,19 @@ GO
  insert into estadoEquipoPermitido(estadoEquipoActual, estadoEquipoSiguiente) values (6, 3);
  insert into estadoEquipoPermitido(estadoEquipoActual, estadoEquipoSiguiente) values (6, 4);
 
- insert into Categoria(codigoCategoria, nombreCategoria, esRepuesto) values (1, 'Portatil', 0);
- insert into Categoria(codigoCategoria, nombreCategoria, esRepuesto) values (2, 'Teléfono móvil', 0);
- insert into Categoria(codigoCategoria, nombreCategoria, esRepuesto) values (3, 'Impresora', 0);
- insert into Categoria(codigoCategoria, nombreCategoria, esRepuesto) values (4, 'Batería', 1);
- insert into Categoria(codigoCategoria, nombreCategoria, esRepuesto) values (5, 'Cargador', 1);
- insert into Categoria(codigoCategoria, nombreCategoria, esRepuesto) values (6, 'Pantalla', 0);
- insert into Categoria(codigoCategoria, nombreCategoria, esRepuesto) values (7, 'Teclado', 1);
- insert into Categoria(codigoCategoria, nombreCategoria, esRepuesto) values (8, 'Chip', 1);
- insert into Categoria(codigoCategoria, nombreCategoria, esRepuesto) values (9, 'Docking station', 1);
- insert into Categoria(codigoCategoria, nombreCategoria, esRepuesto) values (10, 'Mouse', 1);
- insert into Categoria(codigoCategoria, nombreCategoria, esRepuesto) values (11, 'Cargador para móvil', 1);
- insert into Categoria(codigoCategoria, nombreCategoria, esRepuesto) values (12, 'Memoria', 1);
- insert into Categoria(codigoCategoria, nombreCategoria, esRepuesto) values (13, 'Otros', 1);
+ insert into Categoria(nombreCategoria, esRepuesto) values ('Portatil', 0);
+ insert into Categoria(nombreCategoria, esRepuesto) values ('Teléfono móvil', 0);
+ insert into Categoria(nombreCategoria, esRepuesto) values ('Impresora', 0);
+ insert into Categoria(nombreCategoria, esRepuesto) values ('Batería', 1);
+ insert into Categoria(nombreCategoria, esRepuesto) values ('Cargador', 1);
+ insert into Categoria(nombreCategoria, esRepuesto) values ('Pantalla', 0);
+ insert into Categoria(nombreCategoria, esRepuesto) values ('Teclado', 1);
+ insert into Categoria(nombreCategoria, esRepuesto) values ('Chip', 1);
+ insert into Categoria(nombreCategoria, esRepuesto) values ('Docking station', 1);
+ insert into Categoria(nombreCategoria, esRepuesto) values ('Mouse', 1);
+ insert into Categoria(nombreCategoria, esRepuesto) values ('Cargador para móvil', 1);
+ insert into Categoria(nombreCategoria, esRepuesto) values ('Memoria', 1);
+ insert into Categoria(nombreCategoria, esRepuesto) values ('Otros', 1); 
 
  
  insert into Bodega (codigoBodega, nombreBodega) values (1, 'Bodega oficinas centrales');
@@ -1607,3 +1703,5 @@ GO
  DROP PROCEDURE PAobtenerActivosFiltradosPlaca;
  DROP PROCEDURE PAobtenerArticuloFiltradoCodigoBodega;
  DROP PROCEDURE PAobtenerEstadosEquipoParaFiltrar;
+ DROP PROCEDURE PAagregarCategoria;
+ DROP PROCEDURE PAeliminarCategoria;
