@@ -178,15 +178,6 @@ CREATE TABLE Tiquete(
  )
  GO
  --drop table HistorialTiquete;
-
- create table RecursosHumanos(
- nombreUsuario varchar(100),
- departamento varchar(60),
- jefatura varchar(100),
- correo varchar(100),
- codigoEmpleado varchar(50)
- )
- GO
  
 --Creaci?n de un procedimiento almacenado, no hay que ponerle return, ?l devuelve cosas como una funci?n almacenada
 CREATE PROCEDURE PAconsultarPermisos   
