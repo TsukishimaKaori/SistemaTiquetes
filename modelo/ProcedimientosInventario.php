@@ -740,7 +740,9 @@ function crearInventario($row) {
     $estado = utf8_encode($row['estado']);
     $cantidad = $row['cantidad'];  
     $bodega = crearBodega($row);
-    return new Inventario($codigoArticulo, $descripcion, $costo, $categoria, $estado, $cantidad, $bodega);
+    $proveedor = utf8_encode($row['proveedor']);
+    $marca = utf8_encode($row['marca']);
+    return new Inventario($codigoArticulo, $descripcion, $costo, $categoria, $estado, $cantidad, $bodega, $proveedor, $marca);
 }
 
 function crearActivo($row) {
