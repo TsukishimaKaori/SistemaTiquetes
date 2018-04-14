@@ -679,6 +679,46 @@ function eliminarCategoria($codigoCategoria) {
 }
 
 
+//Obtiene los detalles de movimientos de un articulo del inventario filtrado por un rango de fechas
+function obtenerDetalleArticuloInventarioFiltrado($codigoArticulo, $codigoBodega, $fechaInicio, $fechaFinal) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerDetalleArticuloInventarioFiltrado (?, ?, ?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($codigoBodega, SQLSRV_PARAM_IN),
+        array($fechaInicio, SQLSRV_PARAM_IN), array($fechaFinal, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los detalles';
+    }
+    $detalles = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $detalles[] = crearDetalle($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $detalles;
+}
+
+
+//Obtiene el historial de un activo filtrado por un rango de fechas
+function obtenerHistorialActivosFijosFiltrado($placa, $fechaInicio, $fechaFinal) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerHistorialActivosFijosFiltrado (?, ?, ?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN), array($fechaInicio, SQLSRV_PARAM_IN), 
+        array($fechaFinal, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener el historial';
+    }
+    $historial = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $historial[] = crearHistorialActivos($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $historial;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
