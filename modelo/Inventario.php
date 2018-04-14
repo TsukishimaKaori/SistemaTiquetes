@@ -3,7 +3,7 @@
 
 class Inventario {
     
-    public function __construct($co, $de, $costo, $cat, $est, $can, $bo) {
+    public function __construct($co, $de, $costo, $cat, $est, $can, $bo, $pro, $mar) {
         $this->codigoArticulo = $co;
         $this->descripcion = $de;
         $this->costo = $costo;
@@ -11,6 +11,8 @@ class Inventario {
         $this->estado = $est;
         $this->cantidad = $can;
         $this->bodega = $bo;
+        $this->proveedor = $pro;
+        $this->marca = $mar;
     }
     
     function obtenerCodigoArticulo() {
@@ -41,6 +43,14 @@ class Inventario {
         return $this->bodega;
     }     
     
+    function obtenerProveedor() {
+        return $this->proveedor;
+    }
+
+    function obtenerMarca() {
+        return $this->marca;
+    }
+
     private $codigoArticulo;
     private $descripcion;
     private $costo;
@@ -48,4 +58,6 @@ class Inventario {
     private $estado;
     private $cantidad;
     private $bodega;   //objeto de tipo Bodega
+    private $proveedor;
+    private $marca;
 }
