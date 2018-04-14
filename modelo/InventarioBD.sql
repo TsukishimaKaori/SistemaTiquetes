@@ -1011,7 +1011,8 @@ BEGIN TRY
 	'  por ' + @nombreUsuarioCausante + ' el ' + CONVERT(VARCHAR, @fechaActual, 120);
 
 	update ActivoFijo SET correoUsuarioAsociado = @correoUsuarioAsociado, nombreUsuarioAsociado = @nombreUsuarioAsociado,
-	departamentoUsuarioAsociado = @departamentoUsuarioAsociado, jefaturaUsuarioAsociado = @jefaturaUsuarioAsociado
+	departamentoUsuarioAsociado = @departamentoUsuarioAsociado, jefaturaUsuarioAsociado = @jefaturaUsuarioAsociado,
+	codigoEstado = 1
 	where placa = @placa;
 
 	insert into HistorialActivos (placa, codigoIndicador, fechaHora, correoUsuarioCausante, nombreUsuarioCausante,
@@ -1071,7 +1072,7 @@ BEGIN TRY
 
 
 	SET @aclaracion = 'Al dispositivo ' + @nombreCategoria + '  con placa ' +  @placa + ' le fue eliminado el propietario ' +  
-	'  por ' + @nombreUsuarioCausante + ' el ' + CONVERT(VARCHAR, @fechaActual, 120);
+	'  por ' + @nombreUsuarioCausante + ' el ' + CONVERT(VARCHAR, @fechaActual, 120) + '. El dispositivo queda en custodia de TI.';
 
 	update ActivoFijo SET correoUsuarioAsociado = NULL, nombreUsuarioAsociado = NULL,
 	departamentoUsuarioAsociado = NULL, jefaturaUsuarioAsociado = NULL, codigoEstado = 6
@@ -1561,13 +1562,58 @@ GO
 
 --select * from Categoria;
 
+
+CREATE PROCEDURE PAobtenerDetalleArticuloInventarioFiltrado
+	@codigoArticulo varchar(150),
+	@codigoBodega int,
+	@fechaInicio date,  
+	@fechaFinal date
+ AS
+	SET NOCOUNT ON;
+	SET @fechaInicio = (SELECT DATEADD(day, -1, @fechaInicio));
+	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
+	select inve.codigoDetalle, inve.codigoArticulo, inve.copiaCantidadInventario, inve.cantidadEfecto, inve.costo, inve.fecha,
+	inve.estado, inve.efecto, inve.codigoBodega, bode.nombreBodega, inve.comentarioUsuario, inve.correoUsuarioCausante, 
+	inve.nombreUsuarioCausante from
+	(select codigoBodega, nombreBodega from Bodega where codigoBodega = @codigoBodega) bode,
+ 	(select codigoDetalle, codigoArticulo, copiaCantidadInventario, cantidadEfecto, costo, fecha,
+	estado, efecto, codigoBodega, comentarioUsuario, correoUsuarioCausante, nombreUsuarioCausante from Detalle 
+	where codigoArticulo = @codigoArticulo AND codigoBodega = @codigoBodega AND fecha BETWEEN @fechaInicio AND @fechaFinal) inve
+	where bode.codigoBodega = inve.codigoBodega;
+ GO
+
+ 
+ --exec PAobtenerDetalleArticuloInventarioFiltrado '11', 2, '2018/02/11', '2018/04/11';
+-- DROP PROCEDURE PAobtenerDetalleArticuloInventarioFiltrado;
+
+
+CREATE PROCEDURE PAobtenerHistorialActivosFijosFiltrado
+	@placa varchar(150),
+	@fechaInicio date,
+	@fechaFinal date
+ AS
+	SET NOCOUNT ON;
+	SET @fechaInicio = (SELECT DATEADD(day, -1, @fechaInicio));
+	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
+	select his.codigoHistorial, his.placa, indi.descripcionIndicador, his.fechaHora, his.correoUsuarioCausante,
+	his.nombreUsuarioCausante, his.correoUsuarioAsociado, his.nombreUsuarioAsociado, his.comentarioUsuario,
+	his.aclaracionSistema from
+	(select codigoIndicador, descripcionIndicador from IndicadoresActivos) indi,
+	(select codigoHistorial, placa, codigoIndicador, fechaHora, correoUsuarioCausante, nombreUsuarioCausante,
+	correoUsuarioAsociado, nombreUsuarioAsociado, comentarioUsuario, aclaracionSistema from HistorialActivos 
+	where placa = @placa AND fechaHora BETWEEN @fechaInicio AND @fechaFinal) his 
+	where indi.codigoIndicador = his.codigoIndicador;
+ GO
+-- exec PAobtenerHistorialActivosFijosFiltrado '567', '2018/02/11', '2018/04/13';
+ --DROP PROCEDURE PAobtenerHistorialActivosFijosFiltrado;
+
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
  insert into estadoEquipo (codigoEstado, nombreEstado) values (2, 'En reparación');
  insert into estadoEquipo (codigoEstado, nombreEstado) values (3, 'En mantenimiento');
  insert into estadoEquipo (codigoEstado, nombreEstado) values (4, 'Espera ser desechado');
  insert into estadoEquipo (codigoEstado, nombreEstado) values (5, 'Desechado');
- insert into estadoEquipo (codigoEstado, nombreEstado) values (6, 'Sin usuario asociado');
+ insert into estadoEquipo (codigoEstado, nombreEstado) values (6, 'En custodia de TI');
 
  insert into estadoEquipoPermitido(estadoEquipoActual, estadoEquipoSiguiente) values (1, 2);
  insert into estadoEquipoPermitido(estadoEquipoActual, estadoEquipoSiguiente) values (1, 3);
@@ -1705,3 +1751,5 @@ GO
  DROP PROCEDURE PAobtenerEstadosEquipoParaFiltrar;
  DROP PROCEDURE PAagregarCategoria;
  DROP PROCEDURE PAeliminarCategoria;
+ DROP PROCEDURE PAobtenerDetalleArticuloInventarioFiltrado;
+ DROP PROCEDURE PAobtenerHistorialActivosFijosFiltrado;
