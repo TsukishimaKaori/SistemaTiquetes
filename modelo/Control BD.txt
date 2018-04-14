@@ -24,6 +24,11 @@
 
 12. La clases Detalle y Inventario tienen atributos nuevo
 
+13. Volver a correr PAobtenerDetalleArticuloInventario
+
+14. Modifique agregarArticuloInventario, aumentarCantidadInventario, agregarActivo
+    esos reciben parametros nuevos
+
 11/04/2018
 
 1. PAobtenerActivosFiltradosPlaca
