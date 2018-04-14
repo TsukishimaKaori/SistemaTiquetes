@@ -644,6 +644,41 @@ function obtenerEstadosEquipoParaFiltrar() {
 }
 
 
+//Agregar una categoria
+function agregarCategoria($nombreCategoria, $esRepuesto) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAagregarCategoria (?, ?, ?) }";
+    $params = array(array(utf8_decode($nombreCategoria), SQLSRV_PARAM_IN),
+        array($esRepuesto, SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //Ya existe ese nombre de categoria
+    } else if ($men == 2) {
+        return 2;  //Ha ocurrido un error
+    }
+    return ''; //agregado correctamente
+}
+
+
+//Eliminar una categoria
+function eliminarCategoria($codigoCategoria) {
+    $men = -1;
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAeliminarCategoria (?, ?) }";
+    $params = array(array($codigoCategoria, SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    sqlsrv_free_stmt($getMensaje);
+    if ($men == 1) {
+        return 1;  //La categoria ha eliminar no existe
+    } else if ($men == 3) {
+        return 3;  //La categoria tiene un activo o articulo del inventario asociado
+    }
+    return ''; //eliminado correctamente
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
