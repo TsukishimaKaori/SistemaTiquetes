@@ -800,9 +800,12 @@ function crearDetalle($row) {
     $comentarioUsuario = utf8_encode($row['comentarioUsuario']);
     $correoUsuarioCausante = $row['correoUsuarioCausante'];
     $nombreUsuarioCausante = utf8_encode($row['nombreUsuarioCausante']);
+    $numeroOrdenDeCompra = $row['numeroOrdenDeCompra'];
+    $direccionOrdenDeCompra = $row['direccionOrdenDeCompra'];
+    $codigoTiquete = $row['codigoTiquete'];
     return new Detalle($codigoDetalle, $codigoArticulo, $copiaCantidadInventario, $cantidadEfecto,
             $costo, $fecha, $estado, $efecto, $bodega, $comentarioUsuario, $correoUsuarioCausante,
-            $nombreUsuarioCausante);
+            $nombreUsuarioCausante, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete);
 }
 
 function crearHistorialActivos($row) {
