@@ -954,12 +954,15 @@ function crearHistorialActivos($row) {
 //$mensaje = actualizarEstadoEquipo('456', 1, 'El disposito está en perfectísimo estado :D', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //echo $mensaje;
 
-//$usuarios = obtenerDetalleArticuloInventario('10', 1);
+//$usuarios = obtenerDetalleArticuloInventario('987', 3);
 //
 //foreach ($usuarios as $tema) {   
 //    echo $tema->obtenerCodigoArticulo() . '<br />';
 //    echo $tema->obtenerComentarioUsuario() . '<br />';
 //    echo $tema->obtenerBodega()->obtenerNombreBodega() . '<br />';
+//    echo $tema->obtenerNumeroOrdenDeCompra() . '<br />';
+//    echo $tema->obtenerDireccionOrdenDeCompra() . '<br />';
+//    echo $tema->obtenerCodigoTiquete() . '<br />';
 //    echo '<br />';
 //}
 
