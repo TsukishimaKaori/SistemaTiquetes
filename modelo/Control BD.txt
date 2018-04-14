@@ -20,6 +20,8 @@
 
 10. Correr PAobtenerHistorialActivosFijosFiltrado, para hacer el filtro de fechas en el historial de activos
 
+11. Correr DROP PROCEDURE PAobtenerActivosUsuario; eliminé ese procedimiento, ya no se va a usar
+
 11/04/2018
 
 1. PAobtenerActivosFiltradosPlaca
