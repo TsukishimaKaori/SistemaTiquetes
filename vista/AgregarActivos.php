@@ -59,8 +59,7 @@
                                 selectTiposActivos($responsables);
                                 ?>
                             </div>
-                        </div>  
-
+                        </div>                            
                         <div class="form-group  col-md-11">
                             <label class="control-label col-md-2" for="serie">Serie:</label>
                             <div class="col-md-10">
@@ -105,7 +104,19 @@
                                 </span>';
                                 ?>                             
                             </div>
-                        </div>                  
+                        </div>
+                        <div class="form-group  col-md-11">
+                            <label class="control-label col-md-2" for="gafete">serie del docking:</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="gafete" type="text" required>
+                            </div>
+                        </div>
+                        <div class="form-group  col-md-11">
+                            <label class="control-label col-md-2" for="Asociado">el equipo cuenta con:</label>
+                            <div class="col-md-10">
+                               <textarea class="form-control" rows="3"  name="comentario" cols="2" id="Asociado"></textarea>
+                            </div>
+                        </div> 
                         <div class="col-xs-12 col-md-12 col-md-12 col-lg-12 "  >
                             <h5>Licencias: </h5>
                             <div class="list-group list-group-horizontal" id="divLicencias">
