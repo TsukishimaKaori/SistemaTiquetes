@@ -213,20 +213,22 @@ function asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombr
 //Crear un Activo fijo y asociarlo a un usuario
 //El codigoArticulo tiene que sacarlo del inventario
 //El usuario causante es el usuario del sistema
+//Si no se quiere asociar ningun tiquete, entonces se envia null en el codigo de tiquete
 function agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, $placa,
-	$codigoCategoria, $serie, $proveedor, $modelo, $marca, $fechaExpiraGarantia,
-	$correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado) {
+	$codigoCategoria, $serie, $modelo, $fechaExpiraGarantia,
+	$correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado, 
+        $codigoTiquete) {
     $men = -1;
-    $conexion = Conexion::getInstancia();
-    $tsql = "{call PAagregarActivo (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
+    $conexion = Conexion::getInstancia(); //14
+    $tsql = "{call PAagregarActivo (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($correoUsuarioCausante, SQLSRV_PARAM_IN), 
         array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),  
         array($placa, SQLSRV_PARAM_IN), array($codigoCategoria, SQLSRV_PARAM_IN),
-        array($serie, SQLSRV_PARAM_IN), array(utf8_decode($proveedor), SQLSRV_PARAM_IN),
-        array(utf8_decode($modelo), SQLSRV_PARAM_IN), array(utf8_decode($marca), SQLSRV_PARAM_IN),
+        array($serie, SQLSRV_PARAM_IN), array(utf8_decode($modelo), SQLSRV_PARAM_IN), 
         array($fechaExpiraGarantia, SQLSRV_PARAM_IN), array($correoUsuarioAsociado, SQLSRV_PARAM_IN),
         array(utf8_decode($nombreUsuarioAsociado), SQLSRV_PARAM_IN), array(utf8_decode($departamentoUsuarioAsociado), SQLSRV_PARAM_IN),
-        array(utf8_decode($jefaturaUsuarioAsociado),SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
+        array(utf8_decode($jefaturaUsuarioAsociado),SQLSRV_PARAM_IN), array($codigoTiquete, SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
     sqlsrv_free_stmt($getMensaje);
     if ($men == 1) {
@@ -919,7 +921,7 @@ function crearHistorialActivos($row) {
 //    echo '<br />';
 //}
 
-//$mensaje = agregarActivo('11', 'CorreoSospechoso@gmail.com', 'Ali Al Shaez', 'C12', '999', 1, 'T67Y8', 'DELL', 'Inspiron', 'DELL', '2018/04/30', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante');
+//$mensaje = agregarActivo('11', 'CorreoSospechoso@gmail.com', 'Ali Al Shaez', '444', 1, 'T67Y8', 'Inspiron', '2018/04/30', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante', null);
 //echo $mensaje;
 
 //
