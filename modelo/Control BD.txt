@@ -10,6 +10,27 @@
 
 5. Correr PAeliminarCategoria
 
+6. Correr update estadoEquipo SET nombreEstado = 'En custodia de TI' where codigoEstado = 6;
+
+7. Volver a correr PAeliminarUsuarioActivo
+
+8. Volver a correr PAasociarUsuarioActivo
+
+9. Correr PAobtenerDetalleArticuloInventarioFiltrado, para hacer el filtro de fechas en el historial de inventario
+
+10. Correr PAobtenerHistorialActivosFijosFiltrado, para hacer el filtro de fechas en el historial de activos
+
+11. Correr DROP PROCEDURE PAobtenerActivosUsuario; eliminé ese procedimiento, ya no se va a usar
+
+12. La clases Detalle y Inventario tienen atributos nuevo
+
+13. Volver a correr PAobtenerDetalleArticuloInventario
+
+14. Modifique agregarArticuloInventario, aumentarCantidadInventario
+    esos reciben parametros nuevos
+
+15. agregarActivo le quite parametros y le puse unos nuevos
+
 11/04/2018
 
 1. PAobtenerActivosFiltradosPlaca

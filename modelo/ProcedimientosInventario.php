@@ -103,17 +103,21 @@ function obtenerCategorias() {
 }
 
 //Agregar un articulo al inventario
+//Si no se asocia un tiquete, entonces mande null en el codigoTiquete
 function agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codigoCategoria, $estado,
-	$cantidad, $codigoBodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante) {
+	$cantidad, $codigoBodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante,
+        $proveedor, $marca, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete) {
     $men = -1;
-    $conexion = Conexion::getInstancia();
-    $tsql = "{call PAagregarArticuloInventario (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
+    $conexion = Conexion::getInstancia();//16
+    $tsql = "{call PAagregarArticuloInventario (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array(utf8_decode($descripcion), SQLSRV_PARAM_IN),
         array($costo, SQLSRV_PARAM_IN), array($codigoCategoria, SQLSRV_PARAM_IN),
         array($estado, SQLSRV_PARAM_IN), array($cantidad, SQLSRV_PARAM_IN),
         array($codigoBodega, SQLSRV_PARAM_IN), array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
         array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
-        array($men, SQLSRV_PARAM_OUT));
+        array(utf8_decode($proveedor), SQLSRV_PARAM_IN), array(utf8_decode($marca), SQLSRV_PARAM_IN),
+        array($numeroOrdenDeCompra, SQLSRV_PARAM_IN), array($direccionOrdenDeCompra, SQLSRV_PARAM_IN),
+        array($codigoTiquete, SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
     sqlsrv_free_stmt($getMensaje);
     if ($men == 1) {
@@ -124,15 +128,17 @@ function agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codig
 
 
 //Aumentar la cantidad de un articulo en el inventario
+//Si no se asocia un tiquete, entonces mande null en el codigoTiquete
 function aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $comentarioUsuario, 
-        $correoUsuarioCausante, $nombreUsuarioCausante) {
+        $correoUsuarioCausante, $nombreUsuarioCausante, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete) {
     $men = -1;
     $conexion = Conexion::getInstancia();
-    $tsql = "{call PAaumentarCantidadInventario (?, ?, ?, ?, ?, ?) }";
+    $tsql = "{call PAaumentarCantidadInventario (?, ?, ?, ?, ?, ?, ?, ?, ?) }";
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($cantidadEfecto, SQLSRV_PARAM_IN),
         array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
         array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
-        array($men, SQLSRV_PARAM_OUT));
+        array($numeroOrdenDeCompra, SQLSRV_PARAM_IN), array($direccionOrdenDeCompra, SQLSRV_PARAM_IN),
+        array($codigoTiquete, SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
     sqlsrv_free_stmt($getMensaje);
     if ($men == 1) {
@@ -207,20 +213,22 @@ function asociarRepuesto($codigoArticulo, $placa, $correoUsuarioCausante, $nombr
 //Crear un Activo fijo y asociarlo a un usuario
 //El codigoArticulo tiene que sacarlo del inventario
 //El usuario causante es el usuario del sistema
+//Si no se quiere asociar ningun tiquete, entonces se envia null en el codigo de tiquete
 function agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, $placa,
-	$codigoCategoria, $serie, $proveedor, $modelo, $marca, $fechaExpiraGarantia,
-	$correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado) {
+	$codigoCategoria, $serie, $modelo, $fechaExpiraGarantia,
+	$correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado, 
+        $codigoTiquete) {
     $men = -1;
-    $conexion = Conexion::getInstancia();
-    $tsql = "{call PAagregarActivo (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
+    $conexion = Conexion::getInstancia(); //14
+    $tsql = "{call PAagregarActivo (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($correoUsuarioCausante, SQLSRV_PARAM_IN), 
         array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),  
         array($placa, SQLSRV_PARAM_IN), array($codigoCategoria, SQLSRV_PARAM_IN),
-        array($serie, SQLSRV_PARAM_IN), array(utf8_decode($proveedor), SQLSRV_PARAM_IN),
-        array(utf8_decode($modelo), SQLSRV_PARAM_IN), array(utf8_decode($marca), SQLSRV_PARAM_IN),
+        array($serie, SQLSRV_PARAM_IN), array(utf8_decode($modelo), SQLSRV_PARAM_IN), 
         array($fechaExpiraGarantia, SQLSRV_PARAM_IN), array($correoUsuarioAsociado, SQLSRV_PARAM_IN),
         array(utf8_decode($nombreUsuarioAsociado), SQLSRV_PARAM_IN), array(utf8_decode($departamentoUsuarioAsociado), SQLSRV_PARAM_IN),
-        array(utf8_decode($jefaturaUsuarioAsociado),SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
+        array(utf8_decode($jefaturaUsuarioAsociado),SQLSRV_PARAM_IN), array($codigoTiquete, SQLSRV_PARAM_IN),
+        array($men, SQLSRV_PARAM_OUT));
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
     sqlsrv_free_stmt($getMensaje);
     if ($men == 1) {
@@ -679,6 +687,46 @@ function eliminarCategoria($codigoCategoria) {
 }
 
 
+//Obtiene los detalles de movimientos de un articulo del inventario filtrado por un rango de fechas
+function obtenerDetalleArticuloInventarioFiltrado($codigoArticulo, $codigoBodega, $fechaInicio, $fechaFinal) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerDetalleArticuloInventarioFiltrado (?, ?, ?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($codigoBodega, SQLSRV_PARAM_IN),
+        array($fechaInicio, SQLSRV_PARAM_IN), array($fechaFinal, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los detalles';
+    }
+    $detalles = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $detalles[] = crearDetalle($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $detalles;
+}
+
+
+//Obtiene el historial de un activo filtrado por un rango de fechas
+function obtenerHistorialActivosFijosFiltrado($placa, $fechaInicio, $fechaFinal) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerHistorialActivosFijosFiltrado (?, ?, ?) }";
+    $params = array(array($placa, SQLSRV_PARAM_IN), array($fechaInicio, SQLSRV_PARAM_IN), 
+        array($fechaFinal, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener el historial';
+    }
+    $historial = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $historial[] = crearHistorialActivos($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $historial;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -700,7 +748,9 @@ function crearInventario($row) {
     $estado = utf8_encode($row['estado']);
     $cantidad = $row['cantidad'];  
     $bodega = crearBodega($row);
-    return new Inventario($codigoArticulo, $descripcion, $costo, $categoria, $estado, $cantidad, $bodega);
+    $proveedor = utf8_encode($row['proveedor']);
+    $marca = utf8_encode($row['marca']);
+    return new Inventario($codigoArticulo, $descripcion, $costo, $categoria, $estado, $cantidad, $bodega, $proveedor, $marca);
 }
 
 function crearActivo($row) {
@@ -760,9 +810,12 @@ function crearDetalle($row) {
     $comentarioUsuario = utf8_encode($row['comentarioUsuario']);
     $correoUsuarioCausante = $row['correoUsuarioCausante'];
     $nombreUsuarioCausante = utf8_encode($row['nombreUsuarioCausante']);
+    $numeroOrdenDeCompra = $row['numeroOrdenDeCompra'];
+    $direccionOrdenDeCompra = $row['direccionOrdenDeCompra'];
+    $codigoTiquete = $row['codigoTiquete'];
     return new Detalle($codigoDetalle, $codigoArticulo, $copiaCantidadInventario, $cantidadEfecto,
             $costo, $fecha, $estado, $efecto, $bodega, $comentarioUsuario, $correoUsuarioCausante,
-            $nombreUsuarioCausante);
+            $nombreUsuarioCausante, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete);
 }
 
 function crearHistorialActivos($row) {
@@ -791,6 +844,8 @@ function crearHistorialActivos($row) {
 //    echo $tema->obtenerCosto() . '<br />';
 //    echo $tema->obtenerCantidad() . '<br />';
 //    echo $tema->obtenerBodega()->obtenerNombreBodega() . '<br />';
+//    echo $tema->obtenerProveedor() . '<br />';
+//    echo $tema->obtenerMarca() . '<br />';
 //    echo '<br />';
 //}
 //
@@ -839,12 +894,12 @@ function crearHistorialActivos($row) {
 
 
 //$mensaje = agregarArticuloInventario('765','Portatil Lenovo', '30', 2, 'Activo', 2, 2, 'La compu de la jefa ya llegó', 
-//        'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//        'nubeblanca1997@outlook.com', 'Tatiana Corrales', 'Apartamento de Tati', 'Lenovo', 5627, 'C:direccion/relativa', null);
 //
 //echo $mensaje;
 
-//'876', 2, 'Bodega A7', 'Son muchísimos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales'
-//$mensaje = aumentarCantidadInventario('987', 5, 'Bodega A7', 'Son muchos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+
+//$mensaje = aumentarCantidadInventario('987', 5, 'Son muchos teléfonos', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 9021, 'C:diferente/direccion/', 4);
 //
 //echo $mensaje;
 
@@ -866,7 +921,7 @@ function crearHistorialActivos($row) {
 //    echo '<br />';
 //}
 
-//$mensaje = agregarActivo('11', 'CorreoSospechoso@gmail.com', 'Ali Al Shaez', 'C12', '999', 1, 'T67Y8', 'DELL', 'Inspiron', 'DELL', '2018/04/30', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante');
+//$mensaje = agregarActivo('11', 'CorreoSospechoso@gmail.com', 'Ali Al Shaez', '444', 1, 'T67Y8', 'Inspiron', '2018/04/30', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante', null);
 //echo $mensaje;
 
 //
@@ -899,12 +954,15 @@ function crearHistorialActivos($row) {
 //$mensaje = actualizarEstadoEquipo('456', 1, 'El disposito está en perfectísimo estado :D', 'nubeblanca1997@outlook.com', 'Tatiana Corrales');
 //echo $mensaje;
 
-//$usuarios = obtenerDetalleArticuloInventario('10', 1);
+//$usuarios = obtenerDetalleArticuloInventario('987', 3);
 //
 //foreach ($usuarios as $tema) {   
 //    echo $tema->obtenerCodigoArticulo() . '<br />';
 //    echo $tema->obtenerComentarioUsuario() . '<br />';
 //    echo $tema->obtenerBodega()->obtenerNombreBodega() . '<br />';
+//    echo $tema->obtenerNumeroOrdenDeCompra() . '<br />';
+//    echo $tema->obtenerDireccionOrdenDeCompra() . '<br />';
+//    echo $tema->obtenerCodigoTiquete() . '<br />';
 //    echo '<br />';
 //}
 
