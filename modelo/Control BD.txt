@@ -26,8 +26,10 @@
 
 13. Volver a correr PAobtenerDetalleArticuloInventario
 
-14. Modifique agregarArticuloInventario, aumentarCantidadInventario, agregarActivo
+14. Modifique agregarArticuloInventario, aumentarCantidadInventario
     esos reciben parametros nuevos
+
+15. agregarActivo le quite parametros y le puse unos nuevos
 
 11/04/2018
 
