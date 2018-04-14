@@ -1277,14 +1277,6 @@ GO
 --drop procedure PAobtenerAdjuntosTiquete;
 --select * from HistorialTiquete;
 
---Obtiene los datos de un empleado de la tabla de recursos humanos
-CREATE PROCEDURE PAobtenerDatosUsuario  
-	@correo varchar(50)  
-AS  
-    SET NOCOUNT ON;
-	select nombreUsuario, departamento, jefatura, correo, codigoEmpleado from RecursosHumanos where @correo = correo;
-GO
-
 --Procedimiento para obtener todas activas las areas de la tabla Area
 CREATE PROCEDURE PAobtenerAreasActivas  
 	@men int output
@@ -2904,12 +2896,7 @@ insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (13, '
 insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (14, 'Enviado a reprocesar');
 insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (15, 'Asocia activo');
 insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (16, 'desasocia activo');
-
-insert into RecursosHumanos (nombreUsuario, departamento, jefatura, correo, codigoEmpleado) values ('Cristina Cascante', 'Tecnología de la Información', 'Cristina Cascante', 'nubeblanca1997@outlook.com', '12b3');
-insert into RecursosHumanos (nombreUsuario, departamento, jefatura, correo, codigoEmpleado) values ('Luis González', 'Tecnología de la Información', 'Cristina Cascante', 'francini113@gmail.com', '1b65');
-insert into RecursosHumanos (nombreUsuario, departamento, jefatura, correo, codigoEmpleado) values ('Alejandro Morales', 'Tecnología de la Información', 'Cristina Cascante', 'dannyalfvr97@gmail.com', '4g54');
-insert into RecursosHumanos (nombreUsuario, departamento, jefatura, correo, codigoEmpleado) values ('Gina Chacón', 'Tecnología de la Información', 'Cristina Cascante', 'gina@gmail.com', '787t');
-                                                                                     
+                                                                                    
 insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (1, 'Alto');
 insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (2, 'Medio');
 insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (3, 'Bajo');
@@ -2929,7 +2916,6 @@ insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (3, 'Bajo
 	drop table Rol; 
 	drop table Area;
 	drop table Estado;
-	drop table RecursosHumanos;
 
 --Drop de los procedimient los almacenados
 	DROP PROCEDURE PAconsultarPermisos;  
@@ -2975,7 +2961,6 @@ insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (3, 'Bajo
 	DROP PROCEDURE PAeliminarClasificacion;
 	DROP PROCEDURE PAactualizarArea;
 	DROP PROCEDURE PAobtenerAdjuntosTiquete;
-	DROP PROCEDURE PAobtenerDatosUsuario;
 	DROP PROCEDURE PAobtenerAreasActivas;
 	DROP PROCEDURE PAobtenerHistorialComentariosCompleto;
 	DROP PROCEDURE PAobtenerComentariosFiltradosFecha;
