@@ -104,16 +104,19 @@ function obtenerCategorias() {
 
 //Agregar un articulo al inventario
 function agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codigoCategoria, $estado,
-	$cantidad, $codigoBodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante) {
+	$cantidad, $codigoBodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante,
+        $proveedor, $marca, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete) {
     $men = -1;
-    $conexion = Conexion::getInstancia();
-    $tsql = "{call PAagregarArticuloInventario (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
+    $conexion = Conexion::getInstancia();//16
+    $tsql = "{call PAagregarArticuloInventario (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
     $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array(utf8_decode($descripcion), SQLSRV_PARAM_IN),
         array($costo, SQLSRV_PARAM_IN), array($codigoCategoria, SQLSRV_PARAM_IN),
         array($estado, SQLSRV_PARAM_IN), array($cantidad, SQLSRV_PARAM_IN),
         array($codigoBodega, SQLSRV_PARAM_IN), array(utf8_decode($comentarioUsuario), SQLSRV_PARAM_IN),
         array($correoUsuarioCausante, SQLSRV_PARAM_IN), array(utf8_decode($nombreUsuarioCausante), SQLSRV_PARAM_IN),
-        array($men, SQLSRV_PARAM_OUT));
+        array(utf8_decode($proveedor), SQLSRV_PARAM_IN), array(utf8_decode($marca), SQLSRV_PARAM_IN),
+        array($numeroOrdenDeCompra, SQLSRV_PARAM_IN), array($direccionOrdenDeCompra, SQLSRV_PARAM_IN),
+        array($codigoTiquete, SQLSRV_PARAM_IN), array($men, SQLSRV_PARAM_OUT));
     $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
     sqlsrv_free_stmt($getMensaje);
     if ($men == 1) {
@@ -836,6 +839,8 @@ function crearHistorialActivos($row) {
 //    echo $tema->obtenerCosto() . '<br />';
 //    echo $tema->obtenerCantidad() . '<br />';
 //    echo $tema->obtenerBodega()->obtenerNombreBodega() . '<br />';
+//    echo $tema->obtenerProveedor() . '<br />';
+//    echo $tema->obtenerMarca() . '<br />';
 //    echo '<br />';
 //}
 //
@@ -884,7 +889,7 @@ function crearHistorialActivos($row) {
 
 
 //$mensaje = agregarArticuloInventario('765','Portatil Lenovo', '30', 2, 'Activo', 2, 2, 'La compu de la jefa ya llegó', 
-//        'nubeblanca1997@outlook.com', 'Tatiana Corrales');
+//        'nubeblanca1997@outlook.com', 'Tatiana Corrales', 'Apartamento de Tati', 'Lenovo', 5627, 'C:direccion/relativa', null);
 //
 //echo $mensaje;
 
