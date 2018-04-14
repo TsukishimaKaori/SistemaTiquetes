@@ -134,8 +134,8 @@ class PDF_HTML extends FPDF
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Contrato">
 
-function generarPdf($placa) {    
-       
+function generarPdf($placa,$nombreUsuarioCausante,$nombreUsuarioAsociado,$categoria,$marca,$modelo,$docking,$asociados,$gafete) {    
+    $fecha = FechaNombre();   
 $pdf = new PDF_HTML();
 // pagina 1
 $pdf->AddPage();
@@ -160,11 +160,11 @@ $pdf->Ln();
 $pdf->SetMargins(10);
 $pdf->Ln();
 $html =utf8_decode('<p align="justify">Nosotros,<b> BRITT SHARED SERVICES S.A.</b>, domiciliada en Barreal de Heredia, frente a Cenada, Eurocenter,'
-                    .'  representada en este acto por <b>NOMBRE REPRESENTANTE LEGAL</b>, costarricense, mayor, administrador de '
+                    .'  representada en este acto por <b>'.$nombreUsuarioCausante.'</b>, costarricense, mayor, administrador de '
                     .'  empresas,  portador de la cédula de identidad: <b>-cedula en números-</b>, en su condición de Secretario con facultades'
                     .'  de Represente Legal de la plaza Britt Shared Services Sociedad Anónima, inscrita al tomo: quinientos setenta y '
-                    .'  uno, asiento: treinta y seis mil setecientos sesenta y los señores(a): <b>XXXXXXXXXXXXXXXXXXX</b>, portador de '
-                    .'  numero de gafete en Britt: <b>XXXXXX</b> hemos acordado en suscribir el presente acuerdo de préstamo de Equipo'
+                    .'  uno, asiento: treinta y seis mil setecientos sesenta y los señores(a): <b>'.$nombreUsuarioAsociado.'</b>, portador de '
+                    .'  numero de gafete en Britt: <b>'.$gafete.'</b> hemos acordado en suscribir el presente acuerdo de préstamo de Equipo'
                     .'  Portátil que se regirá por las siguientes cláusulas:'
                     .'</p>');
 $pdf->WriteHTML($html);
@@ -172,9 +172,9 @@ $pdf->Ln();
 $pdf->SetMargins(10);
 $pdf->Ln();
 $html =utf8_decode('<p align="justify">'
-                   .'<b><u>PRIMERA</u></b>: Britt Shared Services Sociedad Anónima es propietaria de <b>XXXXXXX</b>   Marca:<b>XXX</b>, Modelo: <b>XXXXX</b>, '
-                   .'service tag laptop: <b>XXXXXXXX</b>, serie del docking: <b>XXXXXXXXX</b>, equipo que cuenta con <b>XXXXXXX</b>  mismo que se '
-                   .'entrega en calidad de préstamo al señor(a) <b>XXXXXXXXXXXXXXXXXXX</b>, para que la utilice como su equipo de '
+                   .'<b><u>PRIMERA</u></b>: Britt Shared Services Sociedad Anónima es propietaria de <b>'.$categoria.'</b>   Marca:<b>'.$marca.'</b>, Modelo: <b>'.$modelo.'</b>, '
+                   .'service tag laptop: <b>'.$placa.'</b>, serie del docking: <b>'.$docking.'</b>, equipo que cuenta con <b>'.$asociados.'</b>  mismo que se '
+                   .'entrega en calidad de préstamo al señor(a) <b>'.$nombreUsuarioAsociado.'</b>, para que la utilice como su equipo de '
                    .'trabajo en la Compañía. '
                    .'</p>');
 $pdf->WriteHTML($html);
@@ -199,10 +199,10 @@ $pdf->Ln();
 $pdf->SetMargins(20);
 $pdf->Ln();
 $html =utf8_decode('<p align="justify">'
-                    .'b)    El Equipo se entrega al señor(a): <b>XXXXXXXXXXXXXXXXXXX</b>, para uso laboral solamente, si se utiliza '
+                    .'b)    El Equipo se entrega al señor(a): <b>'.$nombreUsuarioAsociado.'</b>, para uso laboral solamente, si se utiliza '
                     . 'para fines distintos a éste su único fin, como por ejemplo bajar, grabar o quemar información no apta '
                     . '(llámese pornografía, música, videos) o cualquier elemento que no tiene que ver en nada con la función o '
-                    . 'actividad del señor(a) <b>XXXXXXXXXXXXXXXXXXX</b>, en Britt Shared Services Sociedad Anónima se retirará, '
+                    . 'actividad del señor(a) <b>'.$nombreUsuarioAsociado.'</b>, en Britt Shared Services Sociedad Anónima se retirará, '
                     . 'borrará y comunicará al jefe inmediato sobre la situación acontecida.'                 
                    .'</p>');
 $pdf->WriteHTML($html);
@@ -210,7 +210,7 @@ $pdf->Ln();
 $pdf->SetMargins(20);
 $pdf->Ln();//<b>
 $html =utf8_decode('<p align="justify">'
-                    .'c)    Se compromete el señor(a): <b>XXXXXXXXXXXXXXXXXXX</b>, a no almacenar música, fotos, videos u otros'
+                    .'c)    Se compromete el señor(a): <b>'.$nombreUsuarioAsociado.'</b>, a no almacenar música, fotos, videos u otros'
                     . ' que atenten con el espacio disponible y que atente con el buen funcionamiento del equipo.'              
                    .'</p>');
 $pdf->WriteHTML($html);
@@ -218,10 +218,10 @@ $pdf->Ln();
 $pdf->SetMargins(10);
 $pdf->Ln();//<b>
 $html =utf8_decode('<p align="justify">'
-                    .'<b><u>SEGUNDA</u></b>: El Equipo se encontrará identificado mediante etiqueta con número de activo XXXXX durante todo el'
+                    .'<b><u>SEGUNDA</u></b>: El Equipo se encontrará identificado mediante etiqueta con número de activo <b>'.$placa.'</b> durante todo el'
                      . ' plazo que se dé él contrato de préstamo. Las mismas deben permanecer en el equipo siempre; si por cualquier'
                      . ' motivo estas etiquetas se remueven o retiran del equipo dará como resultado a la terminación anticipada de este '
-                     . 'contrato, debiendo el señor(a): <b>XXXXXXXXXXXXXXXXXXX</b>, devolver a Britt Shared Services Sociedad Anónima '
+                     . 'contrato, debiendo el señor(a): <b>'.$nombreUsuarioAsociado.'</b>, devolver a Britt Shared Services Sociedad Anónima '
                      . 'el equipo en forma inmediata.'          
                    .'</p>');
 $pdf->WriteHTML($html);
@@ -230,7 +230,7 @@ $pdf->SetMargins(10);
 $pdf->Ln();//<b>
 $html =utf8_decode('<p align="justify">'
                     .'<b><u>TERCERA</u></b>: El plazo de este acuerdo será por todo el lapso que dure la relación contractual a partir del día de su'
-                    . ' firmeza. Si en cualquier momento el señor(a): <b>XXXXXXXXXXXXXXXXXXX</b>, deja de laborar para Britt Shared '
+                    . ' firmeza. Si en cualquier momento el señor(a): <b>'.$nombreUsuarioAsociado.'</b>, deja de laborar para Britt Shared '
                     . 'Services Sociedad Anónima, por cualquier motivo, ya sea por despido o por renuncia, deberá de devolver el '
                     . 'equipo con sus respectivas licencias a Britt Shared Services Sociedad Anónima. Licencias adicionales, '
                     . 'adquiridas y otorgadas en virtud a su cargo dentro de la Compañía, por lo que en su defecto debe cancelar el valor'
@@ -246,7 +246,7 @@ $pdf->Ln();
 $pdf->SetMargins(10);
 $pdf->Ln();//<b>
 $html =utf8_decode('<p align="justify">'
-                    .'<b><u>CUARTA</u></b>: El señor(a): <b>XXXXXXXXXXXXXXXXXXX</b>, deberá cuidar este equipo como un buen padre de familia,'
+                    .'<b><u>CUARTA</u></b>: El señor(a): <b>'.$nombreUsuarioAsociado.'</b>, deberá cuidar este equipo como un buen padre de familia,'
                     . ' corriendo por su cuenta y riesgo cualquier daño que sufra la computadora por caso fortuito o fuerza mayor. Ambas '
                     . 'partes acuerdan que para que se aplique las circunstancias de eximentes el colaborador de la Compañía deberá '
                     . 'seguir el siguiente protocolo: '      
@@ -315,7 +315,7 @@ $pdf->Ln();
 $pdf->SetMargins(10);
 $pdf->Ln();//<b>
 $html =utf8_decode('<p align="justify">'
-                    .'<b><u>OCTAVA :</u></b> Para efectos de este contrato el señor(a):<b> XXXXXXXXXXXXXXXXXXX</b>, oirá notificaciones en la dirección '
+                    .'<b><u>OCTAVA :</u></b> Para efectos de este contrato el señor(a):<b>'.$nombreUsuarioAsociado.'</b>, oirá notificaciones en la dirección '
                     . 'indicada al inicio de este documento y Britt Shared Services, oirá notificaciones en sus oficinas en Barreal de '
                     . 'Heredia, frente a Cenada, Eurocenter. '       
                    .'</p>');
@@ -344,7 +344,7 @@ $pdf->WriteHTML($html);
 $pdf->SetMargins(10);
 $pdf->Ln();//<b>
 $html =utf8_decode('<p align="justify">'
-                    .'Nombre representante legal	                                                                    XXXXXXXXXXXXXXXX'       
+                   .''.$nombreUsuarioCausante.'	                                                                       '. $nombreUsuarioAsociado      
                    .'</p>');
 $pdf->WriteHTML($html);
     $fecha = FechaNombre();
