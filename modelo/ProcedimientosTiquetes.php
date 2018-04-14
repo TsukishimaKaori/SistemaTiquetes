@@ -148,7 +148,7 @@ function actualizarAreaAsociadaTematica($codiArea, $codiTema) {
 function agregarTiquete($usuarioIngresaTiquete, $codiTema, $fechaCotizado, $descripcion) {
     $men = -1;
     $conexion = Conexion::getInstancia();
-    $usuario = obtenerDatosUsuario($usuarioIngresaTiquete);
+    $usuario = obtenerDatosUsuario($usuarioIngresaTiquete);   //Tomar estos datos del session
     $tsql = "{call PAagregarTiquete (?, ?, ?, ?, ?, ?, ?, ?) }";
     $params = array(array($usuarioIngresaTiquete, SQLSRV_PARAM_IN), array($codiTema, SQLSRV_PARAM_IN),
         array($fechaCotizado, SQLSRV_PARAM_IN), array(utf8_decode($descripcion), SQLSRV_PARAM_IN),
@@ -1113,10 +1113,9 @@ function crearTiquete($row) {
     $descripcion = utf8_encode($row['descripcion']);
     $calificacion = $row['calificacion'];
     $horasTrabajadas = $row['horasTrabajadas'];
-    $usuario = obtenerDatosUsuario($usuarioIngresaTiquete);
-    $nombreUsuario = $usuario->obtenerNombreUsuario();
-    $departamentoUsuarioSolicitante = $usuario->obtenerDepartamento();
-    $jefaturaUsuarioSolicitante = $usuario->obtenerJefatura();
+    $nombreUsuario = utf8_encode($row['nombreUsuarioSolicitante']);
+    $departamentoUsuarioSolicitante = utf8_encode($row['departamentoUsuarioSolicitante']);
+    $jefaturaUsuarioSolicitante = utf8_encode($row['jefaturaUsuarioSolicitante']);
     $prioridad = crearPrioridad($row);
     return new Tiquete($codigoTiquete, $usuarioIngresaTiquete, $nombreUsuario, $estado, $responsable, $area, $tematica, $fechaCreacion, $fechaFinalizado, $fechaCalificado, $fechaCotizado, $fechaEnProceso, $descripcion, $calificacion, $horasTrabajadas, $departamentoUsuarioSolicitante, $jefaturaUsuarioSolicitante, $prioridad, $fechaEntrega);
 }
