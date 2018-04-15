@@ -239,24 +239,6 @@ function agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCa
 }
 
 
-//Para llenar el combo de usuarios cuando se quiere asociar un activo 
-function obtenerUsuariosParaAsociar() {
-    $conexion = Conexion::getInstancia();
-    $tsql = "{call PAobtenerUsuariosParaAsociar }";
-    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql);
-    if ($getMensaje == FALSE) {
-        sqlsrv_free_stmt($getMensaje);
-        return 'Ha ocurrido un error al obtener los usuarios';
-    }
-    $usuarios = array();
-    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
-        $usuarios[] = crearUsuario($row);
-    }
-    sqlsrv_free_stmt($getMensaje);
-    return $usuarios;
-}
-
-
 //Obtiene todas las bodegas 
 function obtenerBodegas() {
     $conexion = Conexion::getInstancia();
@@ -910,16 +892,6 @@ function crearHistorialActivos($row) {
 
 //$mensaje = asociarRepuesto('10', '678', 'nubeblanca1997@outlook.com', 'Tatiana Corrales', 'B6');
 //echo $mensaje;
-
-//$usuarios = obtenerUsuariosParaAsociar();
-//
-//foreach ($usuarios as $tema) {   
-//    echo $tema->obtenerNombreUsuario() . '<br />';
-//    echo $tema->obtenerCorreo() . '<br />';
-//    echo $tema->obtenerDepartamento() . '<br />';
-//    echo $tema->obtenerJefatura() . '<br />';
-//    echo '<br />';
-//}
 
 //$mensaje = agregarActivo('11', 'CorreoSospechoso@gmail.com', 'Ali Al Shaez', '444', 1, 'T67Y8', 'Inspiron', '2018/04/30', 'nubeblanca1997@outlook.com', 'Cristina Cascante', 'Tecnología de la información', 'Cristina Cascante', null);
 //echo $mensaje;

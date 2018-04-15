@@ -1,3 +1,11 @@
+14/04/2018
+
+1. Corran los Drop que estan el RecursosHumanosBD y corran esa tabla, los insert y los procedimientos
+
+2. Para llenar el combo de usuarios en los activos, tiene el llamar a consumirMetodoDos() que esta en Cliente.php
+
+3. La clase Usuario tiene un nuevo atributo: numeroCedula
+
 13/04/2018
 
 1. Volver a correr PAbusquedaAvanzadaActivos, ya busca cuando un activo no tiene usuario asociado
