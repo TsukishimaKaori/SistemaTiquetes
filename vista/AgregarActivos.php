@@ -43,7 +43,7 @@
                         echo'<div class="form-group  col-md-11"><label class="control-label  col-md-4" for="placa">Descripción :</label>'
                         . '<span class=" col-md-8">' . $descripcionEquipo . ' </span> </div>';
                         echo'<div class="form-group  col-md-11"><label class="control-label  col-md-4" for="placa">Categoría :</label>'
-                        . '<span class=" col-md-8" >' . $Categoria . ' </span> </div>';
+                        . '<span class=" col-md-8" id="categoriaA" >' . $Categoria . ' </span> </div>';
                         ?>
                         <div class="form-group  col-md-11">
                             <label class="control-label col-md-2" for="placa">Placa:</label>
@@ -108,7 +108,7 @@
                         <div class="form-group  col-md-11">
                             <label class="control-label col-md-2" for="gafete">serie del docking:</label>
                             <div class="col-md-10">
-                                <input class="form-control" id="gafete" type="text" required>
+                                <input class="form-control" id="docking" type="text" required>
                             </div>
                         </div>
                         <div class="form-group  col-md-11">

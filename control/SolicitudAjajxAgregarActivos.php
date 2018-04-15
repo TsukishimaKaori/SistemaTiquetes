@@ -17,9 +17,9 @@ if (isset($_POST["Licencias"])) {
     $repuestos = json_decode($_POST['Repuestos']);
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
-
     $codigoArticulo = $_POST["codigo"];
     $placa = $_POST['placa'];
+    $categoria=$_POST['categoria'];
     $correoUsuarioAsociado = $_POST['usuarioA'];
     $serie = $_POST['serie'];
     $proveedor = $_POST['provedor'];
@@ -27,9 +27,12 @@ if (isset($_POST["Licencias"])) {
     $marca = $_POST['marca'];
     $codigoCategoria = $_POST['codigoC'];
     $fechaExpiraGarantia = $_POST['fechaE'];
+    $docking=$_POST['docking'];
+    $asociados=$_POST['Asociado'];
     $fechaExpiraGarantia=explode("/", $fechaExpiraGarantia);
     $fechaExpiraGarantia=$fechaExpiraGarantia[2].$fechaExpiraGarantia[1].$fechaExpiraGarantia[0];
     $usuario = obtenerDatosUsuario($correoUsuarioAsociado);
+    $gafete=$usuario->obtenerCodigoEmpleado();
     $nombreUsuarioAsociado = $usuario->obtenerNombreUsuario();
     $departamentoUsuarioAsociado = $usuario->obtenerDepartamento();
     $jefaturaUsuarioAsociado = $usuario->obtenerJefatura();
@@ -58,7 +61,7 @@ if (isset($_POST["Licencias"])) {
     }
     $direccionAdjunto="No";
     if ($mensajeA == '') {
-        $direccionAdjunto = generarPdf($placa);
+        $direccionAdjunto = generarPdf($placa,$nombreUsuarioCausante,$nombreUsuarioAsociado,$categoria,$marca,$modelo,$docking,$asociados,$gafete);
         adjuntarContrato($placa, $direccionAdjunto, $correoUsuarioCausante, $nombreUsuarioCausante);
     }
     echo $mensajeA . "'" . $mensajeL . "'" . $mensajeR . "'".$direccionAdjunto."'";
