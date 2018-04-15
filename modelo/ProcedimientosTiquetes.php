@@ -7,7 +7,7 @@ require_once '../modelo/Tiquete.php';
 require_once '../modelo/Usuario.php';
 require_once '../modelo/Comentario.php';
 require_once '../modelo/Prioridad.php';
-require_once '../modelo/Historial.php';
+require_once '../modelo/Historial.php';   //Archivo que consume el web service de la base de recursos humanos
 
 //Obtiene todas las area almacenadas en la tabla Area
 function obtenerAreas() {
@@ -148,7 +148,7 @@ function actualizarAreaAsociadaTematica($codiArea, $codiTema) {
 function agregarTiquete($usuarioIngresaTiquete, $codiTema, $fechaCotizado, $descripcion) {
     $men = -1;
     $conexion = Conexion::getInstancia();
-    $usuario = obtenerDatosUsuario($usuarioIngresaTiquete);   //Tomar estos datos del session
+    $usuario = consumirMetodoUno($usuarioIngresaTiquete);   //Tomar estos datos del session
     $tsql = "{call PAagregarTiquete (?, ?, ?, ?, ?, ?, ?, ?) }";
     $params = array(array($usuarioIngresaTiquete, SQLSRV_PARAM_IN), array($codiTema, SQLSRV_PARAM_IN),
         array($fechaCotizado, SQLSRV_PARAM_IN), array(utf8_decode($descripcion), SQLSRV_PARAM_IN),
@@ -503,22 +503,6 @@ function obtenerAdjuntosTiquete($codTiquete) {
     }
     sqlsrv_free_stmt($getMensaje);
     return $rows;
-}
-
-function obtenerDatosUsuario($correo) {
-    $conexion = Conexion::getInstancia();
-    $tsql = "{call PAobtenerDatosUsuario (?) }";
-    $params = array(array($correo, SQLSRV_PARAM_IN));
-    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
-    if ($getMensaje == FALSE) {
-        return 'Ha ocurrido un error';
-    }
-    $usuario;
-    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
-        $usuario = crearUsuario($row);
-    }
-    sqlsrv_free_stmt($getMensaje);
-    return $usuario;
 }
 
 function obtenerAreaActiva() {
@@ -1142,15 +1126,6 @@ function crearTematica($row) {
     return new Tematica($codigoT, $descripcionT, $codigoPadre, $activo);
 }
 
-function crearUsuario($row) {
-    $nombreUsuario = utf8_encode($row['nombreUsuario']);
-    $departamento = utf8_encode($row['departamento']);
-    $jefatura = utf8_encode($row['jefatura']);
-    $correo = utf8_encode($row['correo']);
-    $codigoEmpleado = utf8_encode($row['codigoEmpleado']);
-    return new Usuario($nombreUsuario, $departamento, $jefatura, $correo, $codigoEmpleado);
-}
-
 function crearComentario($row) {
     $comentarioUsuario = utf8_encode($row['comentarioUsuario']);
     $fechaHora = $row['fechaHora'];
@@ -1317,12 +1292,7 @@ function crearHistorial($row) {
 //foreach ($adjuntos as $adjunto) {   
 //    echo $adjunto .'<br />'; 
 //    
-//}
-
-//$usuario = obtenerDatosUsuario('nubeblanca1997@outlook.com');
-// 
-//echo $usuario->obtenerNombreUsuario() . ' ' . $usuario->obtenerDepartamento() . ' ' . $usuario->obtenerJefatura() .'<br />'; 
-//    
+//}    
 
 //$mensaje2 = asignarTiquete(2, '787t', 'nubeblanca1997@outlook.com', 'Cristina Cascante');
 //if($mensaje2 == ''){
