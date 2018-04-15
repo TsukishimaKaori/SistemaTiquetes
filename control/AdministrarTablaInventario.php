@@ -313,7 +313,7 @@ function panelAgregarInventario($categorias, $bodegas) {
             </div>
         </div>
         <div class="form-group col-md-12">
-            <label class="control-label col-md-3" for="costo">numero orden de compra:</label>
+            <label class="control-label col-md-3" for="costo">orden de compra:</label>
             <div class="col-md-9">
                 <input  onfocus = "foco(5)" class="form-control" id="costo" type="text" required>
             </div>
@@ -334,7 +334,7 @@ function panelAgregarInventario($categorias, $bodegas) {
             <div class="col-md-12">
                 <button onclick = "agregarInventario();" class="btn btn-success btn-circle " ><i></i>Guardar</button>     
                 <button onclick = "limpiarFormularioInventario();" class="btn btn-danger btn-circle " ><i></i>Borrar</button> 
-                <button onclick = "limpiarFormularioInventario();" class="btn btn-info btn-circle " ><i></i>Adjuntar orden de compra</button> 
+                  <button type="button" class="btn btn-info btn-circle btn-xl" data-toggle="modal" data-target="#modalagregarAdjunto" >Adjuntar orden de compra</button> 
             </div>
         </div>';
     echo'</div>'

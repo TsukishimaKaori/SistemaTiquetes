@@ -971,6 +971,15 @@ function filtrarInventario() {
         }
     });
 }
+
+function subirarchivoInventario(event) {
+    var archivo = event.value;
+    document.getElementById("Textarchivo").value = archivo;
+}
+function cancelarAdjuntoInventario() {
+    document.getElementById("Textarchivo").value = "";
+    document.getElementById("archivo").value = "";
+}
 // <editor-fold defaultstate="collapsed" desc="NOTIFICACIONES">
 function notificacion(mensaje) {
     $("#divNotificacion").empty();

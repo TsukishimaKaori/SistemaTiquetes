@@ -278,11 +278,11 @@
                                         <label for="archivo" class="btn btn-info btn-circle btn-xl" >Subir archivo</label>
                                         <input id="archivo"  name="archivo" type="file" id="archivo" accept="application/vnd.openxmlformats-officedocument.presentationml.presentation,
                                                text/plain, application/pdf, image/*,application/vnd.openxmlformats-officedocument.wordprocessingml.document
-                                               ,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"  onchange="subirarchivo(this);" />
+                                               ,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"  onchange="subirarchivoInventario(this);" />
                                         <input type="text" name="archivo2"  readonly="readonly" class="form-control" id="Textarchivo" >
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-success"  data-dismiss="modal"> Guardar</button>
-                                            <button type="button" class="btn btn-danger"  data-dismiss="modal" onclick="cancelarAdjunto();">Cancelar</button>
+                                            <button type="button" class="btn btn-danger"  data-dismiss="modal" onclick="cancelarAdjuntoInventario();">Cancelar</button>
                                         </div>
                                     </div>
                                 </div>
