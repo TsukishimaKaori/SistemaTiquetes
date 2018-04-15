@@ -328,7 +328,7 @@ $pdf->SetMargins(10);
 $pdf->Ln();//<b>
 $html =utf8_decode('<p align="justify">'
                     .'Estando ambas partes de acuerdo se firma en Heredia, a las __________ horas del '
-                    . '<b><u>29 Diciembre 2017</u></b>.'       
+                    . '<b><u>'.$fecha.'</u></b>.'       
                    .'</p>');
 $pdf->WriteHTML($html);
 $pdf->Ln();
@@ -344,7 +344,7 @@ $pdf->WriteHTML($html);
 $pdf->SetMargins(10);
 $pdf->Ln();//<b>
 $html =utf8_decode('<p align="justify">'
-                   .'  '.$nombreUsuarioCausante.'	                                                                             '. $nombreUsuarioAsociado      
+      .'   '.$nombreUsuarioCausante.'	                                                                                 '. $nombreUsuarioAsociado      
                    .'</p>');
 $pdf->WriteHTML($html);
     $fecha = FechaNombre(2);
