@@ -344,7 +344,7 @@ $pdf->WriteHTML($html);
 $pdf->SetMargins(10);
 $pdf->Ln();//<b>
 $html =utf8_decode('<p align="justify">'
-                   .''.$nombreUsuarioCausante.'	                                                                       '. $nombreUsuarioAsociado      
+                   .'  '.$nombreUsuarioCausante.'	                                                                             '. $nombreUsuarioAsociado      
                    .'</p>');
 $pdf->WriteHTML($html);
     $fecha = FechaNombre(2);
