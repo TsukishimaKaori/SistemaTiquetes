@@ -135,7 +135,7 @@ class PDF_HTML extends FPDF
 // <editor-fold defaultstate="collapsed" desc="Contrato">
 
 function generarPdf($placa,$nombreUsuarioCausante,$nombreUsuarioAsociado,$categoria,$marca,$modelo,$docking,$asociados,$gafete) {    
-    $fecha = FechaNombre();   
+    $fecha = FechaNombre(1);   
 $pdf = new PDF_HTML();
 // pagina 1
 $pdf->AddPage();
@@ -347,15 +347,16 @@ $html =utf8_decode('<p align="justify">'
                    .''.$nombreUsuarioCausante.'	                                                                       '. $nombreUsuarioAsociado      
                    .'</p>');
 $pdf->WriteHTML($html);
-    $fecha = FechaNombre();
+    $fecha = FechaNombre(2);
     $nombre=$placa."-".$fecha.".pdf";
     $url = "../adjuntos/contratos/".$nombre;
     $pdf->Output("F", $url);
     return $url;
 }
 
-function FechaNombre(){
+function FechaNombre($tipo){
     
+        
      $hoy = getdate();    
     $anio = $hoy["year"];
     $mes = $hoy["mon"];
@@ -364,7 +365,51 @@ function FechaNombre(){
     $dia = $hoy["mday"];
     if ($dia < 10)
         $dia = "0" . $dia;
+    if($tipo==2){
     $fecha = $dia . "-" . $mes . "-" . $anio;
+    }else{
+        switch ($mes) {
+            case 01:
+                $mes="Enero";
+                break;
+             case 02:
+                 $mes="Febrero";
+                break;
+            case 03:
+                $mes="Marzo";
+                break;
+             case 04:
+                 $mes="Abrir";
+                break;
+            case 05:
+                $mes="Mayo";
+                break;
+             case 06:
+                 $mes="Junio";
+                break;
+            case 07:
+                $mes="Julio";
+                break;
+             case 08:
+                 $mes="Agosto";
+                break;
+            case 09:
+                $mes="Setiembre";
+                break;
+             case 10:
+                 $mes="Octubre";
+                break;
+            case 11:
+                $mes="Noviembre";
+                break;
+             case 12:
+                 $mes="Diciembre";
+                break;
+            default:
+                break;
+        }
+        $fecha = $dia . " de " . $mes . " del " . $anio;
+    }
     return $fecha;
 }
 
