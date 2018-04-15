@@ -22,13 +22,14 @@ if (isset($_POST["Licencias"])) {
     $categoria=$_POST['categoria'];
     $correoUsuarioAsociado = $_POST['usuarioA'];
     $serie = $_POST['serie'];
-    $proveedor = $_POST['provedor'];
+   // $proveedor = $_POST['provedor'];
     $modelo = $_POST['modelo'];
-    $marca = $_POST['marca'];
+   // $marca = $_POST['marca'];
     $codigoCategoria = $_POST['codigoC'];
     $fechaExpiraGarantia = $_POST['fechaE'];
     $docking=$_POST['docking'];
     $asociados=$_POST['Asociado'];
+    $codigoTiquete=$_POST['codigoTiquete'];
     $fechaExpiraGarantia=explode("/", $fechaExpiraGarantia);
     $fechaExpiraGarantia=$fechaExpiraGarantia[2].$fechaExpiraGarantia[1].$fechaExpiraGarantia[0];
     $usuario = obtenerDatosUsuario($correoUsuarioAsociado);
@@ -36,8 +37,8 @@ if (isset($_POST["Licencias"])) {
     $nombreUsuarioAsociado = $usuario->obtenerNombreUsuario();
     $departamentoUsuarioAsociado = $usuario->obtenerDepartamento();
     $jefaturaUsuarioAsociado = $usuario->obtenerJefatura();
-    
-    $mensajeA = agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, $placa, $codigoCategoria, $serie, $proveedor, $modelo, $marca, $fechaExpiraGarantia, $correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado);
+  
+    $mensajeA = agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, $placa, $codigoCategoria, $serie, $modelo, $fechaExpiraGarantia, $correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado, $codigoTiquete);
     $mensajeL = "nada";
     $mensajeR = "nada";
     if ($mensajeA == '') {

@@ -289,11 +289,11 @@ function agregarActivo() {
 function lleno() {
     var placa = document.getElementById("placa").value
     var serie = document.getElementById("serie").value;
-    var provedor = document.getElementById("provedor").value;
+    
     var modelo = document.getElementById("modelo").value;
-    var marca = document.getElementById("marca").value;
+    
     var fechaE = document.getElementById("fechaE").value;
-    if (placa != "" && serie != "" && provedor != "" && modelo != "" && marca != "" && fechaE != "") {
+    if (placa != "" && serie != ""  && modelo != "" && fechaE != "") {
         return true;
     }
     return false;
@@ -305,9 +305,9 @@ function agregarActivoAjax() {
     var placa = document.getElementById("placa").value
     var UsuarioAsociado = document.getElementById("Usuarios").value;
     var serie = document.getElementById("serie").value;
-    var provedor = document.getElementById("provedor").value;
+   
     var modelo = document.getElementById("modelo").value;
-    var marca = document.getElementById("marca").value;
+    
     var fechaE = document.getElementById("fechaE").value;
     var docking = document.getElementById("docking").value;
     var Asociado=document.getElementById("Asociado").value;
@@ -315,7 +315,7 @@ function agregarActivoAjax() {
         type: "POST",
         url: '../control/SolicitudAjajxAgregarActivos.php',
         data: {'Licencias': JSON.stringify(Licencias), 'Repuestos': JSON.stringify(Repuestos), 'codigo': codigo,'categoria':categoria, 'placa': placa, 'usuarioA': UsuarioAsociado,
-            'serie': serie, 'provedor': provedor, 'modelo': modelo, 'marca': marca, 'codigoC': codigoCategoria, 'fechaE': fechaE,'docking':docking,'Asociado':Asociado}, //capturo array     
+            'serie': serie, 'modelo': modelo, 'codigoC': codigoCategoria, 'fechaE': fechaE,'docking':docking,'Asociado':Asociado}, //capturo array     
         success: function (reponse) {
             $("#confirmarAsociar").modal("hide");
             var separador = "'";

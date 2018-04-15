@@ -1,11 +1,12 @@
 <html> 
     <head>   
         <meta charset="UTF-8">
-        <?php require ("../modelo/Tematica.php"); ?>
-        <?php require ("../control/ArchivosDeCabecera.php"); ?>
-        <?php require ("../modelo/ProcedimientosInventario.php"); ?>
-        <?php require ("../control/AdministrarAgregarActivos.php"); ?>
-        <?php require ("../control/AlertasConfirmaciones.php"); ?>
+        <?php require ("../modelo/Tematica.php"); 
+        require ("../control/ArchivosDeCabecera.php"); 
+         require ("../modelo/ProcedimientosInventario.php"); 
+         require ("../control/AdministrarAgregarActivos.php"); 
+         require ("../control/AlertasConfirmaciones.php");
+         require ("../modelo/Cliente.php"); ?>
 
         <link href="../recursos/css/AgregarActivos.css" rel="stylesheet"/>     
         <script  type="text/javascript" src="../recursos/js/AgregarActivos.js"></script> 
@@ -55,7 +56,7 @@
                             <label class="control-label col-md-2" for="Usuarios">Usuario:</label>
                             <div class="col-md-10">
                                 <?php
-                                $responsables = obtenerUsuariosParaAsociar();
+                                $responsables = consumirMetodoDos();
                                 selectTiposActivos($responsables);
                                 ?>
                             </div>
@@ -65,25 +66,13 @@
                             <div class="col-md-10">
                                 <input class="form-control" id="serie" type="text" required>
                             </div>
-                        </div> 
-                        <div class="form-group  col-md-11">
-                            <label class="control-label col-md-2" for="provedor">Proveedor:</label>
-                            <div class="col-md-10">
-                                <input class="form-control" id="provedor" type="text" required>
-                            </div>
-                        </div> 
+                        </div>                         
                         <div class="form-group  col-md-11">
                             <label class="control-label col-md-2" for="modelo">Modelo:</label>
                             <div class="col-md-10">
                                 <input class="form-control" id="modelo" type="text" required>
                             </div>
-                        </div> 
-                        <div class="form-group  col-md-11">
-                            <label class="control-label col-md-2" for="marca">Marca:</label>
-                            <div class="col-md-10">
-                                <input class="form-control" id="marca" type="text" required>
-                            </div>
-                        </div>  
+                        </div>                         
                         <div class="  form-group  col-md-11">
                             <label class="control-label col-md-3" for="fechaE">Expiración de garantía:</label>
                             <div class='input-group date col-md-9' id='datetimepicker1'>
