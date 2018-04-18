@@ -30,9 +30,13 @@
                     </div>   
                     <div><br></div>
                     <div class = "row">
-                        <div class="funkyradio-success col-md-2 funkyradio col-md-offset-6">
+                        <div class="funkyradio-success col-md-2 funkyradio col-md-offset-4">
                             <input type="radio" name = 'radio' id="radio1" value="radio1" onchange="clickeado(this)"  />
                             <label for="radio1">Repuestos</label>
+                        </div>
+                          <div class="funkyradio-success col-md-2 funkyradio">
+                            <input type="radio" name = 'radio' id="radio3" value="radio3" onchange="clickeado(this)"  />
+                            <label for="radio3">No Repuestos</label>
                         </div>
                         <div class="funkyradio-success funkyradio col-md-1">
                             <input type="radio" name = 'radio' id="radio2" value="radio2" onchange="clickeado(this)" checked />

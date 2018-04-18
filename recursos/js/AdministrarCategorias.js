@@ -52,8 +52,17 @@ function eliminarCategoria(event) {
 }
 
 function eliminarCategoriaAjax(idCategoriaEliminar) {
+  var clickeados;
+    if($("input:radio[id=radio1]:checked").val()){
+        clickeados = "radio1";
+    }else if($("input:radio[id=radio2]:checked").val()){
+        clickeados = "radio2";        
+    }else if($("input:radio[id=radio3]:checked").val()){
+        clickeados = "radio3";        
+    }
     $.ajax({
-        data: {'idCategoriaEliminar': idCategoriaEliminar           
+        data: {'idCategoriaEliminar': idCategoriaEliminar ,
+            'clickeados':clickeados
         },
         type: 'POST',
         url: '../control/SolicitudAjaxCategorias.php',
@@ -78,7 +87,19 @@ function eliminarCategoriaAjax(idCategoriaEliminar) {
 }
 // </editor-fold> 
 
-
+function clickeado(event) {
+    var clickeado = event.value;
+  
+    $.ajax({
+        data: {'clickeado': clickeado
+           },
+        type: 'POST',
+        url: '../control/SolicitudAjaxCategorias.php',
+        success: function (response) {
+            $("#cuerpoTablaTematica").html(response);
+        }
+    });
+}
 // <editor-fold defaultstate="collapsed" desc="NOTIFICACIONES">
 function notificacion(mensaje) {
     $("#divNotificacion").empty();
