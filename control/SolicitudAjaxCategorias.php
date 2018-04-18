@@ -6,15 +6,17 @@ require_once ("../control/AdministrarTablaCategorias.php");
 if (isset($_POST['valorInputCategoria'])) {
     $valorInputCategoria = utf8_decode($_POST['valorInputCategoria']);
     $esRepuesto = $_POST['esRepuesto'];
+    $clickeados = $_POST['clickeados'];
     if ($esRepuesto == "true") {
-        $esRepuesto = "1";
+        $esRepuesto = '1';
     } else {
-        $esRepuesto = "0";
+        $esRepuesto = '0';
     }
     $error = agregarCategoria($valorInputCategoria, $esRepuesto);
     if ($error == "") {
         $categorias = obtenerCategorias();
-        cuerpoTablaCategorias($categorias);
+        $cate = retornarCategoriasFiltradas($categorias, $clickeados);
+        cuerpoTablaCategorias($cate);
     } else {
         echo $error;
     }

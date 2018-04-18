@@ -12,23 +12,32 @@ function categoriaAgregar(event) {
 }
 
 function categoriaAgregarAjax(valorInputCategoria, esRepuesto) {
+      var clickeados;
+    if($("input:radio[id=radio1]:checked").val()){
+        clickeados = "radio1";
+    }else if($("input:radio[id=radio2]:checked").val()){
+        clickeados = "radio2";        
+    }else if($("input:radio[id=radio3]:checked").val()){
+        clickeados = "radio3";        
+    }
     $.ajax({
         data: {'valorInputCategoria': valorInputCategoria,
-            'esRepuesto': esRepuesto
+            'esRepuesto': esRepuesto,
+            'clickeados': clickeados
         },
         type: 'POST',
         url: '../control/SolicitudAjaxCategorias.php',
-        success: function (response) {
-            if (response == 1) {// Tematica agregada correctamente
-               // $("#alertaSubTemaAgregada").modal('show');
-               // $("#modalAgregarSubTematica").modal('hide');
-            } else if (response == 2) { //Ya existe
-               // $("#alertaNombreTemaExistente").modal('show');
+        success: function (response) {            
+            if (response == 1) {// Error 
+                notificacion("Ha ocurrido un error al agregar la cateogoria"); 
+                      $("#modalAgregarCategoria").modal('hide');
+            } else if (response == 2) { //Erro general
+              notificacion("Ha ocurrido un error al agregar la cateogoría"); 
+                    $("#modalAgregarCategoria").modal('hide');
             } else {
                  $('#cuerpoTablaTematica').html(response);
                 $("#modalAgregarCategoria").modal('hide');
-               // $("#errorGeneral").modal('show');
-               // $("#modalAgregarSubTematica").modal('hide');
+
             }
         }
     });
