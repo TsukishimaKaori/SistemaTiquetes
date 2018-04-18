@@ -2,7 +2,6 @@
 function categoriaAgregar(event) {
     var valorInputCategoria = $('#valorInputCategoria').val();
     var esRepuesto = $('#esRepuesto').prop("checked"); //retorna true o false
-    alert(esRepuesto);
     var val = validacionExpRegular(valorInputCategoria);
     if (val == 'false' || valorInputCategoria == null || valorInputCategoria.length == 0) {
        // $("#alertaNombreTemaNoValido").modal('show');

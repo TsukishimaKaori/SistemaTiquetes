@@ -28,19 +28,21 @@
                             <!--<button type="button" class="btn btn-danger btn-circle btn-xl" data-toggle="modal" data-target="#modalEliminarSubTematica"><i class="glyphicon glyphicon-minus"></i></button>-->
                         </div>
                     </div>   
-                    <div><br></div>
+                    <div><br><br></div>
                     <div class = "row">
-                        <div class="funkyradio-success col-md-2 funkyradio col-md-offset-4">
+                        <div class="col-md-offset-3 col-md-9">
+                        <span class="funkyradio-success funkyradio">
                             <input type="radio" name = 'radio' id="radio1" value="radio1" onchange="clickeado(this)"  />
-                            <label for="radio1">Repuestos</label>
-                        </div>
-                          <div class="funkyradio-success col-md-2 funkyradio">
+                            <label for="radio1">Repuestos</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        </span>
+                          <span class="funkyradio-success  funkyradio">
                             <input type="radio" name = 'radio' id="radio3" value="radio3" onchange="clickeado(this)"  />
-                            <label for="radio3">No Repuestos</label>
-                        </div>
-                        <div class="funkyradio-success funkyradio col-md-1">
+                            <label for="radio3">No Repuestos</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        </span>
+                        <span class="funkyradio-success funkyradio">
                             <input type="radio" name = 'radio' id="radio2" value="radio2" onchange="clickeado(this)" checked />
                             <label for="radio2">Todos</label>
+                        </span>
                         </div>
                     </div>
                     <div class="row"> 
