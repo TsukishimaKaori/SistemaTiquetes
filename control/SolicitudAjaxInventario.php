@@ -2,6 +2,7 @@
 
 require_once ("../control/AdministrarTablaInventario.php");
 require ("../modelo/ProcedimientosInventario.php");
+ require ("../modelo/Cliente.php");
 
 session_start();
 $r = $_SESSION['objetoUsuario'];
@@ -14,7 +15,7 @@ if (isset($_POST['codigoActivo'])) {
     $estadosSiguentes = obtenerEstadosEquipo($codigoEstadoActual);
     $responsables = null;
     if ($listaActivos->obtenerNombreUsuarioAsociado() == null) {
-        $responsables = obtenerUsuariosParaAsociar();
+        $responsables = consumirMetodoDos();
     }
     panelActivos($listaActivos, $estadosSiguentes, $responsables);
 }
@@ -52,12 +53,12 @@ if (isset($_POST['codigoArticuloAgregarInventario'])) {
     $codigoCategoria = $_POST['categoria'];
     $estado = $_POST['estado'];
     $cantidad = $_POST['cantidad'];
-    $bodega = $_POST['bodega'];
+    $codigoBodega = $_POST['bodega'];
     $costo = $_POST['costo'];
     $comentarioUsuario = $_POST['comentario'];
     $correoUsuarioCausante = $_POST['correoUsuario'];
     $nombreUsuarioCausante = $_POST['nombreUsuario'];
-    agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codigoCategoria, $estado, $cantidad, $bodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante);
+    agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codigoCategoria, $estado, $cantidad, $codigoBodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante, $proveedor, $marca, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete);
     $inventario = obtenerInventario();
     cuerpoTablaPasivos($inventario);
 }
@@ -69,7 +70,8 @@ if (isset($_POST['codigoArticuloSuma'])) {
     $comentarioUsuario = $_POST['comentarioSuma'];
     $correoUsuarioCausante = $_POST['correoUsuario'];
     $nombreUsuarioCausante = $_POST['nombreUsuario'];
-    aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante);
+    
+    aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete);
     $inventario = obtenerInventario();
     cuerpoTablaPasivos($inventario);
 }
@@ -190,7 +192,7 @@ if (isset($_POST['codigoDesasociar'])) {
         $estadosSiguentes = obtenerEstadosEquipo($codigoEstadoActual);
         $responsables = null;
         if ($listaActivos->obtenerNombreUsuarioAsociado() == null) {
-            $responsables = obtenerUsuariosParaAsociar();
+            $responsables = consumirMetodoDos();
         }
         panelActivos($listaActivos, $estadosSiguentes, $responsables);
     } else {
@@ -204,7 +206,7 @@ if (isset($_POST['usuarioAsociado'])) {
     $placa = $_POST["placa"];
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
-    $usuario = obtenerDatosUsuario($correoUsuarioAsociado);
+    $usuario = consumirMetodoUno($correoUsuarioAsociado);
     $nombreUsuarioAsociado = $usuario->obtenerNombreUsuario();
     $departamentoUsuarioAsociado = $usuario->obtenerDepartamento();
     $jefaturaUsuarioAsociado = $usuario->obtenerJefatura();

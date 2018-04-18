@@ -2,7 +2,7 @@
 
 class Detalle {
     
-    public function __construct($coD, $coA, $copiaC, $can, $cos, $fe, $est, $efec, $bode, $come, $corr, $nom) {
+    public function __construct($coD, $coA, $copiaC, $can, $cos, $fe, $est, $efec, $bode, $come, $corr, $nom, $norden, $dire, $cotiqu) {
         $this->codigoDetalle = $coD;
         $this->codigoArticulo = $coA;
         $this->copiaCantidadInventario = $copiaC;
@@ -15,6 +15,9 @@ class Detalle {
         $this->comentarioUsuario = $come;
         $this->correoUsuarioCausante = $corr;
         $this->nombreUsuarioCausante = $nom;
+        $this->numeroOrdenDeCompra = $norden;
+        $this->direccionOrdenDeCompra = $dire;
+        $this->codigoTiquete = $cotiqu;
     }
     
     function obtenerCodigoDetalle() {
@@ -64,7 +67,20 @@ class Detalle {
     function obtenerNombreUsuarioCausante() {
         return $this->nombreUsuarioCausante;
     }
-        
+    
+    function obtenerNumeroOrdenDeCompra() {
+        return $this->numeroOrdenDeCompra;
+    }
+
+    function obtenerDireccionOrdenDeCompra() {
+        return $this->direccionOrdenDeCompra;
+    }
+
+    function obtenerCodigoTiquete() {
+        return $this->codigoTiquete;
+    }
+
+            
     private $codigoDetalle;
     private $codigoArticulo;
     private $copiaCantidadInventario;
@@ -77,4 +93,7 @@ class Detalle {
     private $comentarioUsuario;
     private $correoUsuarioCausante;
     private $nombreUsuarioCausante;
+    private $numeroOrdenDeCompra;
+    private $direccionOrdenDeCompra;
+    private $codigoTiquete;
 }

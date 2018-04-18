@@ -2,12 +2,13 @@
 
 class Usuario {
 
-    public function __construct($no, $dep, $jef, $c, $codE) {
+    public function __construct($no, $dep, $jef, $c, $codE, $numeC) {
         $this->nombreUsuario = $no;  
         $this->departamento = $dep;
         $this->jefatura = $jef;
         $this->correo = $c;  
         $this->codigoEmpleado = $codE;
+        $this->numeroCedula = $numeC;
     }
     public function obtenerCorreo(){
         return $this->correo;
@@ -25,14 +26,19 @@ class Usuario {
         return $this->departamento;
     }
 
-    public function obtenerJefatura() {  //Retorna un objeto de tipo Area
+    public function obtenerJefatura() {  
         return $this->jefatura;
+    }
+    
+    public function obtenerNumeroCedula() {  
+        return $this->numeroCedula;
     }
 
     private $nombreUsuario;  
     private $departamento;
     private $jefatura;
     private $correo;   
-    private $codigoEmpleado;    
+    private $codigoEmpleado;
+    private $numeroCedula;
 
 }

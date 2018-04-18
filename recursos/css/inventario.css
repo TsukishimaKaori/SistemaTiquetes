@@ -141,4 +141,6 @@ input  {
     margin-bottom:1%;    
 }
 
-
+#archivo {
+display: none;
+}

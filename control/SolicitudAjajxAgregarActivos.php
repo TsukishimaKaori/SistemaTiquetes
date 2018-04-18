@@ -17,24 +17,28 @@ if (isset($_POST["Licencias"])) {
     $repuestos = json_decode($_POST['Repuestos']);
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
-
     $codigoArticulo = $_POST["codigo"];
     $placa = $_POST['placa'];
+    $categoria=$_POST['categoria'];
     $correoUsuarioAsociado = $_POST['usuarioA'];
     $serie = $_POST['serie'];
-    $proveedor = $_POST['provedor'];
+   // $proveedor = $_POST['provedor'];
     $modelo = $_POST['modelo'];
-    $marca = $_POST['marca'];
+   // $marca = $_POST['marca'];
     $codigoCategoria = $_POST['codigoC'];
     $fechaExpiraGarantia = $_POST['fechaE'];
+    $docking=$_POST['docking'];
+    $asociados=$_POST['Asociado'];
+    $codigoTiquete=$_POST['codigoTiquete'];
     $fechaExpiraGarantia=explode("/", $fechaExpiraGarantia);
     $fechaExpiraGarantia=$fechaExpiraGarantia[2].$fechaExpiraGarantia[1].$fechaExpiraGarantia[0];
     $usuario = obtenerDatosUsuario($correoUsuarioAsociado);
+    $gafete=$usuario->obtenerCodigoEmpleado();
     $nombreUsuarioAsociado = $usuario->obtenerNombreUsuario();
     $departamentoUsuarioAsociado = $usuario->obtenerDepartamento();
     $jefaturaUsuarioAsociado = $usuario->obtenerJefatura();
-    
-    $mensajeA = agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, $placa, $codigoCategoria, $serie, $proveedor, $modelo, $marca, $fechaExpiraGarantia, $correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado);
+  
+    $mensajeA = agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, $placa, $codigoCategoria, $serie, $modelo, $fechaExpiraGarantia, $correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado, $codigoTiquete);
     $mensajeL = "nada";
     $mensajeR = "nada";
     if ($mensajeA == '') {
@@ -58,7 +62,7 @@ if (isset($_POST["Licencias"])) {
     }
     $direccionAdjunto="No";
     if ($mensajeA == '') {
-        $direccionAdjunto = generarPdf($placa);
+        $direccionAdjunto = generarPdf($placa,$nombreUsuarioCausante,$nombreUsuarioAsociado,$categoria,$marca,$modelo,$docking,$asociados,$gafete);
         adjuntarContrato($placa, $direccionAdjunto, $correoUsuarioCausante, $nombreUsuarioCausante);
     }
     echo $mensajeA . "'" . $mensajeL . "'" . $mensajeR . "'".$direccionAdjunto."'";
