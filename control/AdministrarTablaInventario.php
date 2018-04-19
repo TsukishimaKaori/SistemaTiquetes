@@ -70,11 +70,11 @@ function cuerpoTablaPasivos($inventario) {
         . '<span>' . $act->obtenerCantidad() . '</span>';
         echo '</td>'
         . '<td>'
-        . '<button onclick = "cargarPanelSumarInventario(\'' . $act->obtenerCodigoArticulo() . '\',\''. $act->obtenerBodega()->obtenerCodigoBodega().'\',this)"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
+        . '<button onclick = "cargarPanelSumarInventario(\'' . $act->obtenerCodigoArticulo() . '\',\'' . $act->obtenerBodega()->obtenerCodigoBodega() . '\',this)"  class="btn btn-success btn-circle btn" ><i class="glyphicon glyphicon-plus"></i></button>';
         '</td>';
-        echo '<td><button onclick = "cargarPanelPasivos(\'' . $act->obtenerCodigoArticulo() . '\',\''. $act->obtenerBodega()->obtenerCodigoBodega().'\',this)"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
+        echo '<td><button onclick = "cargarPanelPasivos(\'' . $act->obtenerCodigoArticulo() . '\',\'' . $act->obtenerBodega()->obtenerCodigoBodega() . '\',this)"   class="btn btn-info btn-circle btn" ><i class="glyphicon glyphicon-eye-open"></i></button></td>';
         echo '<td><a href = "../vista/HistorialInventario.php?pagina=2&bodega=' . $act->obtenerBodega()->obtenerCodigoBodega() . '&dispositivo=' . $act->obtenerCodigoArticulo() . ' "><button class="btn btn-warning btn-circle btn" ><i class="glyphicon glyphicon-list-alt"></i></button></a></td>';
-       
+
         echo '</tr>';
     }
 }
@@ -239,7 +239,7 @@ function selectUsuariosActivos($responsables) {
     echo '</select>';
 }
 
-function panelPasivos($listaPasivos) {   
+function panelPasivos($listaPasivos) {
     echo
     '<div type = "hidden" class=" informacion-dispositivos panel panel-default">'
     . ' <div class="panel-heading"><h3>Especificaciones de inventario</h3></div>'
@@ -313,11 +313,35 @@ function panelAgregarInventario($categorias, $bodegas) {
             </div>
         </div>
         <div class="form-group col-md-12">
-            <label class="control-label col-md-3" for="costo">orden de compra:</label>
+            <label class="control-label col-md-3" for="provedor">Proveedor:</label>
             <div class="col-md-9">
-                <input  onfocus = "foco(5)" class="form-control" id="costo" type="text" required>
+                <input  onfocus = "foco(10)" class="form-control" id="provedor" type="text" required>
             </div>
-        </div>        
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="marca">Marca:</label>
+            <div class="col-md-9">
+                <input  onfocus = "foco(9)" class="form-control" id="marca" type="text" required>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="orden">orden de compra:</label>
+            <div class="col-md-9">
+                <input  onfocus = "foco(8)" class="form-control" id="orden" type="text" required>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="tiquete">codigo tiquete:</label>
+            <div class="col-md-9">
+              <div class="input-group date">
+              <input type="text" class="form-control col-md-5"  id="tiquete"   >
+                 <span class="input-group-addon  btn-info" id="tiquete" onclick="tiquete()" >
+                                    <span class="glyphicon glyphicon-th-list"></span>
+                </span
+                </div>
+            </div>
+        </div>
+        </div>          
         <div class="form-group  col-md-12 ">
             <label class="control-label col-md-3" for="bodega">Bodega:</label>
             <div class="col-md-9">';
@@ -369,7 +393,7 @@ function selectBodegas($bodegas) {
 }
 
 function panelSumarAInventario($inventario, $codigo) {
-  //  $inventario = buscarDispositivoInventario($inventarios, $codigo);
+    //  $inventario = buscarDispositivoInventario($inventarios, $codigo);
     echo'<div type = "hidden" class="panel panel-default">'
     . '<div class="panel-heading"><h3>Sumar a inventario</h3></div>'
     . '<div class="panel-body">';
@@ -409,7 +433,7 @@ function panelSumarAInventario($inventario, $codigo) {
 }
 
 function panelAgregarRepuesto($dispositivo, $repuestos, $codigo) {
-    
+
     echo'<div type = "hidden" class="panel panel-default">'
     . '<div class="panel-heading"><h3>Asociar repuesto</h3></div>'
     . '<div class="panel-body">
@@ -437,7 +461,7 @@ function panelAgregarRepuesto($dispositivo, $repuestos, $codigo) {
 }
 
 function panelAgregarLicencia($dispositivo, $codigo) {
-    
+
     echo'<div type = "hidden" class="panel panel-default">'
     . '<div class="panel-heading"><h3>Asociar licencia</h3></div>'
     . '<div class="panel-body">';
@@ -487,8 +511,8 @@ function panelAgregarLicencia($dispositivo, $codigo) {
     if ($dia < 10)
         $dia = "0" . $dia;
     $fecha = $dia . "/" . $mes . "/" . $anio;
-    echo '<input type="text" class="form-control" id="vencimiento-licencia" value="' . $fecha . '">
-                    <span class="input-group-addon btn btn-info" onclick="document.getElementById(\'vencimiento-licencia\').focus()">
+    echo '<input type="text" class="form-control col-md-5" id="vencimiento-licencia" value="' . $fecha . '">
+                    <span class="input-group-addon  btn-info" onclick="document.getElementById(\'vencimiento-licencia\').focus()">
                         <span class="glyphicon glyphicon-calendar"></span>                            
                     </span>                              
                 </div>
@@ -528,4 +552,84 @@ function selectEstado($estados) {
         echo '<option  value="' . $estados->obtenerCodigoEstado() . '" >' . $estados->obtenerNombreEstado() . '</option>';
     }
     echo '</select>';
+}
+
+function comboEstados($estados) {
+    foreach ($estados as $estado) {
+        echo'<label class="checkbox-inline"><input type="checkbox" id="estado-' . $estado->obtenerCodigoEstado() . '" value="' . $estado->obtenerCodigoEstado() . '">' . $estado->obtenerNombreEstado() . '</label>';
+    }
+}
+
+function cuerpoTablaMistiquetesInventario($Tiquetes, $codigoPestana) {
+    $cont = 1;
+    foreach ($Tiquetes as $tique) {
+        echo '<tr onclick="elegirTiquete(\''.$tique->obtenerCodigoTiquete().'\')" data-toggle="tooltip" title="' . substr($tique->obtenerDescripcion(), 0, 70) . '..." data-placement="top"  style = "text-align:center";>';
+//        if($codigoPestana == 2) {
+//            echo '<td value ="' . $tique->obtenerCodigoTiquete() . '">'
+//            . '<input type = "checkbox" id = "check' . $tique->obtenerCodigoTiquete() . '"></td>';
+//        }
+        echo '<td>' . $tique->obtenerCodigoTiquete() . '</td>';
+        echo '<td>' . $tique->obtenerTematica()->obtenerDescripcionTematica() . '</td>';
+        echo '<td>' . $tique->obtenerNombreUsuarioIngresaTiquete() . '</td>';
+        if ($tique->obtenerResponsable() == null) {
+            echo '<td>Por asignar</td>';
+        } else {
+            echo '<td>' . $tique->obtenerResponsable()->obtenerNombreResponsable() . '</td>';
+        }
+        echo '<td>' . $tique->obtenerEstado()->obtenerNombreEstado() . '</td>';
+        echo '<td>' . $tique->obtenerPrioridad()->obtenerNombrePrioridad() . '</td>';
+
+        $fechaE = date_format($tique->obtenerFechaEntrega(), 'd/m/Y');
+        if ($fechaE != "") {
+            echo '<td style= "text-align:center;">' . $fechaE . '</td>';
+        } else {
+            echo '<td style= "text-align:center; " >Fecha no asignada</td>';
+        }
+
+        calificacion( $tique, $cont++);
+       
+        echo '</tr>';
+    }
+}
+
+function calificacion($tiquete, $cont) {
+    $califiacion = $tiquete->obtenerCalificacion();    
+    if ($califiacion != null) {
+        echo '<td class = "rating">';
+        if ($califiacion == 5) {
+            echo '<input type="radio" value="5" checked Disabled /><label  title="Excelente">5 stars</label>';
+        } else {
+            echo '<input type="radio"  value="5"  Disabled /><label  title="Excelente">5 stars</label>';
+        }
+        if ($califiacion == 4) {
+            echo '<input type="radio"  value="4" checked Disabled/><label  title="Muy Bueno">4 stars</label>';
+        } else {
+            echo '<input type="radio"  value="4" Disabled/><label  title="Muy Bueno">4 stars</label>';
+        }
+        if ($califiacion == 3) {
+            echo '<input type="radio"  value="3" checked Disabled/><label " title="Bueno">3 stars</label>';
+        } else {
+            echo '<input type="radio"  value="3" Disabled/><label  title="Bueno">3 stars</label>';
+        }
+        if ($califiacion == 2) {
+            echo '<input type="radio"  value="2" checked Disabled/><label  title="Regular">2 stars</label>';
+        } else {
+            echo '<input type="radio"  value="2" Disabled/><label  title="Regular">2 stars</label>';
+        }
+        if ($califiacion == 1) {
+            echo '<input type="radio"  value="1" checked Disabled/><label title="Deficiente">1 star</label>';
+        } else {
+            echo '<input type="radio"  value="1" Disabled/><label title="Deficiente">1 star</label>';
+        }
+
+        echo '</td>';
+    } else {
+        echo '<td class = "rating2">' .
+        '<input type="radio"  value="5"/><label  title="Excelente">5 stars</label>' .
+        '<input type="radio"  value="4" /><label  title="Muy Bueno">4 stars</label>' .
+        '<input type="radio"  value="3"  /><label  title="Bueno">3 stars</label>' .
+        '<input type="radio"  value="2" /><label  title="Regular">2 stars</label>' .
+        '<input type="radio" value="1" /><label  title="Deficiente">1 star</label>' .
+        '</td>';
+    }
 }
