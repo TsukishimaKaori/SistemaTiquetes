@@ -3,8 +3,8 @@
 require_once ("../control/UsuarioLogueado.php");
 require ("../modelo/ProcedimientosInventario.php");
 require ("../modelo/ProcedimientosTiquetes.php");
-
 require ("../control/AdministrarAgregarActivos.php");
+require ("../modelo/Cliente.php");
 $tematicas = obtenerTematicasCompletasActivas();
 session_start();
 $r = $_SESSION['objetoUsuario'];
@@ -29,10 +29,11 @@ if (isset($_POST["Licencias"])) {
     $fechaExpiraGarantia = $_POST['fechaE'];
     $docking=$_POST['docking'];
     $asociados=$_POST['Asociado'];
-    $codigoTiquete=$_POST['codigoTiquete'];
+    
+   $codigoTiquete=$_POST['tiquete'];
     $fechaExpiraGarantia=explode("/", $fechaExpiraGarantia);
     $fechaExpiraGarantia=$fechaExpiraGarantia[2].$fechaExpiraGarantia[1].$fechaExpiraGarantia[0];
-    $usuario = obtenerDatosUsuario($correoUsuarioAsociado);
+    $usuario = consumirMetodoUno($correoUsuarioAsociado);
     $gafete=$usuario->obtenerCodigoEmpleado();
     $nombreUsuarioAsociado = $usuario->obtenerNombreUsuario();
     $departamentoUsuarioAsociado = $usuario->obtenerDepartamento();
@@ -66,6 +67,30 @@ if (isset($_POST["Licencias"])) {
         adjuntarContrato($placa, $direccionAdjunto, $correoUsuarioCausante, $nombreUsuarioCausante);
     }
     echo $mensajeA . "'" . $mensajeL . "'" . $mensajeR . "'".$direccionAdjunto."'";
+}
+
+if (isset($_POST['codigoFiltro'])) {
+    $mitabla = $_POST['mitabla'];
+    $codigoTiquete = $_POST['codigoFiltro'];
+    $correoSolicitante = $_POST['correoS'];
+    $nombreSolicitante = $_POST['nombreS'];
+    $correoResponsable = $_POST['correoR'];
+    $nombreResponsable = $_POST['nombreR'];
+    $fechaInicio = $_POST['fechaI'];
+    $dia = substr($fechaInicio, 0, 2);
+    $mes = substr($fechaInicio, 3, 2);
+    $anio = substr($fechaInicio, 6, 4);
+    $fechaInicio = $anio . '-' . $mes . '-' . $dia;
+    $fechaFinal = $_POST['fechaF'];
+    $dia = substr($fechaFinal, 0, 2);
+    $mes = substr($fechaFinal, 3, 2);
+    $anio = substr($fechaFinal, 6, 4);
+    $fechaFinal = $anio . '-' . $mes . '-' . $dia;
+    $codigosEstados = $_POST['estados'];
+    $codigoArea = $r->obtenerArea()->obtenerCodigoArea();
+    $codigoRol = $r->obtenerRol()->obtenerCodigoRol();
+    $todosLosTiquetes = busquedaAvanzadaGeneral($codigoTiquete, $correoSolicitante, $nombreSolicitante, $correoResponsable, $nombreResponsable, $fechaInicio, $fechaFinal, $codigosEstados, $codigoArea, $codigoRol);
+    cuerpoTablaMistiquetesActivos($todosLosTiquetes, 4);
 }
 ?>
 

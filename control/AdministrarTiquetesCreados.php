@@ -87,7 +87,7 @@ function cuerpoTablaMistiquetesCreados($Tiquetes, $codigoPestana, $responsables)
         }
         calificacion($codigoPestana, $tique, $cont++);
         // if ($codigoPestana == 1) {
-        echo '<td onclick="mostrarMisTIquetes(this,' . $codigoPestana . ');">' . '<button type="button" class="btn btn-info">
+           echo '<td onclick="mostrarMisTIquetes(this,' . $codigoPestana . ');">' . '<button type="button" class="btn btn-info">
                <span class="glyphicon glyphicon-eye-open"></span> </button></td>';
 //        } else if ($codigoPestana == 2) {
 //            echo '<td onclick="mostrarTiquetesPorAsignar(this);">' . '<button type="button" class="btn btn-info">
@@ -326,7 +326,7 @@ function filtroTodosLosTiquetes($mitabla, $fecha) {
                                     </div>                                     
                                     <div class="col-md-2  ">
                                         <div class = "form-group input-group date" id = "datetimepicker1">
-                                            <input id = "fechafiltroI" name ="filtro-fecha" type="text" class="  form-control" value="01/01/1950">
+                                            <input id = "fechafiltroI" name ="filtro-fecha" type="text" class="  form-control" value="' . $fecha . '">
                                             <span class="input-group-addon btn btn-info"  for="filtro-fecha">
                                                 <i class="glyphicon glyphicon-calendar"></i>
                                             </span>  
