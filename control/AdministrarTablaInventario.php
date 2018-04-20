@@ -414,7 +414,25 @@ function panelSumarAInventario($inventario, $codigo) {
             <div class="col-md-9">
                 <input onfocus = "focoSuma(1)" class="form-control" id="cantidad-suma" min="1" type="number" required>
             </div>
-        </div>        
+        </div>    
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="ordenS">orden de compra:</label>
+            <div class="col-md-9">
+                <input  onfocus = "focoSuma(4)" class="form-control" id="ordenS" type="text" required>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label col-md-3" for="tiquete">codigo tiquete:</label>
+            <div class="col-md-9">
+              <div class="input-group date">
+              <input type="text" class="form-control col-md-5"  id="tiquete"   >
+                 <span class="input-group-addon  btn-info" id="tiquete" onclick="tiquete()" >
+                                    <span class="glyphicon glyphicon-th-list"></span>
+                </span
+                </div>
+            </div>
+        </div>
+        </div>
         <div class="form-group col-md-12">
             <label class="control-label col-md-3" for="comentario-suma">Comentario:</label>
             <div class="col-md-9">
@@ -424,7 +442,8 @@ function panelSumarAInventario($inventario, $codigo) {
         <div class="form-group col-md-12">           
             <div class="col-md-12">
                 <button onclick = "agregarInventarioSuma();" class="btn btn-success btn-circle btn" ><i></i>Guardar</button>     
-                <button onclick = "limpiarFormularioInventarioSuma();" class="btn btn-danger btn-circle btn" ><i></i>Borrar</button>                         
+                <button onclick = "limpiarFormularioInventarioSuma();" class="btn btn-danger btn-circle btn" ><i></i>Borrar</button>  
+                <button type="button" class="btn btn-info btn-circle btn-xl" data-toggle="modal" data-target="#modalagregarAdjunto" >Adjuntar orden de compra</button> 
             </div>
         </div>';
     echo '</div>'

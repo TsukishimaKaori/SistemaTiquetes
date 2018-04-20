@@ -59,9 +59,9 @@ if (isset($_POST['codigoArticuloAgregarInventario'])) {
     $comentarioUsuario = $_POST['comentario'];
     $correoUsuarioCausante = $_POST['correoUsuario'];
     $nombreUsuarioCausante = $_POST['nombreUsuario'];
-    $codigoTiquete=$_POST['tiquete'];
-    $proveedor=$_POST['provedor'];
-     $marca=$_POST['marca'];
+    $codigoTiquete = $_POST['tiquete'];
+    $proveedor = $_POST['provedor'];
+    $marca = $_POST['marca'];
     $direccionOrdenDeCompra = "";
     if ($_FILES["archivo"]) {
         $nombre_tmp = $_FILES["archivo"]["tmp_name"];
@@ -92,10 +92,30 @@ if (isset($_POST['codigoArticuloSuma'])) {
     $comentarioUsuario = $_POST['comentarioSuma'];
     $correoUsuarioCausante = $_POST['correoUsuario'];
     $nombreUsuarioCausante = $_POST['nombreUsuario'];
+    $numeroOrdenDeCompra = _POST['orden'];
+    $codigoTiquete = $_POST['tiquete'];
+    $direccionOrdenDeCompra = "";
 
-    aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete);
-    $inventario = obtenerInventario();
-    cuerpoTablaPasivos($inventario);
+    if ($_FILES["archivo"]) {
+        $nombre_tmp = $_FILES["archivo"]["tmp_name"];
+        // basename() puede evitar ataques de denegació del sistema de ficheros;
+        // podría ser apropiado más validación/saneamiento del nombre de fichero
+        $archivo = basename($_FILES["archivo"]["name"]);
+        $direccionOrdenDeCompra = '../adjuntos/ordenesCompra/' . $orden . "-" . $archivo;
+        $mensaje = aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete);
+
+        if ($mensaje == '') {
+            move_uploaded_file($nombre_tmp, utf8_decode($direccionOrdenDeCompra));
+        }
+    } else {
+        $mensaje = aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete);
+    }
+    if ($mensaje == '') {
+        $inventario = obtenerInventario();
+        cuerpoTablaPasivos($inventario);
+    } else {
+        echo 'Error';
+    }
 }
 
 //Muestra el panel para asociar repuestos 

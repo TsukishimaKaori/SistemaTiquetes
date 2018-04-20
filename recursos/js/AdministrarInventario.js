@@ -250,6 +250,8 @@ function cargarPanelSumarInventario(codigo, bodega, event) {
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
+            $("#archivo").val("");
+            $("#Textarchivo").val("");
             $("#panelInformacionInventario").html(response);
         }
     });
@@ -266,6 +268,8 @@ function cargarPanelAgregarInventario() {
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
             $("#panelInformacionInventario").html(response);
+            $("#archivo").val("");
+            $("#Textarchivo").val("");
         }
     });
 }
@@ -438,7 +442,7 @@ function agregarInventario() {
         var orden = $("#orden").val();
         var bodega = $("#bodega option:selected").val();
         var provedor = $("#provedor").val();
-         var marca = $("#marca").val();
+        var marca = $("#marca").val();
         var comentario = $("#comentario").val();
         var correoUsuario = $("#correoUsuario").val();
         var nombreUsuario = $("#nombreUsuario").val();
@@ -518,22 +522,41 @@ function agregarInventarioSuma() {
     var comentario = $("#comentario-suma").val();
     var correoUsuario = $("#correoUsuario").val();
     var nombreUsuario = $("#nombreUsuario").val();
+    var orden = $("#ordenS").val();
+    var tiquete = $("#tiquete").val();
+    var file = document.getElementById("archivo");
+    var archivo = file.files[0];
+   
+    var data = new FormData();
+    data.append('codigoArticuloSuma', codigoArticuloSuma);
+    data.append('cantidadSuma', cantidad);
+    data.append('comentarioSuma', comentario);
+    data.append('correoUsuario', correoUsuario);
+    data.append('nombreUsuario', nombreUsuario);
+    data.append('orden', orden);
+    data.append('tiquete', tiquete);
+    data.append('archivo', archivo);
+
     var mensaje = "";
     if (validacionFormularioSumar() == 0) {
         $.ajax({
-            data: {'codigoArticuloSuma': codigoArticuloSuma,
-                'cantidadSuma': cantidad,
-                'comentarioSuma': comentario,
-                'correoUsuario': correoUsuario,
-                'nombreUsuario': nombreUsuario
-            },
             type: 'POST',
             url: '../control/SolicitudAjaxInventario.php',
-            success: function (response) {
-                $("#cuerpo-Tabla-Inventario").html(response);
-                limpiarFormularioInventarioSuma();
-                mensaje = "Articulos agregados correctamente";
-                notificacion(mensaje);
+            contentType: false,
+            processData: false,
+            data: data,
+            success: function (response) {             
+                 if (response != 'Error') {
+                        $('#tablaPasivos').DataTable().destroy();
+                        $("#cuerpo-Tabla-Inventario").html(response);
+                        tablaPasivos();
+                        limpiarFormularioInventarioSuma();
+                        mensaje = "Articulo agregado correctamente";
+                        notificacion(mensaje);
+                    } else {
+                        mensaje = "Error al agregar articulo";
+                        notificacion(mensaje);
+                    }
             }
         });
     } else {
@@ -551,7 +574,7 @@ function limpiarFormularioInventario() {
     $("#cantidad").val("");
     $("#comentario").val("");
     $("#orde").val("");
-     $("#tiquete").val("");
+    $("#tiquete").val("");
     $("#archivo").val("");
     $("#Textarchivo").val("");
     $("#marca").val("");
@@ -571,6 +594,8 @@ function limpiarFormularioInventarioSuma() {
     var cantidad = $("#cantidad-suma").val("");
     //  var bodega = $("#bodega-suma").val("");
     var comentario = $("#comentario-suma").val("");
+    $("#archivo").val("");
+    $("#Textarchivo").val("");
 }
 
 function validacionExpRegular(expresion) {
@@ -681,12 +706,19 @@ function validacionFormularioSumar() {
     var cantidad = $("#cantidad-suma").val();
     var bodega = $("#bodega-suma").val();
     var comentario = $("#comentario-suma").val();
+    var orden = $("#ordenS").val();
+
+
     if (!validacionExpRegular(bodega)) {
         $("#bodega-suma").css("border-color", "red");
         bandera = 1;
     }
     if (!validacionExpRegular(comentario)) {
         $("#comentario-suma").css("border-color", "red");
+        bandera = 1;
+    }
+    if (!validacionExpRegular(orden)) {
+        $("#ordenS").css("border-color", "red");
         bandera = 1;
     }
     if (!validacionNumeros(cantidad)) {
@@ -774,6 +806,9 @@ function focoSuma(evt) {
             break;
         case 3:
             $("#comentario-suma").css("border-color", "#99beda");
+            break;
+        case 4:
+            $("#ordenS").css("border-color", "#99beda");
             break;
         default:
             break;
