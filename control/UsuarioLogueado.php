@@ -10,6 +10,7 @@ $r = obtenerResponsable($_SESSION['username']);  //el username es el correo del 
 
 if($r == ''){
     //aquí hay que tomar el usuario del web service
+   
     $r = consumirMetodoUno($_SESSION['username']);
     $_SESSION['objetoUsuario'] = $r;
 }else{

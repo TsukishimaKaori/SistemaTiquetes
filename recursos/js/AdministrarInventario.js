@@ -19,7 +19,19 @@ $(document).ready(function () {
 
     tablaActivos();
     tablaPasivos();
-
+    tablaTiquetedInventario();
+    $(function () {
+        $('#fechafiltroI').datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'es'
+        });
+    });
+    $(function () {
+        $('#fechafiltroF').datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'es'
+        });
+    });
 });
 function tablaActivos() {
     $('#tablaActivos').DataTable({
@@ -80,6 +92,37 @@ function tablaPasivos() {
         }
     });
 }
+function tablaTiquetedInventario() {
+    $('#tablaTiquetesI').DataTable({
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Filtrar búsqueda",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+
+        }
+
+    });
+}
+
 function abrir_tab_inventario(evt, id) {
     tabla = id;
     document.getElementById("filtros").className = "";
@@ -162,14 +205,14 @@ function filtrar() {
 }
 
 function cargarPanelActivos(codigo, event) {
-    eventoAsociar=event;
+    eventoAsociar = event;
     codigo = "" + codigo;
     $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
     $(event).parent().parent().css("background-color", "#dff0d8");
 
     // $(this).parent().css( "background-color", "red" );
     $.ajax({
-        data: {'codigoActivo': codigo  },
+        data: {'codigoActivo': codigo},
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
@@ -184,12 +227,12 @@ function cargarPanelActivos(codigo, event) {
     });
 }
 
-function cargarPanelPasivos(codigo,bodega, event) {
+function cargarPanelPasivos(codigo, bodega, event) {
     $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
     $(event).parent().parent().css("background-color", "#dff0d8");
     $.ajax({
         data: {'codigoPasivo': codigo,
-        'bodega':bodega},
+            'bodega': bodega},
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
@@ -198,12 +241,12 @@ function cargarPanelPasivos(codigo,bodega, event) {
     });
 }
 
-function cargarPanelSumarInventario(codigo,bodega, event) {
+function cargarPanelSumarInventario(codigo, bodega, event) {
     $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
     $(event).parent().parent().css("background-color", "#dff0d8");
     $.ajax({
         data: {'codigoSumarInventario': codigo,
-            'bodega':bodega},
+            'bodega': bodega},
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
@@ -385,48 +428,89 @@ function asociarRepuestos(codigo) {
 
 //Agrega un elemento al inventario
 function agregarInventario() {
-    var codigoArticulo = $("#codigo").val();
-    var descripcion = $("#descripcion").val();
-    var categoria = $("#categoria option:selected").val();
-    var estado = $("#estado").val();
-    var costo = $("#costo").val();
-    var cantidad = $("#cantidad").val();
-    var bodega = $("#bodega option:selected").val();
-    var comentario = $("#comentario").val();
-    var correoUsuario = $("#correoUsuario").val();
-    var nombreUsuario = $("#nombreUsuario").val();
-    var validacion = validacionFormularioAgregar();
-    var mensaje = "";
-    if (validacion === 0) {
-        $.ajax({
-            data: {'codigoArticuloAgregarInventario': codigoArticulo,
-                'descripcion': descripcion,
-                'categoria': categoria,
-                'estado': estado,
-                'cantidad': cantidad,
-                'costo': costo,
-                'bodega': bodega,
-                'comentario': comentario,
-                'correoUsuario': correoUsuario,
-                'nombreUsuario': nombreUsuario
-            },
-            type: 'POST',
-            url: '../control/SolicitudAjaxInventario.php',
-            success: function (response) {
-                $('#tablaPasivos').DataTable().destroy();
-                $("#cuerpo-Tabla-Inventario").html(response);
-                tablaPasivos();
-                limpiarFormularioInventario();
-                mensaje = "Articulo agregado correctamente";
-                notificacion(mensaje);
-            }
-        });
+    if (archivoCorrecto()) {
+        var codigoArticulo = $("#codigo").val();
+        var descripcion = $("#descripcion").val();
+        var categoria = $("#categoria option:selected").val();
+        var estado = $("#estado").val();
+        var costo = $("#costo").val();
+        var cantidad = $("#cantidad").val();
+        var orden = $("#orden").val();
+        var bodega = $("#bodega option:selected").val();
+        var provedor = $("#provedor").val();
+         var marca = $("#marca").val();
+        var comentario = $("#comentario").val();
+        var correoUsuario = $("#correoUsuario").val();
+        var nombreUsuario = $("#nombreUsuario").val();
+        var validacion = validacionFormularioAgregar();
+        var tiquete = $("#tiquete").val();
+        var file = document.getElementById("archivo");
+        var archivo = file.files[0];
+        var data = new FormData();
+        data.append('codigoArticuloAgregarInventario', codigoArticulo);
+        data.append('descripcion', descripcion);
+        data.append('categoria', categoria);
+        data.append('estado', estado);
+        data.append('cantidad', cantidad);
+        data.append('orden', orden);
+        data.append('costo', costo);
+        data.append('bodega', bodega);
+        data.append('comentario', comentario);
+        data.append('correoUsuario', correoUsuario);
+        data.append('nombreUsuario', nombreUsuario);
+        data.append('tiquete', tiquete);
+        data.append('provedor', provedor);
+        data.append('marca', marca);
+        data.append('archivo', archivo);
+
+        var mensaje = "";
+        if (validacion === 0) {
+            $.ajax({
+
+                type: 'POST',
+                url: '../control/SolicitudAjaxInventario.php',
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (response) {
+                    if (response != 'Error') {
+                        $('#tablaPasivos').DataTable().destroy();
+                        $("#cuerpo-Tabla-Inventario").html(response);
+                        tablaPasivos();
+                        limpiarFormularioInventario();
+                        mensaje = "Articulo agregado correctamente";
+                        notificacion(mensaje);
+                    } else {
+                        mensaje = "Error al agregar articulo";
+                        notificacion(mensaje);
+                    }
+                }
+            });
+        } else {
+            mensaje = "Error al agregar el articulo, verifique los campos";
+            notificacion(mensaje);
+        }
     } else {
-        mensaje = "Error al agregar el articulo, verifique los campos";
-        notificacion(mensaje);
+        alert("no se puede enviar el archivo");
     }
 }
 
+function archivoCorrecto() {
+    if (document.getElementById("archivo").files.length > 0) {
+        var documento = document.getElementById("archivo").files[0];
+        var tipo = documento.type;
+        if (tipo == "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
+                tipo == "text/plain" || tipo == "application/pdf" || tipo == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+                tipo == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || tipo == "image/png" || tipo == "image/jpeg") {
+            return true;
+
+        } else {
+            return false;
+
+        }
+    }
+    return true;
+}
 //Agrega un elemento al inventario
 function agregarInventarioSuma() {
     var codigoArticuloSuma = $("#codigoSuma").text();
@@ -466,6 +550,12 @@ function limpiarFormularioInventario() {
     $("#costo").val("");
     $("#cantidad").val("");
     $("#comentario").val("");
+    $("#orde").val("");
+     $("#tiquete").val("");
+    $("#archivo").val("");
+    $("#Textarchivo").val("");
+    $("#marca").val("");
+    $("#provedor").val("");
 }
 
 function limpiarFormularioLicencia() {
@@ -507,6 +597,9 @@ function validacionFormularioAgregar() {
     var cantidad = $("#cantidad").val();
     var bodega = $("#bodega option:selected").val();
     var comentario = $("#comentario").val();
+    var orden = $("#orden").val();
+    var provedor = $("#provedor").val();
+    var marca = $("#marca").val();
     var correoUsuario = $("#correoUsuario").val();
     var nombreUsuario = $("#nombreUsuario").val();
     var bandera = 0;
@@ -538,12 +631,21 @@ function validacionFormularioAgregar() {
         $("#comentario").css("border-color", "red");
         bandera = 1;
     }
+    if (!validacionExpRegular(marca)) {
+        $("#marca").css("border-color", "red");
+        bandera = 1;
+    }
+    if (!validacionExpRegular(provedor)) {
+        $("#provedor").css("border-color", "red");
+        bandera = 1;
+    }
     if (!validacionExpRegular(correoUsuario)) {
         bandera = 1;
     }
     if (!validacionExpRegular(nombreUsuario)) {
         bandera = 1;
     }
+
     if (!validacionNumeros(cantidad)) {
         $("#cantidad").css("border-color", "red");
         bandera = 1;
@@ -552,9 +654,20 @@ function validacionFormularioAgregar() {
         $("#cantidad").css("border-color", "red");
         bandera = 1;
     }
+    if (costo <= 0) {
+        $("#costo").css("border-color", "red");
+        bandera = 1;
+    }
+    if (costo <= 0) {
+        $("#costo").css("border-color", "red");
+        bandera = 1;
+    }
     if (!validacionNumeros(costo)) {
         $("#costo").css("border-color", "red");
         bandera = 1;
+    }
+    if (!validacionExpRegular(orden)) {
+        $("#orden").css("border-color", "red");
     }
     if (costo <= 0) {
         $("#costo").css("border-color", "red");
@@ -636,6 +749,15 @@ function foco(evt) {
             break;
         case 7:
             $("#comentario").css("border-color", "#99beda");
+            break;
+        case 8:
+            $("#orden").css("border-color", "#99beda");
+            break;
+        case 9:
+            $("#provedor").css("border-color", "#99beda");
+            break;
+        case 10:
+            $("#marca").css("border-color", "#99beda");
             break;
         default:
             break;
@@ -820,7 +942,7 @@ function eliminarUsuario() {
 }
 function eliminarUsuarioAjax() {
     var placa = document.getElementById("placa").innerText;
-    var usuari= eventoAsociar.parentNode.parentNode.firstChild.nextSibling.nextSibling;
+    var usuari = eventoAsociar.parentNode.parentNode.firstChild.nextSibling.nextSibling;
     $.ajax({
         data: {'codigoDesasociar': placa
 
@@ -834,7 +956,7 @@ function eliminarUsuarioAjax() {
                 notificacion(mensaje);
             } else {
                 $("#panelInformacionInventario").html(response);
-                 usuari.innerText="";
+                usuari.innerText = "";
                 $('.selectpicker').selectpicker({
                     size: 5
                 });
@@ -848,7 +970,7 @@ function eliminarUsuarioAjax() {
 // asignar activo
 var eventoAsociar;
 function asignarActivo() {
-    
+
     $("#AsociarACtivo").modal("show");
 }
 function cancelarasignarActivo() {
@@ -881,7 +1003,7 @@ function asignarActivoAjax() {
     var usuarioAsociado = document.getElementById("Usuarios");
     var usuarioAsociado = usuarioAsociado[document.getElementById("Usuarios").selectedIndex].value;
     var placa = document.getElementById("placa").innerText;
-    var usuari= eventoAsociar.parentNode.parentNode.firstChild.nextSibling.nextSibling;
+    var usuari = eventoAsociar.parentNode.parentNode.firstChild.nextSibling.nextSibling;
     $.ajax({
         data: {'usuarioAsociado': usuarioAsociado,
             'placa': placa
@@ -890,17 +1012,17 @@ function asignarActivoAjax() {
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
-           
+
             $("#AsociarACtivo").modal("hide");
             if (response === "Error") {
                 var mensaje = "Error al desasociar tiquete";
                 notificacion(mensaje);
             } else {
                 usuarioAsociado = document.getElementById("Usuarios");
-               usuarioAsociado= usuarioAsociado[document.getElementById("Usuarios").selectedIndex];
-               usuari.innerText=usuarioAsociado.innerText ;
+                usuarioAsociado = usuarioAsociado[document.getElementById("Usuarios").selectedIndex];
+                usuari.innerText = usuarioAsociado.innerText;
                 $("#panelInformacionInventario").html(response);
-                
+
                 var mensaje = "Activo desasociado correctamente";
                 notificacion(mensaje);
             }
@@ -971,6 +1093,66 @@ function filtrarInventario() {
         }
     });
 }
+
+function subirarchivoInventario(event) {
+    var archivo = event.value;
+    document.getElementById("Textarchivo").value = archivo;
+}
+function cancelarAdjuntoInventario() {
+    document.getElementById("Textarchivo").value = "";
+    document.getElementById("archivo").value = "";
+}
+
+
+// seleccionar tiquete
+function elegirTiquete(codigo) {
+    document.getElementById("tiquete").value = codigo;
+    $("#modalaTiquetes").modal("hide");
+}
+function tiquete() {
+    $("#modalaTiquetes").modal("show");
+}
+
+function filtrartiquetesAjax() {
+    var codigoFiltro = document.getElementById("codigoFiltro").value;
+    var nombreS = document.getElementById("NombreSFiltro").value;
+    var correoS = document.getElementById("CorreoSFiltro").value;
+    var nombreR = document.getElementById("NombreRFiltro").value;
+    var correoR = document.getElementById("CorreoRFiltro").value;
+    var fechaI = document.getElementById("fechafiltroI").value;
+    var fechaF = document.getElementById("fechafiltroF").value;
+    var estado;
+    var j = 0;
+    var estados = [];
+    for (var i = 1; i < 8; i++) {
+        estado = document.getElementById("estado-" + i);
+        if (estado.checked == true) {
+            estados[estados.length] = estado.value;
+        }
+
+    }
+
+    if (estados.length == 0) {
+        estados = null;
+    }
+    $.ajax({
+        data: {'codigoFiltro': codigoFiltro, 'nombreS': nombreS, 'correoS': correoS,
+            'nombreR': nombreR, 'correoR': correoR, 'fechaI': fechaI, 'fechaF': fechaF, 'estados': estados
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjaxInventario.php',
+
+        success: function (response) {
+            $('#tablaTiquetesI').DataTable().destroy();
+            $("#tbody-tablaTiquetesI").html(response);
+            tablaTiquetedInventario();
+        }
+    });
+
+}
+
+
+
 // <editor-fold defaultstate="collapsed" desc="NOTIFICACIONES">
 function notificacion(mensaje) {
     $("#divNotificacion").empty();

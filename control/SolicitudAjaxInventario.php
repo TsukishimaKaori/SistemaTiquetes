@@ -2,6 +2,7 @@
 
 require_once ("../control/AdministrarTablaInventario.php");
 require ("../modelo/ProcedimientosInventario.php");
+require ("../modelo/Cliente.php");
 
 session_start();
 $r = $_SESSION['objetoUsuario'];
@@ -14,7 +15,7 @@ if (isset($_POST['codigoActivo'])) {
     $estadosSiguentes = obtenerEstadosEquipo($codigoEstadoActual);
     $responsables = null;
     if ($listaActivos->obtenerNombreUsuarioAsociado() == null) {
-        $responsables = obtenerUsuariosParaAsociar();
+        $responsables = consumirMetodoDos();
     }
     panelActivos($listaActivos, $estadosSiguentes, $responsables);
 }
@@ -24,14 +25,14 @@ if (isset($_POST['codigoPasivo'])) {
     $codigo = $_POST['codigoPasivo'];
     $bodega = $_POST['bodega'];
     $inventario = obtenerInventario();
-     $listaPasivos = obtenerArticuloFiltradoCodigoBodega($codigo, $bodega);
+    $listaPasivos = obtenerArticuloFiltradoCodigoBodega($codigo, $bodega);
     panelPasivos($listaPasivos);
 }
 
 //MOstrar el panel que suma elemetnos al inventario
 if (isset($_POST['codigoSumarInventario'])) {
     $codigo = $_POST['codigoSumarInventario'];
-    $bodega  = $_POST['bodega'];
+    $bodega = $_POST['bodega'];
     ////////////////////////////////////////
     $inventario = obtenerArticuloFiltradoCodigoBodega($codigo, $bodega);
     panelSumarAInventario($inventario, $codigo);
@@ -52,14 +53,36 @@ if (isset($_POST['codigoArticuloAgregarInventario'])) {
     $codigoCategoria = $_POST['categoria'];
     $estado = $_POST['estado'];
     $cantidad = $_POST['cantidad'];
-    $bodega = $_POST['bodega'];
+    $orden = $_POST['orden'];
+    $codigoBodega = $_POST['bodega'];
     $costo = $_POST['costo'];
     $comentarioUsuario = $_POST['comentario'];
     $correoUsuarioCausante = $_POST['correoUsuario'];
     $nombreUsuarioCausante = $_POST['nombreUsuario'];
-    agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codigoCategoria, $estado, $cantidad, $bodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante);
-    $inventario = obtenerInventario();
-    cuerpoTablaPasivos($inventario);
+    $codigoTiquete=$_POST['tiquete'];
+    $proveedor=$_POST['provedor'];
+     $marca=$_POST['marca'];
+    $direccionOrdenDeCompra = "";
+    if ($_FILES["archivo"]) {
+        $nombre_tmp = $_FILES["archivo"]["tmp_name"];
+        // basename() puede evitar ataques de denegació del sistema de ficheros;
+        // podría ser apropiado más validación/saneamiento del nombre de fichero
+        $archivo = basename($_FILES["archivo"]["name"]);
+        $direccionOrdenDeCompra = '../adjuntos/ordenesCompra/' . $orden . "-" . $archivo;
+        $mensaje = agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codigoCategoria, $estado, $cantidad, $codigoBodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante, $proveedor, $marca, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete);
+
+        if ($mensaje == '') {
+            move_uploaded_file($nombre_tmp, utf8_decode($direccionOrdenDeCompra));
+        }
+    } else {
+        $mensaje = agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codigoCategoria, $estado, $cantidad, $codigoBodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante, $proveedor, $marca, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete);
+    }
+    if ($mensaje == '') {
+        $inventario = obtenerInventario();
+        cuerpoTablaPasivos($inventario);
+    } else {
+        echo 'Error';
+    }
 }
 
 //Suma articulos al inventario ya existente
@@ -69,7 +92,8 @@ if (isset($_POST['codigoArticuloSuma'])) {
     $comentarioUsuario = $_POST['comentarioSuma'];
     $correoUsuarioCausante = $_POST['correoUsuario'];
     $nombreUsuarioCausante = $_POST['nombreUsuario'];
-    aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante);
+
+    aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete);
     $inventario = obtenerInventario();
     cuerpoTablaPasivos($inventario);
 }
@@ -190,7 +214,7 @@ if (isset($_POST['codigoDesasociar'])) {
         $estadosSiguentes = obtenerEstadosEquipo($codigoEstadoActual);
         $responsables = null;
         if ($listaActivos->obtenerNombreUsuarioAsociado() == null) {
-            $responsables = obtenerUsuariosParaAsociar();
+            $responsables = consumirMetodoDos();
         }
         panelActivos($listaActivos, $estadosSiguentes, $responsables);
     } else {
@@ -204,7 +228,7 @@ if (isset($_POST['usuarioAsociado'])) {
     $placa = $_POST["placa"];
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
-    $usuario = obtenerDatosUsuario($correoUsuarioAsociado);
+    $usuario = consumirMetodoUno($correoUsuarioAsociado);
     $nombreUsuarioAsociado = $usuario->obtenerNombreUsuario();
     $departamentoUsuarioAsociado = $usuario->obtenerDepartamento();
     $jefaturaUsuarioAsociado = $usuario->obtenerJefatura();
@@ -234,7 +258,7 @@ if (isset($_POST['filtrarActivo'])) {
     if ($activos === 'Ha ocurrido un error al obtener los activos') {
         echo'Error';
     } else {
-           cuerpoTablaActivos($activos);
+        cuerpoTablaActivos($activos);
     }
 }
 if (isset($_POST['filtrarInventario'])) {
@@ -244,16 +268,39 @@ if (isset($_POST['filtrarInventario'])) {
     $nombreCategoria = $_POST['categoria'];
     $nombreBodega = $_POST['bodega'];
     $esRepuesto = $_POST['repuesto'];
-    if($esRepuesto== 'true'){
-        $esRepuesto=1;
-    }
-    else{
-        $esRepuesto=0;
+    if ($esRepuesto == 'true') {
+        $esRepuesto = 1;
+    } else {
+        $esRepuesto = 0;
     }
     $inventario = busquedaAvanzadaInventario($codigoArticulo, $descripcion, $nombreCategoria, $esRepuesto, $nombreBodega);
     if ($inventario === 'Ha ocurrido un error al obtener el inventario') {
         echo'Error';
-    } else {     
+    } else {
         cuerpoTablaPasivos($inventario);
     }
+}
+
+if (isset($_POST['codigoFiltro'])) {
+    $mitabla = $_POST['mitabla'];
+    $codigoTiquete = $_POST['codigoFiltro'];
+    $correoSolicitante = $_POST['correoS'];
+    $nombreSolicitante = $_POST['nombreS'];
+    $correoResponsable = $_POST['correoR'];
+    $nombreResponsable = $_POST['nombreR'];
+    $fechaInicio = $_POST['fechaI'];
+    $dia = substr($fechaInicio, 0, 2);
+    $mes = substr($fechaInicio, 3, 2);
+    $anio = substr($fechaInicio, 6, 4);
+    $fechaInicio = $anio . '-' . $mes . '-' . $dia;
+    $fechaFinal = $_POST['fechaF'];
+    $dia = substr($fechaFinal, 0, 2);
+    $mes = substr($fechaFinal, 3, 2);
+    $anio = substr($fechaFinal, 6, 4);
+    $fechaFinal = $anio . '-' . $mes . '-' . $dia;
+    $codigosEstados = $_POST['estados'];
+    $codigoArea = $r->obtenerArea()->obtenerCodigoArea();
+    $codigoRol = $r->obtenerRol()->obtenerCodigoRol();
+    $todosLosTiquetes = busquedaAvanzadaGeneral($codigoTiquete, $correoSolicitante, $nombreSolicitante, $correoResponsable, $nombreResponsable, $fechaInicio, $fechaFinal, $codigosEstados, $codigoArea, $codigoRol);
+    cuerpoTablaMistiquetesInventario($todosLosTiquetes, 4);
 }

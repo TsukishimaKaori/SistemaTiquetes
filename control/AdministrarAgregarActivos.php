@@ -22,6 +22,86 @@ function selectRepuestos($repuestos) {
 
     echo '</select>';
 }
+function comboEstadosActivos($estados) {
+    foreach ($estados as $estado) {
+        echo'<label class="checkbox-inline"><input type="checkbox" id="estado-' . $estado->obtenerCodigoEstado() . '" value="' . $estado->obtenerCodigoEstado() . '">' . $estado->obtenerNombreEstado() . '</label>';
+    }
+}
+
+
+function cuerpoTablaMistiquetesActivos($Tiquetes, $codigoPestana) {
+    $cont = 1;
+    foreach ($Tiquetes as $tique) {
+        echo '<tr onclick="elegirTiqueteActivo(\''.$tique->obtenerCodigoTiquete().'\')" data-toggle="tooltip" title="' . substr($tique->obtenerDescripcion(), 0, 70) . '..." data-placement="top"  style = "text-align:center";>';
+//        if($codigoPestana == 2) {
+//            echo '<td value ="' . $tique->obtenerCodigoTiquete() . '">'
+//            . '<input type = "checkbox" id = "check' . $tique->obtenerCodigoTiquete() . '"></td>';
+//        }
+        echo '<td>' . $tique->obtenerCodigoTiquete() . '</td>';
+        echo '<td>' . $tique->obtenerTematica()->obtenerDescripcionTematica() . '</td>';
+        echo '<td>' . $tique->obtenerNombreUsuarioIngresaTiquete() . '</td>';
+        if ($tique->obtenerResponsable() == null) {
+            echo '<td>Por asignar</td>';
+        } else {
+            echo '<td>' . $tique->obtenerResponsable()->obtenerNombreResponsable() . '</td>';
+        }
+        echo '<td>' . $tique->obtenerEstado()->obtenerNombreEstado() . '</td>';
+        echo '<td>' . $tique->obtenerPrioridad()->obtenerNombrePrioridad() . '</td>';
+
+        $fechaE = date_format($tique->obtenerFechaEntrega(), 'd/m/Y');
+        if ($fechaE != "") {
+            echo '<td style= "text-align:center;">' . $fechaE . '</td>';
+        } else {
+            echo '<td style= "text-align:center; " >Fecha no asignada</td>';
+        }
+
+        calificacion( $tique, $cont++);
+       
+        echo '</tr>';
+    }
+}
+
+function calificacion($tiquete, $cont) {
+    $califiacion = $tiquete->obtenerCalificacion();    
+    if ($califiacion != null) {
+        echo '<td class = "rating">';
+        if ($califiacion == 5) {
+            echo '<input type="radio" value="5" checked Disabled /><label  title="Excelente">5 stars</label>';
+        } else {
+            echo '<input type="radio"  value="5"  Disabled /><label  title="Excelente">5 stars</label>';
+        }
+        if ($califiacion == 4) {
+            echo '<input type="radio"  value="4" checked Disabled/><label  title="Muy Bueno">4 stars</label>';
+        } else {
+            echo '<input type="radio"  value="4" Disabled/><label  title="Muy Bueno">4 stars</label>';
+        }
+        if ($califiacion == 3) {
+            echo '<input type="radio"  value="3" checked Disabled/><label " title="Bueno">3 stars</label>';
+        } else {
+            echo '<input type="radio"  value="3" Disabled/><label  title="Bueno">3 stars</label>';
+        }
+        if ($califiacion == 2) {
+            echo '<input type="radio"  value="2" checked Disabled/><label  title="Regular">2 stars</label>';
+        } else {
+            echo '<input type="radio"  value="2" Disabled/><label  title="Regular">2 stars</label>';
+        }
+        if ($califiacion == 1) {
+            echo '<input type="radio"  value="1" checked Disabled/><label title="Deficiente">1 star</label>';
+        } else {
+            echo '<input type="radio"  value="1" Disabled/><label title="Deficiente">1 star</label>';
+        }
+
+        echo '</td>';
+    } else {
+        echo '<td class = "rating2">' .
+        '<input type="radio"  value="5"/><label  title="Excelente">5 stars</label>' .
+        '<input type="radio"  value="4" /><label  title="Muy Bueno">4 stars</label>' .
+        '<input type="radio"  value="3"  /><label  title="Bueno">3 stars</label>' .
+        '<input type="radio"  value="2" /><label  title="Regular">2 stars</label>' .
+        '<input type="radio" value="1" /><label  title="Deficiente">1 star</label>' .
+        '</td>';
+    }
+}
 
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="MetodosHtml para el contrato">
@@ -135,7 +215,7 @@ class PDF_HTML extends FPDF
 // <editor-fold defaultstate="collapsed" desc="Contrato">
 
 function generarPdf($placa,$nombreUsuarioCausante,$nombreUsuarioAsociado,$categoria,$marca,$modelo,$docking,$asociados,$gafete) {    
-    $fecha = FechaNombre(1);   
+     
 $pdf = new PDF_HTML();
 // pagina 1
 $pdf->AddPage();
@@ -147,7 +227,7 @@ $pdf->Ln();
 $pdf->Ln();
 $pdf->SetMargins(70, 10);
 $pdf->Ln();
-$html =utf8_decode('<b><u>PRÉSTAMO DE EQUIPO PORTÁTIL</u></b>');
+$html =utf8_decode('<b><u>PRÉSTAMO DE EQUIPO</u></b>');
 $pdf->WriteHTML($html);
 $pdf->Ln();
  $pdf->SetMargins(60, 10);
@@ -326,9 +406,11 @@ $pdf->Ln();
 $pdf->Ln();
 $pdf->SetMargins(10);
 $pdf->Ln();//<b>
+ $fecha = FechaNombre(1); 
+ $hora= FechaNombre(3); 
 $html =utf8_decode('<p align="justify">'
-                    .'Estando ambas partes de acuerdo se firma en Heredia, a las __________ horas del '
-                    . '<b><u>29 Diciembre 2017</u></b>.'       
+                    .'Estando ambas partes de acuerdo se firma en Heredia, a las <b>'.$hora.'</b> horas del '
+                    . '<b><u>'.$fecha.'</u></b>.'       
                    .'</p>');
 $pdf->WriteHTML($html);
 $pdf->Ln();
@@ -344,7 +426,7 @@ $pdf->WriteHTML($html);
 $pdf->SetMargins(10);
 $pdf->Ln();//<b>
 $html =utf8_decode('<p align="justify">'
-                   .'  '.$nombreUsuarioCausante.'	                                                                             '. $nombreUsuarioAsociado      
+      .'   '.$nombreUsuarioCausante.'	                                                                                 '. $nombreUsuarioAsociado      
                    .'</p>');
 $pdf->WriteHTML($html);
     $fecha = FechaNombre(2);
@@ -355,19 +437,21 @@ $pdf->WriteHTML($html);
 }
 
 function FechaNombre($tipo){
-    
-        
+
      $hoy = getdate();    
     $anio = $hoy["year"];
     $mes = $hoy["mon"];
     if ($mes < 10)
         $mes = "0" . $mes;
     $dia = $hoy["mday"];
+    $hora=$hoy["hours"];
+    $minutos=$hoy["minutes"];
+    $segundos=$hoy["seconds"];
     if ($dia < 10)
         $dia = "0" . $dia;
     if($tipo==2){
     $fecha = $dia . "-" . $mes . "-" . $anio;
-    }else{
+    }else if($tipo==1){
         switch ($mes) {
             case 01:
                 $mes="Enero";
@@ -409,6 +493,8 @@ function FechaNombre($tipo){
                 break;
         }
         $fecha = $dia . " de " . $mes . " del " . $anio;
+    }else{
+        $fecha=$hora.":".$minutos.":".$segundos;
     }
     return $fecha;
 }

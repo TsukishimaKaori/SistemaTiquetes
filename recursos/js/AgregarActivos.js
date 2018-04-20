@@ -1,6 +1,10 @@
 
 // <editor-fold defaultstate="collapsed" desc="Formulario">
+$(document).ready(function () {
+    tablaTiquetedInventarioActivo();
 
+
+});
 function CargarPagina() {
     var div = document.getElementById("divAgregarRepuesto");
     div.style = "display: none";
@@ -15,6 +19,7 @@ function CargarPagina() {
             locale: 'es',
         });
     });
+    
 }
 
 var Nrepuestos = 0;
@@ -23,6 +28,36 @@ var Nlicencias = 0;
 var Licencias = [];
 var Repuestos = [];
 
+function tablaTiquetedInventarioActivo() {
+    $('#tablaTiquetesA').DataTable({
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Filtrar búsqueda",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+
+        }
+
+    });
+}
 function FormularioLicencia() {
 //    var repuestos = document.getElementById("divLicencias")
 //    var div = document.createElement("div");
@@ -35,29 +70,31 @@ function FormularioLicencia() {
     var response = "<div class='form-group'><label class='control-label col-sm-2' for='LfechaV'>Licencias</label><button type='button' class='close' aria-label='Close' \n\
          onclick='eliminarAgregar()'> <span aria-hidden='true'>&times;</span></button></div>" +
             " <div class=\"form-group  col-md-12\">" +
-            " <label class=\"control-label col-sm-3\" for=\"LfechaV\">Fecha  de vencimiento:</label>" +
-            " <div class='input-group date col-sm-9' id='datetimepicker1'>" +
+            " <label class=\"control-label col-md-2\" for=\"LfechaV\">Fecha  de vencimiento:</label>" +
+            " <div class=\"col-md-10\">" +
+            " <div class='input-group date' id='datetimepicker1'>" +
             "  <input type=\"text\" class=\"form-control\" name=\"fechaV\" id=\"LfechaV\" >" +
             " <span class=\"input-group-addon btn btn-info\" id=\"Vfecha\" onclick=\"document.getElementById('LfechaV').focus()\" >" +
             " <span class=\"glyphicon glyphicon-calendar\" ></span>" +
             "</span>" +
             " </div>" +
             "</div>" +
+            "</div>" +
             "<div class=\"form-group  col-md-12\">" +
-            "<label class=\"control-label col-sm-2\" for=\"LclaveP\">Clave de producto:</label>" +
-            " <div class=\"col-sm-10\">" +
+            "<label class=\"control-label col-md-2\" for=\"LclaveP\">Clave de producto:</label>" +
+            " <div class=\"col-md-10\">" +
             " <input class=\"form-control\" id=\"LclaveP\" type=\"text\" required>" +
             " </div>" +
             " </div>" +
             " <div class=\"form-group  col-md-12\">" +
-            "<label class=\"control-label col-sm-2\" for=\"Lprovedor\">Proveedor:</label>" +
-            " <div class=\"col-sm-10\">" +
+            "<label class=\"control-label col-md-2\" for=\"Lprovedor\">Proveedor:</label>" +
+            " <div class=\"col-md-10\">" +
             "    <input class=\"form-control\" id=\"Lprovedor\" type=\"text\" required>" +
             " </div>" +
             "</div> " +
             " <div class=\"form-group  col-md-12\">" +
-            "<label class=\"control-label col-sm-2\" for=\"Ldescripcion\">Descripción:</label>" +
-            "<div class=\"col-sm-10\">" +
+            "<label class=\"control-label col-md-2\" for=\"Ldescripcion\">Descripción:</label>" +
+            "<div class=\"col-md-10\">" +
             " <input class=\"form-control\" id=\"Ldescripcion\" type=\"text\" required>" +
             "</div>" +
             " </div> " +
@@ -271,8 +308,51 @@ function editarLicencia(numero) {
     }
 }
 
+function tiqueteActivo() {
+    $("#modalaTiquetes").modal("show");
+}
+function elegirTiqueteActivo(codigo) {
+    document.getElementById("tiquete").value = codigo;
+    $("#modalaTiquetes").modal("hide");
+}
 
+function filtrartiquetesAjax() {
+    var codigoFiltro = document.getElementById("codigoFiltro").value;
+    var nombreS = document.getElementById("NombreSFiltro").value;
+    var correoS = document.getElementById("CorreoSFiltro").value;
+    var nombreR = document.getElementById("NombreRFiltro").value;
+    var correoR = document.getElementById("CorreoRFiltro").value;
+    var fechaI = document.getElementById("fechafiltroI").value;
+    var fechaF = document.getElementById("fechafiltroF").value;
+    var estado;
+    var j = 0;
+    var estados = [];
+    for (var i = 1; i < 8; i++) {
+        estado = document.getElementById("estado-" + i);
+        if (estado.checked == true) {
+            estados[estados.length] = estado.value;
+        }
 
+    }
+
+    if (estados.length == 0) {
+        estados = null;
+    }
+    $.ajax({
+        data: {'codigoFiltro': codigoFiltro, 'nombreS': nombreS, 'correoS': correoS,
+            'nombreR': nombreR, 'correoR': correoR, 'fechaI': fechaI, 'fechaF': fechaF, 'estados': estados
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjajxAgregarActivos.php',
+
+        success: function (response) {
+            $('#tablaTiquetesA').DataTable().destroy();
+            $("#tbody-tablaTiquetesA").html(response);
+            tablaTiquetedInventarioActivo()
+        }
+    });
+
+}
 // </editor-fold>
 
 
@@ -289,11 +369,11 @@ function agregarActivo() {
 function lleno() {
     var placa = document.getElementById("placa").value
     var serie = document.getElementById("serie").value;
-    var provedor = document.getElementById("provedor").value;
+
     var modelo = document.getElementById("modelo").value;
-    var marca = document.getElementById("marca").value;
+
     var fechaE = document.getElementById("fechaE").value;
-    if (placa != "" && serie != "" && provedor != "" && modelo != "" && marca != "" && fechaE != "") {
+    if (placa != "" && serie != "" && modelo != "" && fechaE != "") {
         return true;
     }
     return false;
@@ -305,17 +385,17 @@ function agregarActivoAjax() {
     var placa = document.getElementById("placa").value
     var UsuarioAsociado = document.getElementById("Usuarios").value;
     var serie = document.getElementById("serie").value;
-    var provedor = document.getElementById("provedor").value;
+     var tiquete=document.getElementById("tiquete").value;
     var modelo = document.getElementById("modelo").value;
-    var marca = document.getElementById("marca").value;
+
     var fechaE = document.getElementById("fechaE").value;
     var docking = document.getElementById("docking").value;
-    var Asociado=document.getElementById("Asociado").value;
+    var Asociado = document.getElementById("Asociado").value;
     $.ajax({
         type: "POST",
         url: '../control/SolicitudAjajxAgregarActivos.php',
-        data: {'Licencias': JSON.stringify(Licencias), 'Repuestos': JSON.stringify(Repuestos), 'codigo': codigo,'categoria':categoria, 'placa': placa, 'usuarioA': UsuarioAsociado,
-            'serie': serie, 'provedor': provedor, 'modelo': modelo, 'marca': marca, 'codigoC': codigoCategoria, 'fechaE': fechaE,'docking':docking,'Asociado':Asociado}, //capturo array     
+        data: {'Licencias': JSON.stringify(Licencias), 'Repuestos': JSON.stringify(Repuestos), 'codigo': codigo, 'categoria': categoria, 'placa': placa, 'usuarioA': UsuarioAsociado,
+            'serie': serie, 'modelo': modelo, 'codigoC': codigoCategoria, 'fechaE': fechaE,'tiquete':tiquete ,'docking': docking, 'Asociado': Asociado}, //capturo array     
         success: function (reponse) {
             $("#confirmarAsociar").modal("hide");
             var separador = "'";

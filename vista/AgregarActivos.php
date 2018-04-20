@@ -1,11 +1,14 @@
 <html> 
     <head>   
         <meta charset="UTF-8">
-        <?php require ("../modelo/Tematica.php"); ?>
-        <?php require ("../control/ArchivosDeCabecera.php"); ?>
-        <?php require ("../modelo/ProcedimientosInventario.php"); ?>
-        <?php require ("../control/AdministrarAgregarActivos.php"); ?>
-        <?php require ("../control/AlertasConfirmaciones.php"); ?>
+        <?php
+        require ("../modelo/Tematica.php");
+        require ("../control/ArchivosDeCabecera.php");
+        require ("../modelo/ProcedimientosInventario.php");
+        require ("../control/AdministrarAgregarActivos.php");
+        require ("../control/AlertasConfirmaciones.php");
+        require ("../modelo/Cliente.php");
+        ?>
 
         <link href="../recursos/css/AgregarActivos.css" rel="stylesheet"/>     
         <script  type="text/javascript" src="../recursos/js/AgregarActivos.js"></script> 
@@ -55,7 +58,7 @@
                             <label class="control-label col-md-2" for="Usuarios">Usuario:</label>
                             <div class="col-md-10">
                                 <?php
-                                $responsables = obtenerUsuariosParaAsociar();
+                                $responsables = consumirMetodoDos();
                                 selectTiposActivos($responsables);
                                 ?>
                             </div>
@@ -65,44 +68,46 @@
                             <div class="col-md-10">
                                 <input class="form-control" id="serie" type="text" required>
                             </div>
-                        </div> 
-                        <div class="form-group  col-md-11">
-                            <label class="control-label col-md-2" for="provedor">Proveedor:</label>
-                            <div class="col-md-10">
-                                <input class="form-control" id="provedor" type="text" required>
-                            </div>
-                        </div> 
+                        </div>                         
                         <div class="form-group  col-md-11">
                             <label class="control-label col-md-2" for="modelo">Modelo:</label>
                             <div class="col-md-10">
                                 <input class="form-control" id="modelo" type="text" required>
                             </div>
-                        </div> 
+                        </div>                         
                         <div class="form-group  col-md-11">
-                            <label class="control-label col-md-2" for="marca">Marca:</label>
+                            <label class="control-label col-md-2" for="fechaE">Expiración de garantía:</label>
                             <div class="col-md-10">
-                                <input class="form-control" id="marca" type="text" required>
-                            </div>
-                        </div>  
-                        <div class="  form-group  col-md-11">
-                            <label class="control-label col-md-3" for="fechaE">Expiración de garantía:</label>
-                            <div class='input-group date col-md-9' id='datetimepicker1'>
-                                <?php
-                                $hoy = getdate();
-                                $anio = $hoy["year"];
-                                $mes = $hoy["mon"];
-                                if ($mes < 10)
-                                    $mes = "0" . $mes;
-                                $dia = $hoy["mday"];
-                                if ($dia < 10)
-                                    $dia = "0" . $dia;
-                                $fecha = $dia . "/" . $mes . "/" . $anio;
-                                echo '  <input type="text" class="form-control " name="fechaE" id="fechaE" value="' . $fecha . '">';
+                                <div class='input-group date' id='datetimepicker1'>
 
-                                echo'   <span class="input-group-addon btn btn-info" id="Efecha" onclick="document.getElementById(\'fechaE\').focus()" >
+                                    <?php
+                                    $hoy = getdate();
+                                    $anio = $hoy["year"];
+                                    $mes = $hoy["mon"];
+                                    if ($mes < 10)
+                                        $mes = "0" . $mes;
+                                    $dia = $hoy["mday"];
+                                    if ($dia < 10)
+                                        $dia = "0" . $dia;
+                                    $fecha = $dia . "/" . $mes . "/" . $anio;
+                                    echo '  <input type="text" class="form-control " name="fechaE" id="fechaE" value="' . $fecha . '">';
+
+                                    echo'   <span class="input-group-addon btn btn-info" id="Efecha" onclick="document.getElementById(\'fechaE\').focus()" >
                                     <span class="glyphicon glyphicon-calendar" ></span>
                                 </span>';
-                                ?>                             
+                                    ?>                             
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-11">
+                            <label class="control-label col-md-2" for="tiquete">codigo tiquete:</label>
+                            <div class="col-md-10">
+                                <div class="input-group date">
+                                    <input type="text" class="form-control"  id="tiquete"   >
+                                    <span class="input-group-addon  btn-info" id="tiquete" onclick="tiqueteActivo()" >
+                                        <span class="glyphicon glyphicon-th-list"></span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group  col-md-11">
@@ -114,7 +119,7 @@
                         <div class="form-group  col-md-11">
                             <label class="control-label col-md-2" for="Asociado">el equipo cuenta con:</label>
                             <div class="col-md-10">
-                               <textarea class="form-control" rows="3"  name="comentario" cols="2" id="Asociado"></textarea>
+                                <textarea class="form-control" rows="3"  name="comentario" cols="2" id="Asociado"></textarea>
                             </div>
                         </div> 
                         <div class="col-xs-12 col-md-12 col-md-12 col-lg-12 "  >
@@ -158,24 +163,149 @@
             </form>
 
         </div>
-          <div id="errorInfo" class="modal fade " role="dialog">
+        <div id="errorInfo" class="modal fade " role="dialog">
             <div class="modal-dialog modal-md">                
                 <div class="modal-content">                
                     <div class="modal-body">
                         <div class="row">    
                             <div class="" style ="text-align: center" id="errorDiv"> 
-                             
+
                             </div> 
                         </div>
-                     </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" id="aceptar" class="btn btn-danger" data-dismiss="modal" > Aceptar</button>
                     </div>
                 </div>
             </div>
         </div>
+        <div id="modalaTiquetes" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg" >                
+                <div class="modal-content" id="cuerpoModalToquetes">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Filtros tiquetes</h4>
+                    </div>
+                    <div class="modal-body table-responsive">
+                        <div class="panel panel-primary"> 
+                            <div class="panel-body">  
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-lg-2">
+                                            <h5>Código:</h5>
+                                        </div>                                     
+                                        <div class="col-lg-2">
+                                            <input class="form-control" id="codigoFiltro" >
+                                        </div>
+                                        <div class="col-lg-2"> 
+                                            <h5>Correo Solicitante:</h5>
+                                        </div>                                   
+                                        <div class="col-lg-2">
+                                            <input class="form-control" id="CorreoSFiltro" >
+                                        </div>
+
+                                        <div class="col-lg-2">
+                                            <h5>Nombre Solicitante:</h5> 
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <input class="form-control" id="NombreSFiltro">
+                                        </div>
+                                    </div>
+                                    <div class="row"> 
+                                        <div class="col-lg-2"> 
+                                            <h5>Correo Responsable:</h5>
+                                        </div>                                   
+                                        <div class="col-lg-2">
+                                            <input class="form-control" id="CorreoRFiltro" >
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <h5>Nombre Responsable:</h5> 
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <input class="form-control" id="NombreRFiltro">
+                                        </div>
+
+                                        <div class="col-lg-2">
+                                            <h5>Fecha de inicio:</h5>
+                                        </div>                                     
+                                        <div class="col-lg-2  ">
+                                            <div class = "form-group input-group date" id = "datetimepicker1">
+                                                <?php
+                                                $hoy = getdate();
+                                                $anio = $hoy["year"];
+                                                $mes = $hoy["mon"];
+                                                if ($mes < 10)
+                                                    $mes = "0" . $mes;
+                                                $dia = $hoy["mday"];
+                                                if ($dia < 10)
+                                                    $dia = "0" . $dia;
+                                                $fecha = $dia . "/" . $mes . "/" . $anio;
+                                                echo'<input id = "fechafiltroI" name ="filtro-fecha" type="text" class="  form-control" value="' . $fecha . '">
+                                                <span class="input-group-addon btn btn-info"  for="filtro-fecha" onclick="document.getElementById(\'fechafiltroI\').focus()">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                </span>';
+                                                ?>
+                                            </div>
+                                        </div> 
+                                    </div> 
+
+                                    <div class="row">                                   
+
+                                        <div class="col-lg-2">
+                                            <h5>Fecha de final:</h5>
+                                        </div>                                     
+                                        <div class="col-lg-2  ">
+                                            <div class = "form-group input-group date" id = "datetimepicker2">
+                                                <?php
+                                                echo'<input id = "fechafiltroF" name ="filtro-fecha" type="text" class="form-control" value="' . $fecha . '" >
+                                                <span class="input-group-addon btn btn-info"  for="filtro-fecha" onclick="document.getElementById(\'fechafiltroF\').focus()">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                </span>';
+                                                ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-1  ">
+                                            <h5>Estados:</h5>
+                                        </div>
+                                        <div class="col-lg-7  ">
+                                            <?php
+                                            $estados1 = obtenerEstados();
+                                            comboEstadosActivos($estados1);
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">&nbsp;</div>
+                                    <div class="col-lg-12 form-group input-group boton-filtrar">
+                                        <button class="btn btn-success" onclick="filtrartiquetesAjax()">Filtrar búsqueda</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <table class = "table tablasTiquetes table-responsive table-hover" id="tablaTiquetesA">
+                            <thead>
+                                <tr>                                            
+                                    <th>Cod</th> 
+                                    <th class ="thDescripcion">Descripción</th>
+                                    <th>Solicitante</th>
+                                    <th>Responsable</th>
+                                    <th>Estado</th>
+                                    <th>Prioridad</th>
+                                    <th>Fecha entrega</th>
+                                    <th>Calificación</th>                                    
+
+                                </tr>                             
+                            </thead>
+                            <tbody id = "tbody-tablaTiquetesA"> 
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
         <?php
-        confirmacion("confirmarAsociar", "¿Desea asociar  el equipos?", "agregarActivoAjax();", ""); 
+        confirmacion("confirmarAsociar", "¿Desea asociar  el equipos?", "agregarActivoAjax();", "");
         alerta("errorFormulario", "Faltan espacios por llenar", "");
         ?>
     </body>
