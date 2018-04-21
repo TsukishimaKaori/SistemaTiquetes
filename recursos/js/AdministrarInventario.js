@@ -264,7 +264,7 @@ function cargarPanelAgregarInventario() {
     var codigo = 1;// cambiar codigo
     $.ajax({
         data: {'codigoAgregarInventario': codigo},
-        type: 'POST',
+        type: 'POST',       
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
             $("#panelInformacionInventario").html(response);
@@ -526,7 +526,7 @@ function agregarInventarioSuma() {
     var tiquete = $("#tiquete").val();
     var file = document.getElementById("archivo");
     var archivo = file.files[0];
-   
+
     var data = new FormData();
     data.append('codigoArticuloSuma', codigoArticuloSuma);
     data.append('cantidadSuma', cantidad);
@@ -545,18 +545,18 @@ function agregarInventarioSuma() {
             contentType: false,
             processData: false,
             data: data,
-            success: function (response) {             
-                 if (response != 'Error') {
-                        $('#tablaPasivos').DataTable().destroy();
-                        $("#cuerpo-Tabla-Inventario").html(response);
-                        tablaPasivos();
-                        limpiarFormularioInventarioSuma();
-                        mensaje = "Articulo agregado correctamente";
-                        notificacion(mensaje);
-                    } else {
-                        mensaje = "Error al agregar articulo";
-                        notificacion(mensaje);
-                    }
+            success: function (response) {
+                if (response != 'Error') {
+                    $('#tablaPasivos').DataTable().destroy();
+                    $("#cuerpo-Tabla-Inventario").html(response);
+                    tablaPasivos();
+                    limpiarFormularioInventarioSuma();
+                    mensaje = "Articulo agregado correctamente";
+                    notificacion(mensaje);
+                } else {
+                    mensaje = "Error al agregar articulo";
+                    notificacion(mensaje);
+                }
             }
         });
     } else {

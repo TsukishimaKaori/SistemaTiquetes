@@ -3,7 +3,18 @@
 $(document).ready(function () {
     tablaTiquetedInventarioActivo();
 
-
+   $(function () {
+        $('#fechafiltroI').datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'es'
+        });
+    });
+    $(function () {
+        $('#fechafiltroF').datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'es'
+        });
+    });
 });
 function CargarPagina() {
     var div = document.getElementById("divAgregarRepuesto");

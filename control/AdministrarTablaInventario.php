@@ -266,6 +266,12 @@ function panelPasivos($listaPasivos) {
     . '        <div class="row">'
     . '           <div><span class="col-md-4 titulo-inventario">Costo: </span><span class=" col-md-8">' . $listaPasivos->obtenerCosto() . ' </span></div> '
     . '         </div>'
+    . '        <div class="row">'
+    . '           <div><span class="col-md-4 titulo-inventario">Proveedor: </span><span class=" col-md-8">' . $listaPasivos->obtenerProveedor() . ' </span></div> '
+    . '         </div>'
+    . '        <div class="row">'
+    . '           <div><span class="col-md-4 titulo-inventario">Marca: </span><span class=" col-md-8">' . $listaPasivos->obtenerMarca() . ' </span></div> '
+    . '         </div>'
     . '     </div>'
     . ' </div>'
     . ' </div>'
@@ -582,7 +588,7 @@ function comboEstados($estados) {
 function cuerpoTablaMistiquetesInventario($Tiquetes, $codigoPestana) {
     $cont = 1;
     foreach ($Tiquetes as $tique) {
-        echo '<tr onclick="elegirTiquete(\''.$tique->obtenerCodigoTiquete().'\')" data-toggle="tooltip" title="' . substr($tique->obtenerDescripcion(), 0, 70) . '..." data-placement="top"  style = "text-align:center";>';
+        echo '<tr onclick="elegirTiquete(\'' . $tique->obtenerCodigoTiquete() . '\')" data-toggle="tooltip" title="' . substr($tique->obtenerDescripcion(), 0, 70) . '..." data-placement="top"  style = "text-align:center";>';
 //        if($codigoPestana == 2) {
 //            echo '<td value ="' . $tique->obtenerCodigoTiquete() . '">'
 //            . '<input type = "checkbox" id = "check' . $tique->obtenerCodigoTiquete() . '"></td>';
@@ -605,14 +611,14 @@ function cuerpoTablaMistiquetesInventario($Tiquetes, $codigoPestana) {
             echo '<td style= "text-align:center; " >Fecha no asignada</td>';
         }
 
-        calificacion( $tique, $cont++);
-       
+        calificacion($tique, $cont++);
+
         echo '</tr>';
     }
 }
 
 function calificacion($tiquete, $cont) {
-    $califiacion = $tiquete->obtenerCalificacion();    
+    $califiacion = $tiquete->obtenerCalificacion();
     if ($califiacion != null) {
         echo '<td class = "rating">';
         if ($califiacion == 5) {

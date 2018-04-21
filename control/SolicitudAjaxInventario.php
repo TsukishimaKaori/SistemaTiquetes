@@ -1,9 +1,7 @@
 <?php
-
 require_once ("../control/AdministrarTablaInventario.php");
 require ("../modelo/ProcedimientosInventario.php");
 require ("../modelo/Cliente.php");
-
 session_start();
 $r = $_SESSION['objetoUsuario'];
 //Muestra el panel de activos fijos
@@ -19,8 +17,8 @@ if (isset($_POST['codigoActivo'])) {
     }
     panelActivos($listaActivos, $estadosSiguentes, $responsables);
 }
-
 //Muestra el panel de inventario
+
 if (isset($_POST['codigoPasivo'])) {
     $codigo = $_POST['codigoPasivo'];
     $bodega = $_POST['bodega'];
@@ -28,7 +26,6 @@ if (isset($_POST['codigoPasivo'])) {
     $listaPasivos = obtenerArticuloFiltradoCodigoBodega($codigo, $bodega);
     panelPasivos($listaPasivos);
 }
-
 //MOstrar el panel que suma elemetnos al inventario
 if (isset($_POST['codigoSumarInventario'])) {
     $codigo = $_POST['codigoSumarInventario'];
@@ -38,6 +35,7 @@ if (isset($_POST['codigoSumarInventario'])) {
     panelSumarAInventario($inventario, $codigo);
 }
 
+
 //Mostrar el panel para agregar a inventario
 if (isset($_POST['codigoAgregarInventario'])) {
     $codigo = $_POST['codigoAgregarInventario'];
@@ -45,7 +43,6 @@ if (isset($_POST['codigoAgregarInventario'])) {
     $bodegas = obtenerBodegas();
     panelAgregarInventario($categorias, $bodegas);
 }
-
 //Agrega nuevos elementos al inventario
 if (isset($_POST['codigoArticuloAgregarInventario'])) {
     $codigoArticulo = $_POST['codigoArticuloAgregarInventario'];
@@ -68,9 +65,10 @@ if (isset($_POST['codigoArticuloAgregarInventario'])) {
         // basename() puede evitar ataques de denegació del sistema de ficheros;
         // podría ser apropiado más validación/saneamiento del nombre de fichero
         $archivo = basename($_FILES["archivo"]["name"]);
-        $direccionOrdenDeCompra = '../adjuntos/ordenesCompra/' . $orden . "-" . $archivo;
+        $archivo = basename($_FILES["archivo"]["name"]);
+        $archivo = substr($archivo, -5); 
+        $direccionOrdenDeCompra = '../adjuntos/ordenesCompra/' . $orden . $archivo;
         $mensaje = agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codigoCategoria, $estado, $cantidad, $codigoBodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante, $proveedor, $marca, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete);
-
         if ($mensaje == '') {
             move_uploaded_file($nombre_tmp, utf8_decode($direccionOrdenDeCompra));
         }
@@ -84,7 +82,6 @@ if (isset($_POST['codigoArticuloAgregarInventario'])) {
         echo 'Error';
     }
 }
-
 //Suma articulos al inventario ya existente
 if (isset($_POST['codigoArticuloSuma'])) {
     $codigoArticulo = $_POST['codigoArticuloSuma'];
@@ -92,18 +89,17 @@ if (isset($_POST['codigoArticuloSuma'])) {
     $comentarioUsuario = $_POST['comentarioSuma'];
     $correoUsuarioCausante = $_POST['correoUsuario'];
     $nombreUsuarioCausante = $_POST['nombreUsuario'];
-    $numeroOrdenDeCompra = _POST['orden'];
+    $numeroOrdenDeCompra = $_POST['orden'];
     $codigoTiquete = $_POST['tiquete'];
     $direccionOrdenDeCompra = "";
-
     if ($_FILES["archivo"]) {
         $nombre_tmp = $_FILES["archivo"]["tmp_name"];
         // basename() puede evitar ataques de denegació del sistema de ficheros;
         // podría ser apropiado más validación/saneamiento del nombre de fichero
         $archivo = basename($_FILES["archivo"]["name"]);
-        $direccionOrdenDeCompra = '../adjuntos/ordenesCompra/' . $orden . "-" . $archivo;
+        $archivo = substr($archivo, -5); 
+        $direccionOrdenDeCompra = '../adjuntos/ordenesCompra/' . $numeroOrdenDeCompra . $archivo;
         $mensaje = aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete);
-
         if ($mensaje == '') {
             move_uploaded_file($nombre_tmp, utf8_decode($direccionOrdenDeCompra));
         }
@@ -125,14 +121,12 @@ if (isset($_POST['codigoAgregarRepuesto'])) {
     $repuestos = obtenerRepuestosParaAsociar();
     panelAgregarRepuesto($dispositivos, $repuestos, $codigoArticulo);
 }
-
 //Muestra el panel para agregar licencias 
 if (isset($_POST['codigoAgregarLicencia'])) {
     $codigoArticulo = $_POST['codigoAgregarLicencia'];
     $dispositivos = obtenerActivosFiltradosPlaca($codigoArticulo);
     panelAgregarLicencia($dispositivos, $codigoArticulo);
 }
-
 //Agregar una licencia a un equipo
 if (isset($_POST['claveProductoLicencia'])) {
     $placa = $_POST['codigoEquipo'];
@@ -143,7 +137,6 @@ if (isset($_POST['claveProductoLicencia'])) {
     $dia = substr($vencimientoLicencia, 0, 2);
     $mes = substr($vencimientoLicencia, 3, 2);
     $anio = substr($vencimientoLicencia, 6, 4);
-
     $vencimientoLicencia = $anio . $mes . $dia;
     $correoUsuarioCausante = $_POST['correoUsuarioCausante'];
     $nombreUsuarioCausante = $_POST['nombreUsuarioCausante'];
@@ -152,15 +145,12 @@ if (isset($_POST['claveProductoLicencia'])) {
         echo 1; // Ha ocurrido un error
     }
 }
-
-
 //Listar las licencias asociados a un equipo
 if (isset($_POST['codigoEquipoParaLicencia'])) {
     $placa = $_POST['codigoEquipoParaLicencia'];
     $licencias = obtenerLicencias($placa);
     cuerpoTablaLicencias($licencias);
 }
-
 //Listar los repusetos asociados a un equipo
 if (isset($_POST['codigoEquipoParaRepuesto'])) {
     $placa = $_POST['codigoEquipoParaRepuesto'];
@@ -173,7 +163,6 @@ if (isset($_POST['codigoEquipoParaContratos'])) {
     $contratos = obtenerDocumentosAsociados($placa);
     cuerpoTablaContratos($contratos);
 }
-
 //Asociar un repuesto a un equipo 
 if (isset($_POST['codigoAsociarEquipo'])) {
     $placa = $_POST['codigoAsociarEquipo'];
@@ -191,7 +180,6 @@ if (isset($_POST['codigoAsociarEquipo'])) {
         echo 2; // Ya hay un usuario asociado
     }
 }
-
 // eliminar licencias
 if (isset($_POST['codigoLicenciaEliminar'])) {
     $claveDeProducto = $_POST["codigoLicenciaEliminar"];
@@ -201,7 +189,6 @@ if (isset($_POST['codigoLicenciaEliminar'])) {
     $mensaje = eliminarLicencia($claveDeProducto, $placa, $correoUsuarioCausante, $nombreUsuarioCausante);
     echo $mensaje;
 }
-
 // eliminar repuesto
 if (isset($_POST['descripcionRepuestoEliminar'])) {
     $descripcion = $_POST['descripcionRepuestoEliminar'];
@@ -241,7 +228,6 @@ if (isset($_POST['codigoDesasociar'])) {
         echo "Error";
     }
 }
-
 // cambiar estado
 if (isset($_POST['usuarioAsociado'])) {
     $correoUsuarioAsociado = $_POST['usuarioAsociado'];
@@ -282,7 +268,6 @@ if (isset($_POST['filtrarActivo'])) {
     }
 }
 if (isset($_POST['filtrarInventario'])) {
-
     $codigoArticulo = $_POST['filtrarInventario'];
     $descripcion = $_POST['descripcion'];
     $nombreCategoria = $_POST['categoria'];
@@ -300,7 +285,6 @@ if (isset($_POST['filtrarInventario'])) {
         cuerpoTablaPasivos($inventario);
     }
 }
-
 if (isset($_POST['codigoFiltro'])) {
     $mitabla = $_POST['mitabla'];
     $codigoTiquete = $_POST['codigoFiltro'];
