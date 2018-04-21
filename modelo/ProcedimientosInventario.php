@@ -1029,6 +1029,8 @@ function crearHistorialActivos($row) {
 //    echo $pasivo->obtenerCosto() . '<br />';
 //    echo $pasivo->obtenerCantidad() . '<br />';
 //    echo $pasivo->obtenerBodega()->obtenerNombreBodega() . '<br />';
+//    echo $pasivo->obtenerProveedor() . '<br />';
+//    echo $pasivo->obtenerMarca() . '<br />';
 //    echo '<br />';
 
 
