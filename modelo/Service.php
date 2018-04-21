@@ -5,8 +5,8 @@
 if(isset($_GET['metodo']) ) {
     $metodo = intval($_GET['metodo']);
     
-    //$serverName = "TATIANA\SQLEXPRESS02";
-      $serverName ="DANNY\SQLEXPRESS01";
+    $serverName = "TATIANA\SQLEXPRESS02";
+    //$serverName ="DANNY\SQLEXPRESS01";
     $connectionOptions = array("Database" => "SistemaTiquetes", "UID" => "dbatiquetes", "PWD" => "dbatiquetes");
     $conn = sqlsrv_connect($serverName, $connectionOptions);
             
