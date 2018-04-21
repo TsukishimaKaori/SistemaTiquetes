@@ -30,7 +30,10 @@ if (isset($_POST["Licencias"])) {
     $docking=$_POST['docking'];
     $asociados=$_POST['Asociado'];
     
-   $codigoTiquete=$_POST['tiquete'];
+    $codigoTiquete=$_POST['tiquete'];
+    if($codigoTiquete==''){
+        $codigoTiquete=null;
+    }
     $fechaExpiraGarantia=explode("/", $fechaExpiraGarantia);
     $fechaExpiraGarantia=$fechaExpiraGarantia[2].$fechaExpiraGarantia[1].$fechaExpiraGarantia[0];
     $usuario = consumirMetodoUno($correoUsuarioAsociado);
