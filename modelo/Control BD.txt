@@ -2,6 +2,8 @@
 
 1. Volver a correr PAobtenerArticuloFiltradoCodigoBodega, ya devuelve el proveedor y la marca
 
+2. Volver a correr PAbusquedaAvanzadaInventario, ya devuelve el proveedor y la marca
+
 14/04/2018
 
 1. Corran los Drop que estan el RecursosHumanosBD y corran esa tabla, los insert y los procedimientos
