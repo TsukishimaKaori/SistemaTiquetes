@@ -1140,11 +1140,11 @@ GO
 	SET @nombreBodega = '%' + @nombreBodega + '%';
 
 	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, inve.estado, inve.cantidad,
-	inve.codigoBodega, bode.nombreBodega from
+	inve.codigoBodega, bode.nombreBodega, inve.proveedor, inve.marca from
 	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where nombreCategoria COLLATE Latin1_General_CI_AI like @nombreCategoria
 	AND esRepuesto like @esRepuesto) cat,
 	(select codigoBodega, nombreBodega from Bodega where nombreBodega COLLATE Latin1_General_CI_AI like @nombreBodega) bode,
-	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega from Inventario
+	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega, proveedor, marca from Inventario
 	where codigoArticulo like @codigoArticulo AND descripcion COLLATE Latin1_General_CI_AI like @descripcion) inve
 	where inve.codigoCategoria = cat.codigoCategoria AND inve.codigoBodega = bode.codigoBodega;
  GO
@@ -1455,12 +1455,13 @@ GO
  AS
 	SET NOCOUNT ON;
 	select inve.codigoArticulo, inve.descripcion, inve.costo, cat.codigoCategoria, cat.nombreCategoria, cat.esRepuesto, inve.estado, inve.cantidad,
-	inve.codigoBodega, bode.nombreBodega from
+	inve.codigoBodega, bode.nombreBodega, inve.proveedor, inve.marca from
 	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria) cat,
 	(select codigoBodega, nombreBodega from Bodega where codigoBodega = @codigoBodega) bode,
-	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega from Inventario 
+	(select codigoArticulo, descripcion, costo, codigoCategoria, estado, cantidad, codigoBodega, proveedor, marca from Inventario 
 	where codigoArticulo = @codigo AND codigoBodega = @codigoBodega) inve
 	where inve.codigoCategoria = cat.codigoCategoria AND inve.codigoBodega = bode.codigoBodega;
+
  GO
 
  --select * from Inventario;
