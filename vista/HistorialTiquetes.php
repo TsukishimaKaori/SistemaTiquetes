@@ -88,9 +88,9 @@
         ?>  
         <section id = "seccionInfoTiquete" class ="container-fluid ocultarTiquetes"> 
             <div class="row"> 
-                <div class="col-md-1 " >
+                <div class="col-md-2 " >
                     <button  onclick="retornarABandejaDesdeHistorial();" title="Regresar" type="button" class="btn btn-info " data-toggle="modal" data-target=""><i class="glyphicon glyphicon-arrow-left"></i></button>
-                </div>                            
+                </div>                  
             </div>
             <br> 
             <div id = "cuerpoHistorialTiquete" class="panel-body cuerpo-panel" >   </div>

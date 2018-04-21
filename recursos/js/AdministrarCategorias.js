@@ -4,7 +4,8 @@ function categoriaAgregar(event) {
     var esRepuesto = $('#esRepuesto').prop("checked"); //retorna true o false
     var val = validacionExpRegular(valorInputCategoria);
     if (val == 'false' || valorInputCategoria == null || valorInputCategoria.length == 0) {
-       // $("#alertaNombreTemaNoValido").modal('show');
+        notificacion("El valor de la categoría introducido no es válido"); 
+          $("#modalAgregarCategoria").modal('hide');
     } else {
         categoriaAgregarAjax(valorInputCategoria, esRepuesto);
     }

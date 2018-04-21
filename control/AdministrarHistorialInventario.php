@@ -1,5 +1,8 @@
 <?php
 
+
+
+
 function historialInventario($historial, $dispositivo) {
     $tamanio = count($historial);
     if ($tamanio == 0) {
@@ -7,12 +10,6 @@ function historialInventario($historial, $dispositivo) {
     } else {
         echo ' <div   class = "panel panel-info">' .
         '   <div class="panel-heading col-md-12">' .
-        '       <div class="row"> ' .
-        '           <div><span class="titulo-Indicador col-md-12"><h1>Registro de movimientos del artículo</h1> </span></div> ' .
-        '       </div>  ' .
-        '   </div>  ' .
-        '<div class="panel-body" >' .
-        '   <div class="col-md-12">' .
         '       <div class="row"> ' .
         '           <div><h3>Información general del dispositivo en inventario</h3></div> ' .
         '       </div>  ' .
@@ -34,6 +31,10 @@ function historialInventario($historial, $dispositivo) {
         '       <div class="row"> ' .
         '           <div><span class="titulo-Indicador col-md-3">Cantidad actual en inventario: </span><span class=" col-md-9"> ' . $dispositivo->obtenerCantidad() . ' </span></div> ' .
         '       </div>  ' .
+        '   </div>  ' .
+        '<div class="panel-body" >' .
+        '   <div class="col-md-12">' .
+
         '       <div class="row"> ' .
         '           <div><h3>Movimientos del dispositivo</h3></div> ' .
         '       </div>  ' .

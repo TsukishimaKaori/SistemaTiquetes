@@ -14,11 +14,11 @@
         require ("../vista/Cabecera.php");
         if (isset($_GET['pagina'])) {
             $codigoPagina = $_GET['pagina'];
-            $codigoDispositivo = $_GET['dispositivo'];         
-            
+            $codigoDispositivo = $_GET['dispositivo'];
+
             if ($codigoPagina == 2) {
                 $dispositivo = obtenerInventario();
-                  $bodega = $_GET['bodega'];
+                $bodega = $_GET['bodega'];
                 $disp = obtenerArticuloFiltradoCodigoBodega($codigoDispositivo, $bodega);
                 $historial = obtenerDetalleArticuloInventario($codigoDispositivo, $bodega);
             } else if ($codigoPagina == 1) {
@@ -30,31 +30,37 @@
             $codigoPagina = 0;
         }
         ?>  
+
         <section id = "seccionInventario" class ="container-fluid"> 
             <div class="row"> 
-                <div class="col-md-1 " >
+                <div class="col-md-2 " >
                     <?php
                     $direccion = "../vista/AdministrarInventario.php?tab=$codigoPagina";
                     echo '<a href =' . $direccion . '>
                         <button  onclick="" title="Regresar" type="button" class="btn btn-info "><i class="glyphicon glyphicon-arrow-left"></i></button>
                     </a>';
                     ?>
-                </div>                            
+                </div> 
+                <div  class = "col-md-8"  ><h3>Registro de movimientos del artículo</h3></div>
+                <div  class = "col-md-2" style="text-align: right;"> 
+                 <a>
+                    <button type="button" class="btn btn-info" onclick="filtros()" >
+                    <i class="glyphicon glyphicon-wrench"></i> &nbsp; Filtrar búsqueda</button>
+                    </a>
+                </div>
             </div>
             <br> 
+            <div class="row">
             <div id = "cuerpoHistorialInventario" class="panel-body cuerpo-panel" >
                 <?php
                 if ($codigoPagina == 2) {
                     historialInventario($historial, $disp);
                 } else if ($codigoPagina == 1) {
                     historialActivos($historial, $disp);
-                }   
-                
-                
-                
-                
+                }
                 ?>
-            </div>            
+            </div>  
+            </div> 
         </section>
     </body>
 </html>
