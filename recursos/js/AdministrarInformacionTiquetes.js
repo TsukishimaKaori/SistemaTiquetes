@@ -11,7 +11,6 @@ function cargarpaginaPrincipal() {
 
 $(function () {
     $('.datetimepicker').datetimepicker({
-
         format: 'DD/MM/YYYY',
         locale: 'es'
     });
@@ -59,9 +58,26 @@ function TiqueteExiste(codigoTiquete, pagina) {
         url: '../control/SolicitudAjaxInformacionTiquetes.php',
         success: function (response) {
             if (response == "Si") {
-                $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + codigoTiquete + '&pagina=' + pagina + " #cargarTiquetePagina");
-            } else {
+                 $.ajax({
+                        data: {'extra': true, 'tiquete': codigoTiquete, 'pagina': pagina
+                        },
+                        type: 'POST',
+                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                        success: function (response) {
+                            $("#cargarTiquetePagina").html(response);
 
+                            $(function () {
+                                $('.datetimepicker').datetimepicker({
+                                    format: 'DD/MM/YYYY',
+                                    locale: 'es'
+                                });
+                            });
+                           
+
+                        }
+                    });
+                
+            } else {
                 cambiarComboPagina(document.getElementById("comboPagina"));
             }
         }
@@ -276,14 +292,26 @@ function cambiarComboPagina(event) {
                 var pagina = response['pagina'];
                 if (tiquete != '-1') {
                     $("h2").remove(".bandejaTiquetesVacia");
-                    $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + tiquete + '&pagina=' + pagina + " #cargarTiquetePagina");
-                    $(function () {
-                        $('.datetimepicker').datetimepicker({
+                    $.ajax({
+                        data: {'extra': true, 'tiquete': tiquete, 'pagina': pagina
+                        },
+                        type: 'POST',
+                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                        success: function (response) {
+                            $("#cargarTiquetePagina").html(response);
 
-                            format: 'DD/MM/YYYY',
-                            locale: 'es'
-                        });
+                            $(function () {
+                                $('.datetimepicker').datetimepicker({
+                                    format: 'DD/MM/YYYY',
+                                    locale: 'es'
+                                });
+                            });
+                           
+
+                        }
                     });
+                   
+                  
                 } else {
                     // $("#cargarTiquetePagina").load("../vista/AdministrarInformacionTiquetes.php?#cargarTiquetePagina");
                     $("h2").remove(".bandejaTiquetesVacia");
@@ -342,20 +370,32 @@ function tiqueteSiguiente() {
             success: function (response) {
                 var tiquete = response['tiquete'];
                 var pagina = response['pagina'];
-               
-                $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + tiquete + '&pagina='
-                        + pagina + '&fechaInicioFiltros=' + $("#filtroFechaI").val() + '&fechaFinalizacionFiltros=' + $("#filtroFechaF").val() +
-                        '&nuevo=' + $("#filtroNuevo").val() + '&asignado=' + $("#filtroAsignado").val() + '&reasignacion=' + $("#filtroReasignado").val() +
-                        '&proceso=' + $("#filtroProceso").val() + '&anulado=' + $("#filtroAnulado").val() + '&finalizado=' + $("#filtroFinalizado").val() +
-                        '&calificado=' + $("#filtroCalificado").val() + " #cargarTiquetePagina");
-                $('.datetimepicker').datetimepicker({
-                    format: 'DD/MM/YYYY',
-                    locale: 'es'
-                })
+                $.ajax({
+                    data: {'extra': true, 'tiquete': tiquete, 'pagina': pagina,
+                        'fechaInicioFiltros': $("#filtroFechaI").val(), 'fechaFinalizacionFiltros': $("#filtroFechaF").val(),
+                        'nuevo': $("#filtroNuevo").val(), 'asignado': $("#filtroAsignado").val(), 'reasignacion': $("#filtroReasignado").val(),
+                        'proceso': $("#filtroProceso").val(), 'anulado': $("#filtroAnulado").val(), 'finalizado': $("#filtroFinalizado").val(),
+                        'calificado': $("#filtroCalificado").val()
+                    },
+                    type: 'POST',
+
+                    url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                    success: function (response) {
+                        $("#cargarTiquetePagina").html(response);
+
+                        $(function () {
+                            $('.datetimepicker').datetimepicker({
+                                format: 'DD/MM/YYYY',
+                                locale: 'es'
+                            });
+                        });
+
+                    }
+                });
 
             }
         });
-    
+
 
     } else if (codigoPagina == 4) {
         if (codigoPagina == paginaPrincipal) {
@@ -392,13 +432,30 @@ function tiqueteSiguiente() {
             success: function (response) {
                 var tiquete = response['tiquete'];
                 var pagina = response['pagina'];
-                $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + tiquete + '&pagina='
-                        + pagina + '&fechaInicioFiltros=' + $("#filtroFechaI").val() + '&fechaFinalizacionFiltros=' + $("#filtroFechaF").val() +
-                        '&codigoFiltroG=' + $("#codigoFiltroG").val() + '&nombreSG=' + $("#nombreSG").val() + '&correoSG=' + $("#correoSG").val() +
-                        '&nombreRG=' + $("#nombreRG").val() + '&correoRG=' + $("#correoRG").val() +
-                        '&nuevo=' + $("#filtroNuevo").val() + '&asignado=' + $("#filtroAsignado").val() + '&reasignacion=' + $("#filtroReasignado").val() +
-                        '&proceso=' + $("#filtroProceso").val() + '&anulado=' + $("#filtroAnulado").val() + '&finalizado=' + $("#filtroFinalizado").val() +
-                        '&calificado=' + $("#filtroCalificado").val() + " #cargarTiquetePagina");
+                $.ajax({
+                    data: {'extra': true, 'tiquete': tiquete, 'pagina': pagina,
+                        'fechaInicioFiltros': $("#filtroFechaI").val(), 'fechaFinalizacionFiltros': $("#filtroFechaF").val(),
+                        'codigoFiltroG': $("#codigoFiltroG").val(), 'nombreSG': $("#nombreSG").val(), 'correoSG': $("#correoSG").val(),
+                        'nombreRG': $("#nombreRG").val(), 'correoRG': $("#correoRG").val(),
+                        'nuevo': $("#filtroNuevo").val(), 'asignado': $("#filtroAsignado").val(), 'reasignacion': $("#filtroReasignado").val(),
+                        'proceso': $("#filtroProceso").val(), 'anulado': $("#filtroAnulado").val(), 'finalizado': $("#filtroFinalizado").val(),
+                        'calificado': $("#filtroCalificado").val()
+                    },
+                    type: 'POST',
+                    url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                    success: function (response) {
+                        $("#cargarTiquetePagina").html(response);
+                        $(function () {
+                            $('.datetimepicker').datetimepicker({
+                                format: 'DD/MM/YYYY',
+                                locale: 'es'
+                            });
+                        });
+
+                    }
+                });
+
+
             }
         });
     }
@@ -441,19 +498,29 @@ function tiqueteAnterior() {
             success: function (response) {
                 var tiquete = response['tiquete'];
                 var pagina = response['pagina'];
-                var codigoTiquete = $("#codigoTiquete").text();
-                $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + tiquete + '&pagina='
-                        + pagina + '&fechaInicioFiltros=' + $("#filtroFechaI").val() + '&fechaFinalizacionFiltros=' + $("#filtroFechaF").val() +
-                        '&nuevo=' + $("#filtroNuevo").val() + '&asignado=' + $("#filtroAsignado").val() + '&reasignacion=' + $("#filtroReasignado").val() +
-                        '&proceso=' + $("#filtroProceso").val() + '&anulado=' + $("#filtroAnulado").val() + '&finalizado=' + $("#filtroFinalizado").val() +
-                        '&calificado=' + $("#filtroCalificado").val() + " #cargarTiquetePagina");
-                $(function () {
-                    $('.datetimepicker').datetimepicker({
+                $.ajax({
+                    data: {'extra': true, 'tiquete': tiquete, 'pagina': pagina,
+                        'fechaInicioFiltros': $("#filtroFechaI").val(), 'fechaFinalizacionFiltros': $("#filtroFechaF").val(),
+                        'nuevo': $("#filtroNuevo").val(), 'asignado': $("#filtroAsignado").val(), 'reasignacion': $("#filtroReasignado").val(),
+                        'proceso': $("#filtroProceso").val(), 'anulado': $("#filtroAnulado").val(), 'finalizado': $("#filtroFinalizado").val(),
+                        'calificado': $("#filtroCalificado").val()
+                    },
+                    type: 'POST',
 
-                        format: 'DD/MM/YYYY',
-                        locale: 'es'
-                    });
+                    url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                    success: function (response) {
+                        $("#cargarTiquetePagina").html(response);
+
+                        $(function () {
+                            $('.datetimepicker').datetimepicker({
+                                format: 'DD/MM/YYYY',
+                                locale: 'es'
+                            });
+                        });
+
+                    }
                 });
+
             }
         });
     } else if (codigoPagina == 4) {
@@ -489,13 +556,28 @@ function tiqueteAnterior() {
             success: function (response) {
                 var tiquete = response['tiquete'];
                 var pagina = response['pagina'];
-                $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + tiquete + '&pagina='
-                        + pagina + '&fechaInicioFiltros=' + $("#filtroFechaI").val() + '&fechaFinalizacionFiltros=' + $("#filtroFechaF").val() +
-                        '&codigoFiltroG=' + $("#codigoFiltroG").val() + '&nombreSG=' + $("#nombreSG").val() + '&correoSG=' + $("#correoSG").val() +
-                        '&nombreRG=' + $("#nombreRG").val() + '&correoRG=' + $("#correoRG").val() +
-                        '&nuevo=' + $("#filtroNuevo").val() + '&asignado=' + $("#filtroAsignado").val() + '&reasignacion=' + $("#filtroReasignado").val() +
-                        '&proceso=' + $("#filtroProceso").val() + '&anulado=' + $("#filtroAnulado").val() + '&finalizado=' + $("#filtroFinalizado").val() +
-                        '&calificado=' + $("#filtroCalificado").val() + " #cargarTiquetePagina");
+                $.ajax({
+                    data: {'extra': true, 'tiquete': tiquete, 'pagina': pagina,
+                        'fechaInicioFiltros': $("#filtroFechaI").val(), 'fechaFinalizacionFiltros': $("#filtroFechaF").val(),
+                        'codigoFiltroG': $("#codigoFiltroG").val(), 'nombreSG': $("#nombreSG").val(), 'correoSG': $("#correoSG").val(),
+                        'nombreRG': $("#nombreRG").val(), 'correoRG': $("#correoRG").val(),
+                        'nuevo': $("#filtroNuevo").val(), 'asignado': $("#filtroAsignado").val(), 'reasignacion': $("#filtroReasignado").val(),
+                        'proceso': $("#filtroProceso").val(), 'anulado': $("#filtroAnulado").val(), 'finalizado': $("#filtroFinalizado").val(),
+                        'calificado': $("#filtroCalificado").val()
+                    },
+                    type: 'POST',
+                    url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                    success: function (response) {
+                        $("#cargarTiquetePagina").html(response);
+                        $(function () {
+                            $('.datetimepicker').datetimepicker({
+                                format: 'DD/MM/YYYY',
+                                locale: 'es'
+                            });
+                        });
+
+                    }
+                });
             }
         });
     }
@@ -541,7 +623,25 @@ function asignarResponsableAjax() {
                 cambiarComboPagina(pagina);
             } else if (paginadePagina == 4) {
                 pagina = pagina.value;
-                $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + codigo + '&pagina=' + pagina + " #cargarTiquetePagina");
+                $.ajax({
+                    data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
+                    },
+                    type: 'POST',
+
+                    url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                    success: function (response) {
+                        $("#cargarTiquetePagina").html(response);
+
+                        $(function () {
+                            $('.datetimepicker').datetimepicker({
+                                format: 'DD/MM/YYYY',
+                                locale: 'es'
+                            });
+                        });
+
+                    }
+                });
+
             }
 
 
@@ -634,10 +734,28 @@ function enProcesoAjax() {
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
                 var pagina = document.getElementById("comboPagina").value;
-                $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + codigo + '&pagina=' + pagina + " #cargarTiquetePagina");
                 if (response == "") {
-                    var mensaje = "El estado del tiquete cambio a proceso correctamente";
-                    notificacion(mensaje);
+                    $.ajax({
+                        data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
+                        },
+                        type: 'POST',
+                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                        success: function (response) {
+                            $("#cargarTiquetePagina").html(response);
+
+                            $(function () {
+                                $('.datetimepicker').datetimepicker({
+                                    format: 'DD/MM/YYYY',
+                                    locale: 'es'
+                                });
+                            });
+                            var mensaje = "El estado del tiquete cambio a proceso correctamente";
+                            notificacion(mensaje);
+
+                        }
+                    });
+
+
                 }
             }
 
@@ -729,9 +847,27 @@ function AnularAjax() {
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
                 var pagina = document.getElementById("comboPagina").value;
-                $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + codigo + '&pagina=' + pagina + " #cargarTiquetePagina");
-                var mensaje = "El tiquete a sido anulado";
+                $.ajax({
+                        data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
+                        },
+                        type: 'POST',
+                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                        success: function (response) {
+                            $("#cargarTiquetePagina").html(response);
+
+                            $(function () {
+                                $('.datetimepicker').datetimepicker({
+                                    format: 'DD/MM/YYYY',
+                                    locale: 'es'
+                                });
+                            });
+                           var mensaje = "El tiquete a sido anulado";
                 notificacion(mensaje);
+
+                        }
+                    });
+               
+                
             }
         });
     }
@@ -771,7 +907,25 @@ function FinalizarAjax() {
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
                 var pagina = document.getElementById("comboPagina").value;
-                $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + codigo + '&pagina=' + pagina + " #cargarTiquetePagina");
+                $.ajax({
+                        data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
+                        },
+                        type: 'POST',
+                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                        success: function (response) {
+                            $("#cargarTiquetePagina").html(response);
+
+                            $(function () {
+                                $('.datetimepicker').datetimepicker({
+                                    format: 'DD/MM/YYYY',
+                                    locale: 'es'
+                                });
+                            });
+                           var mensaje = "El tiquete a sido anulado";
+                notificacion(mensaje);
+
+                        }
+                    });               
                 document.getElementById("justificacion").value = "";
                 if (response != -1) {
                     var mensaje = "El tiquete ha sido finalizado";
@@ -836,10 +990,28 @@ function calificarAjax() {
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
                 var pagina = document.getElementById("comboPagina").value;
-                $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + codigo + '&pagina=' + pagina + " #cargarTiquetePagina");
-                document.getElementById("justificacion").value = "";
+                 $.ajax({
+                        data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
+                        },
+                        type: 'POST',
+                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                        success: function (response) {
+                            $("#cargarTiquetePagina").html(response);
+
+                            $(function () {
+                                $('.datetimepicker').datetimepicker({
+                                    format: 'DD/MM/YYYY',
+                                    locale: 'es'
+                                });
+                            });
+                           document.getElementById("justificacion").value = "";
                 var mensaje = "El tiquete ha sido calificado";
                 notificacion(mensaje);
+
+                        }
+                    });
+            
+                
             }
         });
     }
@@ -859,9 +1031,28 @@ function cambiarPrioridad(event) {
         url: '../control/SolicitudAjaxInformacionTiquetes.php',
         success: function (response) {
             var pagina = document.getElementById("comboPagina").value;
-            $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + codigoTiquete + '&pagina=' + pagina + " #cargarTiquetePagina");
-            var mensaje = "La prioridad del tiquete se cambio correctamente";
+            $.ajax({
+                        data: {'extra': true, 'tiquete': codigoTiquete, 'pagina': pagina
+                        },
+                        type: 'POST',
+                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                        success: function (response) {
+                            $("#cargarTiquetePagina").html(response);
+
+                            $(function () {
+                                $('.datetimepicker').datetimepicker({
+                                    format: 'DD/MM/YYYY',
+                                    locale: 'es'
+                                });
+                            });
+                           document.getElementById("justificacion").value = "";
+                var mensaje = "La prioridad del tiquete se cambio correctamente";
             notificacion(mensaje);
+
+                        }
+                    });
+     
+            
         }
     });
 }
@@ -896,7 +1087,25 @@ function ReprocesarAjax() {
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
                 var pagina = document.getElementById("comboPagina").value;
-                $("#cargarTiquetePagina").load('../vista/AdministrarInformacionTiquetes.php?tiquete=' + codigo + '&pagina=' + pagina + " #cargarTiquetePagina");
+                 $.ajax({
+                        data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
+                        },
+                        type: 'POST',
+                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                        success: function (response) {
+                            $("#cargarTiquetePagina").html(response);
+
+                            $(function () {
+                                $('.datetimepicker').datetimepicker({
+                                    format: 'DD/MM/YYYY',
+                                    locale: 'es'
+                                });
+                            });
+                           
+
+                        }
+                    });
+                
             }
         });
     }
@@ -923,3 +1132,4 @@ function mostrarHistorialTiquetes() {
                 '&calificado=' + $("#filtroCalificado").val() + '&paginaPrincipal=' + paginaPrincipal;
     }
 }
+
