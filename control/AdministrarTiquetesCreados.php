@@ -210,7 +210,7 @@ function comboResponsablesAsignar($tique, $responsables) {
 
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="FILTROS">
-function filtros($mitabla) {
+function filtros() {
     //$estados = obtenerEstados();
     $hoy = getdate();
     $anio = $hoy["year"];

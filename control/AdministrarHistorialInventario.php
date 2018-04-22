@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 function historialInventario($historial, $dispositivo) {
     $tamanio = count($historial);
     if ($tamanio == 0) {
@@ -34,15 +31,22 @@ function historialInventario($historial, $dispositivo) {
         '   </div>  ' .
         '<div class="panel-body" >' .
         '   <div class="col-md-12">' .
-
         '       <div class="row"> ' .
         '           <div><h3>Movimientos del dispositivo</h3></div> ' .
         '       </div>  ' .
         '   </div>  ';
         foreach ($historial as $his) {
+            echo '<div id = "panelFiltrado">';
             historialInformacionInventario($his);
+            echo '</div>';
         }
         echo ' </div></div>  ';
+    }
+}
+
+function historialInformacionInventarioPorElemento($historial) {
+    foreach ($historial as $his) {
+        historialInformacionInventario($his);
     }
 }
 
@@ -144,10 +148,18 @@ function historialActivos($historial, $dispositivo) {
         '           <div><h3>Movimientos del activo fijo</h3></div> ' .
         '       </div>  ' .
         '   </div>  ';
-        foreach ($historial as $his) {
-            historialInformacionActivo($his);
-        }
+
+        echo '<div id = "panelFiltradoActivos">';
+        historialInformacionActivoPorElemento($historial);
+         echo '</div>';
+
         echo ' </div></div>  ';
+    }
+}
+
+function historialInformacionActivoPorElemento($historial) {
+    foreach ($historial as $his) {
+        historialInformacionActivo($his);
     }
 }
 
@@ -184,4 +196,59 @@ function historialInformacionActivo($historial) {
     '           <div><span class="titulo-Indicador col-md-3">Aclaración del sistema:  </span><span class=" col-md-9"> ' . $historial->obtenerAclaracionSistema() . '</span></div> ' .
     '       </div>  ';
     echo '</div><div class = "col-md-12">&nbsp</div><div class = "col-md-12">&nbsp</div>';
+}
+
+function filtroInventario($fecha) {
+    echo'<div class="col-md-12">
+        <div class="panel panel-primary"> 
+            <div class="panel-body">  
+                <div class="container-fluid">                              
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h5>Fecha de inicio:</h5>
+                        </div>                                     
+                        <div class="col-md-2  ">
+                            <div class = "form-group input-group date" id = "datetimepicker1">
+                                <input id = "fechafiltroI" name ="filtro-fecha" type="text" class="  form-control" value="01/01/1950">
+                                <span class="input-group-addon btn btn-info"  onclick="document.getElementById(\'fechafiltroI\').focus()" >
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>  
+                            </div>
+                        </div>
+                  
+                        <div class="col-md-2">
+                            <h5>Fecha de final:</h5>
+                        </div>                                     
+                        <div class="col-md-2  ">
+                            <div class = "form-group input-group date" id = "datetimepicker2">
+                                <input id = "fechafiltroF" name ="filtro-fecha" type="text" class="form-control" value="' . $fecha . '" >
+                                <span class="input-group-addon btn btn-info"  onclick="document.getElementById(\'fechafiltroF\').focus()">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>  
+                            </div>
+                        </div>  
+                    </div>                    
+                    <div class="col-md-offset-6 col-md-6 form-group input-group boton-filtrar">
+                        <button class="btn btn-success" onclick="filtrarBusqueda()">Filtrar búsqueda</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>';
+}
+
+function filtrosArticulos() {
+    //$estados = obtenerEstados();
+    $hoy = getdate();
+    $anio = $hoy["year"];
+    $mes = $hoy["mon"];
+    if ($mes < 10) {
+        $mes = "0" . $mes;
+    }
+    $dia = $hoy["mday"];
+    if ($dia < 10) {
+        $dia = "0" . $dia;
+    }
+    $fecha = $dia . "/" . $mes . "/" . $anio;
+    filtroInventario($fecha);
 }
