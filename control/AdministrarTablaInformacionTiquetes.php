@@ -363,7 +363,7 @@ function correoResponsable($tiquete) {
 }
 
 function horasTrabajadas($tiquete, $codigoPagina) {
-    if ($codigoPagina == 1 || $codigoPagina == 2 || $codigoPagina == 3 && $tiquete->obtenerEstado()->obtenerCodigoEstado() != 4) {
+    if ($codigoPagina == 1 || $codigoPagina == 2 || $codigoPagina == 3  || $codigoPagina == 5 && $tiquete->obtenerEstado()->obtenerCodigoEstado() != 4) {
         echo $tiquete->obtenerHorasTrabajadas() != null ? $tiquete->obtenerHorasTrabajadas() : "0";
     } else if ($codigoPagina == 3) {
         echo horasTrabajadasModificable($tiquete);
@@ -402,7 +402,7 @@ function estadoTiquete($tiquete) {
 }
 
 function prioridadTiquete($tiquete, $codigoPagina, $prioridades) { //aun no se que pagina puede modficar la prioridad
-    if ($codigoPagina == 1 || $codigoPagina == 3 || $codigoPagina == 4) {
+    if ($codigoPagina == 1 || $codigoPagina == 3 || $codigoPagina == 4|| $codigoPagina == 5) {
         echo '<div class = "col-md-2" style = "text-align:center; color:white">';
         if ($tiquete->obtenerPrioridad()->obtenerCodigoPrioridad() == 3) {
             echo '<div style = "background-color:#5CB85C;">';

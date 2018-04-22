@@ -323,12 +323,17 @@ function cambiarComboPagina(event) {
         });
     }
 }
+function retornarABandejaHistorialInventario(paginaAnterior,bodega,dispositivo){
+  
+        location.href = "../vista/HistorialInventario.php?pagina="+paginaAnterior+"&bodega=" +bodega+"&dispositivo="+ dispositivo;
+    
+}
 
 function retornarABandeja() {
     var $codigoPagina = $("#comboPagina").val();
     if ($codigoPagina == 1 || $codigoPagina == 2 || $codigoPagina == 3) {
         location.href = "../vista/BandejasTiquetes.php?tab=" + $codigoPagina + "";
-    } else {
+    }else {
         location.href = "../vista/BandejasTiquetes.php?tab=4";
     }
 }

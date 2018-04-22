@@ -128,21 +128,33 @@
                 ?>                    
                 <h3 style = "text-align: center;">Administrador de tiquetes</h3>
 
-                <section class ="container-fluid">                        
+                <section class ="container-fluid">   
+                    
                     <div class="row"> 
+                        <?php if($codigoPagina == 5){ 
+                        $bodega =  $_GET['bodega'];  
+                        $dispositivo =  $_GET['dispositivo'];  
+                         $paginaAnterior =  $_GET['paginaAnterior']; 
+                        ?>
+                        <div class="col-md-4 " >
+                          <?php echo  '<button onclick="retornarABandejaHistorialInventario('.$paginaAnterior.','. $bodega.' ,'.$dispositivo.');" title="Regresar" type="button" class="btn btn-info "><i class="glyphicon glyphicon-arrow-left"></i></button>'   ?>
+                        </div>
+                        <?php } else {?>
                         <div class="col-md-4 " >
                             <button  onclick="retornarABandeja();" title="Regresar" type="button" class="btn btn-info " data-toggle="modal" data-target=""><i class="glyphicon glyphicon-arrow-left"></i></button>
-                        </div>
+                        </div>                        
+                        <?php }?>
+                        <?php if($codigoPagina != 5){ ?>
                         <div class="  col-md-1" style="text-align: right;">
                             <button title="Tiquete anterior" type="button" class="btn btn-info ocultarTiquetes " data-toggle="modal" data-target="" onclick="tiqueteAnterior();"><i class="glyphicon glyphicon-triangle-left"></i></button>
                         </div>
                         <div class=" col-md-2">  
                             <?php descripcionPagina($codigoPagina, $r); ?>
-
                         </div>
                         <div class="col-md-1"> 
                             <button  title="Siguiente Tiquete" type="button" class="btn btn-info ocultarTiquetes " data-toggle="modal" data-target="" onclick=" tiqueteSiguiente();"><i class="glyphicon glyphicon-triangle-right"></i></button>
                         </div>
+                        <?php }?>
                     </div>
                     <div class="row">
                         <?php codigoPagina($codigoPagina); ?>

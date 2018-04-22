@@ -81,9 +81,10 @@ function historialInformacionInventario($historial) {
     '       <div class="row"> ' .
     '           <div><span class="titulo-Indicador col-md-3">Bodega: </span><span class=" col-md-9"> ' . $historial->obtenerBodega()->obtenerNombreBodega() . '</span></div> ' .
     '       </div>  ';
-    if ($historial->obtenerCodigoTiquete() != "") {
+    $codigoTiqute = $historial->obtenerCodigoTiquete();
+    if ($codigoTiqute != "") {
         echo '       <div class="row"> ' .
-        '           <div><span class="titulo-Indicador col-md-3">Código del tiquete asociado: </span><span class=" col-md-9"> ' . $historial->obtenerCodigoTiquete() . '</span></div> ' .
+    '           <div><span class="titulo-Indicador col-md-3">Código del tiquete asociado: </span><span class=" col-md-9"><a href="../vista/AdministrarInformacionTiquetes.php?tiquete=' . $codigoTiqute . '&pagina=5&bodega='.$historial->obtenerBodega()->obtenerCodigoBodega().'&dispositivo='.$_GET['dispositivo'].'&paginaAnterior=2"><button class = "btn btn-success"><span class="glyphicon glyphicon-file"></span>Tiquete asociado '.$codigoTiqute.'</button></a></span></div> ' .
         '       </div>  ';
     }
     echo '       <div class="row"> ' .
