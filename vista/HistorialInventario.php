@@ -20,7 +20,6 @@
         if (isset($_GET['pagina'])) {
             $codigoPagina = $_GET['pagina'];
             $codigoDispositivo = $_GET['dispositivo'];
-
             if ($codigoPagina == 2) {
                 $dispositivo = obtenerInventario();
                 $bodega = $_GET['bodega'];

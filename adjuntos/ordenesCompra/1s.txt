@@ -1,0 +1,19 @@
+//Direccion del proyecto android archivos de java 
+C:\Users\HP_810G2\Desktop\FranciniCorralesLQ01\app\src\main\java\com\francinicorraleslq01\francinicorraleslq01
+
+
+//Direccion de las apk que se van creando cambia de acuerdo a la ubicacion del archivo
+C:\Users\HP_810G2\Desktop\FranciniCorralesLQ03\app\build\outputs\apk\debug
+
+//Nombre del proyecto
+FranciniCorralesLQ03
+
+//Nombre del apk
+116650288
+
+//Nombre del .zip
+116650288-CorralesFrancini-LQ-04-1PM
+
+//Nombre de cada actividad
+Corrales02
+Corrales02

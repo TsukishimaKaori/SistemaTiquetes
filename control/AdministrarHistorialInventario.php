@@ -35,11 +35,11 @@ function historialInventario($historial, $dispositivo) {
         '           <div><h3>Movimientos del dispositivo</h3></div> ' .
         '       </div>  ' .
         '   </div>  ';
-    
-            echo '<div id = "panelFiltrado">';
-            historialInformacionInventarioPorElemento($historial);
-            echo '</div>';
-        
+
+        echo '<div id = "panelFiltrado">';
+        historialInformacionInventarioPorElemento($historial);
+        echo '</div>';
+
         echo ' </div></div>  ';
     }
 }
@@ -51,9 +51,13 @@ function historialInformacionInventarioPorElemento($historial) {
 }
 
 function historialInformacionInventario($historial) {
-    echo
-    '<div class = "col-md-12" >' .
-    '       <div class="row"> ' .
+
+    if ($historial->obtenerEfecto() == "Entrada") {
+        echo '<div class = "col-md-12 panel panel-success" >';
+    } else {
+        echo '<div class = "col-md-12 panel panel-danger" >';
+    }
+    echo'     <div class="row"> ' .
     '           <div><span class="titulo-Indicador col-md-3">Fecha del movimiento:</span><span class=" col-md-9"> ' . date_format($historial->obtenerFecha(), 'd/m/Y ') . '</span></div> ' .
     '       </div>  ' .
     '       <div class="row"> ' .
@@ -76,8 +80,21 @@ function historialInformacionInventario($historial) {
     '       </div>  ' .
     '       <div class="row"> ' .
     '           <div><span class="titulo-Indicador col-md-3">Bodega: </span><span class=" col-md-9"> ' . $historial->obtenerBodega()->obtenerNombreBodega() . '</span></div> ' .
-    '       </div>  ' .
-    '       <div class="row"> ' .
+    '       </div>  ';
+    if ($historial->obtenerCodigoTiquete() != "") {
+        echo '       <div class="row"> ' .
+        '           <div><span class="titulo-Indicador col-md-3">Código del tiquete asociado: </span><span class=" col-md-9"> ' . $historial->obtenerCodigoTiquete() . '</span></div> ' .
+        '       </div>  ';
+    }
+    echo '       <div class="row"> ' .
+    '           <div><span class="titulo-Indicador col-md-3">Númer orden de compra: </span><span class=" col-md-9"> ' . $historial->obtenerNumeroOrdenDeCompra() . '</span></div> ' .
+    '       </div>  ';
+    if ($historial->obtenerDireccionOrdenDeCompra() != "") {
+        echo '       <div class="row"> ' .
+        '           <div><span class="titulo-Indicador col-md-3">Adjunto orden de compra: </span><span class=" col-md-9"> <a href="' . $historial->obtenerDireccionOrdenDeCompra() . '" target="_blank"><button class = "btn btn-info"><span class="glyphicon glyphicon-file"></span>Orden de compra</button></a></span></div> ' .
+        '       </div>  ';
+    }
+    echo '       <div class="row"> ' .
     '           <div><span class="titulo-Indicador col-md-3">Correo del usuario causante: </span><span class=" col-md-9"> ' . $historial->obtenerCorreoUsuarioCausante() . '</span></div> ' .
     '       </div>  ' .
     '       <div class="row"> ' .
@@ -144,7 +161,6 @@ function historialActivos($historial, $dispositivo) {
         '   </div>  ' .
         '<div class="panel-body" >' .
         '   <div class="col-md-12">' .
-
         '       <div class="row"> ' .
         '           <div><h3>Movimientos del activo fijo</h3></div> ' .
         '       </div>  ' .
@@ -152,7 +168,7 @@ function historialActivos($historial, $dispositivo) {
 
         echo '<div id = "panelFiltradoActivos">';
         historialInformacionActivoPorElemento($historial);
-         echo '</div>';
+        echo '</div>';
 
         echo ' </div></div>  ';
     }
