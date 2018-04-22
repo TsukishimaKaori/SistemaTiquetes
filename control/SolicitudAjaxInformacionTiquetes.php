@@ -314,3 +314,12 @@ if (isset($_POST['codigoCalificar'])) {
     calificarTiquete($codTiquete, $justificacion, $correoUsuarioCausante, $nombreUsuarioCausante, $calificacion);
 }   
 // </editor-fold>
+
+if (isset($_POST['extra'])) { 
+    echo intoTiquete($r);
+       
+
+                          
+        
+    
+}
