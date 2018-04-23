@@ -12,6 +12,7 @@
         <?php
         require ("../modelo/ProcedimientosPermisos.php");
         require ("../modelo/ProcedimientosTiquetes.php");
+        require ("../modelo/ProcedimientosInventario.php");
         require ("../control/AdministrarTablaInformacionTiquetes.php");
         require ("../control/AlertasConfirmaciones.php");
         ?>
@@ -280,6 +281,12 @@
                                         <h5><?php fechaFinalizadoTiquete($tiquete); ?></h5>
                                     </div> 
                                 </div>
+                                <?php
+                                $activos = obtenerActivosAsociadosTiquete($tiquete->obtenerCodigoTiquete());
+                                $estado = $tiquete->obtenerEstado()->obtenerCodigoEstado();
+                                equipoAsociado($estado, $activos, $codigoPagina);
+                                ?>                                    
+
                                 <div class="row ">
                                     <div><h5 class="col-md-12"> Descripción:</h5> </div>
                                     <div class="col-md-12">
@@ -288,7 +295,10 @@
                                 </div>  
                                 <div class="row ">&nbsp;</div>
                                 <div class="row ">
-                                    <?php asignarResponsable($codigoPagina, $tiquete) ?>
+                                    <?php
+                                    $anular = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 9);
+                                    asignarResponsable($codigoPagina, $tiquete, $anular)
+                                    ?>
                                 </div> 
                             </div>
 
@@ -357,7 +367,7 @@
                             </div>
                         </div>
                         <div class            ="modal-footer">
-                            <button type="button" cla        ss="btn btn-danger"  data-dismiss="modal">    Salir</button>
+                            <button type="button" class="btn btn-danger"  data-dismiss="modal">    Salir</button>
                         </div>
                     </div>
                 </div>
@@ -511,14 +521,100 @@
                 </div>
             </div
             <!------------------------------------------------>
+
+            <!-------------------------Modal elegir equipo-------------------------->
+
+            <div id="modalaEquipos" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg" >                
+                    <div class="modal-content" id="cuerpoModalEquipos">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Filtros equipos</h4>
+                        </div>
+                        <div class="modal-body table-responsive">
+                            <div class="panel panel-primary">
+                                <div class="panel-body filtrosVisible">
+
+                                    <div class="row">  
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="placaA">Placa:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="placaA" type="text">
+                                            </div>
+                                        </div>  
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="categoriaA">Categoría:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="categoriaA" type="text">
+                                            </div>
+                                        </div> 
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="marcaA">Marca:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="marcaA" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row"> 
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="usuarioA">Usuario:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="usuarioA" type="text">
+                                            </div>
+                                        </div> 
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="correoA">Correo:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="correoA" type="text">
+                                            </div>
+                                        </div> 
+                                        <div class="form-check col-md-4">                           
+                                            <label class="control-label col-md-3" for="estadosA">Estado:</label>
+                                            <div class="col-md-9">
+                                                <?php
+                                                $estados = obtenerEstadosEquipoParaFiltrar();
+                                                selectEstado($estados);
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row"> 
+                                        <div class="col-md-10">
+                                            <button onclick = " filtrarActivosAjax()" type="button" class="btn btn-success   " data-toggle="modal" > buscar </button> 
+                                        </div>                       
+                                    </div> 
+                                </div>
+                            </div>
+                            <table class = "table tablasTiquetes  table-hover" id="tablaTiquetesI">
+                                <thead>
+                                    <tr>                                            
+                                        <th>Placa</th>
+                                        <th>Categoría</th>
+                                        <th> Marca</th>
+                                        <th>Usuario_asociado</th>
+                                         <th>Fecha de salida de inventario </th>
+                                                                       
+
+                                    </tr>                             
+                                </thead>
+                                <tbody id = "tbody-tablaEquipo"> 
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!------------------------------------------------>
             <?php
             confirmacion("Modalinfo", "", "confirmarActualizarTematica(this)", "cancelarActualizarTematica()");
             confirmacion("confirmarFechaSolicitada", "", "CambiarFechaSolicitadaAjax()", "");
+            confirmacion("desasociarEquipo", "Desea desasociar el equipo", "desasociarEquipoAjax()", "");
             notificacion();
             alerta("ceroHoras", "El tiquete no tiene horas trabajadas", "");
         }
         ?>
     </body >
 
-    
+
 </html>
