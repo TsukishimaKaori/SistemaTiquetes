@@ -7,7 +7,7 @@ if(isset($_GET['metodo']) ) {
     
     //$serverName = "TATIANA\SQLEXPRESS02";
      // $serverName ="DANNY\SQLEXPRESS01";
-      $serverName = "DESKTOP-HFVR94I\SQLEXPRESS01";  
+      $serverName = "DESKTOP-HFVR94I\SQLEXPRESS01";   
     $connectionOptions = array("Database" => "SistemaTiquetes", "UID" => "dbatiquetes", "PWD" => "dbatiquetes");
     $conn = sqlsrv_connect($serverName, $connectionOptions);
             
