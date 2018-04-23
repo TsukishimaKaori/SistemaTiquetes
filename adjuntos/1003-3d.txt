@@ -1,2 +1,0 @@
-file - external data --make all paths relative
-smoth vertex

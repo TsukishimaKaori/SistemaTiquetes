@@ -84,7 +84,7 @@ function historialInformacionInventario($historial) {
     $codigoTiqute = $historial->obtenerCodigoTiquete();
     if ($codigoTiqute != "") {
         echo '       <div class="row"> ' .
-    '           <div><span class="titulo-Indicador col-md-3">Código del tiquete asociado: </span><span class=" col-md-9"><a href="../vista/AdministrarInformacionTiquetes.php?tiquete=' . $codigoTiqute . '&pagina=5&bodega='.$historial->obtenerBodega()->obtenerCodigoBodega().'&dispositivo='.$_GET['dispositivo'].'&paginaAnterior=2"><button class = "btn btn-success"><span class="glyphicon glyphicon-file"></span>Tiquete asociado '.$codigoTiqute.'</button></a></span></div> ' .
+        '           <div><span class="titulo-Indicador col-md-3">Código del tiquete asociado: </span><span class=" col-md-9"><a href="../vista/AdministrarInformacionTiquetes.php?tiquete=' . $codigoTiqute . '&pagina=5&bodega=' . $historial->obtenerBodega()->obtenerCodigoBodega() . '&dispositivo=' . $_GET['dispositivo'] . '&paginaAnterior=2"><button class = "btn btn-success"><span class="glyphicon glyphicon-file"></span>Tiquete asociado ' . $codigoTiqute . '</button></a></span></div> ' .
         '       </div>  ';
     }
     echo '       <div class="row"> ' .
@@ -206,9 +206,15 @@ function historialInformacionActivo($historial) {
     '           <div><span class="titulo-Indicador col-md-3">Nombre del usuario asociado:  </span><span class=" col-md-9"> ' . $historial->obtenerNombreUsuarioAsociado() . '</span></div> ' .
     '       </div>  ';
     if ($historial->obtenerComentarioUsuario() != "") {
-        echo '       <div class="row"> ' .
-        '           <div><span class="titulo-Indicador col-md-3">Comentario del usuario causante:  </span><span class=" col-md-9"> ' . $historial->obtenerComentarioUsuario() . '</span></div> ' .
-        '       </div>  ';
+        if ($historial->obtenerDescripcionIndicador() == "Adjunta documento") {
+            echo '       <div class="row"> ' .
+            '           <div><span class="titulo-Indicador col-md-3">Adjunto contrato: </span><span class=" col-md-9"> <a href="' . $historial->obtenerComentarioUsuario() . '" target="_blank"><button class = "btn btn-info"><span class="glyphicon glyphicon-file"></span>Contrato</button></a></span></div> ' .
+            '       </div>  ';
+        } else {
+            echo '       <div class="row"> ' .
+            '           <div><span class="titulo-Indicador col-md-3">Comentario del usuario causante:  </span><span class=" col-md-9"> ' . $historial->obtenerComentarioUsuario() . '</span></div> ' .
+            '       </div>  ';
+        }
     }
     echo '       <div class="row"> ' .
     '           <div><span class="titulo-Indicador col-md-3">Aclaración del sistema:  </span><span class=" col-md-9"> ' . $historial->obtenerAclaracionSistema() . '</span></div> ' .
