@@ -210,7 +210,7 @@ function comboResponsablesAsignar($tique, $responsables) {
 
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="FILTROS">
-function filtros() {
+function filtros($mitabla) {
     //$estados = obtenerEstados();
     $hoy = getdate();
     $anio = $hoy["year"];
@@ -241,7 +241,7 @@ function filtroTiquetes($mitabla, $fecha) {
                         </div>                                     
                         <div class="col-md-2  ">
                             <div class = "form-group input-group date" id = "datetimepicker1">
-                                <input id = "fechafiltroI" name ="filtro-fecha" type="text" class="  form-control" value="01/01/1950">
+                                <input id = "fechafiltroI" name ="filtro-fecha" type="text" class="  form-control" value="' . $fecha . '">
                                 <span class="input-group-addon btn btn-info"  onclick="document.getElementById(\'fechafiltroI\').focus()" >
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </span>  
@@ -327,7 +327,7 @@ function filtroTodosLosTiquetes($mitabla, $fecha) {
                                     <div class="col-md-2  ">
                                         <div class = "form-group input-group date" id = "datetimepicker1">
                                             <input id = "fechafiltroI" name ="filtro-fecha" type="text" class="  form-control" value="' . $fecha . '">
-                                            <span class="input-group-addon btn btn-info"  for="filtro-fecha">
+                                            <span class="input-group-addon btn btn-info" onclick="document.getElementById(\'fechafiltroI\').focus()"  for="filtro-fecha">
                                                 <i class="glyphicon glyphicon-calendar"></i>
                                             </span>  
                                         </div>
@@ -342,7 +342,7 @@ function filtroTodosLosTiquetes($mitabla, $fecha) {
                                     <div class="col-md-2  ">
                                         <div class = "form-group input-group date" id = "datetimepicker2">
                                             <input id = "fechafiltroF" name ="filtro-fecha" type="text" class="form-control" value="' . $fecha . '" >
-                                            <span class="input-group-addon btn btn-info"  for="filtro-fecha">
+                                            <span class="input-group-addon btn btn-info"  onclick="document.getElementById(\'fechafiltroF\').focus()" for="filtro-fecha">
                                                 <i class="glyphicon glyphicon-calendar"></i>
                                             </span>  
                                         </div>

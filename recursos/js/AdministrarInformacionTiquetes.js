@@ -6,7 +6,7 @@ function cargarpaginaPrincipal() {
     } else {
         paginaPrincipal = $("#codigoPagina").val();
     }
-
+    tablaActivos();
 }
 
 $(function () {
@@ -58,25 +58,25 @@ function TiqueteExiste(codigoTiquete, pagina) {
         url: '../control/SolicitudAjaxInformacionTiquetes.php',
         success: function (response) {
             if (response == "Si") {
-                 $.ajax({
-                        data: {'extra': true, 'tiquete': codigoTiquete, 'pagina': pagina
-                        },
-                        type: 'POST',
-                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
-                        success: function (response) {
-                            $("#cargarTiquetePagina").html(response);
+                $.ajax({
+                    data: {'extra': true, 'tiquete': codigoTiquete, 'pagina': pagina
+                    },
+                    type: 'POST',
+                    url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                    success: function (response) {
+                        $("#cargarTiquetePagina").html(response);
 
-                            $(function () {
-                                $('.datetimepicker').datetimepicker({
-                                    format: 'DD/MM/YYYY',
-                                    locale: 'es'
-                                });
+                        $(function () {
+                            $('.datetimepicker').datetimepicker({
+                                format: 'DD/MM/YYYY',
+                                locale: 'es'
                             });
-                           
+                        });
 
-                        }
-                    });
-                
+
+                    }
+                });
+
             } else {
                 cambiarComboPagina(document.getElementById("comboPagina"));
             }
@@ -151,25 +151,32 @@ function agregarAdjuntoAJAX() {
     var file = document.getElementById("archivo");
     var archivo = file.files[0];
     if (archivo != null || comentario != '') {
-        var data = new FormData();
-        data.append('Mycodigo', codigo);
-        data.append('comentario', comentario);
-        data.append('archivo', archivo);
-        $.ajax({
-            type: 'POST',
-            url: '../control/SolicitudAjaxInformacionTiquetes.php',
-            contentType: false,
-            processData: false,
-            data: data,
-            success: function (response) {
-                $(document).ready(function () {
-                    $("#comentarios").html(response);
-                    document.getElementById("Textarchivo").value = "";
-                    document.getElementById("comentario").value = "";
-                    document.getElementById("archivo").value = "";
-                });
-            }
-        });
+        var tipo = archivo.type;
+        if (tipo == "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
+                tipo == "text/plain" || tipo == "application/pdf" || tipo == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+                tipo == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || tipo == "image/png" || tipo == "image/jpeg") {
+            var data = new FormData();
+            data.append('Mycodigo', codigo);
+            data.append('comentario', comentario);
+            data.append('archivo', archivo);
+            $.ajax({
+                type: 'POST',
+                url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (response) {
+                    $(document).ready(function () {
+                        $("#comentarios").html(response);
+                        document.getElementById("Textarchivo").value = "";
+                        document.getElementById("comentario").value = "";
+                        document.getElementById("archivo").value = "";
+                    });
+                }
+            });
+        } else {
+            alert("no se puede enviar el archivo");
+        }
     }
 }
 function subirarchivo(event) {
@@ -274,7 +281,7 @@ function cambiarComboPagina(event) {
             data: {'comboPaginas': 1,
                 'codigoTiquete': codigoTiquete,
                 'codigoPagna': codigoPagina,
-                '$fechaI': fechaI,
+                'fechaI': fechaI,
                 'fechaF': fechaF,
                 'nuevo': nuevo,
                 'asignado': asignado,
@@ -306,12 +313,12 @@ function cambiarComboPagina(event) {
                                     locale: 'es'
                                 });
                             });
-                           
+
 
                         }
                     });
-                   
-                  
+
+
                 } else {
                     // $("#cargarTiquetePagina").load("../vista/AdministrarInformacionTiquetes.php?#cargarTiquetePagina");
                     $("h2").remove(".bandejaTiquetesVacia");
@@ -848,26 +855,26 @@ function AnularAjax() {
                 $('.modal-backdrop').remove();
                 var pagina = document.getElementById("comboPagina").value;
                 $.ajax({
-                        data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
-                        },
-                        type: 'POST',
-                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
-                        success: function (response) {
-                            $("#cargarTiquetePagina").html(response);
+                    data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
+                    },
+                    type: 'POST',
+                    url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                    success: function (response) {
+                        $("#cargarTiquetePagina").html(response);
 
-                            $(function () {
-                                $('.datetimepicker').datetimepicker({
-                                    format: 'DD/MM/YYYY',
-                                    locale: 'es'
-                                });
+                        $(function () {
+                            $('.datetimepicker').datetimepicker({
+                                format: 'DD/MM/YYYY',
+                                locale: 'es'
                             });
-                           var mensaje = "El tiquete a sido anulado";
-                notificacion(mensaje);
+                        });
+                        var mensaje = "El tiquete a sido anulado";
+                        notificacion(mensaje);
 
-                        }
-                    });
-               
-                
+                    }
+                });
+
+
             }
         });
     }
@@ -908,24 +915,24 @@ function FinalizarAjax() {
                 $('.modal-backdrop').remove();
                 var pagina = document.getElementById("comboPagina").value;
                 $.ajax({
-                        data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
-                        },
-                        type: 'POST',
-                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
-                        success: function (response) {
-                            $("#cargarTiquetePagina").html(response);
+                    data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
+                    },
+                    type: 'POST',
+                    url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                    success: function (response) {
+                        $("#cargarTiquetePagina").html(response);
 
-                            $(function () {
-                                $('.datetimepicker').datetimepicker({
-                                    format: 'DD/MM/YYYY',
-                                    locale: 'es'
-                                });
+                        $(function () {
+                            $('.datetimepicker').datetimepicker({
+                                format: 'DD/MM/YYYY',
+                                locale: 'es'
                             });
-                           var mensaje = "El tiquete a sido anulado";
-                notificacion(mensaje);
+                        });
+                        var mensaje = "El tiquete a sido anulado";
+                        notificacion(mensaje);
 
-                        }
-                    });               
+                    }
+                });
                 document.getElementById("justificacion").value = "";
                 if (response != -1) {
                     var mensaje = "El tiquete ha sido finalizado";
@@ -990,28 +997,28 @@ function calificarAjax() {
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
                 var pagina = document.getElementById("comboPagina").value;
-                 $.ajax({
-                        data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
-                        },
-                        type: 'POST',
-                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
-                        success: function (response) {
-                            $("#cargarTiquetePagina").html(response);
+                $.ajax({
+                    data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
+                    },
+                    type: 'POST',
+                    url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                    success: function (response) {
+                        $("#cargarTiquetePagina").html(response);
 
-                            $(function () {
-                                $('.datetimepicker').datetimepicker({
-                                    format: 'DD/MM/YYYY',
-                                    locale: 'es'
-                                });
+                        $(function () {
+                            $('.datetimepicker').datetimepicker({
+                                format: 'DD/MM/YYYY',
+                                locale: 'es'
                             });
-                           document.getElementById("justificacion").value = "";
-                var mensaje = "El tiquete ha sido calificado";
-                notificacion(mensaje);
+                        });
+                        document.getElementById("justificacion").value = "";
+                        var mensaje = "El tiquete ha sido calificado";
+                        notificacion(mensaje);
 
-                        }
-                    });
-            
-                
+                    }
+                });
+
+
             }
         });
     }
@@ -1032,27 +1039,27 @@ function cambiarPrioridad(event) {
         success: function (response) {
             var pagina = document.getElementById("comboPagina").value;
             $.ajax({
-                        data: {'extra': true, 'tiquete': codigoTiquete, 'pagina': pagina
-                        },
-                        type: 'POST',
-                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
-                        success: function (response) {
-                            $("#cargarTiquetePagina").html(response);
+                data: {'extra': true, 'tiquete': codigoTiquete, 'pagina': pagina
+                },
+                type: 'POST',
+                url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                success: function (response) {
+                    $("#cargarTiquetePagina").html(response);
 
-                            $(function () {
-                                $('.datetimepicker').datetimepicker({
-                                    format: 'DD/MM/YYYY',
-                                    locale: 'es'
-                                });
-                            });
-                           document.getElementById("justificacion").value = "";
-                var mensaje = "La prioridad del tiquete se cambio correctamente";
-            notificacion(mensaje);
-
-                        }
+                    $(function () {
+                        $('.datetimepicker').datetimepicker({
+                            format: 'DD/MM/YYYY',
+                            locale: 'es'
+                        });
                     });
-     
-            
+                    document.getElementById("justificacion").value = "";
+                    var mensaje = "La prioridad del tiquete se cambio correctamente";
+                    notificacion(mensaje);
+
+                }
+            });
+
+
         }
     });
 }
@@ -1087,25 +1094,25 @@ function ReprocesarAjax() {
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
                 var pagina = document.getElementById("comboPagina").value;
-                 $.ajax({
-                        data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
-                        },
-                        type: 'POST',
-                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
-                        success: function (response) {
-                            $("#cargarTiquetePagina").html(response);
+                $.ajax({
+                    data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
+                    },
+                    type: 'POST',
+                    url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                    success: function (response) {
+                        $("#cargarTiquetePagina").html(response);
 
-                            $(function () {
-                                $('.datetimepicker').datetimepicker({
-                                    format: 'DD/MM/YYYY',
-                                    locale: 'es'
-                                });
+                        $(function () {
+                            $('.datetimepicker').datetimepicker({
+                                format: 'DD/MM/YYYY',
+                                locale: 'es'
                             });
-                           
+                        });
 
-                        }
-                    });
-                
+
+                    }
+                });
+
             }
         });
     }
@@ -1133,3 +1140,119 @@ function mostrarHistorialTiquetes() {
     }
 }
 
+// <editor-fold defaultstate="collapsed" desc="Asociar equipo">
+function tablaActivos() {
+    $('#tablaTiquetesI').DataTable({
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Filtrar búsqueda",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+
+        }
+
+    });
+}
+function equipos() {
+    $("#modalaEquipos").modal("show");
+}
+
+function filtrarActivosAjax() {
+    var placa = $("#placaA").val();
+    var categoria = $("#categoriaA").val();
+    var marca = $("#marcaA").val();
+    var usuario = $("#usuarioA").val();
+    var correo = $("#correoA").val();
+    var estado = $("#estadosA").val();
+    $.ajax({
+        data: {'filtrarActivo': placa,
+            'categoria': categoria,
+            'marca': marca,
+            'usuario': usuario,
+            'correo': correo,
+            'estado': estado
+
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjaxInformacionTiquetes.php',
+        success: function (response) {
+            if (response === "Error") {
+                var mensaje = "Error al filtrar";
+                notificacion(mensaje);
+            } else {
+                $('#tablaTiquetesI').DataTable().destroy();
+                $("#tbody-tablaEquipo").html(response);
+                tablaActivos()
+            }
+
+        }
+    });
+}
+
+function escogerEquipo(placa) {
+    var codigoTiquete = $("#codigoTique").val();
+
+    $.ajax({
+        data: {'asociarPlaca': placa,
+            'codigoTiquete': codigoTiquete
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjaxInformacionTiquetes.php',
+        success: function (response) {
+            if (response !== "") {
+                var mensaje = "Error al asociar";
+                notificacion(mensaje);
+            } else {
+                $("#modalaEquipos").modal("hide");
+                $("#equipo").val(placa);
+                var mensaje = "Equipo asociado correctamente";
+                notificacion(mensaje);
+            }
+
+        }
+    });
+}
+
+function desasociarEquipoAjax() {
+    var placa = $("#equipo").val();
+    var codigoTiquete = $("#codigoTique").val();
+
+    $.ajax({
+        data: {'desasociarPlaca': placa,
+                    'codigoTiquete': codigoTiquete
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjaxInformacionTiquetes.php',
+        success: function (response) {
+            if (response !== "") {
+                var mensaje = "Error al desasociar";
+                notificacion(mensaje);
+            } else {
+                $("#desasociarEquipo").modal("hide");
+                $("#equipo").val("");
+                var mensaje = "Equipo desasociado correctamente";
+                notificacion(mensaje);
+            }
+
+        }
+    });
+}
+// </editor-fold>
