@@ -373,9 +373,9 @@ function panelAgregarInventario($categorias, $bodegas) {
 }
 
 function selectTipos($categorias) {
-    echo'<select id = "categoria" class="form-control">';
+    echo'<select id = "categoria" class="selectpicker form-control" data-size="5" data-live-search="true">';
     foreach ($categorias as $cat) {
-        echo'<option value = "' . $cat->obtenerCodigoCategoria() . '">' . $cat->obtenerNombreCategoria() . '</option>';
+        echo'<option data-tokens="' . $cat->obtenerNombreCategoria() . '" value = "' . $cat->obtenerCodigoCategoria() . '">' . $cat->obtenerNombreCategoria() . '</option>';
     }
     echo'</select>';
 }

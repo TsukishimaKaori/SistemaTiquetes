@@ -11,7 +11,7 @@ if(isset($_GET['metodo']) ) {
      $serverName = "den1.mssql5.gear.host"; 
       $connectionOptions = array("Database" => "sistemaTiquetes", "UID" => "sistematiquetes", "PWD" => "Be503V3cU9?_");
 
-   // $connectionOptions = array("Database" => "SistemaTiquetes", "UID" => "dbatiquetes", "PWD" => "dbatiquetes");
+//    $connectionOptions = array("Database" => "SistemaTiquetes", "UID" => "dbatiquetes", "PWD" => "dbatiquetes");
     $conn = sqlsrv_connect($serverName, $connectionOptions);
             
     if($metodo == 1){

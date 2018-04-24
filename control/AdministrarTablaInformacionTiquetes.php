@@ -364,7 +364,7 @@ function correoResponsable($tiquete) {
 }
 
 function horasTrabajadas($tiquete, $codigoPagina) {
-    if ($codigoPagina == 1 || $codigoPagina == 2 || $codigoPagina == 3  || $codigoPagina == 5 && $tiquete->obtenerEstado()->obtenerCodigoEstado() != 4) {
+    if ($codigoPagina == 1 || $codigoPagina == 2 || $codigoPagina == 3 && $tiquete->obtenerEstado()->obtenerCodigoEstado() != 4 || $codigoPagina == 5) {
         echo $tiquete->obtenerHorasTrabajadas() != null ? $tiquete->obtenerHorasTrabajadas() : "0";
     } else if ($codigoPagina == 3) {
         echo horasTrabajadasModificable($tiquete);
@@ -633,7 +633,9 @@ function equipoAsociado($estado, $activos, $codigoPagina) {
                 </span>    
             </div>';
         }
+        else{
         echo' no disponible en el estado actual';
+        }
         echo'</h5>
              </div> 
                </div>';

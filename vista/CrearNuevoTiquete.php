@@ -22,7 +22,7 @@
         <div class="container ">
             <div class="row">
 
-
+ <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
                 <div class="col-md-6 col-md-offset-3" id="tiquete"> 
                     <form  id ="formulario" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" enctype="multipart/form-data">
                         <h1> Nuevo tiquete</h1>

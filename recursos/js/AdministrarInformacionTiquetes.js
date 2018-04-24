@@ -150,11 +150,22 @@ function agregarAdjuntoAJAX() {
     var comentario = $("#comentario").val();
     var file = document.getElementById("archivo");
     var archivo = file.files[0];
+    var bandera=false;
     if (archivo != null || comentario != '') {
+        bandera=true;
+       if(archivo != null){
         var tipo = archivo.type;
         if (tipo == "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
                 tipo == "text/plain" || tipo == "application/pdf" || tipo == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
                 tipo == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || tipo == "image/png" || tipo == "image/jpeg") {
+            bandera=true;
+            
+        }
+        else{
+             bandera=false;
+        }
+    }
+    if(bandera){
             var data = new FormData();
             data.append('Mycodigo', codigo);
             data.append('comentario', comentario);
@@ -165,8 +176,12 @@ function agregarAdjuntoAJAX() {
                 contentType: false,
                 processData: false,
                 data: data,
+                beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
                 success: function (response) {
                     $(document).ready(function () {
+                         $("#cargandoImagen").css('display','none');
                         $("#comentarios").html(response);
                         document.getElementById("Textarchivo").value = "";
                         document.getElementById("comentario").value = "";
@@ -174,9 +189,11 @@ function agregarAdjuntoAJAX() {
                     });
                 }
             });
-        } else {
-            alert("no se puede enviar el archivo");
         }
+        else{
+            alert("No se puede enviar archivo");
+        }
+       
     }
 }
 function subirarchivo(event) {
