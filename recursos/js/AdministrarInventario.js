@@ -268,6 +268,9 @@ function cargarPanelAgregarInventario() {
         url: '../control/SolicitudAjaxInventario.php',
         success: function (response) {
             $("#panelInformacionInventario").html(response);
+            $('.selectpicker').selectpicker({
+                    size: 5
+                });
             $("#archivo").val("");
             $("#Textarchivo").val("");
         }
