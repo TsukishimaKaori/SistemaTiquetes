@@ -97,7 +97,7 @@ require_once ("../control/UsuarioLogueado.php");
 //                            echo '<li><a href="../vista/AgregarInventario.php">Agregar inventario</a></li>';
 //                        }
                         if ($permiso1) { //cambiar el permiso y url
-                            echo '<li><a href="../vista/AdministrarInventario.php?tab=1">Administrar Activos</a></li>';
+                            echo '<li><a href="../vista/AdministrarInventario.php?tab=1">Administrar activos</a></li>';
                         }
                        
                         echo '</ul>';
@@ -110,7 +110,7 @@ require_once ("../control/UsuarioLogueado.php");
                         if ($permiso1) { //cambiar el permiso y url
                             echo '<li><a href="../vista/AdministrarInventario.php?tab=2">Administrar inventario</a></li>';
                         }
-                         echo '<li><a href="../vista/AdministrarCategorias.php">Administrar Categorías</a></li>';
+                         echo '<li><a href="../vista/AdministrarCategorias.php">Administrar categorías</a></li>';
                         echo '</ul>';
                     }
                 }
