@@ -95,10 +95,13 @@ function  EnviarAjax() {
         contentType: false,
         processData: false,
         data: data,
-
+ beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
             $(document).ready(function () {
                 var a = "error";
+                $("#cargandoImagen").css('display','none');
                 if (response == a) {
                     var a = document.getElementById("errorDiv");
                     if (a.firstChild != null)

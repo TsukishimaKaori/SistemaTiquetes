@@ -90,6 +90,7 @@
             }
         }
         ?>
+         <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
         <div id = "cargarTiquetePagina" onload="hacerDatapiker();">
             <?php
             if (isset($_GET['tiquete']) && isset($_GET['pagina'])) {

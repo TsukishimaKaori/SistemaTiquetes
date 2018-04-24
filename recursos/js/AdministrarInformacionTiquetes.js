@@ -176,8 +176,12 @@ function agregarAdjuntoAJAX() {
                 contentType: false,
                 processData: false,
                 data: data,
+                beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
                 success: function (response) {
                     $(document).ready(function () {
+                         $("#cargandoImagen").css('display','none');
                         $("#comentarios").html(response);
                         document.getElementById("Textarchivo").value = "";
                         document.getElementById("comentario").value = "";

@@ -305,7 +305,7 @@
             </div>
         </div>
         <?php
-        confirmacion("confirmarAsociar", "¿Desea asociar  el equipos?", "agregarActivoAjax();", "");
+        confirmacion("confirmarAsociar", "¿Desea asociar  el equipo?", "agregarActivoAjax();", "");
         alerta("errorFormulario", "Faltan espacios por llenar", "");
         ?>
     </body>
