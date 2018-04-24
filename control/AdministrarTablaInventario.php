@@ -6,9 +6,9 @@ function cabeceraTablaPasivos() {
     . "<th>Categoría</th>"
     . "<th>Tipo</th>"
     . "<th>Bodega</th>"
-    . "<th>+</th>"
-    . "<th>Cantidad</th>"
     . "<th>-</th>"
+    . "<th>Cantidad</th>"
+    . "<th>+</th>"
     . "<th>Ver</th>"
     . "<th>Historial</th>";
 }
@@ -331,13 +331,13 @@ function panelAgregarInventario($categorias, $bodegas) {
             </div>
         </div>
         <div class="form-group col-md-12">
-            <label class="control-label col-md-3" for="orden">orden de compra:</label>
+            <label class="control-label col-md-3" for="orden">Orden de compra:</label>
             <div class="col-md-9">
                 <input  onfocus = "foco(8)" class="form-control" id="orden" type="text" required>
             </div>
         </div>
         <div class="form-group col-md-12">
-            <label class="control-label col-md-3" for="tiquete">codigo tiquete:</label>
+            <label class="control-label col-md-3" for="tiquete">Código tiquete:</label>
             <div class="col-md-9">
               <div class="input-group date">
               <input type="text" class="form-control col-md-5"  id="tiquete"   >
@@ -410,7 +410,7 @@ function panelSumarAInventario($inventario, $codigo) {
             </div>
         </div>
         <div class="form-group  col-md-12">
-            <label class="control-label col-md-3" for="descripcion-suma">Descrición:</label>
+            <label class="control-label col-md-3" for="descripcion-suma">Descripción:</label>
             <div class="col-md-9">
                   <span id="descripcion-suma">' . $inventario->obtenerDescripcion() . '</span>
             </div>
@@ -422,13 +422,13 @@ function panelSumarAInventario($inventario, $codigo) {
             </div>
         </div>    
         <div class="form-group col-md-12">
-            <label class="control-label col-md-3" for="ordenS">orden de compra:</label>
+            <label class="control-label col-md-3" for="ordenS">Orden de compra:</label>
             <div class="col-md-9">
                 <input  onfocus = "focoSuma(4)" class="form-control" id="ordenS" type="text" required>
             </div>
         </div>
         <div class="form-group col-md-12">
-            <label class="control-label col-md-3" for="tiquete">codigo tiquete:</label>
+            <label class="control-label col-md-3" for="tiquete">Código tiquete:</label>
             <div class="col-md-9">
               <div class="input-group date">
               <input type="text" class="form-control col-md-5"  id="tiquete"   >

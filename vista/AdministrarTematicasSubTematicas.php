@@ -21,7 +21,9 @@
                 header('Location: ../vista/Error.php');
             } else {
                 ?> 
+ 
                 <section class ="container-fluid">
+                  
                     <div class="row">                  
                         <div class="col-md-offset-3 col-md-1">
                             <h4>Clasificación</h4> 
@@ -71,7 +73,7 @@
                         </div>                    
                     </div>
                 </section>        
-
+         <div id="cargandoImagen" style = "  text-align: right; margin-bottom:0px;"><img  style = "widh:50px; height: 50px; display: none " src="../recursos/img/cargando2.gif"/></div>
                 <!-----------------Inicio de las ventanas modales---------------------->
                 <!-----------------Ventana agregar subtematica------------------------->
                 <div id="modalAgregarSubTematica" class="modal fade" role="dialog">
