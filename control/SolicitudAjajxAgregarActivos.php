@@ -41,7 +41,7 @@ if (isset($_POST["Licencias"])) {
     $nombreUsuarioAsociado = $usuario->obtenerNombreUsuario();
     $departamentoUsuarioAsociado = $usuario->obtenerDepartamento();
     $jefaturaUsuarioAsociado = $usuario->obtenerJefatura();
-  
+     $Cedula=$usuario->obtenerNumeroCedula();
     $mensajeA = agregarActivo($codigoArticulo, $correoUsuarioCausante, $nombreUsuarioCausante, $placa, $codigoCategoria, $serie, $modelo, $fechaExpiraGarantia, $correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado, $codigoTiquete);
     $mensajeL = "nada";
     $mensajeR = "nada";
@@ -66,7 +66,7 @@ if (isset($_POST["Licencias"])) {
     }
     $direccionAdjunto="No";
     if ($mensajeA == '') {
-        $direccionAdjunto = generarPdf($placa,$nombreUsuarioCausante,$nombreUsuarioAsociado,$categoria,$marca,$modelo,$docking,$asociados,$gafete);
+        $direccionAdjunto = generarPdf($placa,$nombreUsuarioCausante,$nombreUsuarioAsociado,$categoria,$marca,$modelo,$docking,$asociados,$gafete,$Cedula);
         adjuntarContrato($placa, $direccionAdjunto, $correoUsuarioCausante, $nombreUsuarioCausante);
     }
     echo $mensajeA . "'" . $mensajeL . "'" . $mensajeR . "'".$direccionAdjunto."'";
