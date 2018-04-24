@@ -12,9 +12,10 @@ function tematicaSeleccionadaAjax(tematicaSeleccionada, clickeado3) {
         type: 'POST',
         url: '../control/SolicitudAjaxTematicasSubtematicas.php',
         beforeSend: function () {
-            //  $("#cuerpoTablaTematica").html("Procesando, espere por favor...");
+              $("#cargandoImagen").css('display','block');
         },
         success: function (response) {
+            $("#cargandoImagen").css('display','none');
             $("#cuerpoTablaTematica").html(response);
         }
     });

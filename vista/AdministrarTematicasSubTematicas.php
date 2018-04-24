@@ -21,7 +21,9 @@
                 header('Location: ../vista/Error.php');
             } else {
                 ?> 
+ 
                 <section class ="container-fluid">
+                  
                     <div class="row">                  
                         <div class="col-md-offset-3 col-md-1">
                             <h4>Clasificación</h4> 
@@ -71,7 +73,7 @@
                         </div>                    
                     </div>
                 </section>        
-
+         <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
                 <!-----------------Inicio de las ventanas modales---------------------->
                 <!-----------------Ventana agregar subtematica------------------------->
                 <div id="modalAgregarSubTematica" class="modal fade" role="dialog">
@@ -161,7 +163,7 @@
         alerta("alertaEditarNombreSubtematicaRepetido", "Ya existe un tema con el nombre ingresado", ""); //usada
         alerta("alertaEditarNombreSubtematicaInactivo", "Los temas inactivos no pueden ser editados", ""); //usada
         confirmacion("confirmarCambioActivoSubTematica", "¿Desea cambiar el estado de actividad?", "cambiarActivoSubTematicaConfirmado(this)", ""); //USADO
-        ?>;          
+        ?>         
     </body>
 </html>
 

@@ -12,6 +12,7 @@
         <?php
         require ("../modelo/ProcedimientosPermisos.php");
         require ("../modelo/ProcedimientosTiquetes.php");
+        require ("../modelo/ProcedimientosInventario.php");
         require ("../control/AdministrarTablaInformacionTiquetes.php");
         require ("../control/AlertasConfirmaciones.php");
         ?>
@@ -128,31 +129,44 @@
                 ?>                    
                 <h3 style = "text-align: center;">Administrador de tiquetes</h3>
 
-                <section class ="container-fluid">                        
-                    <div class="row"> 
-                        <div class="col-md-4 " >
-                            <button  onclick="retornarABandeja();" title="Regresar" type="button" class="btn btn-info " data-toggle="modal" data-target=""><i class="glyphicon glyphicon-arrow-left"></i></button>
-                        </div>
-                        <div class="  col-md-1" style="text-align: right;">
-                            <button title="Tiquete anterior" type="button" class="btn btn-info ocultarTiquetes " data-toggle="modal" data-target="" onclick="tiqueteAnterior();"><i class="glyphicon glyphicon-triangle-left"></i></button>
-                        </div>
-                        <div class=" col-md-2">  
-                            <?php descripcionPagina($codigoPagina, $r); ?>
+                <section class ="container-fluid">   
 
-                        </div>
-                        <div class="col-md-1"> 
-                            <button  title="Siguiente Tiquete" type="button" class="btn btn-info ocultarTiquetes " data-toggle="modal" data-target="" onclick=" tiqueteSiguiente();"><i class="glyphicon glyphicon-triangle-right"></i></button>
-                        </div>
+                    <div class="row"> 
+                        <?php
+                        if ($codigoPagina == 5) {
+                            $bodega = $_GET['bodega'];
+                            $dispositivo = $_GET['dispositivo'];
+                            $paginaAnterior = $_GET['paginaAnterior'];
+                            ?>
+                            <div class="col-md-4 " >
+                            <?php echo '<button onclick="retornarABandejaHistorialInventario(' . $paginaAnterior . ',' . $bodega . ' ,' . $dispositivo . ');" title="Regresar" type="button" class="btn btn-info "><i class="glyphicon glyphicon-arrow-left"></i></button>' ?>
+                            </div>
+    <?php } else { ?>
+                            <div class="col-md-4 " >
+                                <button  onclick="retornarABandeja();" title="Regresar" type="button" class="btn btn-info " data-toggle="modal" data-target=""><i class="glyphicon glyphicon-arrow-left"></i></button>
+                            </div>                        
+                        <?php } ?>
+    <?php if ($codigoPagina != 5) { ?>
+                            <div class="  col-md-1" style="text-align: right;">
+                                <button title="Tiquete anterior" type="button" class="btn btn-info ocultarTiquetes " data-toggle="modal" data-target="" onclick="tiqueteAnterior();"><i class="glyphicon glyphicon-triangle-left"></i></button>
+                            </div>
+                            <div class=" col-md-2">  
+        <?php descripcionPagina($codigoPagina, $r); ?>
+                            </div>
+                            <div class="col-md-1"> 
+                                <button  title="Siguiente Tiquete" type="button" class="btn btn-info ocultarTiquetes " data-toggle="modal" data-target="" onclick=" tiqueteSiguiente();"><i class="glyphicon glyphicon-triangle-right"></i></button>
+                            </div>
+    <?php } ?>
                     </div>
                     <div class="row">
-                        <?php codigoPagina($codigoPagina); ?>
+    <?php codigoPagina($codigoPagina); ?>
                         <br>
                     </div>                                    
                 </section>
                 <section id = "seccionInfoTiquete" class ="container-fluid ocultarTiquetes">
                     <div class="row">                 
                         <div class="col-md-6">  
-                            <?php panelDeCabecera($tiquete); ?>                               
+    <?php panelDeCabecera($tiquete); ?>                               
                             <div class="panel-heading panel-success">   
                                 <div class="row">
                                     <div class="col-md-3 encabezado">
@@ -161,9 +175,11 @@
                                     <div class="col-md-6 encabezado encabezadoDescripcion" >
                                         <h5 class="panel-title"><?php descripcionTematica($tiquete) ?></h5>
                                     </div>
-                                    <div class="col-md-3 encabezado encabezadoDescripcion" >
-                                        <button class = "btn btn-warning" onclick ="mostrarHistorialTiquetes();"><i class = "glyphicon glyphicon-list-alt"> Historial</i></button>
-                                    </div>                                
+    <?php                            if ($codigoPagina != 5) { ?>
+                                        <div class="col-md-3 encabezado encabezadoDescripcion" >
+                                            <button class = "btn btn-warning" onclick ="mostrarHistorialTiquetes();"><i class = "glyphicon glyphicon-list-alt"> Historial</i></button>
+                                        </div> 
+    <?php                            } ?>
                                 </div>
                             </div>
                             <div class="panel-body">
@@ -241,7 +257,7 @@
                                 <div class = "row">
                                     <h5 class = "col-md-3">Prioridad:</h5>
 
-                                    <?php prioridadTiquete($tiquete, $codigoPagina, $prioridades); ?>
+    <?php prioridadTiquete($tiquete, $codigoPagina, $prioridades); ?>
 
                                 </div>
                                 <div class="row ">
@@ -253,13 +269,13 @@
                                 <div class="row ">
                                     <h5 class="col-md-3">Solicitado para:</h5> 
                                     <div class=" col-md-8">
-                                        <?php $a = fechaSolicitudTiquete($tiquete, $codigoPagina); ?>
+    <?php $a = fechaSolicitudTiquete($tiquete, $codigoPagina); ?>
                                     </div>
                                 </div>
                                 <div class="row ">
                                     <h5 class="col-md-3">Fecha entrega:</h5> 
                                     <div class=" col-md-8">
-                                        <?php $a = fechaEntregaTiquete($tiquete, $codigoPagina); ?>
+    <?php $a = fechaEntregaTiquete($tiquete, $codigoPagina); ?>
                                     </div>
                                 </div>
                                 <div class="row ">                            
@@ -268,6 +284,12 @@
                                         <h5><?php fechaFinalizadoTiquete($tiquete); ?></h5>
                                     </div> 
                                 </div>
+                                <?php
+                                $activos = obtenerActivosAsociadosTiquete($tiquete->obtenerCodigoTiquete());
+                                $estado = $tiquete->obtenerEstado()->obtenerCodigoEstado();
+                                equipoAsociado($estado, $activos, $codigoPagina);
+                                ?>                                    
+
                                 <div class="row ">
                                     <div><h5 class="col-md-12"> Descripción:</h5> </div>
                                     <div class="col-md-12">
@@ -276,18 +298,21 @@
                                 </div>  
                                 <div class="row ">&nbsp;</div>
                                 <div class="row ">
-                                    <?php asignarResponsable($codigoPagina, $tiquete) ?>
+                                    <?php
+                                    $anular = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 9);
+                                    asignarResponsable($codigoPagina, $tiquete, $anular)
+                                    ?>
                                 </div> 
                             </div>
 
                             <div class="panel-footer"> 
                                 <label style="font-size:16px">Calificación</label>                                
-                                <?php mostrarCalificacion($codigoPagina, $tiquete); ?>                                
+    <?php mostrarCalificacion($codigoPagina, $tiquete); ?>                                
                             </div>                              
                         </div>
                     </div>
                     <div class="col-md-6">                        
-                        <?php panelDeCabecera($tiquete) ?>
+    <?php panelDeCabecera($tiquete) ?>
                         <div class="panel-heading">
                             <h5 class="panel-title encabezado">Mensajes</h5>
                         </div>
@@ -315,199 +340,284 @@
                         </div>                           
                     </div>
                 </section>
-                
+
             </div>
             <!-------------------------ModalClasificaciones------------------>
             <div id="modalClasificaciones" class="modal fade" role="dialog">
-                                    <div class="modal-dialog modal-sm ">                
-                                        <div class="modal-content">
-                                        <div class="modal-body">
-                                <div class="row">    
-                <?php
-                $tematicas = obtenerTematicasCompletasActivas();
-                $vectematica = crearListatematicas($tematicas);
-                ?>
-                                        <a href="#" class="list-group-item disabled">
-                    <h4> Clasificación de tiquetes</h4>
-                                    </a>
-                                        <ul class="nav nav-list" id="sidenav01">
-                                        <li class="list-group-item" id="nivelbase">
+                <div class="modal-dialog modal-sm ">                
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row">    
+                                <?php
+                                $tematicas = obtenerTematicasCompletasActivas();
+                                $vectematica = crearListatematicas($tematicas);
+                                ?>
+                                <a href="#" class="list-group-item disabled">
+                                    <h4> Clasificación de tiquetes</h4>
+                                </a>
+                                <ul class="nav nav-list" id="sidenav01">
+                                    <li class="list-group-item" id="nivelbase">
                                         <a  data-toggle="collapse" data-target="#toggleDemo" data-parent="#sidenav01" class="collapsed">
-                                        <label>Escoger clasificación</label>  <span class="caret pull-right"></span>
-            </a>
-                        <div class="collapse" id="toggleDemo" >
-                    <ul class="nav nav-list"            >
+                                            <label>Escoger clasificación</label>  <span class="caret pull-right"></span>
+                                        </a>
+                                        <div class="collapse" id="toggleDemo" >
+                                            <ul class="nav nav-list"            >
     <?php tematicasNivel1($vectematica) ?>
                                             </ul>
-                </div>
-    </li>
-    </ul>
-    </div>
-    </div>
-    <div class            ="modal-footer">
-        <button type="button" cla        ss="btn btn-danger"  data-dismiss="modal">    Salir</button>
-    </div>
-    </div>
-    </div>
-               </div>
-                                            <!----------------    ---------ModalAsignar------------------>
-                                        <div id="modalAsignar" class="modal fade" role="dialog">
-                       <div class="modal-dialog ">   
-                                <div class="modal-content">  
-                <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">x</button>
-                                <h4> Asignar tiquete a responsable</h4>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
-                            <div class="modal-body" id="Modal2">
-                                <div class="row">  
-                                    <div class="" style ="text-align: center;" id=""> 
-                                        <label class="col-md-3" for="responsables">Responsables</label>
-                                        <div class="form-group col-md-6">                                     
-    <?php
-    $codigoArea = $r->obtenerArea()->obtenerCodigoArea();
-    $responsables = obtenerResponsablesAsignar($codigoArea);
-
-    comboResponsablesAsignar($responsables, 2);
-    ?>
-    </div>                                
-    </div> 
-    </div>
-    <div class="row">
-       <label class="form-group col-lg-10" for="responsables">
-            Nota: al asignar un tiquete este será dirigido a la band    eja de asignados del usuario, 
-            por lo que desaparecerá de la bandeja de tiquetes        por asignar.
-        </label>
-    </div >
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-success" data        -dismiss="modal" onclick="asignarResponsableAjax();"  > Aceptar</button>
-        <button type="button"     class="btn btn-danger" data-dismiss="modal"   > cancelar</button>
-    </div>
-    </div>
-    </div>
-    </div>
-                <!-------------------------ModalAsignartodos---------    --------->
-                <div id="modalAsignartodos" class="modal fade" role="dialog">
-                    <div class="modal-dialog ">                
-              <div class="modal-content">  
-                            <div class="modal-header">
-                         <button type="button" class="close" data-dismiss="modal">x</button>
-          <h4> Asignar tiquete a responsable</h4>
-                            </div>
-                            <div class="modal-body" id="Modal2">
-                                <div class="row">  
-                                    <div class="" style ="text-align: center;" id=""> 
-                                        <label class="col-md-3" for="responsables">Responsables</label>
-                                        <div class="form-group col-md-6">                                     
-    <?php
-    $responsables = obtenerResponsables();
-    comboResponsablesAsignar($responsables, 4);
-    ?>
-                                        </div>                                
-                                    </div> 
-                                </div>
-                                <div class="row">
-                                    <label class="form-group col-lg-10" for="responsables">
-                                        Nota: al asignar un tiquete este será dirigido a la bandeja de asignados del usuario, 
-                                        por lo que desaparecerá de la bandeja de tiquetes por asignar.
-                                    </label>
-                                </div >
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="asignarResponsableAjax();"  > Aceptar</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal"   > cancelar</button>
-                            </div>
+                        </div>
+                        <div class            ="modal-footer">
+                            <button type="button" class="btn btn-danger"  data-dismiss="modal">    Salir</button>
                         </div>
                     </div>
                 </div>
+            </div>
+            <!----------------    ---------ModalAsignar------------------>
+            <div id="modalAsignar" class="modal fade" role="dialog">
+                <div class="modal-dialog ">   
+                    <div class="modal-content">  
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">x</button>
+                            <h4> Asignar tiquete a responsable</h4>
+                        </div>
+                        <div class="modal-body" id="Modal2">
+                            <div class="row">  
+                                <div class="" style ="text-align: center;" id=""> 
+                                    <label class="col-md-3" for="responsables">Responsables</label>
+                                    <div class="form-group col-md-6">                                     
+                                        <?php
+                                        $codigoArea = $r->obtenerArea()->obtenerCodigoArea();
+                                        $responsables = obtenerResponsablesAsignar($codigoArea);
 
-                <!-------------------------ModalAsignartodos------------------>
-                <div id = "noHayTiquetes"></div>
-
-                <!-------------------------Modaljustificacion----------------->
-                <div id="ModalJustificacion" class="modal fade " role="dialog">
-                    <div class="modal-dialog modal-sm">                
-                        <div class="modal-content">                
-                            <div class="modal-body">
-                                <div class="row">    
-                                    <div class="" style ="text-align: center" id="tiquete"> 
-                                        <h4 id="infoJusticiacion"></h4>                               
-                                    </div> 
-                                </div>
-                                <div class="form-group">
-                                    <label for="comment">justificacion</label>
-                                    <textarea class="form-control" rows="3"  name="justificacion" cols="2" id="justificacion"></textarea>
-                                </div>
+                                        comboResponsablesAsignar($responsables, 2);
+                                        ?>
+                                    </div>                                
+                                </div> 
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-success" id="aceptarJustificacion" > Aceptar</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal"  id="cancelarJustificacion" > cancelar</button>
-                            </div>
+                            <div class="row">
+                                <label class="form-group col-lg-10" for="responsables">
+                                    Nota: al asignar un tiquete este será dirigido a la band    eja de asignados del usuario, 
+                                    por lo que desaparecerá de la bandeja de tiquetes        por asignar.
+                                </label>
+                            </div >
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal" onclick="asignarResponsableAjax();"  > Aceptar</button>
+                            <button type="button"     class="btn btn-danger" data-dismiss="modal"   > cancelar</button>
                         </div>
                     </div>
-                </div
-                <!------------------------------------------------>
-                <!-------------------------Modaljustificacion----------------->
-                <div id="ModalProceso" class="modal fade " role="dialog">
-                    <div class="modal-dialog modal-sm">                
-                        <div class="modal-content">                
-                            <div class="modal-body">
-                                <div class="row">    
-                                    <div class="" style ="text-align: center" id="tiquete"> 
-                                        <h4>En proceso</h4>                               
-                                    </div> 
+                </div>
+            </div>
+            <!-------------------------ModalAsignartodos---------    --------->
+            <div id="modalAsignartodos" class="modal fade" role="dialog">
+                <div class="modal-dialog ">                
+                    <div class="modal-content">  
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">x</button>
+                            <h4> Asignar tiquete a responsable</h4>
+                        </div>
+                        <div class="modal-body" id="Modal2">
+                            <div class="row">  
+                                <div class="" style ="text-align: center;" id=""> 
+                                    <label class="col-md-3" for="responsables">Responsables</label>
+                                    <div class="form-group col-md-6">                                     
+                                        <?php
+                                        $responsables = obtenerResponsables();
+                                        comboResponsablesAsignar($responsables, 4);
+                                        ?>
+                                    </div>                                
+                                </div> 
+                            </div>
+                            <div class="row">
+                                <label class="form-group col-lg-10" for="responsables">
+                                    Nota: al asignar un tiquete este será dirigido a la bandeja de asignados del usuario, 
+                                    por lo que desaparecerá de la bandeja de tiquetes por asignar.
+                                </label>
+                            </div >
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal" onclick="asignarResponsableAjax();"  > Aceptar</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"   > cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-------------------------ModalAsignartodos------------------>
+            <div id = "noHayTiquetes"></div>
+
+            <!-------------------------Modaljustificacion----------------->
+            <div id="ModalJustificacion" class="modal fade " role="dialog">
+                <div class="modal-dialog modal-sm">                
+                    <div class="modal-content">                
+                        <div class="modal-body">
+                            <div class="row">    
+                                <div class="" style ="text-align: center" id="tiquete"> 
+                                    <h4 id="infoJusticiacion"></h4>                               
+                                </div> 
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">justificacion</label>
+                                <textarea class="form-control" rows="3"  name="justificacion" cols="2" id="justificacion"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="aceptarJustificacion" > Aceptar</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"  id="cancelarJustificacion" > cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div
+            <!------------------------------------------------>
+            <!-------------------------Modaljustificacion----------------->
+            <div id="ModalProceso" class="modal fade " role="dialog">
+                <div class="modal-dialog modal-sm">                
+                    <div class="modal-content">                
+                        <div class="modal-body">
+                            <div class="row">    
+                                <div class="" style ="text-align: center" id="tiquete"> 
+                                    <h4>En proceso</h4>                               
+                                </div> 
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Fecha de entrega</label>
+                                <div class="form-group input-group date" id="datetimepicker2"  >
+                                    <input type="text"  class="form-control" name="cotizada" id="fechaEntrega"
+                                           value="' . date_format($tiquete->obtenerFechaCotizado(), 'd/m/Y') . '" >
+                                    <span class="input-group-addon btn btn-info" id="fecha" onclick="document.getElementById('fechaEntrega').focus()"  >
+                                        <span class="glyphicon glyphicon-calendar" ></span>
+                                    </span>                              
                                 </div>
-                                <div class="form-group">
-                                    <label for="comment">Fecha de entrega</label>
-                                    <div class="form-group input-group date" id="datetimepicker2"  >
-                                        <input type="text"  class="form-control" name="cotizada" id="fechaEntrega"
-                                               value="' . date_format($tiquete->obtenerFechaCotizado(), 'd/m/Y') . '" >
-                                        <span class="input-group-addon btn btn-info" id="fecha" onclick="document.getElementById('fechaEntrega').focus()"  >
-                                            <span class="glyphicon glyphicon-calendar" ></span>
-                                        </span>                              
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="aceptarJustificacion" onclick="enProcesoAjax()" > Aceptar</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"  id="cancelarJustificacion" > cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div
+            <!------------------------------------------------>
+            <!-------------------------Modaljustificacion----------------->
+            <div id="confirmarFechaEntrega" class="modal fade " role="dialog">
+                <div class="modal-dialog modal-sm">                
+                    <div class="modal-content">                
+                        <div class="modal-body">
+                            <div class="row">    
+                                <div style ="text-align: center" id="tiquete"> 
+                                    <h4> </h4>
+                                </div> 
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">justificacion</label>
+                                <textarea class="form-control" rows="3"  name="justificacion" cols="2" id="justificacionEntrega"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" onclick="CambiarFechaEntregaAjax()" > Aceptar</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick=" document.getElementById('justificacionEntrega').value = ''" > cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div
+            <!------------------------------------------------>
+
+            <!-------------------------Modal elegir equipo-------------------------->
+
+            <div id="modalaEquipos" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg" >                
+                    <div class="modal-content" id="cuerpoModalEquipos">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Filtros equipos</h4>
+                        </div>
+                        <div class="modal-body table-responsive">
+                            <div class="panel panel-primary">
+                                <div class="panel-body filtrosVisible">
+
+                                    <div class="row">  
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="placaA">Placa:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="placaA" type="text">
+                                            </div>
+                                        </div>  
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="categoriaA">Categoría:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="categoriaA" type="text">
+                                            </div>
+                                        </div> 
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="marcaA">Marca:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="marcaA" type="text">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-success" id="aceptarJustificacion" onclick="enProcesoAjax()" > Aceptar</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal"  id="cancelarJustificacion" > cancelar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div
-                <!------------------------------------------------>
-                <!-------------------------Modaljustificacion----------------->
-                <div id="confirmarFechaEntrega" class="modal fade " role="dialog">
-                    <div class="modal-dialog modal-sm">                
-                        <div class="modal-content">                
-                            <div class="modal-body">
-                                <div class="row">    
-                                    <div style ="text-align: center" id="tiquete"> 
-                                        <h4> </h4>
+                                    <div class="row"> 
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="usuarioA">Usuario:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="usuarioA" type="text">
+                                            </div>
+                                        </div> 
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label col-md-3" for="correoA">Correo:</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="correoA" type="text">
+                                            </div>
+                                        </div> 
+                                        <div class="form-check col-md-4">                           
+                                            <label class="control-label col-md-3" for="estadosA">Estado:</label>
+                                            <div class="col-md-9">
+                                                <?php
+                                                $estados = obtenerEstadosEquipoParaFiltrar();
+                                                selectEstado($estados);
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row"> 
+                                        <div class="col-md-10">
+                                            <button onclick = " filtrarActivosAjax()" type="button" class="btn btn-success   " data-toggle="modal" > buscar </button> 
+                                        </div>                       
                                     </div> 
                                 </div>
-                                <div class="form-group">
-                                    <label for="comment">justificacion</label>
-                                    <textarea class="form-control" rows="3"  name="justificacion" cols="2" id="justificacionEntrega"></textarea>
-                                </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-success" onclick="CambiarFechaEntregaAjax()" > Aceptar</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick=" document.getElementById('justificacionEntrega').value = ''" > cancelar</button>
-                            </div>
+                            <table class = "table tablasTiquetes  table-hover" id="tablaTiquetesI">
+                                <thead>
+                                    <tr>                                            
+                                        <th>Placa</th>
+                                        <th>Categoría</th>
+                                        <th> Marca</th>
+                                        <th>Usuario_asociado</th>
+                                        <th>Fecha de salida de inventario </th>
+
+
+                                    </tr>                             
+                                </thead>
+                                <tbody id = "tbody-tablaEquipo"> 
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                </div
-                <!------------------------------------------------>
-    <?php
-    confirmacion("Modalinfo", "", "confirmarActualizarTematica(this)", "cancelarActualizarTematica()");
-    confirmacion("confirmarFechaSolicitada", "", "CambiarFechaSolicitadaAjax()", "");
-    notificacion();
-    alerta("ceroHoras", "El tiquete no tiene horas trabajadas", "");
-}
-?>
+                </div>
+            </div>
+            <!------------------------------------------------>
+            <?php
+            confirmacion("Modalinfo", "", "confirmarActualizarTematica(this)", "cancelarActualizarTematica()");
+            confirmacion("confirmarFechaSolicitada", "", "CambiarFechaSolicitadaAjax()", "");
+            confirmacion("desasociarEquipo", "Desea desasociar el equipo", "desasociarEquipoAjax()", "");
+            notificacion();
+            alerta("ceroHoras", "El tiquete no tiene horas trabajadas", "");
+        }
+        ?>
     </body >
 
-<?php
-echo 'fin';?>
+
 </html>

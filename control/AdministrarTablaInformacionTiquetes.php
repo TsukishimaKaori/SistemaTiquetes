@@ -191,7 +191,7 @@ function descripcionPagina($codigoPagina, $r) {
     }
 }
 
-function asignarResponsable($codigoPagina, $tiquete) {
+function asignarResponsable($codigoPagina, $tiquete, $anular) {
     if ($codigoPagina == 1 && $tiquete->obtenerEstado()->obtenerCodigoEstado() == 6) {
 
         echo'<div class="col-md-12  encabezadoAsignar">';
@@ -203,18 +203,20 @@ function asignarResponsable($codigoPagina, $tiquete) {
         echo '<button class = "btn btn-info" onclick="asignarUnTiquete(2);" >Asignar</button>'
         . '</div>';
     } else if ($codigoPagina == 3) {
-        paginaAsignados($tiquete);
+        paginaAsignados($tiquete, $anular);
     } else if ($codigoPagina == 4) {
-        paginaTodosTiquetes($tiquete);
+        paginaTodosTiquetes($tiquete, $anular);
     }
 }
 
-function paginaAsignados($tiquete) {
+function paginaAsignados($tiquete, $anular) {
     $estado = $tiquete->obtenerEstado()->obtenerCodigoEstado();
     echo'<div class="col-md-12 encabezadoAsignar">';
     if ($estado == 4 || $estado == 2) {
         echo '<button class = "btn btn-success botones-tiquete" onclick="reasignar()">Enviar a reasignar</button>';
-        echo '<button class = "btn btn-warning botones-tiquete" onclick="Anular()" id="anular" >Anular</button>';
+        if ($anular) {
+            echo '<button class = "btn btn-warning botones-tiquete" onclick="Anular()" id="anular" >Anular</button>';
+        }
     }
 // echo'</div>'
 // . '<div class="col-md-1 encabezadoAsignar">';
@@ -226,18 +228,19 @@ function paginaAsignados($tiquete) {
     echo '</div>';
 }
 
-function paginaTodosTiquetes($tiquete) {
+function paginaTodosTiquetes($tiquete, $anular) {
     $estado = $tiquete->obtenerEstado()->obtenerCodigoEstado();
 
     echo'<div class="col-md-12 encabezadoAsignar">';
-    if ($estado != 5 && $tiquete->obtenerResponsable()==null ) {
+    if ($estado != 5 && $tiquete->obtenerResponsable() == null) {
         echo '<button class = "btn btn-info" onclick="asignarUnTiquete(4);" >Asignar</button>';
-    }
-    else{
+    } else {
         echo '<button class = "btn btn-success" onclick="asignarUnTiquete(4);" >reasignar </button>';
     }
     if ($estado == 4 || $estado == 2) {
-        echo '<button class = "btn btn-warning botones-tiquete" onclick="Anular()" id="anular" >Anular</button>';
+        if ($anular) {
+            echo '<button class = "btn btn-warning botones-tiquete" onclick="Anular()" id="anular" >Anular</button>';
+        }
     }
     echo '</div>';
 }
@@ -255,7 +258,6 @@ function comboResponsablesAsignar($responsables, $numero) {
 }
 
 // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="CLASIFICACION DEL TIQUETE">
 function crearListatematicas($tematicas) {
     $vectematica = new ArrayObject();
@@ -303,7 +305,6 @@ function subtematicas($listematicas) {
 }
 
 // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="INFORMACIOM DEL TIQUETE">
 function tiquete($tiquetes, $codigo) {
     foreach ($tiquetes as $tiquete) {
@@ -363,7 +364,7 @@ function correoResponsable($tiquete) {
 }
 
 function horasTrabajadas($tiquete, $codigoPagina) {
-    if ($codigoPagina == 1 || $codigoPagina == 2 || $codigoPagina == 3 && $tiquete->obtenerEstado()->obtenerCodigoEstado() != 4) {
+    if ($codigoPagina == 1 || $codigoPagina == 2 || $codigoPagina == 3  || $codigoPagina == 5 && $tiquete->obtenerEstado()->obtenerCodigoEstado() != 4) {
         echo $tiquete->obtenerHorasTrabajadas() != null ? $tiquete->obtenerHorasTrabajadas() : "0";
     } else if ($codigoPagina == 3) {
         echo horasTrabajadasModificable($tiquete);
@@ -384,15 +385,15 @@ function areaTiquete($tiquete) {
 }
 
 function clasificacionTiquete($tiquete, $codigoPagina) {
-    if ($codigoPagina == 2 || $codigoPagina == 3 ) {
+    if ($codigoPagina != 1 ) {
         echo '<div class = "col-md-12 form-group input-group">
             <input type="text" class="form-control" onBlur = "pierdeFoco();" name="clasificacion" id="clasificacionTiquete" 
-            value="' . $tiquete->obtenerTematica()->obtenerDescripcionTematica() . '" >           
-                <span onclick="ClasificacionesAsignar()";  title = "Modficar fecha de solicitud" class ="input-group-addon btn btn-info">
+            value="' . $tiquete->obtenerTematica()->obtenerDescripcionTematica() . '" readonly >           
+                <span onclick="ClasificacionesAsignar()";  title = "Lista de clasificaciónes" class ="input-group-addon btn btn-info">
                     <span class="glyphicon glyphicon-th-list"></span>
                 </span>    
             </div>';
-    } else  {
+    } else {
         echo $tiquete->obtenerTematica()->obtenerDescripcionTematica();
     }
 }
@@ -402,7 +403,7 @@ function estadoTiquete($tiquete) {
 }
 
 function prioridadTiquete($tiquete, $codigoPagina, $prioridades) { //aun no se que pagina puede modficar la prioridad
-    if ($codigoPagina == 1 || $codigoPagina == 3 || $codigoPagina == 4) {
+    if ($codigoPagina == 1 || $codigoPagina == 3 || $codigoPagina == 4|| $codigoPagina == 5) {
         echo '<div class = "col-md-2" style = "text-align:center; color:white">';
         if ($tiquete->obtenerPrioridad()->obtenerCodigoPrioridad() == 3) {
             echo '<div style = "background-color:#5CB85C;">';
@@ -464,7 +465,7 @@ function fechaEntregaTiquete($tiquete, $codigoPagina) {
     if ($tiquete->obtenerFechaEntrega() != null) {
         if ($codigoPagina == 3) {
             echo '<div class="form-group input-group date" id="datetimepicker1"  >
-    <input type="text"  class="form-control" name="cotizada" id="fechaEntregaC" onblur="CambiarFechaEntrega()" onfocus="fechaAntiguaEntrega()"
+    <input type="text"  class="datetimepicker form-control" name="cotizada" id="fechaEntregaC" onblur="CambiarFechaEntrega()" onfocus="fechaAntiguaEntrega()"
            value="' . date_format($tiquete->obtenerFechaEntrega(), 'd/m/Y') . '" >
     <span class="input-group-addon btn btn-info" id="fecha" onclick="document.getElementById(\'fechaEntregaC\').focus()"  >
         <span class="glyphicon glyphicon-calendar" ></span>
@@ -478,7 +479,6 @@ function fechaEntregaTiquete($tiquete, $codigoPagina) {
 }
 
 // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="CALIFICACION">
 function mostrarCalificacion($codigoPagina, $tiquete) {
     $califiacion = $tiquete->obtenerCalificacion();
@@ -532,7 +532,6 @@ function mostrarCalificacion($codigoPagina, $tiquete) {
 }
 
 // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="COMENTARIOS">
 function agregarAdjuntoComentario($codigoTiquete, $r) {
     $comentario = $_POST['comentario'];
@@ -591,4 +590,62 @@ function obtenerComentariosCompleto($listaComentariosPorTiquete, $r) {
 }
 
 // </editor-fold>
+// 
+// <editor-fold defaultstate="collapsed" desc="Asociar equipo">
+function cuerpoTablaActivosTiquetes($activos) {
+    foreach ($activos as $act) {
+        echo '<tr onclick="escogerEquipo(\''.$act->obtenerPlaca().'\')">';
+        echo '<td >' . $act->obtenerPlaca() . '</td>';
+        echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
+        //      echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
+        echo '<td>' . $act->obtenerNombreUsuarioAsociado() . '</td>';
+        echo '<td>' . $act->obtenerMarca() . '</td>';
+        $fechaSalida = $act->obtenerFechaSalidaInventario();
+        if ($fechaSalida != null) {
+            $fechaSalida = date_format($act->obtenerFechaSalidaInventario(), 'd/m/Y');
+            echo '<td>' . $fechaSalida . '</td>';
+        }
+       
+        echo '</tr>';
+    }
+}
 
+function equipoAsociado($estado, $activos, $codigoPagina) {
+    if ($codigoPagina == 3 || $codigoPagina==4) {
+        echo'<div class="row ">                            
+         <h5 class="col-md-3">Placa equipo:</h5> 
+           <div class=" col-md-8">
+           <h5>';
+
+        if ($estado == 2 || $estado == 4) {
+            $activo = "";
+            if ($activos[0] != null) {
+                $activo = $activos[0]->obtenerPlaca();
+            }
+            echo'<div class = "col-md-12 form-group input-group">
+            <input type="text" class="form-control"  name="clasificacion" id="equipo" readonly 
+            value="' . $activo . '" > 
+                <span   title = "Equipo asociado" class ="input-group-addon btn btn-info" onclick="equipos()">
+                    <span class="glyphicon glyphicon-th-list"></span>
+                </span> 
+                <span   title = "Desasociar Equipo" class ="input-group-addon btn btn-info" onclick="  $(\'#desasociarEquipo\').modal(\'show\');">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </span>    
+            </div>';
+        }
+        echo' no disponible en el estado actual';
+        echo'</h5>
+             </div> 
+               </div>';
+    }
+}
+
+function selectEstado($estados) {
+    echo '<select class="form-control" id="estadosA">';
+    foreach ($estados as $estados) {
+        echo '<option  value="' . $estados->obtenerCodigoEstado() . '" >' . $estados->obtenerNombreEstado() . '</option>';
+    }
+    echo '</select>';
+}
+
+// </editor-fold>

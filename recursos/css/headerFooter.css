@@ -78,3 +78,15 @@ table.tablasInfo th {
 }
 
 .modal { overflow: auto !important; }
+
+
+img#cargandoImagen{
+
+          
+}
+
+.container-fluid div#cargandoImagen {
+       display:none;
+    width:5px;
+    height: 5px;
+}

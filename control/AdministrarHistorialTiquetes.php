@@ -8,12 +8,6 @@ function historialInfoTiquetes($historial, $tiquete) {
         echo ' <div   class = "panel panel-info">' .
         '   <div class="panel-heading col-md-12">' .
         '       <div class="row"> ' .
-        '           <div><span class="titulo-Indicador col-md-12"><h1>Historial del tiquete</h1> </span></div> ' .
-        '       </div>  ' .
-        '   </div>  ' .
-        '<div class="panel-body" >' .
-        '   <div class="col-md-12">' .
-        '       <div class="row"> ' .
         '           <div><h3>Información general del tiquete</h3></div> ' .
         '       </div>  ' .
         '       <div class="row"> ' .
@@ -33,8 +27,11 @@ function historialInfoTiquetes($historial, $tiquete) {
         '       </div>  ' .
         '       <div class="row"> ' .
         '           <div><span class="titulo-Indicador col-md-2">Prioridad: </span><span class=" col-md-10"> ' . $tiquete->obtenerPrioridad()->obtenerNombrePrioridad() . '</span></div> ' .
-        '       </div>  ' .
-                        '       <div class="row"> ' .
+        '       </div>  ' .     
+        '   </div>  ' .
+        '<div class="panel-body" >' .
+        '   <div class="col-md-12">' .
+        '       <div class="row"> ' .
         '           <div><h3>Historial del tiquete</h3></div> ' .
         '       </div>  ' .                
         '   </div>  ';

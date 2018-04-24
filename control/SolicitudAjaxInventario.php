@@ -57,6 +57,9 @@ if (isset($_POST['codigoArticuloAgregarInventario'])) {
     $correoUsuarioCausante = $_POST['correoUsuario'];
     $nombreUsuarioCausante = $_POST['nombreUsuario'];
     $codigoTiquete = $_POST['tiquete'];
+     if($codigoTiquete==''){
+        $codigoTiquete=null;
+    }
     $proveedor = $_POST['provedor'];
     $marca = $_POST['marca'];
     $direccionOrdenDeCompra = "";
@@ -91,6 +94,9 @@ if (isset($_POST['codigoArticuloSuma'])) {
     $nombreUsuarioCausante = $_POST['nombreUsuario'];
     $numeroOrdenDeCompra = $_POST['orden'];
     $codigoTiquete = $_POST['tiquete'];
+     if($codigoTiquete==''){
+        $codigoTiquete=null;
+    }
     $direccionOrdenDeCompra = "";
     if ($_FILES["archivo"]) {
         $nombre_tmp = $_FILES["archivo"]["tmp_name"];
