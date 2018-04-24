@@ -214,7 +214,7 @@ class PDF_HTML extends FPDF
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Contrato">
 
-function generarPdf($placa,$nombreUsuarioCausante,$nombreUsuarioAsociado,$categoria,$marca,$modelo,$docking,$asociados,$gafete) {    
+function generarPdf($placa,$nombreUsuarioCausante,$nombreUsuarioAsociado,$categoria,$marca,$modelo,$docking,$asociados,$gafete,$Cedula) {    
      
 $pdf = new PDF_HTML();
 // pagina 1
@@ -241,7 +241,7 @@ $pdf->SetMargins(10);
 $pdf->Ln();
 $html =utf8_decode('<p align="justify">Nosotros,<b> BRITT SHARED SERVICES S.A.</b>, domiciliada en Barreal de Heredia, frente a Cenada, Eurocenter,'
                     .'  representada en este acto por <b>'.$nombreUsuarioCausante.'</b>, costarricense, mayor, administrador de '
-                    .'  empresas,  portador de la cédula de identidad: <b>-cedula en números-</b>, en su condición de Secretario con facultades'
+                    .'  empresas,  portador de la cédula de identidad: <b>'.$Cedula.'</b>, en su condición de Secretario con facultades'
                     .'  de Represente Legal de la plaza Britt Shared Services Sociedad Anónima, inscrita al tomo: quinientos setenta y '
                     .'  uno, asiento: treinta y seis mil setecientos sesenta y los señores(a): <b>'.$nombreUsuarioAsociado.'</b>, portador de '
                     .'  numero de gafete en Britt: <b>'.$gafete.'</b> hemos acordado en suscribir el presente acuerdo de préstamo de Equipo'
