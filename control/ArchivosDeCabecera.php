@@ -12,3 +12,4 @@ echo '<link href="../recursos/css/jquery.dataTable.min.css" rel="stylesheet"/>';
 echo '   <script src="../recursos/bootstrap/js//bootstrap.min.js"></script>';
 echo '<link href="../recursos/css/alertasConfirmaciones.css" rel="stylesheet"/>';
 echo '<link href="../recursos/css/headerFooter.css" rel="stylesheet"/>';
+echo '<link href="../recursos/css/cargando.css" rel="stylesheet"/>';

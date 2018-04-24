@@ -73,7 +73,7 @@
                         </div>                    
                     </div>
                 </section>        
-         <div id="cargandoImagen" style = "  text-align: right; margin-bottom:0px;"><img  style = "widh:50px; height: 50px; display: none " src="../recursos/img/cargando2.gif"/></div>
+         <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
                 <!-----------------Inicio de las ventanas modales---------------------->
                 <!-----------------Ventana agregar subtematica------------------------->
                 <div id="modalAgregarSubTematica" class="modal fade" role="dialog">
@@ -163,7 +163,7 @@
         alerta("alertaEditarNombreSubtematicaRepetido", "Ya existe un tema con el nombre ingresado", ""); //usada
         alerta("alertaEditarNombreSubtematicaInactivo", "Los temas inactivos no pueden ser editados", ""); //usada
         confirmacion("confirmarCambioActivoSubTematica", "¿Desea cambiar el estado de actividad?", "cambiarActivoSubTematicaConfirmado(this)", ""); //USADO
-        ?>;          
+        ?>         
     </body>
 </html>
 
