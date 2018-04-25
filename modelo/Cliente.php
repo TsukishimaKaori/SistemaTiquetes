@@ -13,11 +13,11 @@ function consumirMetodoUno($correo){
 function consumirMetodoDos(){
     $jsonObject = json_decode(file_get_contents("http://sistematiquetes.gearhostpreview.com/modelo/Service.php?metodo=2"), true);
     $usuarios = array();
-    foreach($jsonObject as $j){
-        foreach($j as $f){
+    foreach ($jsonObject as $j) {
+        foreach ($j as $f) {
             $usuario = new Usuario($f[0], $f[1], $f[2], $f[3], $f[4], $f[5]);
             $usuarios[] = $usuario;
-        } 
+        }
     }
     return $usuarios;
 }
@@ -29,10 +29,10 @@ function consumirMetodoDos(){
 //echo $usuario->obtenerJefatura();
 //echo $usuario->obtenerNumeroCedula();
 //echo $usuario->obtenerCodigoEmpleado();
-
+//
 //$usuarios = consumirMetodoDos();
 //
-//foreach ($usuarios as $usuario) {   
+//foreach ($usuarios as $usuario) {
 //    echo $usuario->obtenerNombreUsuario() . '<br />';
 //    echo $usuario->obtenerCorreo() . '<br />';
 //    echo $usuario->obtenerDepartamento() . '<br />';

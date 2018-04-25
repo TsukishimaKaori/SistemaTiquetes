@@ -24,6 +24,7 @@
                 header('Location: ../vista/Error.php');
             } else {
                 ?> 
+         <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
                 <form action = "AdministracionAreasTematicas.php" method ="POST">
                     <section class ="container-fluid">
                         <div class="row">                  

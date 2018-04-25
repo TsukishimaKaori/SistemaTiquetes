@@ -103,6 +103,7 @@
                  * COdigoPagina = 2: Solicitud enviada desde AsginarTiquetes
                  * COdigoPagina = 3: Solicitud enviada desde TiquetesCreados
                  * COdigoPagina = 4: Solicitud enviada desde TodosLosTiquetes
+                 * COdigoPagina = 5: Solicitud enviada desde Historial de inventario
                  */
             }
             ?>   

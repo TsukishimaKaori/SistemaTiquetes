@@ -38,7 +38,7 @@
 
         echo "<input type = 'hidden' id = 'codigoDispositivo' value ='" . $codigoDispositivo . "'>";
         ?>  
-
+<div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
         <section id = "seccionInventario" class ="container-fluid"> 
             <div class="row"> 
                 <div class="col-md-2 " >

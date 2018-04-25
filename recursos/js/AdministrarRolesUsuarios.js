@@ -45,7 +45,11 @@ function cambiarUsuarioAJAX() {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxRolUsaurio.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $(document).ready(function () {
                 var a = "error\n";
                 if (response == a) {
@@ -78,7 +82,11 @@ function crearUsuarioAjax() {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxRolUsaurio.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+             $("#cargandoImagen").css('display', 'none');
             $(document).ready(function () {
                 var a = "error\n";
                 if (response == a) {
@@ -125,7 +133,11 @@ function ajaxclickeado(posicion) {
         data: {'activos': posicion},
         type: 'POST',
         url: '../control/SolicitudAjaxRolUsaurio.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+             $("#cargandoImagen").css('display', 'none');
             $(document).ready(function () {
                 $("#tbody-roles-usuarios").html(response);
 

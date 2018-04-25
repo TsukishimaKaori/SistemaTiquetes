@@ -37,7 +37,11 @@ function modificarTematicaAjax(tematicaModificada, tematicaAnterior, clickeado2)
             'clickeado2': clickeado2},
         type: 'POST',
         url: '../control/SolicitudAjaxAreasTematicas.php',
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display','none');
             if (response == 2) {
                 $("#alertaEditarNombreClasificacion").modal('show');
             } else if (response == 1) {
@@ -70,7 +74,11 @@ function agregarTematicasPadreAjax(valorInputTematica, valorComboPadre) {
             'valorComboPadre': valorComboPadre},
         type: 'POST',
         url: '../control/SolicitudAjaxAreasTematicas.php',
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+             $("#cargandoImagen").css('display','none');
             if (response == 4) { //agregado correctamente              
                 $("#alertaClasificacionAgregada").modal('show');
                 $("#modalAgregarTematica").modal('hide');
@@ -112,7 +120,11 @@ function modificarAreaAjax(areaModificada, areaAnterior) {
             'areaAnterior': areaAnterior},
         type: 'POST',
         url: '../control/SolicitudAjaxAreasTematicas.php',
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+             $("#cargandoImagen").css('display','none');
             // $("#cuerpoTablaTematicasNivel1").html(response);
             // $("#modalModificarTematica").modal('hide');
             location.reload();
@@ -131,6 +143,12 @@ function activarDesactivarAreas(activo, nombre) {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxAreasTematicas.php',
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
+        success: function (response) {
+              $("#cargandoImagen").css('display','none');
+        }
     });
 }
 
@@ -230,7 +248,11 @@ function activarDesactivarTematicas(activoTematica, nombreTematica, clickeado2) 
             'clickeado2': clickeado2},
         type: 'POST',
         url: '../control/SolicitudAjaxAreasTematicas.php',
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+              $("#cargandoImagen").css('display','none');
             $("#cuerpoTablaTematicasNivel1").html(response);
         }
     });
@@ -253,7 +275,11 @@ function agregarAreaAjax(valorInputArea) {
         data: {'valorInputArea': valorInputArea},
         type: 'POST',
         url: '../control/SolicitudAjaxAreasTematicas.php',
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+              $("#cargandoImagen").css('display','none');
             if (response == 1) {// Tematica ya existente
                 $("#alertaNombreAreaExistente").modal('show');
             } else if (response == 3) { //Agregada correctamente
@@ -306,6 +332,11 @@ function cambiarSeleccionAreaTablaNivel1Ajax(seleccionado, tematica) {
             'tematica': tematica},
         type: 'POST',
         url: '../control/SolicitudAjaxAreasTematicas.php',
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },success: function (response) {        
+             $("#cargandoImagen").css('display','none');
+        }
     });
 }
 
@@ -324,8 +355,12 @@ function clickeado(event) {
         data: {'clickeado': clickeado},
         type: 'POST',
         url: '../control/SolicitudAjaxAreasTematicas.php',
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
             $("#cuerpoTablaTematicasNivel1").html(response);
+             $("#cargandoImagen").css('display','none');
         }
     });
 }

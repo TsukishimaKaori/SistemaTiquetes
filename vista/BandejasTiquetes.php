@@ -38,7 +38,7 @@
         </script>
         <script src="../recursos/bootstrap/js/es.js"></script>
         <h1>Administrador de Tiquetes</h1>        
-
+<div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
         <div id="exTab1" class="container" style="width: 100%;">
             <!--            -------------------------------------->         
             <div class="row" id="Filtros" >

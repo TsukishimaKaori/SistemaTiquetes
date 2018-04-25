@@ -14,7 +14,7 @@
         <script  type="text/javascript" src="../recursos/js/AgregarActivos.js"></script> 
     </head>
     <body onload="CargarPagina()">
-
+        <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
         <?php
         require ("../vista/Cabecera.php");
         ?>

@@ -18,6 +18,7 @@
                 header('Location: ../vista/Error.php');
             } else {
                 ?> 
+        <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
                 <section class ="container-fluid">
                     <div class="row">                  
                         <div class="col-md-offset-3 col-md-5">

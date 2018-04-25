@@ -19,7 +19,7 @@
             } else {
                 ?>
               
-             
+             <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
                 <h1> Administrar roles de usuario</h1>
                 <div  class="container">                 
                     <form >

@@ -10,7 +10,11 @@ function mostrarHistorialTiquete(event) {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxHistorialTiquetes.php',
+          beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+                $("#cargandoImagen").css('display','none');
             $("#cuerpoHistorialTiquete").html(response);
         }
     });
@@ -23,7 +27,11 @@ function cargarHistorialInformacion(codigoTiqueteInformacion,codigoIndicadorInfo
         },
         type: 'POST',
         url: '../control/SolicitudAjaxHistorialTiquetes.php',
+          beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+             $("#cargandoImagen").css('display','none');
             if (response != 1) {
                 $("#cuerpoHistorialInformacion").html(response);
             }

@@ -14,11 +14,8 @@
         <script  type="text/javascript" src="../recursos/js/HistorialTiquetes.js"></script> 
         <link href="../recursos/css/historialTiquetes.css" rel="stylesheet"/>  
     </head>
-    <body>       
-        
-        
-        
-        
+    <body>   
+        <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>        
         <?php
         require ("../vista/Cabecera.php");
         if (isset($_GET['fechaInicioFiltros'])) {

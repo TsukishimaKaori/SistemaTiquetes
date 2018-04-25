@@ -215,8 +215,11 @@ function agregaerAdjuntoAJAX() {
             contentType: false,
             processData: false,
             data: data,
-
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
             success: function (response) {
+                $("#cargandoImagen").css('display', 'none');
                 $(document).ready(function () {
                     $("#comentarios").html(response);
                     document.getElementById("Textarchivo").value = "";
@@ -244,8 +247,11 @@ function asignarTiqueteAjax(evento) {
             data: {'AsignarTiquetes': codigoTiquete, 'codioResponsable': codigoResponsable},
             type: 'POST',
             url: '../control/SolicitudAjaxTiquetesCreados.php',
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
             success: function (response) {
-
+                $("#cargandoImagen").css('display', 'none');
                 actualizarTabla("PorAsignar");
                 if (response != "error") {
                     var mensaje = "Tiquete " + codigoTiquete + " asignado a: " + nombre;
@@ -306,8 +312,11 @@ function actualizarTabla(tabla) {
         data: {'botones': tabla},
         type: 'POST',
         url: '../control/SolicitudAjaxTiquetesCreados.php',
-
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display','none');
             $("#botones").html(response);
             if (tabla != 'TodosLosTiquetes') {
                 actualizarTablaAjax(tabla);
@@ -324,8 +333,11 @@ function actualizarTablaAjax(tabla) {
         data: {'tabla': tabla},
         type: 'POST',
         url: '../control/SolicitudAjaxTiquetesCreados.php',
-
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display','none');
             if (tabla == 'PorAsignar') {
                 FiltrosAjax(false, tabla);
                 filtros = true;
@@ -400,8 +412,11 @@ function IniciarTiqueteAjax(event) {
             data: {'IniciarTiquetes': JSON.stringify(valorCheck)},
             type: 'POST',
             url: '../control/SolicitudAjaxTiquetesCreados.php',
-
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
             success: function (response) {
+                $("#cargandoImagen").css('display','none');
                 actualizarTabla("Asignados");
             }
         });
@@ -446,8 +461,11 @@ function calificarAjax() {
             },
             type: 'POST',
             url: '../control/SolicitudAjaxTiquetesCreados.php',
-
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
             success: function (response) {
+                $("#cargandoImagen").css('display','none');
                 $(".rating > input").prop('cursor', 'cursor:not-allowed;');
                 actualizarTabla("Creados");
             }
@@ -475,8 +493,11 @@ function FiltrosAjax(filtros, tabla) {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxTiquetesCreados.php',
-
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display','none');
             $("#Filtros").html(response);
             $(function () {
                 $('#fechafiltroI').datetimepicker({
@@ -568,8 +589,11 @@ function filtrarBusqueda(mitabla) {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxTiquetesCreados.php',
-
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display','none');
             if (mitabla == "Creados") {
                 $('#tablaMisTiquetes').DataTable().destroy();
                 $("#tbody-roles-usuariosCreados").html(response);
