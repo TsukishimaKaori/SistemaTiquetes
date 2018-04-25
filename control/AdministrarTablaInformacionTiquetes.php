@@ -195,7 +195,8 @@ function asignarResponsable($codigoPagina, $tiquete, $anular) {
     if ($codigoPagina == 1 && $tiquete->obtenerEstado()->obtenerCodigoEstado() == 6) {
 
         echo'<div class="col-md-12  encabezadoAsignar">';
-        echo '<button class = "btn btn-info" onclick="Reprocesar();" >Reprocesar</button>'
+        echo '<button class = "btn btn-warning" onclick="MostrarCalificar();" >Calificar</button>
+            <button class = "btn btn-info" onclick="Reprocesar();" >Reprocesar</button>'
         . '</div>';
     }
     if ($codigoPagina == 2) {
@@ -484,7 +485,7 @@ function mostrarCalificacion($codigoPagina, $tiquete) {
     $califiacion = $tiquete->obtenerCalificacion();
     $estado = $tiquete->obtenerEstado()->obtenerCodigoEstado();
     if ($califiacion != null) {
-        echo '<div class = "rating">';
+        echo '<div  class = "rating ">';
         if ($califiacion == 5) {
             echo '<input type="radio" id="star5" name="rating" value="5" checked disabled /><label for="star5" title="Excelente">5 stars</label>';
         } else {
@@ -513,8 +514,8 @@ function mostrarCalificacion($codigoPagina, $tiquete) {
 
         echo '</div>';
     } else if ($estado == 6 && $codigoPagina == 1) {
-        echo '<div class = "rating">' .
-        '<input type="radio" id="star5" name="rating2" value="5" onclick="calificar(this)"/><label for="star5" title="Excelente">5 stars</label>' .
+        echo '<div  class = "rating">' .
+        '<input type="radio" id="star5" name="rating2" value="5" onclick="calificar(this)" /><label for="star5" title="Excelente">5 stars</label>' .
         '<input type="radio" id="star4" name="rating2" value="4" onclick="calificar(this)"/><label for="star4" title="Muy Bueno">4 stars</label>' .
         '<input type="radio" id="star3" name="rating2" value="3" onclick="calificar(this)" /><label for="star3" title="Bueno">3 stars</label>' .
         '<input type="radio" id="star2" name="rating2" value="2" onclick="calificar(this)"/><label for="star2" title="Regular">2 stars</label>' .

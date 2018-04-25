@@ -985,6 +985,13 @@ function notificacion(mensaje) {
 
 // <editor-fold defaultstate="collapsed" desc="ESTADO CALIFICADO">
 var calificacion;
+function MostrarCalificar(){
+    document.getElementById('star1').focus();
+    $('#divCalificacion').css('background-color','#ffcc66');
+    
+   
+}
+
 function calificar(event) {
     calificacion = event;
     calificacion.checked = false;
@@ -996,6 +1003,8 @@ function calificar(event) {
     document.getElementById("cancelarJustificacion").onclick = function () {
         cancelarcalificar()
     };
+    $('#divCalificacion').css('background-color','#f5f5f5');
+  
     $("#ModalJustificacion").modal("show");
 }
 function  cancelarcalificar() {
@@ -1025,6 +1034,7 @@ function calificarAjax() {
                     type: 'POST',
                     url: '../control/SolicitudAjaxInformacionTiquetes.php',
                     success: function (response) {
+                        
                         $("#cargarTiquetePagina").html(response);
 
                         $(function () {

@@ -306,10 +306,12 @@
                                 </div> 
                             </div>
 
-                            <div class="panel-footer"> 
-                                <label style="font-size:16px">Calificación</label>                                
-    <?php mostrarCalificacion($codigoPagina, $tiquete); ?>                                
-                            </div>                              
+                            <div class="panel-footer" id="divCalificacion"> 
+                                <label style="font-size:16px" >Calificación</label>                                
+    <?php mostrarCalificacion($codigoPagina, $tiquete); ?> 
+                              
+                            </div>
+                           <div  ></div>
                         </div>
                     </div>
                     <div class="col-md-6">                        

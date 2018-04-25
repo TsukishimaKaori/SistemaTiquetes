@@ -19,15 +19,16 @@ function cabecera() {
 function notificacionBandeja() {
     echo ' <div style = "display:none;text-align:center" id = "divNotificacion" class="notificacion content alert alert-info">'
     . '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'
-    .'</br>'
+    . '</br>'
     . '</div>';
 }
+
 // </editor-fold>
 
 function cuerpoTablaMistiquetesCreados($Tiquetes, $codigoPestana, $responsables) {
     $cont = 1;
     foreach ($Tiquetes as $tique) {
-        echo '<tr  data-toggle="tooltip" title="'.substr($tique->obtenerDescripcion(), 0, 70).'..." data-placement="top"  style = "text-align:center";>';
+        echo '<tr  data-toggle="tooltip" title="' . substr($tique->obtenerDescripcion(), 0, 70) . '..." data-placement="top"  style = "text-align:center";>';
 //        if($codigoPestana == 2) {
 //            echo '<td value ="' . $tique->obtenerCodigoTiquete() . '">'
 //            . '<input type = "checkbox" id = "check' . $tique->obtenerCodigoTiquete() . '"></td>';
@@ -87,7 +88,7 @@ function cuerpoTablaMistiquetesCreados($Tiquetes, $codigoPestana, $responsables)
         }
         calificacion($codigoPestana, $tique, $cont++);
         // if ($codigoPestana == 1) {
-           echo '<td onclick="mostrarMisTIquetes(this,' . $codigoPestana . ');">' . '<button type="button" class="btn btn-info">
+        echo '<td onclick="mostrarMisTIquetes(this,' . $codigoPestana . ');">' . '<button type="button" class="btn btn-info">
                <span class="glyphicon glyphicon-eye-open"></span> </button></td>';
 //        } else if ($codigoPestana == 2) {
 //            echo '<td onclick="mostrarTiquetesPorAsignar(this);">' . '<button type="button" class="btn btn-info">
@@ -138,7 +139,8 @@ function calificacion($codigoPestana, $tiquete, $cont) {
 
         echo '</td>';
     } else if ($estado == 6 && $codigoPestana == 1) {
-        echo '<td class = "rating">' .
+        echo '<td class = "rating" >' .
+        '<span class="label label-warning"> Calificar <span class="glyphicon glyphicon-circle-arrow-right"></span></span>' .
         '<input type="radio" id="' . $codigoPestana . 'star5-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="5" onclick="calificar(this)"/><label for="' . $codigoPestana . 'star5-' . $cont . '" title="Excelente">5 stars</label>' .
         '<input type="radio" id="' . $codigoPestana . 'star4-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="4" onclick="calificar(this)"/><label for="' . $codigoPestana . 'star4-' . $cont . '" title="Muy Bueno">4 stars</label>' .
         '<input type="radio" id="' . $codigoPestana . 'star3-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="3" onclick="calificar(this)" /><label for="' . $codigoPestana . 'star3-' . $cont . '" title="Bueno">3 stars</label>' .
@@ -200,11 +202,11 @@ function comboEstados($estados) {
 
 // <editor-fold defaultstate="collapsed" desc="ASIGNACION DEL TIQUETE">
 function comboResponsablesAsignar($tique, $responsables) {
-    echo '<select class="form-control" id="comboResponsables" onchange="asignarTiqueteAjax(this)">';   
-        echo '<option value="" selected>Por asignar</option>';    
-    foreach ($responsables as $responsable) {        
-            echo '<option value="' . $responsable->obtenerCodigoEmpleado() . '" >' . $responsable->obtenerNombreResponsable() . '</option>';
-        }
+    echo '<select class="form-control" id="comboResponsables" onchange="asignarTiqueteAjax(this)">';
+    echo '<option value="" selected>Por asignar</option>';
+    foreach ($responsables as $responsable) {
+        echo '<option value="' . $responsable->obtenerCodigoEmpleado() . '" >' . $responsable->obtenerNombreResponsable() . '</option>';
+    }
     echo '</select>';
 }
 
@@ -239,10 +241,10 @@ function filtroTiquetes($mitabla, $fecha) {
                         <div class="col-md-2">
                             <h5>Fecha de inicio:</h5>
                         </div>                                     
-                        <div class="col-md-2  ">
+                        <div class="col-md-2">
                             <div class = "form-group input-group date" id = "datetimepicker1">
-                                <input id = "fechafiltroI" name ="filtro-fecha" type="text" class="  form-control" value="' . $fecha . '">
-                                <span class="input-group-addon btn btn-info"  onclick="document.getElementById(\'fechafiltroI\').focus()" >
+                                <input id = "fechafiltroI" name ="filtro-fecha" type="text" class="form-control " value="' . $fecha . '">
+                                <span class="input-group-addon btn-info"  onclick="document.getElementById(\'fechafiltroI\').focus()" >
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </span>  
                             </div>
@@ -262,7 +264,7 @@ function filtroTiquetes($mitabla, $fecha) {
                         <div class="col-md-2  ">
                             <div class = "form-group input-group date" id = "datetimepicker2">
                                 <input id = "fechafiltroF" name ="filtro-fecha" type="text" class="form-control" value="' . $fecha . '" >
-                                <span class="input-group-addon btn btn-info"  onclick="document.getElementById(\'fechafiltroF\').focus()">
+                                <span class="input-group-addon  btn-info"  onclick="document.getElementById(\'fechafiltroF\').focus()">
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </span>  
                             </div>
@@ -327,7 +329,7 @@ function filtroTodosLosTiquetes($mitabla, $fecha) {
                                     <div class="col-md-2  ">
                                         <div class = "form-group input-group date" id = "datetimepicker1">
                                             <input id = "fechafiltroI" name ="filtro-fecha" type="text" class="  form-control" value="' . $fecha . '">
-                                            <span class="input-group-addon btn btn-info" onclick="document.getElementById(\'fechafiltroI\').focus()"  for="filtro-fecha">
+                                            <span class="input-group-addon  btn-info" onclick="document.getElementById(\'fechafiltroI\').focus()"  for="filtro-fecha">
                                                 <i class="glyphicon glyphicon-calendar"></i>
                                             </span>  
                                         </div>
@@ -342,7 +344,7 @@ function filtroTodosLosTiquetes($mitabla, $fecha) {
                                     <div class="col-md-2  ">
                                         <div class = "form-group input-group date" id = "datetimepicker2">
                                             <input id = "fechafiltroF" name ="filtro-fecha" type="text" class="form-control" value="' . $fecha . '" >
-                                            <span class="input-group-addon btn btn-info"  onclick="document.getElementById(\'fechafiltroF\').focus()" for="filtro-fecha">
+                                            <span class="input-group-addon  btn-info"  onclick="document.getElementById(\'fechafiltroF\').focus()" for="filtro-fecha">
                                                 <i class="glyphicon glyphicon-calendar"></i>
                                             </span>  
                                         </div>

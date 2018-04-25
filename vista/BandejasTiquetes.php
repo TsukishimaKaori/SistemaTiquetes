@@ -41,7 +41,7 @@
 
         <div id="exTab1" class="container" style="width: 100%;">
             <!--            -------------------------------------->         
-            <div class="row" id="Filtros">
+            <div class="row" id="Filtros" >
             </div> 
             <!---------------------------------------->
             <div class = "row" id="botones"> 
@@ -58,7 +58,7 @@
                 ?>
             </div>
             <!--------------------------------------------------->
-            <div class = "row" id="Tablas"> 
+            <div class = "row" id="Tablas" > 
                 <div class = "col-md-12"> 
                     <ul  id ="miTabBandeja" class="nav nav-pills" >                
                         <li class="active bandeja-tab"  id ='liMisTiquetes'>
@@ -177,7 +177,7 @@
                 </div>   
             </div>
         </div>
-        <div class="row"><br><br></div>
+        
 
         <!----------------------------INICIO DE VENTANAS MODALES----------------------->
         <div id="modalAsignar" class="modal fade" role="dialog">
