@@ -561,7 +561,8 @@ if (isset($_POST['extra'])) {
                                 </div>  
                                 <div class="row ">&nbsp;</div>
                                 <div class="row ">';
-    echo asignarResponsable($codigoPagina, $tiquete);
+           $anular = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 9);
+    echo asignarResponsable($codigoPagina, $tiquete,$anular);
     echo'</div> '
     . '</div>
 

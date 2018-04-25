@@ -1032,8 +1032,8 @@ function FinalizarAjax() {
                                 locale: 'es'
                             });
                         });
-                        var mensaje = "El tiquete a sido anulado";
-                        notificacion(mensaje);
+                       // var mensaje = "El tiquete a sido anulado";
+                       // notificacion(mensaje);
 
                     }
                 });
