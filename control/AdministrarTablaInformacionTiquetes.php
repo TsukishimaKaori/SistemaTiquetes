@@ -403,7 +403,7 @@ function estadoTiquete($tiquete) {
 }
 
 function prioridadTiquete($tiquete, $codigoPagina, $prioridades) { //aun no se que pagina puede modficar la prioridad
-    if ($codigoPagina == 1 || $codigoPagina == 3 || $codigoPagina == 4|| $codigoPagina == 5) {
+    if ($codigoPagina == 1 || $codigoPagina == 3 || $codigoPagina == 4 || $codigoPagina == 5) {
         echo '<div class = "col-md-2" style = "text-align:center; color:white">';
         if ($tiquete->obtenerPrioridad()->obtenerCodigoPrioridad() == 3) {
             echo '<div style = "background-color:#5CB85C;">';

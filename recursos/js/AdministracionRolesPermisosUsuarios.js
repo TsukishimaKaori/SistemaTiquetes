@@ -38,7 +38,11 @@ function confimarcionEliminar(event) {
             data: {'hiddenEliminarRol': combo},
             type: 'POST',
             url: '../control/SolicitudAjaxUsuariosRoles.php',
+             beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
             success: function (response) {
+                 $("#cargandoImagen").css('display','none');
                 $("#modalEliminarRol").modal('hide');
                 if (response == 1) {
                     window.location = window.location.href + "?alertaEliminarRol=1";
@@ -87,11 +91,11 @@ function procesarRolesUsuarios(comboRolesUsuariosModal) {
         data: {'comboRolesUsuariosModal': comboRolesUsuariosModal},
         type: 'POST',
         url: '../control/SolicitudAjaxUsuariosRoles.php',
-        beforeSend: function () {
-            console.log("Este es mi prametro " + comboRolesUsuariosModal);
-            // $("#cuerpoTablaRolUsuario").html("Procesando, espere por favor...");
+         beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
         },
         success: function (response) {
+            $("#cargandoImagen").css('display','none');
             $("#cuerpoTablaRolUsuario").html(response);
         }
     });

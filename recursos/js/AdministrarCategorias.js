@@ -27,7 +27,11 @@ function categoriaAgregarAjax(valorInputCategoria, esRepuesto) {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxCategorias.php',
-        success: function (response) {            
+         beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
+        success: function (response) {  
+             $("#cargandoImagen").css('display','none');
             if (response == 1) {// Error 
                 notificacion("Ha ocurrido un error al agregar la cateogoria"); 
                       $("#modalAgregarCategoria").modal('hide');
@@ -75,7 +79,11 @@ function eliminarCategoriaAjax(idCategoriaEliminar) {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxCategorias.php',
+         beforeSend: function () {
+             // $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+             $("#cargandoImagen").css('display','none');
             if (response == 1) {
                 //$("#errorGeneral").modal("show");
                 $("#modalEliminarCategoria").modal('hide');
@@ -104,7 +112,11 @@ function clickeado(event) {
            },
         type: 'POST',
         url: '../control/SolicitudAjaxCategorias.php',
+         beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+             $("#cargandoImagen").css('display','none');
             $("#cuerpoTablaTematica").html(response);
         }
     });

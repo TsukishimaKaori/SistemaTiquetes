@@ -18,7 +18,7 @@
     }
     ?>
     <body onload="fechas(<?php $for ?>)">
-
+<div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
         <?php
         require ("../vista/Cabecera.php");
         ?>

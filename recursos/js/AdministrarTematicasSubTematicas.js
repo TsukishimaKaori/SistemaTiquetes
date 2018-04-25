@@ -29,7 +29,11 @@ function clickeado(event) {
             'tematicaPadre': tematicaPadre},
         type: 'POST',
         url: '../control/SolicitudAjaxTematicasSubtematicas.php',
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+             $("#cargandoImagen").css('display','none');
             $("#cuerpoTablaTematica").html(response);
         }
     });
@@ -54,7 +58,11 @@ function subtematicasAgregarAjax(valorInputSubTematica, valorComboPadreSubTemati
             'valorComboPadreSubTematica': valorComboPadreSubTematica},
         type: 'POST',
         url: '../control/SolicitudAjaxTematicasSubtematicas.php',
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+             $("#cargandoImagen").css('display','none');
             if (response == 1) {// Tematica agregada correctamente
                 $("#alertaSubTemaAgregada").modal('show');
                 $("#modalAgregarSubTematica").modal('hide');
@@ -103,7 +111,11 @@ function activarDesactivarTematicas(activoTematica, nombreTematica, valorComboTe
             'clickeado2': clickeado2},
         type: 'POST',
         url: '../control/SolicitudAjaxTematicasSubtematicas.php',
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+             $("#cargandoImagen").css('display','none');
             $("#cuerpoTablaTematica").html(response);
         }
     });
@@ -134,7 +146,11 @@ function eliminarSubTematicaAjax(nombreSubtematicaEliminar, tematicaPadre, click
         },
         type: 'POST',
         url: '../control/SolicitudAjaxTematicasSubtematicas.php',
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+             $("#cargandoImagen").css('display','none');
             if (response == 1) {
                 $("#errorGeneral").modal("show");
                 $("#modalEliminarSubTematica").modal('hide');
@@ -196,7 +212,11 @@ function modificarSubTematicaAjax(subtematicaModificada, subtematicaAnterior, te
             'clickeado4': clickeado4},
         type: 'POST',
         url: '../control/SolicitudAjaxTematicasSubtematicas.php',
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+             $("#cargandoImagen").css('display','none');
             if (response == 1) {
                 $("#alertaEditarNombreSubtematicaInactivo").modal('show'); // no existe la tematica a actualizar
                 $("#modalModifcarSubTematica").modal('hide');

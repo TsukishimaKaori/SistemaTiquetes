@@ -8,6 +8,7 @@ require ("../control/AdministrarTablaInformacionTiquetes.php");
 session_start();
 $r = $_SESSION['objetoUsuario'];
 
+
 //if ($r == 'Ha ocurrido un error' || $r == null) {
 //    //$r = obtenerResponsable('nubeblanca1997@outlook.com'); //admin
 //    $r = obtenerResponsable('dannyalfvr97@gmail.com'); //coordinador
@@ -518,7 +519,7 @@ if (isset($_POST['extra'])) {
                                 </div>
                                 <div class = "row">
                                     <h5 class = "col-md-3">Prioridad:</h5>';
-
+    $prioridades = obtenerPrioridades();
     echo prioridadTiquete($tiquete, $codigoPagina, $prioridades);
 
     echo'</div>'

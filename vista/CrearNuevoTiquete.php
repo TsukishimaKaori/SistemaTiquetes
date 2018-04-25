@@ -17,12 +17,10 @@
         ?>
         <script src="../recursos/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
         <script src="../recursos/bootstrap/js/es.js"></script>
-
-
         <div class="container ">
             <div class="row">
 
- <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
+                <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
                 <div class="col-md-6 col-md-offset-3" id="tiquete"> 
                     <form  id ="formulario" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" enctype="multipart/form-data">
                         <h1> Nuevo tiquete</h1>
@@ -67,7 +65,7 @@
                         <button type="button" class="btn btn-info btn-circle btn-xl" data-toggle="modal" data-target="#modalagregarAdjunto" >Adjuntar archivo</button><br><br>
                         <button type="button" class="btn btn-success" onclick="enviar(this);"> Enviar </button>
                         <button type="reset" class="btn btn-danger">Cancelar</button>   
-<!--                        <----------------------------------->
+                        <!--                        <----------------------------------->
                         <div id="modalagregarAdjunto" class="modal fade" role="dialog">
                             <div class="modal-dialog">                
                                 <div class="modal-content">
@@ -89,7 +87,7 @@
                                 </div>
                             </div>
                         </div>
-<!--                        <----------------------------------->
+                        <!--                        <----------------------------------->
                     </form>
                 </div> 
             </div>
@@ -123,7 +121,7 @@
 
                             </div> 
                         </div>
-                     </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal" > Aceptar</button>
                     </div>
@@ -180,12 +178,10 @@
 
                     </div>
                     <div class="modal-footer">
-
                         <button type="button" class="btn btn-danger"  data-dismiss="modal">Salir</button>
                     </div>
                 </div>
             </div>
         </div>
     </body>
-
 </html>

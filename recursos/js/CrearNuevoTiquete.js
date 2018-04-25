@@ -99,6 +99,7 @@ function  EnviarAjax() {
               $("#cargandoImagen").css('display','block');
         },
         success: function (response) {
+            
             $(document).ready(function () {
                 var a = "error";
                 $("#cargandoImagen").css('display','none');

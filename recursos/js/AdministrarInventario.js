@@ -11,12 +11,7 @@ $(document).ready(function () {
     } else if (tab == 2) {
         evt = document.getElementById("link-inventario");
         abrir_tab_inventario(evt, 'tab-inventario');
-
-
     }
-
-
-
     tablaActivos();
     tablaPasivos();
     tablaTiquetedInventario();
@@ -215,7 +210,11 @@ function cargarPanelActivos(codigo, event) {
         data: {'codigoActivo': codigo},
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $("#panelInformacionInventario").html(response);
             var select = document.getElementById("Usuarios");
             if (select) {
@@ -235,7 +234,11 @@ function cargarPanelPasivos(codigo, bodega, event) {
             'bodega': bodega},
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $("#panelInformacionInventario").html(response);
         }
     });
@@ -249,7 +252,11 @@ function cargarPanelSumarInventario(codigo, bodega, event) {
             'bodega': bodega},
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $("#archivo").val("");
             $("#Textarchivo").val("");
             $("#panelInformacionInventario").html(response);
@@ -264,13 +271,17 @@ function cargarPanelAgregarInventario() {
     var codigo = 1;// cambiar codigo
     $.ajax({
         data: {'codigoAgregarInventario': codigo},
-        type: 'POST',       
+        type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $("#panelInformacionInventario").html(response);
             $('.selectpicker').selectpicker({
-                    size: 5
-                });
+                size: 5
+            });
             $("#archivo").val("");
             $("#Textarchivo").val("");
         }
@@ -287,7 +298,11 @@ function cargarPanelRepuestos(codigo, event) {
         data: {'codigoAgregarRepuesto': codigo},
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $("#panelInformacionInventario").html(response);
         }
     });
@@ -300,7 +315,11 @@ function cargarPanelLicencias(codigo, event) {
         data: {'codigoAgregarLicencia': codigo},
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $("#panelInformacionInventario").html(response);
             $(function () {
                 var fecha = new Date();
@@ -336,7 +355,11 @@ function agregarLicenciaEquipo(codigo) {
             },
             type: 'POST',
             url: '../control/SolicitudAjaxInventario.php',
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
             success: function (response) {
+                $("#cargandoImagen").css('display', 'none');            
                 if (response == 1) {
                     notificacion("Ha ocurrido un error al ingresar la licencia");
                 } else {
@@ -360,7 +383,11 @@ function obtenerLicencias(codigo) {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $("#cuerpoTablaLicencias").html(response);
             //limpiarFormularioLicencia();
             $("#tituloModalLicencias").empty();
@@ -377,7 +404,11 @@ function obtenerRepuestos(codigo) {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $("#cuerpoTablaRepuestos").html(response);
             $("#tituloModalRepuestos").empty();
             $("#tituloModalRepuestos").append('Repuestos asociadas al equipo: ' + codigo);
@@ -392,7 +423,11 @@ function obtenerContratos(codigo) {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $("#cuerpoTablaContratos").html(response);
             $("#tituloModalContratos").empty();
             $("#tituloModalContratos").append('Contratos asociadas al equipo: ' + codigo);
@@ -418,7 +453,11 @@ function asociarRepuestos(codigo) {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             if (response == 1) {
                 notificacion("Ha ocurrido un error al asociar el repuesto.");
             } else if (response == 2) {
@@ -479,7 +518,11 @@ function agregarInventario() {
                 contentType: false,
                 processData: false,
                 data: data,
+                beforeSend: function () {
+                    $("#cargandoImagen").css('display', 'block');
+                },
                 success: function (response) {
+                    $("#cargandoImagen").css('display', 'none');
                     if (response != 'Error') {
                         $('#tablaPasivos').DataTable().destroy();
                         $("#cuerpo-Tabla-Inventario").html(response);
@@ -548,7 +591,11 @@ function agregarInventarioSuma() {
             contentType: false,
             processData: false,
             data: data,
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
             success: function (response) {
+                $("#cargandoImagen").css('display', 'none');
                 if (response != 'Error') {
                     $('#tablaPasivos').DataTable().destroy();
                     $("#cuerpo-Tabla-Inventario").html(response);
@@ -859,7 +906,11 @@ function eliminarRepuestoAjax() {
             },
             type: 'POST',
             url: '../control/SolicitudAjaxInventario.php',
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
             success: function (response) {
+                $("#cargandoImagen").css('display', 'none');
                 $("#eliminarRepuesto").modal("hide");
                 if (response === "") {
                     var repuesto = document.getElementById(codigoRepuesto);
@@ -892,7 +943,11 @@ function eliminarLicenciaAjax() {
             },
             type: 'POST',
             url: '../control/SolicitudAjaxInventario.php',
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
             success: function (response) {
+                $("#cargandoImagen").css('display', 'none');
                 $("#eliminarLicencia").modal("hide");
                 if (response === "") {
                     var licencia = document.getElementById(codigoLicencia);
@@ -946,7 +1001,11 @@ function cambiarEstadoAjax() {
             },
             type: 'POST',
             url: '../control/SolicitudAjaxInventario.php',
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
             success: function (response) {
+                $("#cargandoImagen").css('display', 'none');
                 $("#cambiarEstado").modal("hide");
                 if (response === "") {
                     document.getElementById("estadosSiguentes").value = estadoSiguiente;
@@ -987,7 +1046,11 @@ function eliminarUsuarioAjax() {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $("#eliminarUsuario").modal("hide");
             if (response === "Error") {
                 var mensaje = "Error al desasociar activo";
@@ -1049,8 +1112,11 @@ function asignarActivoAjax() {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
-
+            $("#cargandoImagen").css('display', 'none');
             $("#AsociarACtivo").modal("hide");
             if (response === "Error") {
                 var mensaje = "Error al desasociar tiquete";
@@ -1088,7 +1154,11 @@ function filtrarActivos() {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             if (response === "Error") {
                 var mensaje = "Error al filtrar";
                 notificacion(mensaje);
@@ -1117,7 +1187,11 @@ function filtrarInventario() {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             if (response === "Error") {
                 var mensaje = "Error al filtrar";
                 notificacion(mensaje);
@@ -1179,8 +1253,11 @@ function filtrartiquetesAjax() {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
-
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $('#tablaTiquetesI').DataTable().destroy();
             $("#tbody-tablaTiquetesI").html(response);
             tablaTiquetedInventario();

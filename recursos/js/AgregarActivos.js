@@ -355,8 +355,11 @@ function filtrartiquetesAjax() {
         },
         type: 'POST',
         url: '../control/SolicitudAjajxAgregarActivos.php',
-
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+             $("#cargandoImagen").css('display','none');
             $('#tablaTiquetesA').DataTable().destroy();
             $("#tbody-tablaTiquetesA").html(response);
             tablaTiquetedInventarioActivo()
@@ -407,7 +410,11 @@ function agregarActivoAjax() {
         url: '../control/SolicitudAjajxAgregarActivos.php',
         data: {'Licencias': JSON.stringify(Licencias), 'Repuestos': JSON.stringify(Repuestos), 'codigo': codigo, 'categoria': categoria, 'placa': placa, 'usuarioA': UsuarioAsociado,
             'serie': serie, 'modelo': modelo, 'codigoC': codigoCategoria, 'fechaE': fechaE,'tiquete':tiquete ,'docking': docking, 'Asociado': Asociado}, //capturo array     
+         beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (reponse) {
+            $("#cargandoImagen").css('display','none');
             $("#confirmarAsociar").modal("hide");
             var separador = "'";
             var arregloDeSubCadenas = reponse.split(separador);

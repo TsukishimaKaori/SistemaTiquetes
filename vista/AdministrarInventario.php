@@ -30,7 +30,7 @@
             $tab = 1;
         }
         ?>
-
+        <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
         <input id = 'nombreUsuario' type="hidden" value ='<?php echo $r->obtenerNombreResponsable() ?>' >
         <input id = 'correoUsuario' type="hidden" value ='<?php echo $r->obtenerCorreo() ?>' >
         <input id = 'tabInventario' type="hidden" value ='<?php echo $tab ?>' >

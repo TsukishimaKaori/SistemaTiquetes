@@ -16,8 +16,11 @@ function FiltrosAjax(filtros) {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxHistorialInventario.php',
-
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $("#Filtros").html(response);
             $(function () {
                 $('#fechafiltroI').datetimepicker({
@@ -58,7 +61,11 @@ function filtrarBusquedaInventario(codigoDispositivo, bodega, fechaI, fechaF) {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxHistorialInventario.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $("#panelFiltrado").html(response);
             notificacion("Filtro aplicado correctamente");
         }
@@ -73,10 +80,14 @@ function filtrarBusquedaActivos(codigoDispositivo, fechaI, fechaF) {
         },
         type: 'POST',
         url: '../control/SolicitudAjaxHistorialInventario.php',
+          beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
             $("#panelFiltradoActivos").html(response);
             notificacion("Filtro aplicado correctamente");
-            
+
         }
     });
 }
