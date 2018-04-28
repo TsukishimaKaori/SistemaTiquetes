@@ -4,7 +4,9 @@
 
 2. Correr PAobtenerFechaUltimoEfectoInventario
 
-3. Clase nueva, ReporteInventario, llamar a obtenerReportesInventario en el php
+3. Clase nueva, ReporteInventario, llamar a obtenerReportesInventario en el php para llenar la tabla de reportes
+
+4. Correr PAreporteDeMovimientos
 
 20/04/2018
 
