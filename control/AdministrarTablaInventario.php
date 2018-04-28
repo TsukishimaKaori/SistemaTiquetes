@@ -6,9 +6,9 @@ function cabeceraTablaPasivos() {
     . "<th>Categoría</th>"
     . "<th>Tipo</th>"
     . "<th>Bodega</th>"
-    . "<th>-</th>"
+    . "<th>Salida</th>"
     . "<th>Cantidad</th>"
-    . "<th>+</th>"
+    . "<th>Entrada</th>"
     . "<th>Ver</th>"
     . "<th>Historial</th>";
 }
