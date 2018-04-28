@@ -12,6 +12,7 @@ require_once '../modelo/Bodega.php';
 require_once '../modelo/Detalle.php';
 require_once '../modelo/HistorialActivos.php';
 require_once '../modelo/ReporteInventario.php';
+require_once '../modelo/ReporteDeMovimientos.php';
 
 
 //Obtiene todos los dispositivos pasivos
