@@ -566,7 +566,7 @@ if (isset($_POST['extra'])) {
     echo'</div> '
     . '</div>
 
-                            <div class="panel-footer"> 
+                            <div class="panel-footer" id="divCalificacion"> 
                                 <label style="font-size:16px">Calificación</label> ';
     echo mostrarCalificacion($codigoPagina, $tiquete);
     echo'</div>                              
