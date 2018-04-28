@@ -710,6 +710,52 @@ function obtenerHistorialActivosFijosFiltrado($placa, $fechaInicio, $fechaFinal)
 }
 
 
+//Obtener la ultima fecha de movimientos de salidas o entradas de un articulo del inventario
+//para reunirlo con la informacion de los reportes de inventario
+//El efecto es un entero, si se envia 1, entonces el retorna la ultima fecha de ingreso
+//si es otro, entonces se retorna la ultima fecha de egreso
+function obtenerFechaUltimoEfectoInventario($codigoArticulo, $efecto) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerFechaUltimoEfectoInventario (?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array($efecto, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener la fecha';
+    }
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        if($efecto == 1){
+            $fecha = $row['fechaUltimoIngreso'];
+        } else {
+            $fecha = $row['fechaUltimoEgreso'];
+        }
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $fecha;
+}
+
+
+//Para llenar la tabla de reportes de inventario solo hay que llamar a esta funcion con los 
+//datos que se ingresan en el filtro
+function obtenerReportesInventario($codigoArticulo, $descripcion, $nombreCategoria) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAreporteDeInventario (?, ?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array(utf8_decode($descripcion), SQLSRV_PARAM_IN), 
+        array(utf8_decode($nombreCategoria),SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los reportes';
+    }
+    $reportes = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $reportes[] = crearReporteInventario($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $reportes;
+}
+
+
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
     $nombreEstado = utf8_encode($row['nombreEstado']);
@@ -822,8 +868,8 @@ function crearReporteInventario($row) {
     $descripcion = utf8_encode($row['descripcion']);
     $categoria = crearCategoria($row);
     $cantidad = $row['cantidad'];  
-    $fechaUltimoIngreso = $row['fechaUltimoIngreso'];
-    $fechaUltimoEgreso = $row['fechaUltimoIngreso'];
+    $fechaUltimoIngreso = obtenerFechaUltimoEfectoInventario($codigoArticulo, 1);  //El 1 es el valor para entradas
+    $fechaUltimoEgreso = obtenerFechaUltimoEfectoInventario($codigoArticulo, 2);  //Cualquier otro valor es para salidas
     return new ReporteInventario($codigoArticulo, $descripcion, $categoria, $cantidad, $fechaUltimoIngreso, $fechaUltimoEgreso);
 }
 
@@ -1072,3 +1118,17 @@ function crearReporteInventario($row) {
 //$mensaje = eliminarCategoria(15);
 //echo $mensaje;
 
+//$fecha = obtenerFechaUltimoEfectoInventario('987', 2);
+//echo $fecha->format('d-m-Y H:i');
+
+//$reportes = obtenerReportesInventario('987','','');
+//
+//foreach ($reportes as $tema) {   
+//    echo $tema->obtenerCodigoArticulo() . '<br />';
+//    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $tema->obtenerDescripcion() . '<br />';
+//    echo $tema->obtenerCantidad() . '<br />';
+//    echo $tema->obtenerFechaUltimoIngreso()->format('d-m-Y H:i') . '<br />';
+//    echo $tema->obtenerFechaUltimoEgreso()->format('d-m-Y H:i') . '<br />';
+//    echo '<br />';
+//}
