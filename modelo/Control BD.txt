@@ -8,6 +8,8 @@
 
 4. Correr PAreporteDeMovimientos
 
+5. Nueva clase ReporteDeMovimientos, llamar a obtenerReporteDeMovimientos para llenar la tabla de reportes
+
 20/04/2018
 
 1. Volver a correr PAobtenerArticuloFiltradoCodigoBodega, ya devuelve el proveedor y la marca
