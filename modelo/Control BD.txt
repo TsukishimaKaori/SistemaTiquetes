@@ -1,5 +1,6 @@
 27/04/2018
 
+Esto es para los reportes del modulo de inventario, esta en InventarioBD y ProcedimientosInventario.php
 1. Correr PAreporteDeInventario
 
 2. Correr PAobtenerFechaUltimoEfectoInventario
@@ -9,6 +10,9 @@
 4. Correr PAreporteDeMovimientos
 
 5. Nueva clase ReporteDeMovimientos, llamar a obtenerReporteDeMovimientos para llenar la tabla de reportes
+
+Esto es para los reportes del modulo de tiquetes, esta en PermisosYtiquetesDB y ProcedimientosTiquetes.php
+
 
 20/04/2018
 
