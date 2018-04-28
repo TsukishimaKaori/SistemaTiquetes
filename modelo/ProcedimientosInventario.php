@@ -11,6 +11,7 @@ require_once '../modelo/ProcedimientosTiquetes.php';
 require_once '../modelo/Bodega.php';
 require_once '../modelo/Detalle.php';
 require_once '../modelo/HistorialActivos.php';
+require_once '../modelo/ReporteInventario.php';
 
 
 //Obtiene todos los dispositivos pasivos
