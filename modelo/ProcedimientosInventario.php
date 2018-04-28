@@ -817,6 +817,16 @@ function crearHistorialActivos($row) {
             $comentarioUsuario, $aclaracionSistema);
 }
 
+function crearReporteInventario($row) {
+    $codigoArticulo = $row['codigoArticulo'];
+    $descripcion = utf8_encode($row['descripcion']);
+    $categoria = crearCategoria($row);
+    $cantidad = $row['cantidad'];  
+    $fechaUltimoIngreso = $row['fechaUltimoIngreso'];
+    $fechaUltimoEgreso = $row['fechaUltimoIngreso'];
+    return new ReporteInventario($codigoArticulo, $descripcion, $categoria, $cantidad, $fechaUltimoIngreso, $fechaUltimoEgreso);
+}
+
 //$pasivos = obtenerInventario();
 //
 //foreach ($pasivos as $tema) {   
