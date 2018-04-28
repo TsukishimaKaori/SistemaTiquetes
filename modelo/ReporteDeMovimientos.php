@@ -26,7 +26,7 @@ class ReporteDeMovimientos {
     }
 
     function obtenerCantidadInventario() {
-        return $this->cantidadIventario;
+        return $this->cantidadInventario;
     }
     
     function obtenerCantidadEfecto() {
@@ -48,7 +48,7 @@ class ReporteDeMovimientos {
     private $codigoArticulo;
     private $descripcion;
     private $categoria;   //objeto de tipo Categoria
-    private $cantidadIventario;
+    private $cantidadInventario;
     private $cantidadEfecto;
     private $costo;
     private $fecha;
