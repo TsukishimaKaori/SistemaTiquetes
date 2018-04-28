@@ -1166,16 +1166,16 @@ function crearReporteDeMovimientos($row) {
 //    echo '<br />';
 //}
 
-$reportes = obtenerReporteDeMovimientos('987','','2018/01/01', '2018/04/28');
-
-foreach ($reportes as $tema) {   
-    echo $tema->obtenerCodigoArticulo() . '<br />';
-    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
-    echo $tema->obtenerDescripcion() . '<br />';
-    echo $tema->obtenerCantidadInventario() . '<br />';
-    echo $tema->obtenerCantidadEfecto() . '<br />';
-    echo $tema->obtenerCosto() . '<br />';
-    echo $tema->obtenerFecha()->format('d-m-Y H:i') . '<br />';
-    echo $tema->obtenerEfecto() . '<br />';
-    echo '<br />';
-}
+//$reportes = obtenerReporteDeMovimientos('987','','2018/01/01', '2018/04/28');
+//
+//foreach ($reportes as $tema) {   
+//    echo $tema->obtenerCodigoArticulo() . '<br />';
+//    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+//    echo $tema->obtenerDescripcion() . '<br />';
+//    echo $tema->obtenerCantidadInventario() . '<br />';
+//    echo $tema->obtenerCantidadEfecto() . '<br />';
+//    echo $tema->obtenerCosto() . '<br />';
+//    echo $tema->obtenerFecha()->format('d-m-Y H:i') . '<br />';
+//    echo $tema->obtenerEfecto() . '<br />';
+//    echo '<br />';
+//}
