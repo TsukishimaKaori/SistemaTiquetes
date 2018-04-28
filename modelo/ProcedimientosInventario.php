@@ -756,6 +756,26 @@ function obtenerReportesInventario($codigoArticulo, $descripcion, $nombreCategor
     return $reportes;
 }
 
+//Para llenar la tabla de reportes de inventario solo hay que llamar a esta funcion con los 
+//datos que se ingresan en el filtro
+function obtenerReporteDeMovimientos($codigoArticulo, $nombreCategoria, $fechaInicio, $fechaFinal) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAreporteDeMovimientos (?, ?, ?, ?) }";
+    $params = array(array($codigoArticulo, SQLSRV_PARAM_IN), array(utf8_decode($nombreCategoria),SQLSRV_PARAM_IN),
+        array($fechaInicio, SQLSRV_PARAM_IN), array($fechaFinal, SQLSRV_PARAM_IN));
+    $getMensaje = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getMensaje == FALSE) {
+        sqlsrv_free_stmt($getMensaje);
+        return 'Ha ocurrido un error al obtener los reportes';
+    }
+    $reportes = array();
+    while ($row = sqlsrv_fetch_array($getMensaje, SQLSRV_FETCH_ASSOC)) {
+        $reportes[] = crearReporteDeMovimientos($row);
+    }
+    sqlsrv_free_stmt($getMensaje);
+    return $reportes;
+}
+
 
 function crearEstadoEquipo($row) {
     $codigoEstado = $row['codigoEstado'];
@@ -872,6 +892,18 @@ function crearReporteInventario($row) {
     $fechaUltimoIngreso = obtenerFechaUltimoEfectoInventario($codigoArticulo, 1);  //El 1 es el valor para entradas
     $fechaUltimoEgreso = obtenerFechaUltimoEfectoInventario($codigoArticulo, 2);  //Cualquier otro valor es para salidas
     return new ReporteInventario($codigoArticulo, $descripcion, $categoria, $cantidad, $fechaUltimoIngreso, $fechaUltimoEgreso);
+}
+
+function crearReporteDeMovimientos($row) {
+    $codigoArticulo = $row['codigoArticulo'];
+    $descripcion = utf8_encode($row['descripcion']);
+    $categoria = crearCategoria($row);
+    $cantidadInventario = $row['copiaCantidadInventario'];
+    $cantidadEfecto = $row['cantidadEfecto'];
+    $costo = $row['costo'];
+    $fecha = $row['fecha'];
+    $efecto = $row['efecto'];
+    return new ReporteDeMovimientos($codigoArticulo, $descripcion, $categoria, $cantidadInventario, $cantidadEfecto, $costo, $fecha, $efecto);
 }
 
 //$pasivos = obtenerInventario();
@@ -1133,3 +1165,17 @@ function crearReporteInventario($row) {
 //    echo $tema->obtenerFechaUltimoEgreso()->format('d-m-Y H:i') . '<br />';
 //    echo '<br />';
 //}
+
+$reportes = obtenerReporteDeMovimientos('987','','2018/01/01', '2018/04/28');
+
+foreach ($reportes as $tema) {   
+    echo $tema->obtenerCodigoArticulo() . '<br />';
+    echo $tema->obtenerCategoria()->obtenerNombreCategoria() . '<br />';
+    echo $tema->obtenerDescripcion() . '<br />';
+    echo $tema->obtenerCantidadInventario() . '<br />';
+    echo $tema->obtenerCantidadEfecto() . '<br />';
+    echo $tema->obtenerCosto() . '<br />';
+    echo $tema->obtenerFecha()->format('d-m-Y H:i') . '<br />';
+    echo $tema->obtenerEfecto() . '<br />';
+    echo '<br />';
+}
