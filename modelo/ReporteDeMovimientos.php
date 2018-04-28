@@ -2,11 +2,12 @@
 
 class ReporteDeMovimientos {
     
-    public function __construct($co, $de, $cat, $can, $cos, $fecha, $efec) {
+    public function __construct($co, $de, $cat, $canI, $canE, $cos, $fecha, $efec) {
         $this->codigoArticulo = $co;
         $this->descripcion = $de;
         $this->categoria = $cat;
-        $this->cantidad = $can;
+        $this->cantidadInventario = $canI;
+        $this->cantidadEfecto = $canE;
         $this->costo = $cos;
         $this->fecha = $fecha;
         $this->efecto = $efec;
@@ -24,8 +25,12 @@ class ReporteDeMovimientos {
         return $this->categoria;
     }
 
-    function obtenerCantidad() {
-        return $this->cantidad;
+    function obtenerCantidadInventario() {
+        return $this->cantidadIventario;
+    }
+    
+    function obtenerCantidadEfecto() {
+        return $this->cantidadEfecto;
     }
 
     function obtenerCosto() {
@@ -43,7 +48,8 @@ class ReporteDeMovimientos {
     private $codigoArticulo;
     private $descripcion;
     private $categoria;   //objeto de tipo Categoria
-    private $cantidad;
+    private $cantidadIventario;
+    private $cantidadEfecto;
     private $costo;
     private $fecha;
     private $efecto;
