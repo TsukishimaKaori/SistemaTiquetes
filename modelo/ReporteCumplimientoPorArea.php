@@ -2,13 +2,10 @@
 
 class ReporteCumplimientoPorArea {
     
-    public function __construct($co, $de, $cat, $can, $fechaI, $fechaE) {
-        $this->codigoArticulo = $co;
-        $this->descripcion = $de;
-        $this->categoria = $cat;
-        $this->cantidad = $can;
-        $this->fechaUltimoIngreso = $fechaI;
-        $this->fechaUltimoEgreso = $fechaE;
+    public function __construct($nombre, $totalC, $totalA) {
+        $this->nombreArea = $nombre;
+        $this->totalCalificadas = $totalC;
+        $this->totalAtendidas = $totalA;
     }
     
     function obtenerNombreArea() {

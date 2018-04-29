@@ -756,7 +756,7 @@ function obtenerReportesInventario($codigoArticulo, $descripcion, $nombreCategor
     return $reportes;
 }
 
-//Para llenar la tabla de reportes de inventario solo hay que llamar a esta funcion con los 
+//Para llenar la tabla de reportes de movimientos solo hay que llamar a esta funcion con los 
 //datos que se ingresan en el filtro
 function obtenerReporteDeMovimientos($codigoArticulo, $nombreCategoria, $fechaInicio, $fechaFinal) {
     $conexion = Conexion::getInstancia();
