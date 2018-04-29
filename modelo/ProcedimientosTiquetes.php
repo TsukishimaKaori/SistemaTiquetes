@@ -9,6 +9,7 @@ require_once '../modelo/Comentario.php';
 require_once '../modelo/Prioridad.php';
 require_once '../modelo/Historial.php';   //Archivo que consume el web service de la base de recursos humanos
 require_once '../modelo/ReporteCumplimientoPorArea.php';
+require_once '../modelo/ReporteTiquetesIngresadosPorClasificacion.php';
 
 //Obtiene todas las area almacenadas en la tabla Area
 function obtenerAreas() {
@@ -1083,7 +1084,7 @@ function obtenerTiqueteFiltradoCodigo($codigoTiquete) {
 }
 
 
-//Obtiene los tiquetes de la búsqueda avanzada para los coordinadores
+//Obtiene los datos para llenar el grafico de barras
 function reporteCumplimientoPorArea($fechaInicio, $fechaFinal) {
     $reportes = array();
     $areas = obtenerAreaActiva();
@@ -1099,6 +1100,47 @@ function reporteCumplimientoPorArea($fechaInicio, $fechaFinal) {
         } 
         while ($row = sqlsrv_fetch_array($getReporte, SQLSRV_FETCH_ASSOC)) {
             $reportes[] = crearReporteCumplimientoPorArea($row);
+        }
+        sqlsrv_free_stmt($getReporte);
+    }
+    return $reportes;
+}
+
+
+//Obtiene el codigo de las clasificaciones filtradas por area
+function obtenerClasificacionesPorArea($codigoArea) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAobtenerClasificacionesPorArea (?) }";
+    $params = array(array($codigoArea, SQLSRV_PARAM_IN));
+    $getReporte = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getReporte == FALSE) {
+        return 'Ha ocurrido un error';
+    } 
+    $codigos = array();
+    while ($row = sqlsrv_fetch_array($getReporte, SQLSRV_FETCH_ASSOC)) {
+        $codigos[] = $row['codigoClasificacion'];
+    }
+    sqlsrv_free_stmt($getReporte);
+    return $codigos;
+}
+
+
+//Obtiene los datos para llenar el grafico de pie
+function obtenerReporteTiquetesIngresadosPorClasificacion($codigoArea, $fechaInicio, $fechaFinal) {
+    $reportes = array();
+    $codigosCla = obtenerClasificacionesPorArea($codigoArea);
+    foreach ($codigosCla as $a){
+        
+        $conexion = Conexion::getInstancia();
+        $tsql = "{call PAreporteTiquetesIngresadosClasificacion (?, ?, ?) }";
+        $params = array(array($fechaInicio, SQLSRV_PARAM_IN), array($fechaFinal, SQLSRV_PARAM_IN), 
+            array($a, SQLSRV_PARAM_IN));
+        $getReporte = sqlsrv_query($conexion->getConn(), $tsql, $params);
+        if ($getReporte == FALSE) {
+            return 'Ha ocurrido un error';
+        } 
+        while ($row = sqlsrv_fetch_array($getReporte, SQLSRV_FETCH_ASSOC)) {
+            $reportes[] = crearReporteTiquetesIngresadosPorClasificacion($row);
         }
         sqlsrv_free_stmt($getReporte);
     }
@@ -1183,6 +1225,12 @@ function crearReporteCumplimientoPorArea($row) {
     $totalCalificadas = $row['totalCalificados'];
     $totalAtendidos = $row['totalAtendidos'];
     return new ReporteCumplimientoPorArea($nombreArea, $totalCalificadas, $totalAtendidos);
+}
+
+function crearReporteTiquetesIngresadosPorClasificacion ($row){
+    $descripcionClasificacion = utf8_encode($row['descripcionClasificacion']);
+    $cantidadClasificacion = $row['cantidadClasificacion'];
+    return new ReporteTiquetesIngresadosPorClasificacion($descripcionClasificacion, $cantidadClasificacion);
 }
 
 //$mensaje2 = inactivarArea('1');
@@ -1547,4 +1595,17 @@ function crearReporteCumplimientoPorArea($row) {
 //    echo $r->obtenerNombreArea() . '<br />';
 //    echo $r->obtenerTotalCalificadas() . '<br />';
 //    echo $r->obtenerTotalAtendidas() . '<br />';
+//}
+
+//$codigos = obtenerClasificacionesPorArea(2);
+//
+//foreach ($codigos as $c){
+//    echo $c . '<br />';
+//}
+
+//$reportes = obtenerReporteTiquetesIngresadosPorClasificacion(1, '2018/01/01', '2018/04/28');
+//
+//foreach ($reportes as $r){
+//    echo $r->obtenerDescripcionClasificacion() . '<br />';
+//    echo $r->obtenerCantidadClasificacion() . '<br />';
 //}
