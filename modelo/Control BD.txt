@@ -30,6 +30,10 @@ Esto es para los reportes del modulo de tiquetes, esta en PermisosYtiquetesDB y 
 
 9. Para llenar el grafico de lineas hay que llamar a obtenerReporteCantidadDeTiquetesMensuales en el php
 
+10. Correr PAreporteTiquetesEnEstados
+
+11. Para la pantalla de tiquetes en estados hay que llamar a reporteTiquetesEnEstados en el php
+
 20/04/2018
 
 1. Volver a correr PAobtenerArticuloFiltradoCodigoBodega, ya devuelve el proveedor y la marca

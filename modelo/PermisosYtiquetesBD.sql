@@ -2842,6 +2842,69 @@ CREATE PROCEDURE PAreporteTiquetesIngresadosClasificacion
  --DROP PROCEDURE PAreporteTiquetesIngresadosClasificacion;
  --select * from Clasificacion;
 
+ --Para llenar el grafico de lineas, se toma como atendidas a las puestas en proceso
+CREATE PROCEDURE PAcantidadDeTiquetesAtendidosMensualmente
+	@annio varchar(4),
+	@mes varchar(2)
+AS
+	SET NOCOUNT ON;
+	select @mes as mes, COUNT(codigoTiquete) as cantidadMensuales from Tiquete where MONTH(fechaEnProceso) = @mes AND YEAR(fechaEnProceso) = @annio; 
+
+GO
+
+--exec PAcantidadDeTiquetesAtendidosMensualmente '2018', '2';
+--DROP PROCEDURE PAcantidadDeTiquetesAtendidosMensualmente;
+
+
+CREATE PROCEDURE PAreporteTiquetesEnEstados
+	@estado varchar(30)
+AS
+	SET NOCOUNT ON;
+	IF @estado = 'Nuevo' or @estado = 'Asignado' or @estado = 'En proceso'
+		select tique.codigoTiquete, tique.usuarioIngresaTiquete, esta.codigoEstado, esta.nombreEstado,
+		esta.enviaCorreos, tique.codigoResponsable, are.codigoArea, are.nombreArea, are.activo, tema.codigoClasificacion,
+		tema.descripcionClasificacion, tema.activo, tema.codigoPadre, tique.fechaCreacion, tique.fechaFinalizado,
+		tique.fechaCalificado, tique.fechaSolicitado, tique.fechaEnProceso, tique.descripcion, 
+		tique.calificacion, tique.horasTrabajadas, tique.nombreUsuarioSolicitante, tique.departamentoUsuarioSolicitante,
+		tique.jefaturaUsuarioSolicitante, tique.codigoPrioridad, pri.nombrePrioridad, tique.fechaEntrega from
+		(select codigoEstado, nombreEstado, enviaCorreos from dbo.Estado where nombreEstado = @estado) esta, 
+		(select codigoArea, nombreArea, activo from dbo.Area) are,
+		(select codigoClasificacion, descripcionClasificacion, activo, codigoPadre from dbo.Clasificacion) tema,
+		(select codigoTiquete, usuarioIngresaTiquete, codigoEstado, codigoResponsable, codigoArea,
+		codigoClasificacion, fechaCreacion, fechaFinalizado, fechaCalificado, fechaSolicitado, fechaEnProceso, 
+		descripcion, calificacion, horasTrabajadas, nombreUsuarioSolicitante, departamentoUsuarioSolicitante,
+		jefaturaUsuarioSolicitante, codigoPrioridad, fechaEntrega from dbo.Tiquete) tique,
+		(select codigoPrioridad, nombrePrioridad from PrioridadTiquete) pri
+		where esta.codigoEstado = tique.codigoEstado AND are.codigoArea = tique.codigoArea 
+		AND tema.codigoClasificacion = tique.codigoClasificacion AND tique.codigoPrioridad = pri.codigoPrioridad;
+	ELSE
+		select tique.codigoTiquete, tique.usuarioIngresaTiquete, esta.codigoEstado, esta.nombreEstado,
+		esta.enviaCorreos, tique.codigoResponsable, are.codigoArea, are.nombreArea, are.activo, tema.codigoClasificacion,
+		tema.descripcionClasificacion, tema.activo, tema.codigoPadre, tique.fechaCreacion, tique.fechaFinalizado,
+		tique.fechaCalificado, tique.fechaSolicitado, tique.fechaEnProceso, tique.descripcion, 
+		tique.calificacion, tique.horasTrabajadas, tique.nombreUsuarioSolicitante, tique.departamentoUsuarioSolicitante,
+		tique.jefaturaUsuarioSolicitante, tique.codigoPrioridad, pri.nombrePrioridad, tique.fechaEntrega from
+		(select codigoEstado, nombreEstado, enviaCorreos from dbo.Estado where codigoEstado = 4) esta, --Solo pueden estar vencidos los que estan en proceso
+		(select codigoArea, nombreArea, activo from dbo.Area) are,
+		(select codigoClasificacion, descripcionClasificacion, activo, codigoPadre from dbo.Clasificacion) tema,
+		(select codigoTiquete, usuarioIngresaTiquete, codigoEstado, codigoResponsable, codigoArea,
+		codigoClasificacion, fechaCreacion, fechaFinalizado, fechaCalificado, fechaSolicitado, fechaEnProceso, 
+		descripcion, calificacion, horasTrabajadas, nombreUsuarioSolicitante, departamentoUsuarioSolicitante,
+		jefaturaUsuarioSolicitante, codigoPrioridad, fechaEntrega from dbo.Tiquete where fechaEntrega < GETDATE()) tique,
+		(select codigoPrioridad, nombrePrioridad from PrioridadTiquete) pri
+		where esta.codigoEstado = tique.codigoEstado AND are.codigoArea = tique.codigoArea 
+		AND tema.codigoClasificacion = tique.codigoClasificacion AND tique.codigoPrioridad = pri.codigoPrioridad;
+
+GO
+
+--exec PAreporteTiquetesEnEstados 'Vencido';
+--DROP PROCEDURE PAreporteTiquetesEnEstados;
+--IF GETDATE() > '2018/04/28'
+--	select GETDATE()
+--ELSE
+--	select '2018/04/28'
+
+
 --Datos que deben estar en todas las bases
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (1, 'Consultar permisos');
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (2, 'Asignar rol a usuario');
@@ -3042,6 +3105,8 @@ insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (3, 'Bajo
 	DROP PROCEDURE PAreporteCumplimientoPorArea;
 	DROP PROCEDURE PAreporteTiquetesIngresadosClasificacion;
 	DROP PROCEDURE PAobtenerClasificacionesPorArea;
+	DROP PROCEDURE PAcantidadDeTiquetesAtendidosMensualmente;
+	DROP PROCEDURE PAreporteTiquetesEnEstados;
 -------------------------------------------------Fin de seccion de drop-----------------------------------------
 
 
