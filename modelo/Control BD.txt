@@ -14,7 +14,25 @@ Esto es para los reportes del modulo de inventario, esta en InventarioBD y Proce
 Esto es para los reportes del modulo de tiquetes, esta en PermisosYtiquetesDB y ProcedimientosTiquetes.php
 1. Correr PAreporteCumplimientoPorArea
 
-2. Para cargar el grafico hay que llamar al reporteCumplimientoPorArea con un rango de fechas, esta en el php
+2. Para cargar el grafico de barras hay que llamar al reporteCumplimientoPorArea con un rango de fechas, esta en el php
+
+3. Correr PAreporteTiquetesIngresadosClasificacion
+
+4. Correr PAobtenerClasificacionesPorArea
+
+5. Clase ReporteTiquetesIngresadosPorClasificacion 
+
+6. Para llenar el grafico de pie hay que llamar al obtenerReporteTiquetesIngresadosPorClasificacion en el php
+
+7. Correr PAcantidadDeTiquetesAtendidosMensualmente
+
+8. Nueva clase ReporteCantidadDeTiquetesMensuales
+
+9. Para llenar el grafico de lineas hay que llamar a obtenerReporteCantidadDeTiquetesMensuales en el php
+
+10. Correr PAreporteTiquetesEnEstados
+
+11. Para la pantalla de tiquetes en estados hay que llamar a reporteTiquetesEnEstados en el php
 
 20/04/2018
 
