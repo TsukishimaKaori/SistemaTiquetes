@@ -1,14 +1,11 @@
-$(document).ready(function () {
-    $("#datepicker").datepicker({
-        format: " yyyy",
-        viewMode: "years",
-        minViewMode: "years"
-    });
-
-});
-
 $(function () {
-    $('.datetimepicker').datetimepicker({
+    $('#fechaI').datetimepicker({
+        format: 'DD/MM/YYYY',
+        locale: 'es'
+    });
+});
+$(function () {
+    $('#fechaF').datetimepicker({
         format: 'DD/MM/YYYY',
         locale: 'es'
     });
@@ -179,12 +176,28 @@ window.onload = function () {
 
 //Cargar los gráficos 
 $(function () {
-       $.ajax({
-        data: { },
+    graficoAreas();
+});
+
+function graficoAreas() {
+    var areasReportes = $('#comboAreasReportes option:selected').val();
+    var fechaInicio = $('#fechaI').val();
+    var fechaFinal = $('#fechaF').val();
+    alert(areasReportes);
+    $.ajax({
+        data: {'areasTematicasReportes':areasReportes, 'fechaInicio':fechaInicio,'fechaFinal':fechaFinal },
         type: 'POST',
         url: '../control/SolicitudAjaxReportesTiquetes.php',
         success: function (response) {
-
+                
         }
     });
-});
+}
+
+function graficoSolicitudesAtendidasPorAnio() {
+
+}
+
+function graficoRendimientoPorArea() {
+
+}
