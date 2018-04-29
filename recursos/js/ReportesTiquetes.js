@@ -14,6 +14,7 @@ $(function () {
     });
 });
 
+//Gráfico PIE
 var randomScalingFactor = function () {
     return Math.round(Math.random() * 100);
 };
@@ -51,8 +52,7 @@ var config = {
     }
 };
 
-
-
+//Grafico de barras
 var colorNames = Object.keys(window.chartColors);
 var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 var color = Chart.helpers.color;
@@ -90,8 +90,8 @@ var barChartData = {
 
 };
 
+//Carga el gráfico lineal
 var colorNames = Object.keys(window.chartColors);
-
 //Grafico Lineal
 var MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 var configLineal = {
@@ -148,11 +148,7 @@ var configLineal = {
 };
 
 
-
-
-
-
-
+//Carga todos los gráficos
 window.onload = function () {
     var ctx = document.getElementById('chart-area').getContext('2d');
     window.myPie = new Chart(ctx, config);
@@ -176,3 +172,25 @@ window.onload = function () {
         }
     });
 };
+
+
+
+
+
+//Cargar los gráficos 
+$(function () {
+       $.ajax({
+        data: { },
+        type: 'POST',
+        url: '../control/SolicitudAjajxAgregarActivos.php',
+        beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
+        success: function (response) {
+             $("#cargandoImagen").css('display','none');
+            $('#tablaTiquetesA').DataTable().destroy();
+            $("#tbody-tablaTiquetesA").html(response);
+            tablaTiquetedInventarioActivo()
+        }
+    });
+});

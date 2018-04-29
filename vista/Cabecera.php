@@ -113,6 +113,19 @@ require_once ("../control/UsuarioLogueado.php");
                          echo '<li><a href="../vista/AdministrarCategorias.php">Administrar categorías</a></li>';
                         echo '</ul>';
                     }
+                    
+                    
+                    if ($permiso1 || $permiso2 || $permiso3 || $permiso4) { //cambiar permisos y url
+                        echo'   <li class="dropdown">';
+                        echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <b class="caret"></b></a>';
+                        echo '<ul class="dropdown-menu">';
+                        if ($permiso1) { //cambiar el permiso y url
+                            echo '<li><a href="../vista/ReportesTiquetes.php">Reportes de tiquetes</a></li>';
+                        }
+                         echo '<li><a href="../vista/ReportesInventario.php">Reportes de inventario</a></li>';
+                        echo '</ul>';
+                    }
+                                        
                 }
 //                        }
                 ?>
