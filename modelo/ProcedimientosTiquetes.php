@@ -8,6 +8,7 @@ require_once '../modelo/Usuario.php';
 require_once '../modelo/Comentario.php';
 require_once '../modelo/Prioridad.php';
 require_once '../modelo/Historial.php';   //Archivo que consume el web service de la base de recursos humanos
+require_once '../modelo/ReporteCumplimientoPorArea.php';
 
 //Obtiene todas las area almacenadas en la tabla Area
 function obtenerAreas() {
@@ -1081,6 +1082,29 @@ function obtenerTiqueteFiltradoCodigo($codigoTiquete) {
     return $tiquete;
 }
 
+
+//Obtiene los tiquetes de la búsqueda avanzada para los coordinadores
+function reporteCumplimientoPorArea($fechaInicio, $fechaFinal) {
+    $reportes = array();
+    $areas = obtenerAreaActiva();
+    foreach ($areas as $a){
+        
+        $conexion = Conexion::getInstancia();
+        $tsql = "{call PAreporteCumplimientoPorArea (?, ?, ?) }";
+        $params = array(array($a->obtenerCodigoArea(), SQLSRV_PARAM_IN), array($fechaInicio, SQLSRV_PARAM_IN),
+            array($fechaFinal, SQLSRV_PARAM_IN));
+        $getReporte = sqlsrv_query($conexion->getConn(), $tsql, $params);
+        if ($getReporte == FALSE) {
+            return 'Ha ocurrido un error';
+        } 
+        while ($row = sqlsrv_fetch_array($getReporte, SQLSRV_FETCH_ASSOC)) {
+            $reportes[] = crearReporteCumplimientoPorArea($row);
+        }
+        sqlsrv_free_stmt($getReporte);
+    }
+    return $reportes;
+}
+
 function crearTiquete($row) {
     $codigoTiquete = $row['codigoTiquete'];
     $usuarioIngresaTiquete = utf8_encode($row['usuarioIngresaTiquete']);
@@ -1152,6 +1176,13 @@ function crearHistorial($row) {
     $nombreResponsable = utf8_encode($row['nombreResponsable']);
     $aclaracionSistema = utf8_encode($row['aclaracionSistema']);
     return new Historial($codigoHistorial, $codigoIndicador, $comentarioUsuario, $fechaHora->format('d-m-Y H:i'), $correoUsuarioCausante, $nombreUsuarioCausante, $correoResponsable, $nombreResponsable, $aclaracionSistema);
+}
+
+function crearReporteCumplimientoPorArea($row) {
+    $nombreArea = utf8_encode($row['nombreArea']);
+    $totalCalificadas = $row['totalCalificados'];
+    $totalAtendidos = $row['totalAtendidos'];
+    return new ReporteCumplimientoPorArea($nombreArea, $totalCalificadas, $totalAtendidos);
 }
 
 //$mensaje2 = inactivarArea('1');
@@ -1509,3 +1540,11 @@ function crearHistorial($row) {
 //    echo '<br />';
 //
 //}
+
+$reportes = reporteCumplimientoPorArea('2018/01/01', '2018/04/29');
+
+foreach ($reportes as $r){
+    echo $r->obtenerNombreArea() . '<br />';
+    echo $r->obtenerTotalCalificadas() . '<br />';
+    echo $r->obtenerTotalAtendidas() . '<br />';
+}
