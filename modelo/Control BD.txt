@@ -28,6 +28,8 @@ Esto es para los reportes del modulo de tiquetes, esta en PermisosYtiquetesDB y 
 
 8. Nueva clase ReporteCantidadDeTiquetesMensuales
 
+9. Para llenar el grafico de lineas hay que llamar a obtenerReporteCantidadDeTiquetesMensuales en el php
+
 20/04/2018
 
 1. Volver a correr PAobtenerArticuloFiltradoCodigoBodega, ya devuelve el proveedor y la marca
