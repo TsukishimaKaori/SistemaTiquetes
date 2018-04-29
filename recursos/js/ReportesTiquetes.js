@@ -182,15 +182,9 @@ $(function () {
        $.ajax({
         data: { },
         type: 'POST',
-        url: '../control/SolicitudAjajxAgregarActivos.php',
-        beforeSend: function () {
-              $("#cargandoImagen").css('display','block');
-        },
+        url: '../control/SolicitudAjaxReportesTiquetes.php',
         success: function (response) {
-             $("#cargandoImagen").css('display','none');
-            $('#tablaTiquetesA').DataTable().destroy();
-            $("#tbody-tablaTiquetesA").html(response);
-            tablaTiquetedInventarioActivo()
+
         }
     });
 });
