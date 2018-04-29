@@ -10,6 +10,7 @@ require_once '../modelo/Prioridad.php';
 require_once '../modelo/Historial.php';   //Archivo que consume el web service de la base de recursos humanos
 require_once '../modelo/ReporteCumplimientoPorArea.php';
 require_once '../modelo/ReporteTiquetesIngresadosPorClasificacion.php';
+require_once '../modelo/ReporteCantidadDeTiquetesMensuales.php';
 
 //Obtiene todas las area almacenadas en la tabla Area
 function obtenerAreas() {
@@ -1147,6 +1148,29 @@ function obtenerReporteTiquetesIngresadosPorClasificacion($codigoArea, $fechaIni
     return $reportes;
 }
 
+
+//Obtiene los datos para llenar el grafico de lineas
+function obtenerReporteCantidadDeTiquetesMensuales($annio) {
+    $reportes = array();
+    
+    //Se usa el i como los 12 meses del annio
+    for($i = 1; $i < 13; $i++){
+        
+        $conexion = Conexion::getInstancia();
+        $tsql = "{call PAcantidadDeTiquetesAtendidosMensualmente (?, ?) }";
+        $params = array(array($annio, SQLSRV_PARAM_IN), array($i, SQLSRV_PARAM_IN));
+        $getReporte = sqlsrv_query($conexion->getConn(), $tsql, $params);
+        if ($getReporte == FALSE) {
+            return 'Ha ocurrido un error';
+        } 
+        while ($row = sqlsrv_fetch_array($getReporte, SQLSRV_FETCH_ASSOC)) {
+            $reportes[] = crearReporteCantidadDeTiquetesMensuales($row);
+        }
+        sqlsrv_free_stmt($getReporte);
+    }
+    return $reportes;
+}
+
 function crearTiquete($row) {
     $codigoTiquete = $row['codigoTiquete'];
     $usuarioIngresaTiquete = utf8_encode($row['usuarioIngresaTiquete']);
@@ -1227,10 +1251,16 @@ function crearReporteCumplimientoPorArea($row) {
     return new ReporteCumplimientoPorArea($nombreArea, $totalCalificadas, $totalAtendidos);
 }
 
-function crearReporteTiquetesIngresadosPorClasificacion ($row){
+function crearReporteTiquetesIngresadosPorClasificacion($row){
     $descripcionClasificacion = utf8_encode($row['descripcionClasificacion']);
     $cantidadClasificacion = $row['cantidadClasificacion'];
     return new ReporteTiquetesIngresadosPorClasificacion($descripcionClasificacion, $cantidadClasificacion);
+}
+
+function crearReporteCantidadDeTiquetesMensuales($row){
+    $mes = $row['mes'];
+    $cantidadMensuales = $row['cantidadMensuales'];
+    return new ReporteCantidadDeTiquetesMensuales($mes, $cantidadMensuales);
 }
 
 //$mensaje2 = inactivarArea('1');
@@ -1608,4 +1638,11 @@ function crearReporteTiquetesIngresadosPorClasificacion ($row){
 //foreach ($reportes as $r){
 //    echo $r->obtenerDescripcionClasificacion() . '<br />';
 //    echo $r->obtenerCantidadClasificacion() . '<br />';
+//}
+
+//$reportes = obtenerReporteCantidadDeTiquetesMensuales('2018');
+//
+//foreach ($reportes as $r){
+//    echo $r->obtenerMes() . '<br />';
+//    echo $r->obtenerCantidadMensuales() . '<br />';
 //}
