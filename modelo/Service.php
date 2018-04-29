@@ -5,13 +5,13 @@
 if(isset($_GET['metodo']) ) {
     $metodo = intval($_GET['metodo']);
     
-    //$serverName = "TATIANA\SQLEXPRESS02";
+   // $serverName = "TATIANA\SQLEXPRESS02";
   //    $serverName ="DANNY\SQLEXPRESS01";
-   //      $serverName = "DESKTOP-HFVR94I\SQLEXPRESS01"; 
+        // $serverName = "DESKTOP-HFVR94I\SQLEXPRESS01"; 
      $serverName = "den1.mssql5.gear.host"; 
       $connectionOptions = array("Database" => "sistemaTiquetes", "UID" => "sistematiquetes", "PWD" => "Be503V3cU9?_");
 
-//    $connectionOptions = array("Database" => "SistemaTiquetes", "UID" => "dbatiquetes", "PWD" => "dbatiquetes");
+   // $connectionOptions = array("Database" => "SistemaTiquetes", "UID" => "dbatiquetes", "PWD" => "dbatiquetes");
     $conn = sqlsrv_connect($serverName, $connectionOptions);
             
     if($metodo == 1){

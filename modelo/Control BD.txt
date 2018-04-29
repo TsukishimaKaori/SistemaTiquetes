@@ -1,3 +1,19 @@
+27/04/2018
+
+Esto es para los reportes del modulo de inventario, esta en InventarioBD y ProcedimientosInventario.php
+1. Correr PAreporteDeInventario
+
+2. Correr PAobtenerFechaUltimoEfectoInventario
+
+3. Clase nueva, ReporteInventario, llamar a obtenerReportesInventario en el php para llenar la tabla de reportes
+
+4. Correr PAreporteDeMovimientos
+
+5. Nueva clase ReporteDeMovimientos, llamar a obtenerReporteDeMovimientos para llenar la tabla de reportes
+
+Esto es para los reportes del modulo de tiquetes, esta en PermisosYtiquetesDB y ProcedimientosTiquetes.php
+1. Correr PAreporteCumplimientoPorArea
+
 20/04/2018
 
 1. Volver a correr PAobtenerArticuloFiltradoCodigoBodega, ya devuelve el proveedor y la marca

@@ -3,6 +3,7 @@
 require_once '../modelo/Usuario.php';
 
 function consumirMetodoUno($correo){
+    //$jsonObject = json_decode(file_get_contents("http://localhost/sistemaTicketing/modelo/Service.php?metodo=1&correo=$correo"), true);
     $jsonObject = json_decode(file_get_contents("http://sistematiquetes.gearhostpreview.com/modelo/Service.php?metodo=1&correo=$correo"), true);
     foreach($jsonObject as $j){
         $usuario = new Usuario($j[0], $j[1], $j[2], $j[3], $j[4], $j[5]);
@@ -11,6 +12,7 @@ function consumirMetodoUno($correo){
 }
 
 function consumirMetodoDos(){
+    //$jsonObject = json_decode(file_get_contents("http://localhost/sistemaTicketing/modelo/Service.php?metodo=2"), true);
     $jsonObject = json_decode(file_get_contents("http://sistematiquetes.gearhostpreview.com/modelo/Service.php?metodo=2"), true);
     $usuarios = array();
     foreach ($jsonObject as $j) {

@@ -1604,6 +1604,71 @@ CREATE PROCEDURE PAobtenerHistorialActivosFijosFiltrado
 -- exec PAobtenerHistorialActivosFijosFiltrado '567', '2018/02/11', '2018/04/13';
  --DROP PROCEDURE PAobtenerHistorialActivosFijosFiltrado;
 
+
+CREATE PROCEDURE PAreporteDeInventario
+	@codigoArticulo varchar(150),
+	@descripcion varchar(150),
+	@nombreCategoria varchar(150)  
+ AS
+	SET NOCOUNT ON;
+	SET @codigoArticulo = '%' + @codigoArticulo + '%';
+	SET @descripcion = '%' + @descripcion + '%';
+	SET @nombreCategoria = '%' + @nombreCategoria + '%';
+
+	select inve.codigoArticulo, inve.descripcion, cat.codigoCategoria, cat.nombreCategoria, inve.cantidad from
+	(select codigoCategoria, nombreCategoria, esRepuesto from Categoria where nombreCategoria COLLATE Latin1_General_CI_AI like @nombreCategoria) cat,
+	(select codigoArticulo, descripcion, codigoCategoria, cantidad from Inventario
+	where codigoArticulo like @codigoArticulo AND descripcion COLLATE Latin1_General_CI_AI like @descripcion) inve
+	where inve.codigoCategoria = cat.codigoCategoria;
+ GO
+ --exec PAreporteDeInventario '', 'l', ''; 
+ --DROP PROCEDURE PAreporteDeInventario;
+
+ --Si el efecto es 1, entonces es una entrada, si es otro entonces es una salida
+ CREATE PROCEDURE PAobtenerFechaUltimoEfectoInventario
+	@codigoArticulo varchar(150),
+	@efecto int
+ AS
+	SET NOCOUNT ON;
+	IF @efecto = 1
+		(select MAX(fecha) as fechaUltimoIngreso from Detalle where efecto = 'Entrada' AND codigoArticulo = @codigoArticulo);
+	ELSE
+		(select MAX(fecha) as fechaUltimoEgreso from Detalle where efecto = 'Salida' AND codigoArticulo = @codigoArticulo);
+ GO
+
+--select * from Detalle;
+--exec PAobtenerFechaUltimoEfectoInventario '10', 2;
+--DROP PROCEDURE PAobtenerFechaUltimoEfectoInventario;
+--select MAX(fecha) as fechaUltimoIngreso from Detalle where efecto = 'Entrada' AND codigoArticulo = '11';
+
+
+CREATE PROCEDURE PAreporteDeMovimientos
+	@codigoArticulo varchar(150),
+	@nombreCategoria varchar(150),
+	@fechaInicio date,  
+	@fechaFinal date
+ AS
+	SET NOCOUNT ON;
+	SET @codigoArticulo = '%' + @codigoArticulo + '%';
+	SET @nombreCategoria = '%' + @nombreCategoria + '%';
+	SET @fechaInicio = (SELECT DATEADD(day, -1, @fechaInicio));
+	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
+	select inve.codigoArticulo, invent.descripcion, cat.codigoCategoria, cat.nombreCategoria, inve.copiaCantidadInventario, 
+	inve.cantidadEfecto, inve.costo, inve.fecha, inve.efecto from
+	(select codigoCategoria, nombreCategoria from Categoria where nombreCategoria COLLATE Latin1_General_CI_AI like @nombreCategoria) cat,
+ 	(select codigoArticulo, copiaCantidadInventario, cantidadEfecto, costo, fecha,
+	efecto from Detalle 
+	where codigoArticulo like @codigoArticulo AND fecha BETWEEN @fechaInicio AND @fechaFinal) inve,
+	(select codigoArticulo, descripcion, codigoCategoria from  Inventario) invent
+	where cat.codigoCategoria = invent.codigoCategoria AND inve.codigoArticulo = invent.codigoArticulo;
+ GO
+
+ --exec PAreporteDeMovimientos '', 'por', '2018/01/01', '2018/04/28';
+ --DROP PROCEDURE PAreporteDeMovimientos; 
+ 
+ --exec PAobtenerDetalleArticuloInventarioFiltrado '11', 2, '2018/02/11', '2018/04/11';
+-- DROP PROCEDURE PAobtenerDetalleArticuloInventarioFiltrado;
+
  --INSERTS
  insert into estadoEquipo (codigoEstado, nombreEstado) values (1, 'En uso');
  insert into estadoEquipo (codigoEstado, nombreEstado) values (2, 'En reparación');
@@ -1748,3 +1813,6 @@ CREATE PROCEDURE PAobtenerHistorialActivosFijosFiltrado
  DROP PROCEDURE PAeliminarCategoria;
  DROP PROCEDURE PAobtenerDetalleArticuloInventarioFiltrado;
  DROP PROCEDURE PAobtenerHistorialActivosFijosFiltrado;
+ DROP PROCEDURE PAreporteDeInventario;
+ DROP PROCEDURE PAobtenerFechaUltimoEfectoInventario;
+ DROP PROCEDURE PAreporteDeMovimientos;

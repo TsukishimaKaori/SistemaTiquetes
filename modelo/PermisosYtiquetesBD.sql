@@ -1,7 +1,3 @@
---Empresa BrittShop Costa Rica S.A
-
---Creacion de tablas
-
 --Creaci?n de la tabla Permiso
 CREATE TABLE Permiso(
  codigoPermiso int NOT NULL,
@@ -2784,6 +2780,32 @@ GO
 --select * from Tiquete;
 --DROP PROCEDURE PAenviarAReprocesar;
 
+CREATE PROCEDURE PAreporteCumplimientoPorArea
+	@codigoArea int,
+	@fechaInicio datetime,
+	@fechaFinal datetime
+ AS
+	DECLARE 
+	@totalAtendidos int,
+	@totalCalificados int
+	SET @fechaInicio = (SELECT DATEADD(day, -1, @fechaInicio));
+	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
+
+	--Se toman los atendidos como los tiquetes puestos en proceso
+	SET @totalAtendidos = (select COUNT(codigoTiquete) from Tiquete where codigoArea = @codigoArea AND
+	fechaEnProceso BETWEEN @fechaInicio AND @fechaFinal);
+
+	--Codigo de estado 7 es Calificado
+	SET @totalCalificados = (select COUNT(codigoTiquete) from Tiquete where codigoArea = @codigoArea AND codigoEstado = 7 AND
+	fechaCalificado BETWEEN @fechaInicio AND @fechaFinal);
+
+	Select nombreArea, @totalCalificados as totalCalificados, @totalAtendidos as totalAtendidos from Area where codigoArea = @codigoArea;
+ GO
+ --exec PAreporteCumplimientoPorArea 3, '2018/01/01', '2018/04/28';
+ --DROP PROCEDURE PAreporteCumplimientoPorArea;
+ --select * from Tiquete;
+
+
 --Datos que deben estar en todas las bases
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (1, 'Consultar permisos');
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (2, 'Asignar rol a usuario');
@@ -2886,7 +2908,7 @@ insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (12, '
 insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (13, 'Cambio de fecha de entrega');
 insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (14, 'Enviado a reprocesar');
 insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (15, 'Asocia activo');
-insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (16, 'desasocia activo');
+insert into dbo.Indicadores(codigoIndicador, descripcionIndicador) values (16, 'Desasocia activo');
                                                                                     
 insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (1, 'Alto');
 insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (2, 'Medio');
@@ -2981,6 +3003,7 @@ insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (3, 'Bajo
     DROP PROCEDURE PAobtenerTodosLosTiquetes;
 	DROP PROCEDURE PAactualizarFechaEntrega;
 	DROP PROCEDURE PAenviarAReprocesar;
+	DROP PROCEDURE PAreporteCumplimientoPorArea;
 -------------------------------------------------Fin de seccion de drop-----------------------------------------
 
 

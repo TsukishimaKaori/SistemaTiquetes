@@ -6,9 +6,9 @@ function cabeceraTablaPasivos() {
     . "<th>Categoría</th>"
     . "<th>Tipo</th>"
     . "<th>Bodega</th>"
-    . "<th>-</th>"
+    . "<th>Salida</th>"
     . "<th>Cantidad</th>"
-    . "<th>+</th>"
+    . "<th>Entrada</th>"
     . "<th>Ver</th>"
     . "<th>Historial</th>";
 }
@@ -264,7 +264,7 @@ function panelPasivos($listaPasivos) {
     . '           <div><span class="col-md-4 titulo-inventario">Cantidad: </span><span class=" col-md-8">' . $listaPasivos->obtenerCantidad() . ' </span></div> '
     . '         </div>'
     . '        <div class="row">'
-    . '           <div><span class="col-md-4 titulo-inventario">Costo: </span><span class=" col-md-8">' . $listaPasivos->obtenerCosto() . ' </span></div> '
+    . '           <div><span class="col-md-4 titulo-inventario">Costo unitario: </span><span class=" col-md-8">' . $listaPasivos->obtenerCosto() . ' </span></div> '
     . '         </div>'
     . '        <div class="row">'
     . '           <div><span class="col-md-4 titulo-inventario">Proveedor: </span><span class=" col-md-8">' . $listaPasivos->obtenerProveedor() . ' </span></div> '

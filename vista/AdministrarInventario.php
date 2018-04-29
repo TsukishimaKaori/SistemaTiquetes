@@ -260,7 +260,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" onclick="cambiarEstadoAjax();" > Aceptar</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelarEstado();" > cancelar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelarEstado();" > Cancelar</button>
                     </div>
                 </div>
             </div>

@@ -157,7 +157,7 @@
                         </div>
 
                         <button type="button" class="btn btn-success col-md-offset-4" onclick="agregarActivo()" > Asociar equipo </button>
-                        <button type="reset" class="btn btn-danger ">Cancelar</button> 
+                        <button type="reset" class="btn btn-danger ">Borrar</button> 
                     </div>
                 </div>
             </form>
