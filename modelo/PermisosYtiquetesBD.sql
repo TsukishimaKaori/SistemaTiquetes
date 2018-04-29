@@ -2780,6 +2780,8 @@ GO
 --select * from Tiquete;
 --DROP PROCEDURE PAenviarAReprocesar;
 
+
+--Retorna los datos necesarios para formar el gráfico de barras
 CREATE PROCEDURE PAreporteCumplimientoPorArea
 	@codigoArea int,
 	@fechaInicio datetime,
@@ -2805,6 +2807,40 @@ CREATE PROCEDURE PAreporteCumplimientoPorArea
  --DROP PROCEDURE PAreporteCumplimientoPorArea;
  --select * from Tiquete;
 
+
+CREATE PROCEDURE PAobtenerClasificacionesPorArea    
+    @codigoArea int 
+AS  
+    SET NOCOUNT ON; 
+	select hijas.codigoClasificacion from           
+    (select codigoClasificacion from dbo.AreaClasificacion where codigoArea = @codigoArea) area,
+	(select codigoClasificacion from dbo.Clasificacion) cla,
+	(select codigoClasificacion, codigoPadre from Clasificacion) hijas
+	where area.codigoClasificacion = cla.codigoClasificacion AND cla.codigoClasificacion = hijas.codigoPadre;  
+GO
+
+--exec PAobtenerClasificacionesPorArea '3';
+--DROP PROCEDURE PAobtenerClasificacionesPorArea;
+
+ --Retorna los datos necesarios para formar el gráfico de PIE
+CREATE PROCEDURE PAreporteTiquetesIngresadosClasificacion
+	@fechaInicio datetime,
+	@fechaFinal datetime,
+	@codigoClasificacion int
+ AS 
+	DECLARE 
+	@cantidadPorClasificacion int
+	SET @fechaInicio = (SELECT DATEADD(day, -1, @fechaInicio));
+	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
+
+	SET @cantidadPorClasificacion = (select COUNT(codigoTiquete) from Tiquete where codigoClasificacion = @codigoClasificacion 
+	AND fechaCreacion BETWEEN @fechaInicio AND @fechaFinal);
+
+	Select descripcionClasificacion, @cantidadPorClasificacion as cantidadClasificacion from Clasificacion where codigoClasificacion = @codigoClasificacion;
+ GO
+ --exec PAreporteTiquetesIngresadosClasificacion '2018/01/01', '2018/04/28', 3;
+ --DROP PROCEDURE PAreporteTiquetesIngresadosClasificacion;
+ --select * from Clasificacion;
 
 --Datos que deben estar en todas las bases
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (1, 'Consultar permisos');
@@ -3004,6 +3040,8 @@ insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (3, 'Bajo
 	DROP PROCEDURE PAactualizarFechaEntrega;
 	DROP PROCEDURE PAenviarAReprocesar;
 	DROP PROCEDURE PAreporteCumplimientoPorArea;
+	DROP PROCEDURE PAreporteTiquetesIngresadosClasificacion;
+	DROP PROCEDURE PAobtenerClasificacionesPorArea;
 -------------------------------------------------Fin de seccion de drop-----------------------------------------
 
 
