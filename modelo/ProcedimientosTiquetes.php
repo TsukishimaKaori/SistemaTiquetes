@@ -1541,10 +1541,10 @@ function crearReporteCumplimientoPorArea($row) {
 //
 //}
 
-$reportes = reporteCumplimientoPorArea('2018/01/01', '2018/04/29');
-
-foreach ($reportes as $r){
-    echo $r->obtenerNombreArea() . '<br />';
-    echo $r->obtenerTotalCalificadas() . '<br />';
-    echo $r->obtenerTotalAtendidas() . '<br />';
-}
+//$reportes = reporteCumplimientoPorArea('2018/01/01', '2018/04/29');
+//
+//foreach ($reportes as $r){
+//    echo $r->obtenerNombreArea() . '<br />';
+//    echo $r->obtenerTotalCalificadas() . '<br />';
+//    echo $r->obtenerTotalAtendidas() . '<br />';
+//}
