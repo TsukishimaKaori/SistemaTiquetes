@@ -1171,6 +1171,23 @@ function obtenerReporteCantidadDeTiquetesMensuales($annio) {
     return $reportes;
 }
 
+
+//Obtiene un listado de tiquetes que se encuentren En proceso, Nuevo, Asignado o Vencido
+function reporteTiquetesEnEstados($estado) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAreporteTiquetesEnEstados (?) }";
+    $params = array(array($estado, SQLSRV_PARAM_IN));
+    $getTiquete = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getTiquete == FALSE) {
+        return 'Ha ocurrido un error';
+    } $tiquetes = array();
+    while ($row = sqlsrv_fetch_array($getTiquete, SQLSRV_FETCH_ASSOC)) {
+        $tiquetes[] = crearTiquete($row);
+    }
+    sqlsrv_free_stmt($getTiquete);
+    return $tiquetes;
+}
+
 function crearTiquete($row) {
     $codigoTiquete = $row['codigoTiquete'];
     $usuarioIngresaTiquete = utf8_encode($row['usuarioIngresaTiquete']);
@@ -1645,4 +1662,17 @@ function crearReporteCantidadDeTiquetesMensuales($row){
 //foreach ($reportes as $r){
 //    echo $r->obtenerMes() . '<br />';
 //    echo $r->obtenerCantidadMensuales() . '<br />';
+//}
+
+//$tiquetes = reporteTiquetesEnEstados('En proceso');
+//
+//foreach ($tiquetes as $tema) {   
+//    echo $tema->obtenerDescripcion() . '<br />';
+//    echo $tema->obtenerCodigoUsuarioIngresaTiquete() . '<br />';
+//    echo $tema->obtenerEstado()->obtenerNombreEstado().'<br />'; 
+//    echo $tema->obtenerNombreUsuarioIngresaTiquete() . '<br />';
+//    echo $tema->obtenerDepartamentoUsuarioSolicitante() . '<br />';
+//    echo $tema->obtenerJefaturaUsuarioSolicitante() . '<br />';
+//    echo $tema->obtenerFechaEntrega()->format('d-m-Y H:i') . '<br />';
+//    echo '<br />';
 //}
