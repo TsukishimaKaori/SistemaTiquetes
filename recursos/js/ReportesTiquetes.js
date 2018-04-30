@@ -22,19 +22,22 @@ $(function () {
         locale: 'es'
     });
 });
-$(function () {
-    $('#datepickerAnio').datetimepicker({
-        format: "YYYY"
+//$(function () {
+//    $('#datepickerAnio').datetimepicker({
+//        format: "YYYY"
+//
+//    });
+//});
 
-    });
-});
+ $('#datepickerAnio').datetimepicker(
+    {  format: "YYYY" }).on('dp.change', function (e) {graficoSolicitudesAtendidasPorAnio(); });
 
 //Carga todos los gráficos
 window.onload = function () {
     graficoAreas();
     graficoRendimientoPorArea();
-    var ctx = document.getElementById('chart-area3').getContext('2d');
-    window.myLine = new Chart(ctx, configLineal);
+    graficoSolicitudesAtendidasPorAnio();
+
 };
 
 //Carga grafico de PIE
@@ -99,14 +102,6 @@ function graficoAreas() {
         }
     });
 }
-
-
-//Carga grafico lineal
-function graficoSolicitudesAtendidasPorAnio() {
-
-}
-
-
 
 //Carga grafico de Barras
 function graficoRendimientoPorArea() {
@@ -189,27 +184,99 @@ function graficoRendimientoPorArea() {
                     borderWidth: 1,
                     data: calificadas
                 };
-               
 
                 barChartData.datasets.push(newDataset);
                 barChartData.datasets.push(newDataset2);
                 window.myBar.update();
-//                var colorName = colorNames[barChartData.datasets.length % colorNames.length];
-//                var dsColor = window.chartColors[colorName];
-//                var newDataset = {
-//                        label: 'Solicitudes atendidas',
-//                        backgroundColor: color(dsColor).alpha(0.5).rgbString(),
-//                        borderColor: dsColor,
-//                        borderWidth: 1,
-//                        data: []
-//                };
-// 
-//                // window.myBar.addData(randomScalingFactor(), index);
-//                newDataset.data.push(atendidas);
-//                newDataset2.data.push(calificadas);
-//                barChartData.datasets.push(newDataset);
-//                barChartData.datasets.data.push(newDataset2);
-//                window.myBar.update();
+            }
+        }
+    });
+}
+
+//Carga grafico lineal
+function graficoSolicitudesAtendidasPorAnio() {
+    $('#tbodyGraficoLineas').empty();
+    var datepickerAnio = $('#datepickerAnio').val();
+    $.ajax({
+        data: {'datepickerAnio': datepickerAnio},
+        type: 'POST',
+        url: '../control/SolicitudAjaxReportesTiquetes.php',
+        success: function (response) {
+            var vector = JSON.parse(response);
+            var cantidadMensuales = [];
+            $('#tbodyGraficoLineas').append('<tr id = "trCantidad"></tr>');
+            for (var i in vector) {
+                cantidadMensuales.push(vector[i]['cantidadMensuales']);
+                td = '<td>' + vector[i]['cantidadMensuales'] + '</td>';
+                $('#trCantidad').append(td);
+            }
+            //Carga el gráfico lineal
+            var colorNames = Object.keys(window.chartColors);
+            var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+//Grafico Lineal
+            if (typeof myLine == 'undefined') {
+                configLineal = {
+                    type: 'line',
+                    data: {
+                        labels: meses,
+                        datasets: [{
+                                label: 'Solicitudes atendidas por mes',
+                                fill: false,
+                                backgroundColor: window.chartColors.blue,
+                                borderColor: window.chartColors.blue,
+                                data: cantidadMensuales
+                            }]
+                    },
+                    options: {
+                        responsive: true,
+                        title: {
+                            display: true,
+                            text: 'Reporte de cantidad de tiquetes mensuales'
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        hover: {
+                            mode: 'nearest',
+                            intersect: true
+                        },
+                        scales: {
+                            xAxes: [{
+                                    display: true,
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Month'
+                                    }
+                                }],
+                            yAxes: [{
+                                    display: true,
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Value'
+                                    }
+                                }]
+                        }
+                    }
+                };
+
+                var ctx = document.getElementById('chart-area3').getContext('2d');
+                window.myLine = new Chart(ctx, configLineal);
+            } else {      
+                configLineal.data.datasets.splice(0, 1);
+                var tamanio = configLineal.data.labels.length;
+                configLineal.data.labels.splice(0, tamanio);
+                var newDataset = {
+                    label: 'Solicitudes atendidas por mes',
+                    fill: false,
+                    data: cantidadMensuales,
+                    backgroundColor: window.chartColors.blue,
+                    borderColor: window.chartColors.blue
+
+                };               
+                configLineal.data.datasets.push(newDataset);
+                configLineal.data.labels = meses;
+                window.myLine.update();
             }
         }
     });
@@ -217,61 +284,3 @@ function graficoRendimientoPorArea() {
 
 
 
-
-
-//Carga el gráfico lineal
-var colorNames = Object.keys(window.chartColors);
-//Grafico Lineal
-var MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-var configLineal = {
-    type: 'line',
-    data: {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-        datasets: [{
-                label: 'My Second dataset',
-                fill: false,
-                backgroundColor: window.chartColors.blue,
-                borderColor: window.chartColors.blue,
-                data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor()
-                ],
-            }]
-    },
-    options: {
-        responsive: true,
-        title: {
-            display: true,
-            text: 'Chart.js Line Chart'
-        },
-        tooltips: {
-            mode: 'index',
-            intersect: false,
-        },
-        hover: {
-            mode: 'nearest',
-            intersect: true
-        },
-        scales: {
-            xAxes: [{
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Month'
-                    }
-                }],
-            yAxes: [{
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Value'
-                    }
-                }]
-        }
-    }
-};

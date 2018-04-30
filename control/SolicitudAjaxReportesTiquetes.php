@@ -42,3 +42,15 @@ if (isset($_POST['fechaInicioRendimientoPorArea'])) {
     echo json_encode($arreglo);
    // echo json_encode($data);
 }
+
+
+if (isset($_POST['datepickerAnio'])) {
+    $anio = $_POST['datepickerAnio'];
+
+    $data =  obtenerReporteCantidadDeTiquetesMensuales($anio);
+    foreach ($data as $d){
+        $arreglo[] =array ('cantidadMensuales'=>$d->obtenerCantidadMensuales(), 'mes'=>$d->obtenerMes() );
+    }
+    echo json_encode($arreglo);
+   // echo json_encode($data);
+}
