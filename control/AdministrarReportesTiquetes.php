@@ -36,3 +36,9 @@ function fechaHoy() {
     $fecha = $dia . "/" . $mes . "/" . $anio;
     return $fecha;
 }
+
+function anioActual() {
+    $hoy = getdate();
+    $anio = $hoy["year"];
+    return $anio;
+}
