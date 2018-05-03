@@ -35,6 +35,7 @@ require_once ("../control/UsuarioLogueado.php");
                 $r = obtenerResponsable('nubeblanca1997@outlook.com');
                 // $r = obtenerResponsable('francini113@gmail.com');
                 $_SESSION['objetoUsuario'] = $r;
+              
                 $r = $_SESSION['objetoUsuario'];
 //                        if ($r == 'Ha ocurrido un error' || $r == null) {
 //                           // $r = obtenerResponsable('nubeblanca1997@outlook.com'); //admin
