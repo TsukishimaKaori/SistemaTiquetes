@@ -9,11 +9,11 @@ if (isset($_POST['areasTematicasReportes'])) {
     $dia = substr($fechaInicio, 0, 2);
     $mes = substr($fechaInicio, 3, 2);
     $anio = substr($fechaInicio, 6, 4);
-    $fechaInicio = $anio . '-' . $mes . '-' . $dia;
+    $fechaInicio = $anio  . $mes  . $dia;
     $dia = substr($fechaFinal, 0, 2);
     $mes = substr($fechaFinal, 3, 2);
     $anio = substr($fechaFinal, 6, 4);
-    $fechaFinal = $anio . '-' . $mes . '-' . $dia;    
+    $fechaFinal = $anio . $mes .  $dia;    
     $data = obtenerReporteTiquetesIngresadosPorClasificacion($areasTematicasReportes, $fechaInicio, $fechaFinal);
     
     foreach ($data as $d){
@@ -30,11 +30,11 @@ if (isset($_POST['fechaInicioRendimientoPorArea'])) {
     $dia = substr($fechaInicio, 0, 2);
     $mes = substr($fechaInicio, 3, 2);
     $anio = substr($fechaInicio, 6, 4);
-    $fechaInicio = $anio . '-' . $mes . '-' . $dia;
+    $fechaInicio = $anio  . $mes . $dia;
     $dia = substr($fechaFinal, 0, 2);
     $mes = substr($fechaFinal, 3, 2);
     $anio = substr($fechaFinal, 6, 4);
-    $fechaFinal = $anio . '-' . $mes . '-' . $dia;    
+    $fechaFinal = $anio . $mes  . $dia;    
     $data = reporteCumplimientoPorArea($fechaInicio, $fechaFinal);
     foreach ($data as $d){
         $arreglo[] =array ('nombreArea'=>$d->obtenerNombreArea(), 'totalAtendidas'=>$d->obtenerTotalAtendidas(),'totalCalificadas'=>$d->obtenerTotalCalificadas() );

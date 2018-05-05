@@ -254,8 +254,8 @@
                             </div> 
                         </div>
                         <div class="form-group">
-                            <label for="comment">Justificación</label>
-                            <textarea class="form-c1ontrol" rows="3"  name="justificacion" cols="2" id="justificacionEstado"></textarea>
+                            <label for="justificacionEstado">Justificación</label>
+                            <textarea class="form-control" rows="3"  cols="2" id="justificacionEstado"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

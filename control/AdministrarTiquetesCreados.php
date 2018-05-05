@@ -243,7 +243,7 @@ function filtroTiquetes($mitabla, $fecha) {
                         </div>                                     
                         <div class="col-md-2">
                             <div class = "form-group input-group date" id = "datetimepicker1">
-                                <input id = "fechafiltroI" name ="filtro-fecha" type="text" class="form-control " value="' . $fecha . '">
+                                <input id = "fechafiltroI" name ="filtro-fecha" type="text" class="form-control " value="01/01/2006">
                                 <span class="input-group-addon btn-info"  onclick="document.getElementById(\'fechafiltroI\').focus()" >
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </span>  
@@ -328,7 +328,7 @@ function filtroTodosLosTiquetes($mitabla, $fecha) {
                                     </div>                                     
                                     <div class="col-md-2  ">
                                         <div class = "form-group input-group date" id = "datetimepicker1">
-                                            <input id = "fechafiltroI" name ="filtro-fecha" type="text" class="  form-control" value="' . $fecha . '">
+                                            <input id = "fechafiltroI" name ="filtro-fecha" type="text" class="  form-control" value="01/01/2006">
                                             <span class="input-group-addon  btn-info" onclick="document.getElementById(\'fechafiltroI\').focus()"  for="filtro-fecha">
                                                 <i class="glyphicon glyphicon-calendar"></i>
                                             </span>  

@@ -19,6 +19,7 @@
         require ("../vista/Cabecera.php");
         $areas = obtenerAreas();
         ?> 
+        <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">

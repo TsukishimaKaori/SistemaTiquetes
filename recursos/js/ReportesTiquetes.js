@@ -51,7 +51,11 @@ function graficoAreas() {
         data: {'areasTematicasReportes': areasReportes, 'fechaInicio': fechaInicio, 'fechaFinal': fechaFinal},
         type: 'POST',
         url: '../control/SolicitudAjaxReportesTiquetes.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display','none')
             var vector = JSON.parse(response);
             var cantidad = [];
             var descripcion = [];
@@ -113,7 +117,11 @@ function graficoRendimientoPorArea() {
         data: {'fechaInicioRendimientoPorArea': fechaInicioRendimientoPorArea, 'fechaFinalRendimientoPorArea': fechaFinalRendimientoPorArea},
         type: 'POST',
         url: '../control/SolicitudAjaxReportesTiquetes.php',
+       beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display','none')
             var vector = JSON.parse(response);
             var area = [];
             var atendidas = [];
@@ -201,7 +209,11 @@ function graficoSolicitudesAtendidasPorAnio() {
         data: {'datepickerAnio': datepickerAnio},
         type: 'POST',
         url: '../control/SolicitudAjaxReportesTiquetes.php',
+       beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
         success: function (response) {
+            $("#cargandoImagen").css('display','none')
             var vector = JSON.parse(response);
             var cantidadMensuales = [];
             $('#tbodyGraficoLineas').append('<tr id = "trCantidad"></tr>');
