@@ -445,6 +445,7 @@ function calificar(event) {
 }
 function  cancelarcalificar() {
     calificacion = null;
+    document.getElementById("justificacion").value="";
 }
 
 function calificarAjax() {
@@ -465,9 +466,18 @@ function calificarAjax() {
                 $("#cargandoImagen").css('display', 'block');
             },
             success: function (response) {
+                  if(response==""){
                 $("#cargandoImagen").css('display','none');
                 $(".rating > input").prop('cursor', 'cursor:not-allowed;');
+                document.getElementById("justificacion").value="";
+                var mensaje = "El tiquete ha sido calificado";
+                        notificacionBandeja(mensaje);
                 actualizarTabla("Creados");
+                  }else{
+                   document.getElementById("justificacion").value = "";
+                        var mensaje = "Error al calificar";
+                        notificacionBandeja(mensaje);  
+                }
             }
         });
     }

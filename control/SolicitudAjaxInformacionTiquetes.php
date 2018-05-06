@@ -231,8 +231,9 @@ if (isset($_POST['codigoAsignado'])) {
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
     $codigoArea = $r->obtenerArea()->obtenerCodigoArea();
-    asignarTiquete($codTiquete, $codigoEmpleado, $correoUsuarioCausante, $nombreUsuarioCausante);
-    $responsables = obtenerResponsablesAsignar($codigoArea);
+   $mensaje= asignarTiquete($codTiquete, $codigoEmpleado, $correoUsuarioCausante, $nombreUsuarioCausante);
+   if($mensaje==''){
+   $responsables = obtenerResponsablesAsignar($codigoArea);
     foreach ($responsables as $responsable) {
         if ($responsable->obtenerCodigoEmpleado() == $codigoEmpleado) {
             $correoUsuarioAsignado = $responsable->obtenerCorreo();
@@ -241,6 +242,10 @@ if (isset($_POST['codigoAsignado'])) {
     $subject = "Nuevo tiquete asignado";
     $message = $nombreUsuarioCausante . " le ha asignado un nuevo tiquete";
     enviarCorreo($correoUsuarioAsignado, $subject, $message);
+   }
+   else{
+       echo 'Error';
+   }
 }
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="PRIORIDAD">
@@ -312,7 +317,8 @@ if (isset($_POST['codigoCalificar'])) {
     $calificacion = $_POST['calificacion'];
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
-    calificarTiquete($codTiquete, $justificacion, $correoUsuarioCausante, $nombreUsuarioCausante, $calificacion);
+   $mensaje= calificarTiquete($codTiquete, $justificacion, $correoUsuarioCausante, $nombreUsuarioCausante, $calificacion);
+   echo $mensaje;
 }
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Asociar equipo">

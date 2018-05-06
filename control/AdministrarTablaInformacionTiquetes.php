@@ -103,6 +103,7 @@ function listaTiquetesCargar($codigoPagina, $r, $fechaI, $fechaF, $criteriosDeFi
 
 //Muestra el tiquete anterior de la lista cargada
 function tiqueteMostrarAnterior($codigoPagina, $r, $tiqueteActual, $fechaIn, $fechaFin, $criterios, $codigoFiltroG, $nombreSG, $correoSG, $nombreRG, $correoRG) {
+       $hay=false;
     $crit = array();
     $i = 1;
     foreach ($criterios as $c) {
@@ -118,6 +119,7 @@ function tiqueteMostrarAnterior($codigoPagina, $r, $tiqueteActual, $fechaIn, $fe
     $tamanioTiquetes = count($tiquetes);
     for ($i = 0; $i < $tamanioTiquetes; $i++) {
         if ($tiquetes[$i]->obtenerCodigoTiquete() == $tiqueteActual && $i != 0) {
+           $hay=true;
             $codigoTiquete = $tiquetes[$i - 1]->obtenerCodigoTiquete(); //cargo el div
             $respuesta = array("tiquete" => $codigoTiquete, "pagina" => $codigoPagina);
             echo json_encode($respuesta);
@@ -126,10 +128,15 @@ function tiqueteMostrarAnterior($codigoPagina, $r, $tiqueteActual, $fechaIn, $fe
 // o mostrar title indicando que ya no hay mas atras
         }
     }
+      if(!$hay){
+        $respuesta = array("tiquete" => 'NO', "pagina" => $codigoPagina);
+            echo json_encode($respuesta);
+    }
 }
 
 //Muestra el tiquete sigueinte de la lista cargada
 function tiqueteMostrarSiguiente($codigoPagina, $r, $tiqueteActual, $fechaIn, $fechaFin, $criterios, $codigoFiltroG, $nombreSG, $correoSG, $nombreRG, $correoRG) {
+    $hay=false;
     $crit = array();
     $i = 1;
     foreach ($criterios as $c) {
@@ -146,6 +153,7 @@ function tiqueteMostrarSiguiente($codigoPagina, $r, $tiqueteActual, $fechaIn, $f
     $tamanioTiquetes = count($tiquetes);
     for ($i = 0; $i < $tamanioTiquetes; $i++) {
         if ($tiquetes[$i]->obtenerCodigoTiquete() == $tiqueteActual && $i != $tamanioTiquetes - 1) {
+            $hay=true;
             $codigoTiquete = $tiquetes[$i + 1]->obtenerCodigoTiquete(); //cargo el div
             $respuesta = array("tiquete" => $codigoTiquete, "pagina" => $codigoPagina);
             echo json_encode($respuesta);
@@ -153,6 +161,10 @@ function tiqueteMostrarSiguiente($codigoPagina, $r, $tiqueteActual, $fechaIn, $f
 //  return $tiquetes[$tamnioTiquetes-1]['codigoTiquete'];
 // o mostrar title indicando que ya no hay mas atras
         }
+    }
+    if(!$hay){
+        $respuesta = array("tiquete" => 'NO', "pagina" => $codigoPagina);
+            echo json_encode($respuesta);
     }
 }
 

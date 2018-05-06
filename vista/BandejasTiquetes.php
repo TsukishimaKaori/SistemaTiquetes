@@ -241,6 +241,7 @@
         <!------------------------------------------------>
         <?php alerta("tiqueteNoSeleccionado", "Ningun tiquete seleccionado", "");
         notificacionBandeja();
+        
         ?>
 
         <!----------------------------FINAL DE VENTANAS MODALES-------------------------> 

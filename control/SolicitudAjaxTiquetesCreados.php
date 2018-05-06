@@ -149,7 +149,8 @@ if (isset($_POST['codigoCalificar'])) {
     $calificacion = $_POST['calificacion'];
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
-    calificarTiquete($codTiquete, $justificacion, $correoUsuarioCausante, $nombreUsuarioCausante, $calificacion);
+    $mensaje=calificarTiquete($codTiquete, $justificacion, $correoUsuarioCausante, $nombreUsuarioCausante, $calificacion);
+    echo $mensaje;
 }
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Filtros">
