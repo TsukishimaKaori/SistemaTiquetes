@@ -3,7 +3,7 @@
 function cabecera() {
     echo ' <tr>                                            
         <th>Cod</th> 
-        <th class ="thDescripcion">Descripción</th>
+        <th class ="thDescripcion">Clasificación</th>
         <th>Solicitante</th>
         <th>Responsable</th>
         <th>Estado</th>
