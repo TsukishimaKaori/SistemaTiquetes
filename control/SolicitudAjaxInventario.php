@@ -1,4 +1,5 @@
 <?php
+
 require_once ("../control/AdministrarTablaInventario.php");
 require ("../modelo/ProcedimientosInventario.php");
 require ("../modelo/Cliente.php");
@@ -57,8 +58,8 @@ if (isset($_POST['codigoArticuloAgregarInventario'])) {
     $correoUsuarioCausante = $_POST['correoUsuario'];
     $nombreUsuarioCausante = $_POST['nombreUsuario'];
     $codigoTiquete = $_POST['tiquete'];
-     if($codigoTiquete==''){
-        $codigoTiquete=null;
+    if ($codigoTiquete == '') {
+        $codigoTiquete = null;
     }
     $proveedor = $_POST['provedor'];
     $marca = $_POST['marca'];
@@ -69,7 +70,7 @@ if (isset($_POST['codigoArticuloAgregarInventario'])) {
         // podría ser apropiado más validación/saneamiento del nombre de fichero
         $archivo = basename($_FILES["archivo"]["name"]);
         $archivo = basename($_FILES["archivo"]["name"]);
-        $archivo = substr($archivo, -5); 
+        $archivo = substr($archivo, -5);
         $direccionOrdenDeCompra = '../adjuntos/ordenesCompra/' . $orden . $archivo;
         $mensaje = agregarArticuloInventario($codigoArticulo, $descripcion, $costo, $codigoCategoria, $estado, $cantidad, $codigoBodega, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante, $proveedor, $marca, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete);
         if ($mensaje == '') {
@@ -94,8 +95,8 @@ if (isset($_POST['codigoArticuloSuma'])) {
     $nombreUsuarioCausante = $_POST['nombreUsuario'];
     $numeroOrdenDeCompra = $_POST['orden'];
     $codigoTiquete = $_POST['tiquete'];
-     if($codigoTiquete==''){
-        $codigoTiquete=null;
+    if ($codigoTiquete == '') {
+        $codigoTiquete = null;
     }
     $direccionOrdenDeCompra = "";
     if ($_FILES["archivo"]) {
@@ -103,7 +104,7 @@ if (isset($_POST['codigoArticuloSuma'])) {
         // basename() puede evitar ataques de denegació del sistema de ficheros;
         // podría ser apropiado más validación/saneamiento del nombre de fichero
         $archivo = basename($_FILES["archivo"]["name"]);
-        $archivo = substr($archivo, -5); 
+        $archivo = substr($archivo, -5);
         $direccionOrdenDeCompra = '../adjuntos/ordenesCompra/' . $numeroOrdenDeCompra . $archivo;
         $mensaje = aumentarCantidadInventario($codigoArticulo, $cantidadEfecto, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante, $numeroOrdenDeCompra, $direccionOrdenDeCompra, $codigoTiquete);
         if ($mensaje == '') {
@@ -212,7 +213,19 @@ if (isset($_POST['codigoEstadoSiguiente'])) {
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
     $mensaje = actualizarEstadoEquipo($placa, $codigoEstadoSiguiente, $comentarioUsuario, $correoUsuarioCausante, $nombreUsuarioCausante);
-    echo $mensaje;
+
+    if ($mensaje == "") {
+        $listaActivos = obtenerActivosFiltradosPlaca($placa);
+        $codigoEstadoActual = $listaActivos->obtenerEstado()->obtenerCodigoEstado();
+        $estadosSiguentes = obtenerEstadosEquipo($codigoEstadoActual);
+        $responsables = null;
+        if ($listaActivos->obtenerNombreUsuarioAsociado() == null) {
+            $responsables = consumirMetodoDos();
+        }
+        panelActivos($listaActivos, $estadosSiguentes, $responsables);
+    } else {
+        echo'Error';
+    }
 }
 // desasociar
 if (isset($_POST['codigoDesasociar'])) {
@@ -234,7 +247,7 @@ if (isset($_POST['codigoDesasociar'])) {
         echo "Error";
     }
 }
-// cambiar estado
+// Asociar usuario
 if (isset($_POST['usuarioAsociado'])) {
     $correoUsuarioAsociado = $_POST['usuarioAsociado'];
     $placa = $_POST["placa"];
@@ -244,8 +257,19 @@ if (isset($_POST['usuarioAsociado'])) {
     $nombreUsuarioAsociado = $usuario->obtenerNombreUsuario();
     $departamentoUsuarioAsociado = $usuario->obtenerDepartamento();
     $jefaturaUsuarioAsociado = $usuario->obtenerJefatura();
+    $categoria = $_POST["categoria"];
+    $marca = $_POST["modelo"];
+    $modelo = $_POST["marca"];
+    $docking = $_POST["docking"];
+    $asociados = $_POST["asociados"];
+
     $mensaje = asociarUsuarioActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante, $correoUsuarioAsociado, $nombreUsuarioAsociado, $departamentoUsuarioAsociado, $jefaturaUsuarioAsociado);
+
     if ($mensaje === "") {
+        $gafete = $usuario->obtenerCodigoEmpleado();
+        $Cedula = $usuario->obtenerNumeroCedula();
+        $direccionAdjunto = generarPdf($placa, $nombreUsuarioCausante, $nombreUsuarioAsociado, $categoria, $marca, $modelo, $docking, $asociados, $gafete, $Cedula);
+        adjuntarContrato($placa, $direccionAdjunto, $correoUsuarioCausante, $nombreUsuarioCausante);
         $activos = obtenerActivosFijos();
         $listaActivos = buscarDispositivoActivoFijo($activos, $placa);
         $codigoEstadoActual = $listaActivos->obtenerEstado()->obtenerCodigoEstado();
@@ -254,7 +278,9 @@ if (isset($_POST['usuarioAsociado'])) {
         if ($listaActivos->obtenerNombreUsuarioAsociado() == null) {
             $responsables = obtenerUsuariosParaAsociar();
         }
-        panelActivos($listaActivos, $estadosSiguentes, $responsables);
+
+        echo panelActivos($listaActivos, $estadosSiguentes, $responsables);
+        echo 'dirrecion' . $direccionAdjunto;
     } else {
         echo "Error";
     }
@@ -314,3 +340,27 @@ if (isset($_POST['codigoFiltro'])) {
     $todosLosTiquetes = busquedaAvanzadaGeneral($codigoTiquete, $correoSolicitante, $nombreSolicitante, $correoResponsable, $nombreResponsable, $fechaInicio, $fechaFinal, $codigosEstados, $codigoArea, $codigoRol);
     cuerpoTablaMistiquetesInventario($todosLosTiquetes, 4);
 }
+
+
+// adjuntarArchivos
+if (isset($_FILES['AdjuntarArchivo'])) {
+    if ($_FILES["AdjuntarArchivo"]) {
+        $placa = $_POST['placa'];
+        $correoUsuarioCausante = $r->obtenerCorreo();
+        $nombreUsuarioCausante = $r->obtenerNombreResponsable();
+        $nombre_tmp = $_FILES["AdjuntarArchivo"]["tmp_name"];
+        // basename() puede evitar ataques de denegació del sistema de ficheros;
+        // podría ser apropiado más validación/saneamiento del nombre de fichero
+        $archivo = basename($_FILES["AdjuntarArchivo"]["name"]);
+        $direccionAdjunto = '../adjuntos/contratos/' . $archivo;
+        move_uploaded_file($nombre_tmp, utf8_decode($direccionAdjunto));
+        $mensaje = adjuntarContrato($placa, $direccionAdjunto, $correoUsuarioCausante, $nombreUsuarioCausante);
+        if ($mensaje == '') {
+            $contratos = obtenerDocumentosAsociados($placa);
+            cuerpoTablaContratos($contratos);
+        } else {
+            echo 'Error';
+        }
+    }
+}
+
