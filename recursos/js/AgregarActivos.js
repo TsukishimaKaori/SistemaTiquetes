@@ -354,7 +354,7 @@ function filtrartiquetesAjax() {
             'nombreR': nombreR, 'correoR': correoR, 'fechaI': fechaI, 'fechaF': fechaF, 'estados': estados
         },
         type: 'POST',
-        url: '../control/SolicitudAjajxAgregarActivos.php',
+        url: '../control/SolicitudAjaxAgregarActivos.php',
         beforeSend: function () {
               $("#cargandoImagen").css('display','block');
         },
@@ -407,7 +407,7 @@ function agregarActivoAjax() {
     var Asociado = document.getElementById("Asociado").value;
     $.ajax({
         type: "POST",
-        url: '../control/SolicitudAjajxAgregarActivos.php',
+        url: '../control/SolicitudAjaxAgregarActivos.php',
         data: {'Licencias': JSON.stringify(Licencias), 'Repuestos': JSON.stringify(Repuestos), 'codigo': codigo, 'categoria': categoria, 'placa': placa, 'usuarioA': UsuarioAsociado,
             'serie': serie, 'modelo': modelo, 'codigoC': codigoCategoria, 'fechaE': fechaE,'tiquete':tiquete ,'docking': docking, 'Asociado': Asociado}, //capturo array     
          beforeSend: function () {

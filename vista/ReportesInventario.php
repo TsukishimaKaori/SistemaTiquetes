@@ -51,7 +51,7 @@
                                             ?>   
                                         </div> 
                                     </div> 
-                                    <div class=" ol-md-3">
+                                    <div class=" col-md-2">
                                         <h5>&nbsp;</h5>
                                         <button  title="Buscar" type="button" class="btn btn-info" onclick="FiltrarInventario();"><i class="glyphicon glyphicon-search"></i></button>
 

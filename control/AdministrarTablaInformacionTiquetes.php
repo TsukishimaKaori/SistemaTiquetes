@@ -79,7 +79,8 @@ function listaTiquetesCargar($codigoPagina, $r, $fechaI, $fechaF, $criteriosDeFi
             //$tiquetes = obtenerTiquetesPorUsuario($correo);
         } else if ($codigoPagina == 2) {
             $codigoArea = $r->obtenerArea()->obtenerCodigoArea();
-            $tiquetes = obtenerTiquetesPorAsignarArea($codigoArea);
+             $codigoRol = $r->obtenerRol()->obtenerCodigoRol();
+            $tiquetes = obtenerTiqueteBandejaPorAsinar($codigoRol, $codigoArea);
         } else if ($codigoPagina == 3) {
             $codigoEmpleado = $r->obtenerCodigoEmpleado();
             $tiquetes = tiquetesAsignadosAvanzada($codigoEmpleado, $fechaInicio, $fechaFinal, $codigosEstados);
@@ -91,7 +92,8 @@ function listaTiquetesCargar($codigoPagina, $r, $fechaI, $fechaF, $criteriosDeFi
             $tiquetes = obtenerTiquetesPorUsuario($correo);
         } else if ($codigoPagina == 2) {
             $codigoArea = $r->obtenerArea()->obtenerCodigoArea();
-            $tiquetes = obtenerTiquetesPorAsignarArea($codigoArea);
+             $codigoRol = $r->obtenerRol()->obtenerCodigoRol();
+            $tiquetes = obtenerTiqueteBandejaPorAsinar($codigoRol, $codigoArea);
         } else if ($codigoPagina == 3) {
             $codigoEmpleado = $r->obtenerCodigoEmpleado();
             $tiquetes = obtenerTiquetesAsignados($codigoEmpleado);

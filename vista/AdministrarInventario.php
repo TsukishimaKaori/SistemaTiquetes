@@ -217,7 +217,7 @@
                 </div>
             </div>
         </div> 
-        <!--Ventana Repuestos asociadas-->
+        <!--Modal activos-->
         <div id="modalContratos" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">                
                 <div class="modal-content">
@@ -240,10 +240,12 @@
                     </div>
                     <div class="modal-footer">                                                        
                         <button type="button" class="btn btn-success"   data-dismiss="modal">Aceptar</button>
+                        <button type="button" class="btn btn-info btn-circle btn-xl" data-toggle="modal" data-target="#modalagregarAdjunto" >Adjuntar archivo</button><br><br>
                     </div>                   
                 </div>
             </div>
-        </div> 
+        </div>
+        <!-------------------------------------->
         <div id="cambiarEstado" class="modal fade " role="dialog">
             <div class="modal-dialog modal-sm">                
                 <div class="modal-content">                
@@ -265,6 +267,7 @@
                 </div>
             </div>
         </div>
+        <!-- Modal adjuntar------------------>
         <div id="modalagregarAdjunto" class="modal fade" role="dialog">
             <div class="modal-dialog">                
                 <div class="modal-content">
@@ -279,14 +282,14 @@
                                ,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"  onchange="subirarchivoInventario(this);" />
                         <input type="text" name="archivo2"  readonly="readonly" class="form-control" id="Textarchivo" >
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success"  data-dismiss="modal"> Guardar</button>
+                            <button type="button" class="btn btn-success"  data-dismiss="modal" onclick="enviarAdjunto();"> Adjuntar</button>
                             <button type="button" class="btn btn-danger"  data-dismiss="modal" onclick="cancelarAdjuntoInventario();">Cancelar</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+        <!---------------------------------->
         <div id="Filtros" class="modal fade" role="dialog">
             <div class="modal-dialog">                
                 <div class="modal-content">
@@ -433,14 +436,64 @@
                 </div>
             </div>
         </div>
+        <!-------------------------ModalAsociarACtivo----------------->
+        <div id="AsociarACtivo" class="modal fade " role="dialog">
+            <div class="modal-dialog modal-sm">                
+                <div class="modal-content">                
+                    <div class="modal-body">
+                        <div class="row">    
+                            <div style ="text-align: center"> 
+                                <h4>¿Esta seguro de asociar este activo?"</h4>
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label for="comment">Docking:</label>
+                            <input class="form-control" id="dockingAsociar"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment">el equipo cuenta con:</label>
+                            <textarea class="form-control" rows="3"  name="justificacion" cols="2" id="asociadosAsociar"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" onclick="asignarActivoAjax()" > Aceptar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick=" cancelarasignarActivo();" > Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div
+        <!----------------------agregarAdjunto-------------------------->
 
+        <!--                        <----------------------------------->
+        <div id="modalagregarAdjunto" class="modal fade" role="dialog">
+            <div class="modal-dialog">                
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Adjuntar archivo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="archivo" class="btn btn-info btn-circle btn-xl" >Subir archivo</label>
+                        <input id="archivo"  name="archivo" type="file" id="archivo" accept="application/vnd.openxmlformats-officedocument.presentationml.presentation,
+                               text/plain, application/pdf, image/*,application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                               ,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"  onchange="subirarchivo(this);" />
+                        <input type="text" name="archivo2"  readonly="readonly" class="form-control" id="Textarchivo" >
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success"  data-dismiss="modal"> Guardar</button>
+                            <button type="button" class="btn btn-danger"  data-dismiss="modal" onclick="cancelarAdjunto();">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--                        <----------------------------------->
         <?php
         notificacion();
 
         confirmacion("eliminarRepuesto", "¿Desea eliminar  el repuesto?", "eliminarRepuestoAjax();", "");
         confirmacion("eliminarLicencia", "¿Desea eliminar  la licencia?", "eliminarLicenciaAjax();", "");
         confirmacion("eliminarUsuario", "¿Esta seguro de desasociar este activo?", "eliminarUsuarioAjax();", "");
-        confirmacion("AsociarACtivo", "¿Esta seguro de asociar este activo?", "asignarActivoAjax();", "cancelarasignarActivo()");
+
         alerta("ErrorRepuesto", "Error al eliminar repuesto", "");
         alerta("ErrorLicencia", "Error al eliminar licencia", "");
         ?>

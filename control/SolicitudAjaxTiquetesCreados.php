@@ -81,9 +81,10 @@ if (isset($_POST['tabla'])) {
         $misTiquetes = obtenerTiquetesPorUsuario($correo);
         cuerpoTablaMistiquetesCreados($misTiquetes, 1,$responsables);
     }
-    if ($_POST['tabla'] == 'PorAsignar') {
-        $codigoArea = $r->obtenerArea()->obtenerCodigoArea();
-        $tiquetesPorAsignar = obtenerTiquetesPorAsignarArea($codigoArea);
+    if ($_POST['tabla'] == 'PorAsignar') {   
+        $codigoRol = $r->obtenerRol()->obtenerCodigoRol();          
+        $tiquetesPorAsignar = obtenerTiqueteBandejaPorAsinar($codigoRol, $codigoArea);
+        
         cuerpoTablaMistiquetesCreados($tiquetesPorAsignar, 2,$responsables);
     }
 
