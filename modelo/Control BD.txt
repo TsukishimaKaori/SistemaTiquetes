@@ -1,3 +1,10 @@
+08/05/2018
+
+1. Cambié PAobtenerTiquetesPorUsuario para que devuelvan los tiquetes ordenados por la fecha más reciente y
+los tiquetes finalizados como parte del prefiltro.
+
+2. Cambié PAobtenerTiquetesPorUsuarioFiltrados para que devuelvan los tiquetes ordenados por la fecha más reciente.
+
 27/04/2018
 
 Esto es para los reportes del modulo de inventario, esta en InventarioBD y ProcedimientosInventario.php
