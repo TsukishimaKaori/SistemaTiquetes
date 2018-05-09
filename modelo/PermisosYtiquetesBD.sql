@@ -825,17 +825,18 @@ AS
 	tique.calificacion, tique.horasTrabajadas, tique.nombreUsuarioSolicitante, tique.departamentoUsuarioSolicitante,
 	tique.jefaturaUsuarioSolicitante, tique.codigoPrioridad, pri.nombrePrioridad, tique.fechaEntrega from
 	(select codigoEstado, nombreEstado, enviaCorreos from dbo.Estado where codigoEstado = 1 OR codigoEstado = 2 OR 
-	codigoEstado = 4) esta, 
+	codigoEstado = 4 OR codigoEstado = 6) esta, 
 	(select codigoArea, nombreArea, activo from dbo.Area) are,
 	(select codigoClasificacion, descripcionClasificacion, activo, codigoPadre from dbo.Clasificacion) tema,
 	(select codigoTiquete, usuarioIngresaTiquete, codigoEstado, codigoResponsable, codigoArea,
 	codigoClasificacion, fechaCreacion, fechaFinalizado, fechaCalificado, fechaSolicitado, fechaEnProceso, 
 	descripcion, calificacion, horasTrabajadas, nombreUsuarioSolicitante, departamentoUsuarioSolicitante,
 	jefaturaUsuarioSolicitante, codigoPrioridad, fechaEntrega from dbo.Tiquete where usuarioIngresaTiquete =  @correo AND
-	(codigoEstado = 1 OR codigoEstado = 2 OR codigoEstado = 4)) tique,
+	(codigoEstado = 1 OR codigoEstado = 2 OR codigoEstado = 4 OR codigoEstado = 6)) tique,
 	(select codigoPrioridad, nombrePrioridad from PrioridadTiquete) pri
 	where esta.codigoEstado = tique.codigoEstado AND are.codigoArea = tique.codigoArea 
-	AND tema.codigoClasificacion = tique.codigoClasificacion AND tique.codigoPrioridad = pri.codigoPrioridad;
+	AND tema.codigoClasificacion = tique.codigoClasificacion AND tique.codigoPrioridad = pri.codigoPrioridad 
+	order by tique.fechaCreacion DESC;
 GO
 
 
@@ -847,6 +848,7 @@ CREATE PROCEDURE PAobtenerTiquetesPorUsuarioFiltrados
 	 
 AS  
 	SET @codigoEstado = '%' + @codigoEstado + '%';
+	SET @fechaInicio = (SELECT DATEADD(day, -1, @fechaInicio));
 	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
 
 	SET NOCOUNT ON; 
@@ -866,7 +868,8 @@ AS
 	codigoEstado like @codigoEstado AND fechaCreacion BETWEEN @fechaInicio AND @fechaFinal) tique,
 	(select codigoPrioridad, nombrePrioridad from PrioridadTiquete) pri
 	where esta.codigoEstado = tique.codigoEstado AND are.codigoArea = tique.codigoArea 
-	AND tema.codigoClasificacion = tique.codigoClasificacion AND tique.codigoPrioridad = pri.codigoPrioridad;
+	AND tema.codigoClasificacion = tique.codigoClasificacion AND tique.codigoPrioridad = pri.codigoPrioridad
+	order by tique.fechaCreacion DESC;
 GO
 
 --select * from tiquete;
@@ -1359,7 +1362,7 @@ GO
 --exec PAobtenerHistorialComentariosCompleto 2;
 --select * from HistorialTiquete;
 
-CREATE PROCEDURE PAobtenerComentariosFiltradosFecha
+CREATE PROCEDURE PAobtenerComentariosFiltradosFecha                --Creo que nunca usamos este
 	@codTiquete int,
 	@fechaInicio date,
 	@fechaFinal date
@@ -1833,6 +1836,7 @@ CREATE PROCEDURE PAobtenerTiquetesAsignadosFiltrados
 	 
 AS  
 	SET @codigoEstado = '%' + @codigoEstado + '%';
+	SET @fechaInicio = (SELECT DATEADD(day, -1, @fechaInicio));
 	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
 
     SET NOCOUNT ON; 
@@ -2407,6 +2411,7 @@ SET NOCOUNT ON;
 	SET @nombreSolicitante = '%' + @nombreSolicitante + '%';
 	SET @correoResponsable = '%' + @correoResponsable + '%';
 	SET @nombreResponsable = '%' + @nombreResponsable + '%';
+	SET @fechaInicio = (SELECT DATEADD(day, -1, @fechaInicio));
 	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
 
 	select tique.codigoTiquete, tique.nombreUsuarioSolicitante, tique.usuarioIngresaTiquete, res.nombreResponsable,
@@ -2456,6 +2461,7 @@ SET NOCOUNT ON;
 	SET @nombreSolicitante = '%' + @nombreSolicitante + '%';
 	SET @correoResponsable = '%' + @correoResponsable + '%';
 	SET @nombreResponsable = '%' + @nombreResponsable + '%';
+	SET @fechaInicio = (SELECT DATEADD(day, -1, @fechaInicio));
 	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
 	SET @codigoEstado = '%' + @codigoEstado + '%';
 
@@ -2523,6 +2529,7 @@ SET NOCOUNT ON;
 	SET @nombreSolicitante = '%' + @nombreSolicitante + '%';
 	SET @correoResponsable = '%' + @correoResponsable + '%';
 	SET @nombreResponsable = '%' + @nombreResponsable + '%';
+	SET @fechaInicio = (SELECT DATEADD(day, -1, @fechaInicio));
 	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
 	SET @codigoEstado = '%' + @codigoEstado + '%';
 
