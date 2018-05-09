@@ -7,7 +7,6 @@ $(document).ready(function () {
     if (tab == 1) {
         evt = document.getElementById("link-activos");
         abrir_tab_inventario(evt, 'tab-activos');
-
     } else if (tab == 2) {
         evt = document.getElementById("link-inventario");
         abrir_tab_inventario(evt, 'tab-inventario');
@@ -136,7 +135,6 @@ function abrir_tab_inventario(evt, id) {
     }
     document.getElementById(id).style.display = "block";
     evt.className += " active";
-
 }
 var tabla;
 var filtroActivo;
@@ -184,7 +182,6 @@ function filtrar() {
                 '        </div>' +
                 '        </div>' +
                 '        </div>';
-
     } else if (tabla == "tab-activosfalse") {
         tabla = "tab-activos";
         document.getElementById("filtros").className = "";
@@ -194,7 +191,6 @@ function filtrar() {
         tabla = "tab-activosfalse";
         document.getElementById("filtros").className = "col-md-12";
         response = filtroActivo;
-
     }
     $('#filtros').html(response);
 }
@@ -204,7 +200,6 @@ function cargarPanelActivos(codigo, event) {
     codigo = "" + codigo;
     $(event).parent().parent().parent().children('tr').css("background-color", "#ffffff");
     $(event).parent().parent().css("background-color", "#dff0d8");
-
     // $(this).parent().css( "background-color", "red" );
     $.ajax({
         data: {'codigoActivo': codigo},
@@ -268,7 +263,7 @@ function cargarPanelSumarInventario(codigo, bodega, event) {
 function cargarPanelAgregarInventario() {
     $('#cuerpo-Tabla-Inventario').children('tr').css("background-color", "#ffffff");
     $('#cuerpo-Tabla-Activos').children('tr').css("background-color", "#ffffff");
-    var codigo = 1;// cambiar codigo
+    var codigo = 1; // cambiar codigo
     $.ajax({
         data: {'codigoAgregarInventario': codigo},
         type: 'POST',
@@ -328,11 +323,9 @@ function cargarPanelLicencias(codigo, event) {
                     format: 'DD/MM/YYYY',
                     locale: 'es'
                 });
-
             });
         }
     });
-
 }
 
 function agregarLicenciaEquipo(codigo) {
@@ -359,7 +352,7 @@ function agregarLicenciaEquipo(codigo) {
                 $("#cargandoImagen").css('display', 'block');
             },
             success: function (response) {
-                $("#cargandoImagen").css('display', 'none');            
+                $("#cargandoImagen").css('display', 'none');
                 if (response == 1) {
                     notificacion("Ha ocurrido un error al ingresar la licencia");
                 } else {
@@ -395,7 +388,6 @@ function obtenerLicencias(codigo) {
             $('#modalLicencias').modal('show');
         }
     });
-
 }
 
 function obtenerRepuestos(codigo) {
@@ -415,7 +407,6 @@ function obtenerRepuestos(codigo) {
             $('#modalRepuestos').modal('show');
         }
     });
-
 }
 function obtenerContratos(codigo) {
     $.ajax({
@@ -434,7 +425,6 @@ function obtenerContratos(codigo) {
             $('#modalContratos').modal('show');
         }
     });
-
 }
 //Asociar un equipo a un repuesto
 function asociarRepuestos(codigo) {
@@ -449,7 +439,6 @@ function asociarRepuestos(codigo) {
             'codigoArticulo': codigoArticulo,
             'correoUsuarioCausante': correoUsuario,
             'nombreUsuarioCausante': nombreUsuario,
-
         },
         type: 'POST',
         url: '../control/SolicitudAjaxInventario.php',
@@ -508,7 +497,6 @@ function agregarInventario() {
         data.append('provedor', provedor);
         data.append('marca', marca);
         data.append('archivo', archivo);
-
         var mensaje = "";
         if (validacion === 0) {
             $.ajax({
@@ -553,10 +541,8 @@ function archivoCorrecto() {
                 tipo == "text/plain" || tipo == "application/pdf" || tipo == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
                 tipo == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || tipo == "image/png" || tipo == "image/jpeg") {
             return true;
-
         } else {
             return false;
-
         }
     }
     return true;
@@ -572,7 +558,6 @@ function agregarInventarioSuma() {
     var tiquete = $("#tiquete").val();
     var file = document.getElementById("archivo");
     var archivo = file.files[0];
-
     var data = new FormData();
     data.append('codigoArticuloSuma', codigoArticuloSuma);
     data.append('cantidadSuma', cantidad);
@@ -582,7 +567,6 @@ function agregarInventarioSuma() {
     data.append('orden', orden);
     data.append('tiquete', tiquete);
     data.append('archivo', archivo);
-
     var mensaje = "";
     if (validacionFormularioSumar() == 0) {
         $.ajax({
@@ -757,8 +741,6 @@ function validacionFormularioSumar() {
     var bodega = $("#bodega-suma").val();
     var comentario = $("#comentario-suma").val();
     var orden = $("#ordenS").val();
-
-
     if (!validacionExpRegular(bodega)) {
         $("#bodega-suma").css("border-color", "red");
         bandera = 1;
@@ -825,7 +807,6 @@ function foco(evt) {
         case 5:
             $("#costo").css("border-color", "#99beda");
             break;
-
         case 6:
             $("#bodega").css("border-color", "#99beda");
             break;
@@ -893,7 +874,6 @@ var codigoLicencia;
 function eliminarRepuesto(Codigo) {
     codigoRepuesto = Codigo;
     $("#eliminarRepuesto").modal("show");
-
 }
 
 function eliminarRepuestoAjax() {
@@ -992,7 +972,6 @@ function cambiarEstadoAjax() {
         justificacion.style = "";
         justificacion.value = "";
         var placa = document.getElementById("placa").innerText;
-
         $.ajax({
             data: {'codigoEstadoSiguiente': estadoSiguiente,
                 'placa': placa,
@@ -1007,8 +986,8 @@ function cambiarEstadoAjax() {
             success: function (response) {
                 $("#cargandoImagen").css('display', 'none');
                 $("#cambiarEstado").modal("hide");
-                if (response === "") {
-                    document.getElementById("estadosSiguentes").value = estadoSiguiente;
+                if (response !== 'Error') {
+                    $("#panelInformacionInventario").html(response);
                     var mensaje = "Estado cambiado correctamente";
                     notificacion(mensaje);
                 } else {
@@ -1018,7 +997,6 @@ function cambiarEstadoAjax() {
 
             }
         });
-
     } else {
         justificacion.style = "border-color: red;"
     }
@@ -1026,7 +1004,6 @@ function cambiarEstadoAjax() {
 // cambiar estado
 function cancelarEstado() {
     $("#cambiarEstado").modal("hide");
-
     document.getElementById("estadosSiguentes").value = EstadoAnterior;
     document.getElementById("justificacionEstado").value = "";
     document.getElementById("justificacionEstado").style = "";
@@ -1035,7 +1012,6 @@ function cancelarEstado() {
 }
 function eliminarUsuario() {
     $("#eliminarUsuario").modal("show");
-
 }
 function eliminarUsuarioAjax() {
     var placa = document.getElementById("placa").innerText;
@@ -1071,16 +1047,20 @@ function eliminarUsuarioAjax() {
 // asignar activo
 var eventoAsociar;
 function asignarActivo() {
-
-    $("#AsociarACtivo").modal("show");
+    var usuarioAsociado = document.getElementById("Usuarios");
+    var usuarioAsociado = usuarioAsociado[document.getElementById("Usuarios").selectedIndex].value;
+    if (usuarioAsociado != -1) {
+        $("#AsociarACtivo").modal("show");
+    }
 }
 function cancelarasignarActivo() {
+    document.getElementById("dockingAsociar").innerText = "";
+    document.getElementById("asociadosAsociar").innerText = "";
     var opcion = document.getElementById("Usuarios");
     opcion.value = -1;
     var opcion = opcion[0].innerText;
     deseleccionarAsociado(opcion);
     $("#AsociarACtivo").modal("hide");
-
 }
 function deseleccionarAsociado(opcion) {
     var select = document.getElementById("Usuarios");
@@ -1104,35 +1084,54 @@ function asignarActivoAjax() {
     var usuarioAsociado = document.getElementById("Usuarios");
     var usuarioAsociado = usuarioAsociado[document.getElementById("Usuarios").selectedIndex].value;
     var placa = document.getElementById("placa").innerText;
-    var usuari = eventoAsociar.parentNode.parentNode.firstChild.nextSibling.nextSibling;
-    $.ajax({
-        data: {'usuarioAsociado': usuarioAsociado,
-            'placa': placa
+    var categoria = document.getElementById("categoria").innerText;
+    var modelo = document.getElementById("modelo").innerText;
+    var marca = document.getElementById("marca").innerText;
+    var usuario = eventoAsociar.parentNode.parentNode.firstChild.nextSibling.nextSibling;
+    var docking = document.getElementById("dockingAsociar").value;
+    var asociados = document.getElementById("asociadosAsociar").value;
+    if (usuarioAsociado != -1) {
+        $.ajax({
+            data: {'usuarioAsociado': usuarioAsociado,
+                'placa': placa, 'categoria': categoria,
+                'modelo': modelo, 'marca': marca,
+                'docking': docking, 'asociados': asociados
 
-        },
-        type: 'POST',
-        url: '../control/SolicitudAjaxInventario.php',
-        beforeSend: function () {
-            $("#cargandoImagen").css('display', 'block');
-        },
-        success: function (response) {
-            $("#cargandoImagen").css('display', 'none');
-            $("#AsociarACtivo").modal("hide");
-            if (response === "Error") {
-                var mensaje = "Error al desasociar tiquete";
-                notificacion(mensaje);
-            } else {
-                usuarioAsociado = document.getElementById("Usuarios");
-                usuarioAsociado = usuarioAsociado[document.getElementById("Usuarios").selectedIndex];
-                usuari.innerText = usuarioAsociado.innerText;
-                $("#panelInformacionInventario").html(response);
+            },
+            type: 'POST',
+            url: '../control/SolicitudAjaxInventario.php',
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
+            success: function (response) {
+                $("#cargandoImagen").css('display', 'none');
+                $("#AsociarACtivo").modal("hide");
+                document.getElementById("dockingAsociar").value = "";
+                document.getElementById("asociadosAsociar").value = "";
+                if (response === "Error") {
+                    var mensaje = "Error al desasociar tiquete";
+                    notificacion(mensaje);
+                } else {
+                    var mensaje = "Activo desasociado correctamente";
+                    usuarioAsociado = document.getElementById("Usuarios");
+                    usuarioAsociado = usuarioAsociado[document.getElementById("Usuarios").selectedIndex];
+                    usuario.innerText = usuarioAsociado.innerText;
+                    var pos  = response.indexOf("dirrecion");
+                    if (pos === -1) {
+                        mensaje += " pero con Error en el contrato";
+                    } else {
+                       var dirrecion  = response.substring(pos+9);
+                        window.open(dirrecion);
+                        response=response.substring(0,pos);
+                    }
+                    $("#panelInformacionInventario").html(response);
 
-                var mensaje = "Activo desasociado correctamente";
-                notificacion(mensaje);
+                    notificacion(mensaje);
+                }
+
             }
-
-        }
-    });
+        });
+    }
 }
 
 
@@ -1263,10 +1262,63 @@ function filtrartiquetesAjax() {
             tablaTiquetedInventario();
         }
     });
-
 }
 
+// adjuntar contrato
+function subirarchivo(event) {
+    var archivo = event.value;
+    document.getElementById("Textarchivo").value = archivo;
+}
 
+function enviarAdjunto() {
+        if (document.getElementById("archivo").files.length > 0) {
+            var documento = document.getElementById("archivo").files[0];
+            var tipo = documento.type;
+            if (tipo == "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
+                    tipo == "text/plain" || tipo == "application/pdf" || tipo == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+                    tipo == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || tipo=="image/png" ||tipo=="image/jpeg") {
+                
+                   AdjuntarAjax();
+             
+              
+            } else {
+                 alert("no se puede enviar el archivo");
+            }
+        } 
+
+    
+}
+
+function AdjuntarAjax(){
+   var placa = document.getElementById("placa").innerText;
+    var file = document.getElementById("archivo");
+    var archivo = file.files[0];
+    var data = new FormData();
+    data.append('AdjuntarArchivo', archivo);
+   data.append('placa', placa);
+    $.ajax({
+        type: 'POST',
+        url: '../control/SolicitudAjaxInventario.php',
+
+        contentType: false,
+        processData: false,
+        data: data,
+ beforeSend: function () {
+              $("#cargandoImagen").css('display','block');
+        },
+        success: function (response) {
+            $('#modalagregarAdjunto').modal('hide');
+            if(response!=="Error"){
+            $("#cargandoImagen").css('display', 'none');
+            $("#cuerpoTablaContratos").html(response);
+            $("#tituloModalContratos").empty();
+            $("#tituloModalContratos").append('Contratos asociadas al equipo: ' + codigo);
+            }
+           
+        }
+    });
+    
+}
 
 // <editor-fold defaultstate="collapsed" desc="NOTIFICACIONES">
 function notificacion(mensaje) {

@@ -22,8 +22,10 @@
         $codigoEmpleado = $r->obtenerCodigoEmpleado();
         $misTiquetes = obtenerTiquetesPorUsuario($correo);
         $misTiquetesAsignados = obtenerTiquetesAsignados($codigoEmpleado);
-        $tiquetesPorAsignar = obtenerTiquetesPorAsignarArea($codigoArea);
-         $responsables = obtenerResponsablesAsignar($codigoArea);
+        $codigoRol = $r->obtenerRol()->obtenerCodigoRol();
+        
+        $tiquetesPorAsignar = obtenerTiqueteBandejaPorAsinar($codigoRol, $codigoArea);
+        $responsables = obtenerResponsablesAsignar($codigoArea);
         if (isset($_GET['tab'])) {
             $tab = $_GET['tab'];
         } else {
@@ -38,7 +40,7 @@
         </script>
         <script src="../recursos/bootstrap/js/es.js"></script>
         <h1>Administrador de Tiquetes</h1>        
-<div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
+        <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
         <div id="exTab1" class="container" style="width: 100%;">
             <!--            -------------------------------------->         
             <div class="row" id="Filtros" >
@@ -88,7 +90,7 @@
                                     </thead>
                                     <tbody id = "tbody-roles-usuariosCreados"> 
                                         <?php
-                                        cuerpoTablaMistiquetesCreados($misTiquetes, 1,$responsables);
+                                        cuerpoTablaMistiquetesCreados($misTiquetes, 1, $responsables);
                                         ?>                    
                                     </tbody>
                                 </table>
@@ -108,7 +110,7 @@
                                             </thead>
                                             <tbody id = "tbody-roles-usuariosPorAsignar" > 
                                                 <?php
-                                                cuerpoTablaMistiquetesCreados($tiquetesPorAsignar, 2,$responsables);
+                                                cuerpoTablaMistiquetesCreados($tiquetesPorAsignar, 2, $responsables);
                                                 ?>                    
                                             </tbody>
                                         </table>
@@ -133,7 +135,7 @@
                                             </thead>
                                             <tbody id = "tbody-roles-usuariosAsignados"> 
                                                 <?php
-                                                cuerpoTablaMistiquetesCreados($misTiquetesAsignados, 3,$responsables);
+                                                cuerpoTablaMistiquetesCreados($misTiquetesAsignados, 3, $responsables);
                                                 ?>                    
                                             </tbody>
                                         </table>
@@ -177,7 +179,7 @@
                 </div>   
             </div>
         </div>
-        
+
 
         <!----------------------------INICIO DE VENTANAS MODALES----------------------->
         <div id="modalAsignar" class="modal fade" role="dialog">
@@ -194,7 +196,7 @@
                                 <div class="form-group col-md-6">                                     
                                     <?php
 // $codigoArea1 = $r->obtenerArea()->obtenerCodigoArea();                                   
-                                   
+
                                     comboResponsablesAsignar($responsables);
                                     ?>
                                 </div>                                
@@ -239,9 +241,9 @@
         </div>
         <!------------------------------------------------>
         <!------------------------------------------------>
-        <?php alerta("tiqueteNoSeleccionado", "Ningun tiquete seleccionado", "");
+        <?php
+        alerta("tiqueteNoSeleccionado", "Ningun tiquete seleccionado", "");
         notificacionBandeja();
-        
         ?>
 
         <!----------------------------FINAL DE VENTANAS MODALES-------------------------> 
