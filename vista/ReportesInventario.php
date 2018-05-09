@@ -60,30 +60,31 @@
 
                                 </div>  
                                 <div class="row">
-                                    <div  class="table table-hover table-responsive ">                   
-                                        <table id='tablaInventario' class = "tablaReportes table table-hover">                
-                                            <thead>
-                                                <tr >
-                                                    <th style="text-align: center;">Codigo</th>
-                                                    <th style="text-align: center;">Descripcion</th>   
-                                                    <th style="text-align: center;">Categoria</th>
-                                                    <th style="text-align: center;">Existencias</th>
-                                                    <th style="text-align: center;">Fecha ultimo ingreso</th>
-                                                    <th style="text-align: center;">Fecha ultimo egreso</th> 
-                                                </tr>
-                                            </thead>
-                                            <tbody  id = "tbodyInventario">  
-                                                <?php
-                                                $Categoria = obtenerCategorias();
-                                                $nombreCategoria = $Categoria[0]->obtenerNombreCategoria();
-                                                $reportesInvetantario = obtenerReportesInventario("", "", $nombreCategoria);
-                                                cuerpotablaInvetario($reportesInvetantario);
-                                                ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>  
-
+                                    <div style = "padding: 2%">
+                                        <div  class="table table-hover table-responsive ">                   
+                                            <table id='tablaInventario' class = "tablaReportes table table-hover">                
+                                                <thead>
+                                                    <tr >
+                                                        <th style="text-align: center;">Codigo</th>
+                                                        <th style="text-align: center;">Descripcion</th>   
+                                                        <th style="text-align: center;">Categoria</th>
+                                                        <th style="text-align: center;">Existencias</th>
+                                                        <th style="text-align: center;">Fecha ultimo ingreso</th>
+                                                        <th style="text-align: center;">Fecha ultimo egreso</th> 
+                                                    </tr>
+                                                </thead>
+                                                <tbody  id = "tbodyInventario">  
+                                                    <?php
+                                                    $Categoria = obtenerCategorias();
+                                                    $nombreCategoria = $Categoria[0]->obtenerNombreCategoria();
+                                                    $reportesInvetantario = obtenerReportesInventario("", "", $nombreCategoria);
+                                                    cuerpotablaInvetario($reportesInvetantario);
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>  
+                                </div>
 
                             </div> 
                         </div>
@@ -120,10 +121,8 @@
                                             </span>  
                                         </div>
                                     </div>
-                                </div>  
-
+                                </div> 
                                 <div class="row filtros">  
-
                                     <div class="col-md-offset-1 col-md-3">
                                         <h5>Fecha final</h5> 
                                         <div class = "form-group input-group date" id = "datetimepickerAreasF">
@@ -133,37 +132,35 @@
                                             </span>  
                                         </div>
                                     </div> 
-
                                     <div class="col-md-3">
                                         <h5>&nbsp;</h5>
                                         <button  title="Buscar" type="button" class="btn btn-info" onclick="filtrarMovimiento();"><i class="glyphicon glyphicon-search"></i></button>
                                         <a href="#" title="Exportar a Excel" class="descargarReporte" onclick="exportarMovimientos();"><img src="../recursos/img/excel.png"/></a>
-
                                     </div>   
-
-
                                 </div> 
                                 <div class="row">
-                                    <div  class="table table-hover table-responsive ">                   
-                                        <table id='tablaMovimiento' class = "tablaReportes table table-hover">                
-                                            <thead>
-                                                <tr >
-                                                    <th style="text-align: center;">Fecha</th>
-                                                    <th style="text-align: center;">Efecto</th>   
-                                                    <th style="text-align: center;">Codigo</th>
-                                                    <th style="text-align: center;">Descripción</th>
-                                                    <th style="text-align: center;">Categoria</th>
-                                                    <th style="text-align: center;">Unidades</th>
-                                                    <th style="text-align: center;">Saldo</th> 
-                                                </tr>
-                                            </thead>
-                                            <tbody  id = "tbodyMovimiento">  
-                                                <?php
-                                                $reportesMovimientos = obtenerReporteDeMovimientos("", $nombreCategoria, "20060712", "20180504");
-                                                cuerpotablaMovimiento($reportesMovimientos);
-                                                ?>
-                                            </tbody>
-                                        </table>
+                                    <div style = "padding: 2%">
+                                        <div  class="table table-hover table-responsive ">                   
+                                            <table id='tablaMovimiento' class = "tablaReportes table table-hover">                
+                                                <thead>
+                                                    <tr >
+                                                        <th style="text-align: center;">Fecha</th>
+                                                        <th style="text-align: center;">Efecto</th>   
+                                                        <th style="text-align: center;">Codigo</th>
+                                                        <th style="text-align: center;">Descripción</th>
+                                                        <th style="text-align: center;">Categoria</th>
+                                                        <th style="text-align: center;">Unidades</th>
+                                                        <th style="text-align: center;">Saldo</th> 
+                                                    </tr>
+                                                </thead>
+                                                <tbody  id = "tbodyMovimiento">  
+                                                    <?php
+                                                    $reportesMovimientos = obtenerReporteDeMovimientos("", $nombreCategoria, "20060712", "20180504");
+                                                    cuerpotablaMovimiento($reportesMovimientos);
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>  
 

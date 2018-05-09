@@ -47,12 +47,12 @@ function cuerpoTablaReportesAjax($tiquetes) {
 
 function CantidadInfo($cantidad) {
 
-    echo'  <h3>Cantidad de tiquetes: ' . $cantidad . ' </h3>';
+    echo'  <h4>Cantidad de tiquetes: ' . $cantidad . ' </h4>';
 }
 
 function CantidadInfoAJAX($cantidad) {
 
-    return '  <h3>Cantidad de tiquetes: ' . $cantidad . ' </h3>';
+    return '  <h4>Cantidad de tiquetes: ' . $cantidad . ' </h4>';
 }
 
 function detalleTiquete($tiquete) {

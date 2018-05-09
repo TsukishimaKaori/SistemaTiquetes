@@ -28,54 +28,50 @@
                                 <div class="row "> &nbsp;</div>
                                 <div class="row filtros">  
                                     <div class=" col-md-6">
-                                        <div class=" col-md-7">
-                                            <h5>Estado </h5>
-                                            <div class = "form-group ">
+                                        <div class="row">                                      
+                                            <h4 class=" col-md-3">Estado </h4>
+                                            <div class = "form-group col-md-6">
                                                 <?php
                                                 $estados = ['En proceso', 'Nuevo', 'Asignado', 'Vencido'];
                                                 selectEstado($estados);
                                                 ?> 
-
                                             </div>
-                                        </div>                                  
-                                        <div class="col-md-5">
-                                            <h5>&nbsp;</h5>
-                                            <button  title="Buscar" type="button" class="btn btn-info" onclick="FiltrarTiquete();"><i class="glyphicon glyphicon-search"></i></button>
-                                        </div>  
+                                            <div class="col-md-1">                                            
+                                                <button  title="Buscar" type="button" class="btn btn-info" onclick="FiltrarTiquete();"><i class="glyphicon glyphicon-search"></i></button>
+                                            </div>
+                                        </div>                                
                                     </div>  
                                     <div id="CantidadInfo" class=" col-md-6">
-                                        <?php
-                                        $tiquetes = reporteTiquetesEnEstados('En proceso');
-                                        $cantidad = count($tiquetes);
-                                        CantidadInfo($cantidad);
-                                        ?>
-                                    </div>  
+                                        <div class="row">
+                                            <?php
+                                            $tiquetes = reporteTiquetesEnEstados('En proceso');
+                                            $cantidad = count($tiquetes);
+                                            CantidadInfo($cantidad);
+                                            ?>
+                                        </div>  
+                                    </div> 
                                 </div>
+                                <div class="row" >
+                                    <div style = "padding: 2%">
+                                        <div  class="table table-hover table-responsive " >                  
+                                            <table id='tablaTiquetes' class = "tablaReportes table table-hover">                
+                                                <thead>
+                                                    <tr > 
+                                                        <th style="text-align: center;">Cod</th>
+                                                        <th style="text-align: center;">Clasificación</th>   
+                                                        <th style="text-align: center;">Solicitante</th>
+                                                        <th style="text-align: center;">Responsable</th>
+                                                        <th style="text-align: center;">Ver</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody  id = "tbodyTiquetes">  
+                                                    <?php
+                                                    cuerpoTablaReportes($tiquetes);
+                                                    ?>
 
-
-
-                                <div class="row">
-                                    <div  class="table table-hover table-responsive ">                   
-                                        <table id='tablaTiquetes' class = "tablaReportes table table-hover">                
-                                            <thead>
-                                                <tr >                                                                                         
-
-                                                    <th style="text-align: center;">Cod</th>
-                                                    <th style="text-align: center;">Clasificación</th>   
-                                                    <th style="text-align: center;">Solicitante</th>
-                                                    <th style="text-align: center;">Responsable</th>
-                                                    <th style="text-align: center;">Ver</th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody  id = "tbodyTiquetes">  
-                                                <?php
-                                              
-                                                cuerpoTablaReportes($tiquetes);
-                                                ?>
-
-                                            </tbody>
-                                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>  
 
@@ -85,12 +81,7 @@
                     </div>
                     <!--Reporte Movimientos-->
                     <div class="col-md-6" id="infoTiquete">
-
-
-
                     </div>
-
-
                 </div> 
             </div>
         </div>
