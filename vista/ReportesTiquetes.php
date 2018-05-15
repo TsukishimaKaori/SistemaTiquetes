@@ -121,8 +121,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>Área</th>
-                                                    <th>Tiquetes atendidos</th>   
-                                                    <th>Tiquetes calificados</th> 
+                                                    <th>Tiquetes cumplidos</th>   
+                                                    <th>Tiquetes atendidos</th> 
                                                 </tr>
                                             </thead>
                                             <tbody  id = "tbodyGraficoBarras">  

@@ -1,3 +1,9 @@
+14/05/2018
+
+1. Volver a correr PAreporteCumplimientoPorArea
+
+2. 
+
 08/05/2018
 
 1. Cambié PAobtenerTiquetesPorUsuario para que devuelvan los tiquetes ordenados por la fecha más reciente y
