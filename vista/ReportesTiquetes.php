@@ -27,7 +27,7 @@
                     <div class="col-md-6">
                         <div id="graficoRendimientoPorAreaTematica" class="panel panel-default grafico">
                             <div class="container-fluid">
-                                <h3>Temáticas atendidas por área</h3>
+                                <h3>Clasificaciones atendidas por área</h3>
                                 <div class="row"> &nbsp;</div>
                                 <div class="row">  
 
@@ -83,7 +83,7 @@
                     <div class="col-md-6">
                         <div id="graficoRendimientoPorArea" class="panel panel-default grafico" >
                             <div class="container-fluid">
-                                <h3>Rendimiento por área</h3>
+                                <h3>Cumplimiento por área</h3>
                                 <div class="row"> &nbsp;</div>
                                 <div class="row">                        
                                     <div class=" col-md-2">
