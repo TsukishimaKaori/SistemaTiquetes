@@ -2842,7 +2842,7 @@ CREATE PROCEDURE PAreporteTiquetesIngresadosClasificacion
 	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
 
 	SET @cantidadPorClasificacion = (select COUNT(codigoTiquete) from Tiquete where codigoClasificacion = @codigoClasificacion 
-	AND fechaCreacion BETWEEN @fechaInicio AND @fechaFinal);
+	AND (fechaFinalizado BETWEEN @fechaInicio AND @fechaFinal or fechaCalificado BETWEEN @fechaInicio AND @fechaFinal));
 
 	Select descripcionClasificacion, @cantidadPorClasificacion as cantidadClasificacion from Clasificacion where codigoClasificacion = @codigoClasificacion;
  GO
@@ -2856,7 +2856,7 @@ CREATE PROCEDURE PAcantidadDeTiquetesAtendidosMensualmente
 	@mes varchar(2)
 AS
 	SET NOCOUNT ON;
-	select @mes as mes, COUNT(codigoTiquete) as cantidadMensuales from Tiquete where MONTH(fechaEnProceso) = @mes AND YEAR(fechaEnProceso) = @annio; 
+	select @mes as mes, COUNT(codigoTiquete) as cantidadMensuales from Tiquete where MONTH(fechaFinalizado) = @mes AND YEAR(fechaFinalizado) = @annio; 
 
 GO
 
