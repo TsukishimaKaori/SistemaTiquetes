@@ -903,6 +903,11 @@ function crearReporteDeMovimientos($row) {
     $costo = $row['costo'];
     $fecha = $row['fecha'];
     $efecto = $row['efecto'];
+    
+    if($efecto === 'Salida'){
+        $cantidadEfecto = $cantidadEfecto * -1;
+    }
+    $costo = number_format($costo, 2, '.', '');
     return new ReporteDeMovimientos($codigoArticulo, $descripcion, $categoria, $cantidadInventario, $cantidadEfecto, $costo, $fecha, $efecto);
 }
 
