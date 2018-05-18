@@ -27,8 +27,8 @@ class Conexion {
 
 
   //   private $serverName = "DANNY\SQLEXPRESS01";
-   private $serverName = "DESKTOP-HFVR94I\SQLEXPRESS01";     
-   // private $serverName = "TATIANA\SQLEXPRESS02";
+   //private $serverName = "DESKTOP-HFVR94I\SQLEXPRESS01";     
+    private $serverName = "TATIANA\SQLEXPRESS02";
     //Conexion para el hosting gratuito
     //private $serverName = "den1.mssql5.gear.host"; 
     //private $connectionOptions = array("Database" => "sistemaTiquetes", "UID" => "sistematiquetes", "PWD" => "Be503V3cU9?_");
