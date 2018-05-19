@@ -130,7 +130,7 @@ function graficoRendimientoPorArea() {
                 area.push(vector[i]['nombreArea']);
                 atendidas.push(vector[i]['totalAtendidas']);
                 calificadas.push(vector[i]['totalCalificadas']);
-                var fila = '<tr><td>' + vector[i]['nombreArea'] + '</td><td>' + vector[i]['totalAtendidas'] + '</td><td>' + vector[i]['totalCalificadas'] + '</td></tr>';
+                var fila = '<tr><td>' + vector[i]['nombreArea'] + '</td><td>' + vector[i]['totalCalificadas'] + '</td><td>' + vector[i]['totalAtendidas'] + '</td></tr>';
                 $('#tbodyGraficoBarras').append(fila);
             }
             var colorNames = Object.keys(window.chartColors);
@@ -141,17 +141,17 @@ function graficoRendimientoPorArea() {
                 barChartData = {
                     labels: area,
                     datasets: [{
-                            label: 'Solicitudes atendidas',
+                            label: 'Solicitudes cumplidas',
                             backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
                             borderColor: window.chartColors.red,
                             borderWidth: 1,
-                            data: atendidas
+                            data: calificadas
                         }, {
-                            label: 'Solicitudes calificadas',
+                            label: 'Solicitudes atendidas',
                             backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
                             borderColor: window.chartColors.blue,
                             borderWidth: 1,
-                            data: calificadas
+                            data: atendidas
                         }]
 
                 };
@@ -166,7 +166,7 @@ function graficoRendimientoPorArea() {
                         },
                         title: {
                             display: true,
-                            text: 'Rendimiento por área '
+                            text: 'Cumplimiento por área '
                         }
                     }
                 });
@@ -179,18 +179,18 @@ function graficoRendimientoPorArea() {
                 var colorName = colorNames[barChartData.datasets.length % colorNames.length];
                 var dsColor = window.chartColors[colorName];
                 var newDataset = {
-                    label: 'Solicitudes atendidas',
+                    label: 'Solicitudes cumplidas',
                     backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
                     borderColor: window.chartColors.red,
                     borderWidth: 1,
-                    data: atendidas
+                    data: calificadas
                 };
                 var newDataset2 = {
-                    label: 'Solicitudes calificadas ',
+                    label: 'Solicitudes atendidas ',
                     backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
                     borderColor: window.chartColors.blue,
                     borderWidth: 1,
-                    data: calificadas
+                    data: atendidas
                 };
 
                 barChartData.datasets.push(newDataset);

@@ -7,7 +7,7 @@ require_once '../modelo/Tiquete.php';
 require_once '../modelo/Usuario.php';
 require_once '../modelo/Comentario.php';
 require_once '../modelo/Prioridad.php';
-require_once '../modelo/Historial.php';   //Archivo que consume el web service de la base de recursos humanos
+require_once '../modelo/Historial.php';
 require_once '../modelo/ReporteCumplimientoPorArea.php';
 require_once '../modelo/ReporteTiquetesIngresadosPorClasificacion.php';
 require_once '../modelo/ReporteCantidadDeTiquetesMensuales.php';
@@ -1263,9 +1263,9 @@ function crearHistorial($row) {
 
 function crearReporteCumplimientoPorArea($row) {
     $nombreArea = utf8_encode($row['nombreArea']);
-    $totalCalificadas = $row['totalCalificados'];
+    $totalCumplidas = $row['totalCumplidas'];
     $totalAtendidos = $row['totalAtendidos'];
-    return new ReporteCumplimientoPorArea($nombreArea, $totalCalificadas, $totalAtendidos);
+    return new ReporteCumplimientoPorArea($nombreArea, $totalCumplidas, $totalAtendidos);
 }
 
 function crearReporteTiquetesIngresadosPorClasificacion($row){

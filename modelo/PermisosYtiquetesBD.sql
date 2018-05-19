@@ -2796,21 +2796,22 @@ CREATE PROCEDURE PAreporteCumplimientoPorArea
  AS
 	DECLARE 
 	@totalAtendidos int,
-	@totalCalificados int
+	@totalCumplidas int
 	SET @fechaInicio = (SELECT DATEADD(day, -1, @fechaInicio));
 	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
 
-	--Se toman los atendidos como los tiquetes puestos en proceso
+	--Se toman los atendidos como los tiquetes finalizados y tiquetes calificados
 	SET @totalAtendidos = (select COUNT(codigoTiquete) from Tiquete where codigoArea = @codigoArea AND
-	fechaEnProceso BETWEEN @fechaInicio AND @fechaFinal);
+	(fechaFinalizado BETWEEN @fechaInicio AND @fechaFinal or fechaCalificado BETWEEN @fechaInicio AND @fechaFinal));
 
-	--Codigo de estado 7 es Calificado
-	SET @totalCalificados = (select COUNT(codigoTiquete) from Tiquete where codigoArea = @codigoArea AND codigoEstado = 7 AND
-	fechaCalificado BETWEEN @fechaInicio AND @fechaFinal);
+	--Se toma el cumplimiento como las tareas que se finalizaron antes o el mismo dia de la fecha de entrega
+	SET @totalCumplidas = (select COUNT(codigoTiquete) from Tiquete where codigoArea = @codigoArea AND 
+	(fechaFinalizado BETWEEN @fechaInicio AND @fechaFinal or fechaCalificado BETWEEN @fechaInicio AND @fechaFinal) AND
+	fechaFinalizado <= fechaEntrega);
 
-	Select nombreArea, @totalCalificados as totalCalificados, @totalAtendidos as totalAtendidos from Area where codigoArea = @codigoArea;
+	Select nombreArea, @totalCumplidas as totalCumplidas, @totalAtendidos as totalAtendidos from Area where codigoArea = @codigoArea;
  GO
- --exec PAreporteCumplimientoPorArea 3, '2018/01/01', '2018/04/28';
+ --exec PAreporteCumplimientoPorArea 1, '2018/01/01', '2018/04/28';
  --DROP PROCEDURE PAreporteCumplimientoPorArea;
  --select * from Tiquete;
 
@@ -2841,7 +2842,7 @@ CREATE PROCEDURE PAreporteTiquetesIngresadosClasificacion
 	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
 
 	SET @cantidadPorClasificacion = (select COUNT(codigoTiquete) from Tiquete where codigoClasificacion = @codigoClasificacion 
-	AND fechaCreacion BETWEEN @fechaInicio AND @fechaFinal);
+	AND (fechaFinalizado BETWEEN @fechaInicio AND @fechaFinal or fechaCalificado BETWEEN @fechaInicio AND @fechaFinal));
 
 	Select descripcionClasificacion, @cantidadPorClasificacion as cantidadClasificacion from Clasificacion where codigoClasificacion = @codigoClasificacion;
  GO
@@ -2855,7 +2856,7 @@ CREATE PROCEDURE PAcantidadDeTiquetesAtendidosMensualmente
 	@mes varchar(2)
 AS
 	SET NOCOUNT ON;
-	select @mes as mes, COUNT(codigoTiquete) as cantidadMensuales from Tiquete where MONTH(fechaEnProceso) = @mes AND YEAR(fechaEnProceso) = @annio; 
+	select @mes as mes, COUNT(codigoTiquete) as cantidadMensuales from Tiquete where MONTH(fechaFinalizado) = @mes AND YEAR(fechaFinalizado) = @annio; 
 
 GO
 
