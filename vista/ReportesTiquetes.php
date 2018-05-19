@@ -6,11 +6,11 @@
         require_once ("../control/ArchivosDeCabecera.php");
         require ("../modelo/ProcedimientosPermisos.php");
         require ("../modelo/ProcedimientosTiquetes.php");
-        
+
         require_once ("../control/AdministrarReportesTiquetes.php");
         ?>
 
-       
+
         <link rel="stylesheet" href="../recursos/bootstrap/css/bootstrap-datetimepicker.min.css" />
         <link rel="stylesheet" href="../recursos/css/reportesTiquetes.css" />
     </head>
@@ -23,8 +23,9 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <!--GRAFICO PIE-->
+                   
                     <div class="col-md-6">
+                    <!--GRAFICO PIE-->
                         <div id="graficoRendimientoPorAreaTematica" class="panel panel-default grafico">
                             <div class="container-fluid">
                                 <h3>Clasificaciones atendidas por área</h3>
@@ -78,7 +79,32 @@
                                 </div>                                  
                             </div> 
                         </div>
-                    </div>
+                    <!--Calificaciones por área-->
+                    <div id="" class="panel panel-default"  >
+                            <div class="container-fluid">
+                                <h3>Reporte de calificaciones de empleados por área</h3>
+                                <div class="row"> &nbsp;</div>                                   
+                                <div class="row">
+                                    <div  class="table table-hover table-responsive ">                   
+                                        <table class = "table table-hover">                
+                                            <thead>
+                                                <tr>     
+                                                    <th>Ene</th>
+                                                    <th>Feb</th>   
+                                                    <th>Mar</th>
+                                                    <th>Abr</th>
+                                                    <th>May</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody  id = "tbodyGraficoCalificaciones">                                                                                       
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>  
+                            </div>                                     
+                        </div>
+                    </div>                  
+                    
                     <!--GRAFICO Barras-->
                     <div class="col-md-6">
                         <div id="graficoRendimientoPorArea" class="panel panel-default grafico" >
@@ -183,6 +209,7 @@
                             </div>                                     
                         </div>
                     </div>
+
                 </div> 
             </div>
         </div>
