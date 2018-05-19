@@ -329,11 +329,13 @@ if (isset($_POST['filtrarActivo'])) {
     $nombreUsuario = $_POST['usuario'];
     $correoUsuario = $_POST['correo'];
     $codigoEstado = $_POST['estado'];
+    $codigoTiquete=$_POST['codigoTiquete'];
     $activos = busquedaAvanzadaActivos($placa, $codigoEstado, $nombreCategoria, $marca, $nombreUsuario, $correoUsuario);
     if ($activos === 'Ha ocurrido un error al obtener los activos') {
         echo'Error';
     } else {
-        cuerpoTablaActivosTiquetes($activos);
+       $asociados = obtenerActivosAsociadosTiquete($codigoTiquete);
+        cuerpoTablaActivosTiquetes($activos,$asociados);
     }
 }
 
@@ -343,10 +345,7 @@ if (isset($_POST['asociarPlaca'])) {
     $activos = obtenerActivosAsociadosTiquete($codigoTiquete);
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
-    $mensaje = '';
-    if ($activos[0] != null) {
-        $mensaje = desasociarTiqueteActivo($activos[0]->obtenerPlaca(), $correoUsuarioCausante, $nombreUsuarioCausante, $codigoTiquete);
-    }
+    $mensaje = '';    
     if ($mensaje == '') {
         $mensaje = asociarTiqueteActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante, $codigoTiquete);
     }
@@ -360,6 +359,16 @@ if (isset($_POST['desasociarPlaca'])) {
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
     $mensaje = desasociarTiqueteActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante, $codigoTiquete);
     echo $mensaje;
+}
+if (isset($_POST['filtrarActivoAsociados'])) {
+    $placa = $_POST['filtrarActivoAsociados'];
+    $activos = obtenerActivosAsociadosTiquete($placa);
+    if($activos!='Ha ocurrido un error al obtener los activos'){
+        cuerpoTablaActivosAsociado($activos); 
+    }else{
+        echo 'Error';
+    }
+   
 }
 
 

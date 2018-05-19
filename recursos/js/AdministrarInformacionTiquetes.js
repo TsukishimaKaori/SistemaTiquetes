@@ -1738,13 +1738,15 @@ function filtrarActivosAjax() {
     var usuario = $("#usuarioA").val();
     var correo = $("#correoA").val();
     var estado = $("#estadosA").val();
+    var codigoTiquete = $("#codigoTique").val();
     $.ajax({
         data: {'filtrarActivo': placa,
             'categoria': categoria,
             'marca': marca,
             'usuario': usuario,
             'correo': correo,
-            'estado': estado
+            'estado': estado,
+            'codigoTiquete':codigoTiquete
 
         },
         type: 'POST',
@@ -1765,9 +1767,16 @@ function filtrarActivosAjax() {
         }
     });
 }
+var placaAsociar="";
+function escogerEquipo(placa){
+    placaAsociar=placa;
+    $('#asociarEquipo').modal('show');
+}
 
-function escogerEquipo(placa) {
+function escogerEquipoAjax() {
+    if(placaAsociar!==""){
     var codigoTiquete = $("#codigoTique").val();
+    placa=placaAsociar;
 
     $.ajax({
         data: {'asociarPlaca': placa,
@@ -1780,12 +1789,21 @@ function escogerEquipo(placa) {
         },
         success: function (response) {
             $("#cargandoImagen").css('display', 'none');
+            $('#asociarEquipo').modal('hide');
+            placaAsociar="";
             if (response !== "") {
                 var mensaje = "Error al asociar";
                 notificacion(mensaje);
             } else {
                 $("#modalaEquipos").modal("hide");
-                $("#equipo").val(placa);
+                if($("#equipo").val()===""){
+                     $("#equipo").val(placa);
+                }else{
+                     $("#equipo").val($("#equipo").val()+"-"+placa);
+                }
+               $('#tablaTiquetesI').DataTable().destroy();
+                $("#tbody-tablaEquipo").html("");
+                tablaActivos()
                 var mensaje = "Equipo asociado correctamente";
                 notificacion(mensaje);
             }
@@ -1793,9 +1811,15 @@ function escogerEquipo(placa) {
         }
     });
 }
-
+}
+var placaDesasociar="";
+function desasociarEquipo(codigo){
+    placaDesasociar=codigo;
+    $('#desasociarEquipo').modal('show');
+}
 function desasociarEquipoAjax() {
-    var placa = $("#equipo").val();
+    if(placaDesasociar!=""){
+    var placa = placaDesasociar;
     var codigoTiquete = $("#codigoTique").val();
 
     $.ajax({
@@ -1809,17 +1833,64 @@ function desasociarEquipoAjax() {
         },
         success: function (response) {
             $("#cargandoImagen").css('display', 'none');
+            $("#desasociarEquipo").modal("hide");
+            $("#modalaEquiposAsociados").modal("hide");
+            placaDesasociar="";
             if (response !== "") {
                 var mensaje = "Error al desasociar";
                 notificacion(mensaje);
             } else {
-                $("#desasociarEquipo").modal("hide");
-                $("#equipo").val("");
+                
+                var codigos=$("#equipo").val().split("-");
+                var html="";
+                var i=0; 
+                  codigos.forEach( function(codigo) {
+                        if(codigo!=placa){
+                            if(i==0){
+                               html=codigo;
+                            }
+                            else{
+                               html=html+"-"+codigo; 
+                            }
+                            i++;
+                        }
+                    });
+                
+                $("#equipo").val(html);
                 var mensaje = "Equipo desasociado correctamente";
                 notificacion(mensaje);
             }
 
         }
     });
+  }
 }
+// </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="Equipo Asociados">
+function equiposAsociados(){
+      var placa = $("#codigoTique").val();
+     $.ajax({
+        data: {'filtrarActivoAsociados': placa
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjaxInformacionTiquetes.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
+        success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
+            if (response === "Error") {
+                var mensaje = "Error al filtrar";
+                notificacion(mensaje);
+            } else {                
+                $("#tbody-tablaEquiposAsociados").html(response);               
+                $("#modalaEquiposAsociados").modal("show");
+            }
+        }
+    });
+  
+}
+
+
 // </editor-fold>

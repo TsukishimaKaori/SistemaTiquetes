@@ -79,7 +79,7 @@ function listaTiquetesCargar($codigoPagina, $r, $fechaI, $fechaF, $criteriosDeFi
             //$tiquetes = obtenerTiquetesPorUsuario($correo);
         } else if ($codigoPagina == 2) {
             $codigoArea = $r->obtenerArea()->obtenerCodigoArea();
-             $codigoRol = $r->obtenerRol()->obtenerCodigoRol();
+            $codigoRol = $r->obtenerRol()->obtenerCodigoRol();
             $tiquetes = obtenerTiqueteBandejaPorAsinar($codigoRol, $codigoArea);
         } else if ($codigoPagina == 3) {
             $codigoEmpleado = $r->obtenerCodigoEmpleado();
@@ -92,7 +92,7 @@ function listaTiquetesCargar($codigoPagina, $r, $fechaI, $fechaF, $criteriosDeFi
             $tiquetes = obtenerTiquetesPorUsuario($correo);
         } else if ($codigoPagina == 2) {
             $codigoArea = $r->obtenerArea()->obtenerCodigoArea();
-             $codigoRol = $r->obtenerRol()->obtenerCodigoRol();
+            $codigoRol = $r->obtenerRol()->obtenerCodigoRol();
             $tiquetes = obtenerTiqueteBandejaPorAsinar($codigoRol, $codigoArea);
         } else if ($codigoPagina == 3) {
             $codigoEmpleado = $r->obtenerCodigoEmpleado();
@@ -105,7 +105,7 @@ function listaTiquetesCargar($codigoPagina, $r, $fechaI, $fechaF, $criteriosDeFi
 
 //Muestra el tiquete anterior de la lista cargada
 function tiqueteMostrarAnterior($codigoPagina, $r, $tiqueteActual, $fechaIn, $fechaFin, $criterios, $codigoFiltroG, $nombreSG, $correoSG, $nombreRG, $correoRG) {
-       $hay=false;
+    $hay = false;
     $crit = array();
     $i = 1;
     foreach ($criterios as $c) {
@@ -121,7 +121,7 @@ function tiqueteMostrarAnterior($codigoPagina, $r, $tiqueteActual, $fechaIn, $fe
     $tamanioTiquetes = count($tiquetes);
     for ($i = 0; $i < $tamanioTiquetes; $i++) {
         if ($tiquetes[$i]->obtenerCodigoTiquete() == $tiqueteActual && $i != 0) {
-           $hay=true;
+            $hay = true;
             $codigoTiquete = $tiquetes[$i - 1]->obtenerCodigoTiquete(); //cargo el div
             $respuesta = array("tiquete" => $codigoTiquete, "pagina" => $codigoPagina);
             echo json_encode($respuesta);
@@ -130,15 +130,15 @@ function tiqueteMostrarAnterior($codigoPagina, $r, $tiqueteActual, $fechaIn, $fe
 // o mostrar title indicando que ya no hay mas atras
         }
     }
-      if(!$hay){
+    if (!$hay) {
         $respuesta = array("tiquete" => 'NO', "pagina" => $codigoPagina);
-            echo json_encode($respuesta);
+        echo json_encode($respuesta);
     }
 }
 
 //Muestra el tiquete sigueinte de la lista cargada
 function tiqueteMostrarSiguiente($codigoPagina, $r, $tiqueteActual, $fechaIn, $fechaFin, $criterios, $codigoFiltroG, $nombreSG, $correoSG, $nombreRG, $correoRG) {
-    $hay=false;
+    $hay = false;
     $crit = array();
     $i = 1;
     foreach ($criterios as $c) {
@@ -155,7 +155,7 @@ function tiqueteMostrarSiguiente($codigoPagina, $r, $tiqueteActual, $fechaIn, $f
     $tamanioTiquetes = count($tiquetes);
     for ($i = 0; $i < $tamanioTiquetes; $i++) {
         if ($tiquetes[$i]->obtenerCodigoTiquete() == $tiqueteActual && $i != $tamanioTiquetes - 1) {
-            $hay=true;
+            $hay = true;
             $codigoTiquete = $tiquetes[$i + 1]->obtenerCodigoTiquete(); //cargo el div
             $respuesta = array("tiquete" => $codigoTiquete, "pagina" => $codigoPagina);
             echo json_encode($respuesta);
@@ -164,9 +164,9 @@ function tiqueteMostrarSiguiente($codigoPagina, $r, $tiqueteActual, $fechaIn, $f
 // o mostrar title indicando que ya no hay mas atras
         }
     }
-    if(!$hay){
+    if (!$hay) {
         $respuesta = array("tiquete" => 'NO', "pagina" => $codigoPagina);
-            echo json_encode($respuesta);
+        echo json_encode($respuesta);
     }
 }
 
@@ -400,7 +400,7 @@ function areaTiquete($tiquete) {
 }
 
 function clasificacionTiquete($tiquete, $codigoPagina) {
-    if ($codigoPagina != 1 ) {
+    if ($codigoPagina != 1) {
         echo '<div class = "col-md-12 form-group input-group">
             <input type="text" class="form-control" onBlur = "pierdeFoco();" name="clasificacion" id="clasificacionTiquete" 
             value="' . $tiquete->obtenerTematica()->obtenerDescripcionTematica() . '" readonly >           
@@ -607,49 +607,75 @@ function obtenerComentariosCompleto($listaComentariosPorTiquete, $r) {
 // </editor-fold>
 // 
 // <editor-fold defaultstate="collapsed" desc="Asociar equipo">
-function cuerpoTablaActivosTiquetes($activos) {
+function cuerpoTablaActivosTiquetes($activos,$asociados) {
     foreach ($activos as $act) {
-        echo '<tr onclick="escogerEquipo(\''.$act->obtenerPlaca().'\')">';
+        if(noAsociado($act, $asociados)){
+        echo '<tr onclick="escogerEquipo(\'' . $act->obtenerPlaca() . '\')">';
         echo '<td >' . $act->obtenerPlaca() . '</td>';
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
         //      echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
-        echo '<td>' . $act->obtenerNombreUsuarioAsociado() . '</td>';
-        echo '<td>' . $act->obtenerMarca() . '</td>';
-        $fechaSalida = $act->obtenerFechaSalidaInventario();
-        if ($fechaSalida != null) {
-            $fechaSalida = date_format($act->obtenerFechaSalidaInventario(), 'd/m/Y');
-            echo '<td>' . $fechaSalida . '</td>';
+         echo '<td>' . $act->obtenerMarca() . '</td>';
+        echo '<td>' . $act->obtenerNombreUsuarioAsociado() . '</td>';            
+        echo '<td>' . $act->obtenerCorreoUsuarioAsociado(). '</td>';     
+        echo '</tr>';
+    }
+    }
+}
+function noAsociado($act,$asociados){
+    foreach ($asociados as $asociado){
+        if($act->obtenerPlaca() == $asociado->obtenerPlaca() ){
+            return false;
         }
-       
+    }
+    return true;
+}
+function cuerpoTablaActivosAsociado($activos) {
+    foreach ($activos as $act) {
+        echo '<tr >';
+        echo '<td >' . $act->obtenerPlaca() . '</td>';
+        echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
+        //      echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';
+         echo '<td>' . $act->obtenerMarca() . '</td>';
+        echo '<td>' . $act->obtenerNombreUsuarioAsociado() . '</td>';            
+        echo '<td>' . $act->obtenerCorreoUsuarioAsociado(). '</td>';
+        echo '<td>    <span    class ="input-group-addon btn btn-info" onclick="  desasociarEquipo(\''.$act->obtenerPlaca().'\')">
+                    <span title = "Desasociar Equipo" class="glyphicon glyphicon-remove"></span>
+                 </td>';
+    
         echo '</tr>';
     }
 }
 
 function equipoAsociado($estado, $activos, $codigoPagina) {
-    if ($codigoPagina == 3 || $codigoPagina==4) {
+    if ($codigoPagina == 3 || $codigoPagina == 4) {
         echo'<div class="row ">                            
-         <h5 class="col-md-3">Placa equipo:</h5> 
+         <h5 class="col-md-3">Equipo Asociados:</h5> 
            <div class=" col-md-8">
            <h5>';
 
         if ($estado == 2 || $estado == 4) {
             $activo = "";
-            if ($activos[0] != null) {
-                $activo = $activos[0]->obtenerPlaca();
+            $i=0;
+            foreach ($activos as $act) {
+                if($i===0){
+                   $activo = $act->obtenerPlaca()  ;  
+                }else{
+                    $activo =$activo."-".$act->obtenerPlaca()  ; 
+                }               
+                $i++;
             }
             echo'<div class = "col-md-12 form-group input-group">
             <input type="text" class="form-control"  name="clasificacion" id="equipo" readonly 
             value="' . $activo . '" > 
-                <span   title = "Equipo asociado" class ="input-group-addon btn btn-info" onclick="equipos()">
+                <span   title = "Ver equipos Asociados" class ="input-group-addon btn btn-info" onclick="equiposAsociados()">
+                    <span class="glyphicon glyphicon-inbox"></span>
+                </span>
+                <span   title = "Asociar Equipo" class ="input-group-addon btn btn-info" onclick="equipos()">
                     <span class="glyphicon glyphicon-th-list"></span>
-                </span> 
-                <span   title = "Desasociar Equipo" class ="input-group-addon btn btn-info" onclick="  $(\'#desasociarEquipo\').modal(\'show\');">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </span>    
+                </span>                    
             </div>';
-        }
-        else{
-        echo' no disponible en el estado actual';
+        } else {
+            echo' no disponible en el estado actual';
         }
         echo'</h5>
              </div> 

@@ -259,7 +259,7 @@
                                 <div class = "row">
                                     <h5 class = "col-md-3">Prioridad:</h5>
 
-    <?php prioridadTiquete($tiquete, $codigoPagina, $prioridades); ?>
+                                 <?php prioridadTiquete($tiquete, $codigoPagina, $prioridades); ?>
 
                                 </div>
                                 <div class="row ">
@@ -271,13 +271,13 @@
                                 <div class="row ">
                                     <h5 class="col-md-3">Solicitado para:</h5> 
                                     <div class=" col-md-8">
-    <?php $a = fechaSolicitudTiquete($tiquete, $codigoPagina); ?>
+                                    <?php $a = fechaSolicitudTiquete($tiquete, $codigoPagina); ?>
                                     </div>
                                 </div>
                                 <div class="row ">
                                     <h5 class="col-md-3">Fecha entrega:</h5> 
                                     <div class=" col-md-8">
-    <?php $a = fechaEntregaTiquete($tiquete, $codigoPagina); ?>
+                                 <?php $a = fechaEntregaTiquete($tiquete, $codigoPagina); ?>
                                     </div>
                                 </div>
                                 <div class="row ">                            
@@ -599,7 +599,7 @@
                                         <th>Categoría</th>
                                         <th> Marca</th>
                                         <th>Usuario_asociado</th>
-                                        <th>Fecha de salida de inventario </th>
+                                        <th>Correo asociado</th>
 
 
                                     </tr>                             
@@ -613,10 +613,42 @@
                 </div>
             </div>
             <!------------------------------------------------>
+            
+            <!-------------------------Modal  equipo asociados-------------------------->
+             <div id="modalaEquiposAsociados" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg" >                
+                    <div class="modal-content" id="cuerpoModalEquipos">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"Equipos asociados>Equipos Asociados</h4>
+                        </div>
+                        <div class="modal-body table-responsive">
+                            <table class = "table tablasEquiposAsociados table-hover" id="tablaEquiposAsociados">
+                                <thead>
+                                    <tr>                                            
+                                        <th>Placa</th>
+                                        <th>Categoría</th>
+                                        <th> Marca</th>
+                                        <th>Usuario_asociado</th>
+                                        <th>Correo asociado </th>
+                                         <th>Desasociar equipo </th>
+
+                                    </tr>                             
+                                </thead>
+                                <tbody id = "tbody-tablaEquiposAsociados"> 
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!------------------------------------------------>
             <?php
             confirmacion("Modalinfo", "", "confirmarActualizarTematica(this)", "cancelarActualizarTematica()");
             confirmacion("confirmarFechaSolicitada", "", "CambiarFechaSolicitadaAjax()", "");
             confirmacion("desasociarEquipo", "Desea desasociar el equipo", "desasociarEquipoAjax()", "");
+             confirmacion("asociarEquipo", "Desea asociar el equipo", "escogerEquipoAjax()", "");
             notificacion();
             alerta("ceroHoras", "El tiquete no tiene horas trabajadas", "");
         }
