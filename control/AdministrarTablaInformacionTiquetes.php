@@ -215,7 +215,7 @@ function asignarResponsable($codigoPagina, $tiquete, $anular) {
     }
     if ($codigoPagina == 2) {
         echo'<div class="col-md-12  encabezadoAsignar">';
-        echo '<button class = "btn btn-info" onclick="asignarUnTiquete(2);" >Asignar</button>'
+        echo '<button class = "btn btn-info" onclick="asignarUnTiquete(2,'. $tiquete->obtenerArea()->obtenerCodigoArea().');" >Asignar</button>'
         . '</div>';
     } else if ($codigoPagina == 3) {
         paginaAsignados($tiquete, $anular);

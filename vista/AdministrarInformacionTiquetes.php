@@ -391,7 +391,7 @@
                             <div class="row">  
                                 <div class="" style ="text-align: center;" id=""> 
                                     <label class="col-md-3" for="responsables">Responsables</label>
-                                    <div class="form-group col-md-6">                                     
+                                    <div class="form-group col-md-6" id="ResponsablesAsociarAsignar">                                     
                                         <?php
                                         $codigoArea = $r->obtenerArea()->obtenerCodigoArea();
                                         $responsables = obtenerResponsablesAsignar($codigoArea);
@@ -427,7 +427,7 @@
                             <div class="row">  
                                 <div class="" style ="text-align: center;" id=""> 
                                     <label class="col-md-3" for="responsables">Responsables</label>
-                                    <div class="form-group col-md-6">                                     
+                                    <div class="form-group col-md-6" >                                     
                                         <?php
                                         $responsables = obtenerResponsables();
                                         comboResponsablesAsignar($responsables, 4);
