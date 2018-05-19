@@ -20,8 +20,8 @@ class Estado {
         return $this->enviaCorreos;
     }
 
-    private $codigoEstado;  //codigo utilizado
+    private $codigoEstado;  
     private $nombreEstado;
-    private $enviaCorreos;   //codigo de la tematica padre
+    private $enviaCorreos;   
 
 }
