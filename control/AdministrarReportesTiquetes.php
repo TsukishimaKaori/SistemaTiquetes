@@ -45,13 +45,11 @@ function anioActual() {
 
 function reportesCalificacionesPorArea($calificaciones) {
     foreach ($calificaciones as $califica) {
+        echo '<tr>';
         echo '<td id = "codigoAreaCalificacion">' . $califica->obtenerCodigoArea() . '</td>';
-        echo '<td>' . $califica->obtenerNombreArea() . '</td>';
-        echo '<td>' . $califica->obtenerPromedioCalificiones() . '</td>';        
+        echo '<td id = "nombreAreaCalificacion">' . $califica->obtenerNombreArea() . '</td>';
+        echo '<td>' . $califica->obtenerPromedioCalificiones() . '</td>';
         echo '<td><button onclick = "abrirModalCalificacionesEmpleados();" class = "btn btn-info"><i class = "glyphicon glyphicon-eye-open"></i></button></td>';
+        echo '</tr>';
     }
-}
-
-function reportesCalificacionesEmpleado() {
-    
 }

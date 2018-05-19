@@ -29,8 +29,10 @@ $(function () {
 //    });
 //});
 
- $('#datepickerAnio').datetimepicker(
-    {  format: "YYYY" }).on('dp.change', function (e) {graficoSolicitudesAtendidasPorAnio(); });
+$('#datepickerAnio').datetimepicker(
+        {format: "YYYY"}).on('dp.change', function (e) {
+    graficoSolicitudesAtendidasPorAnio();
+});
 
 //Carga todos los gráficos
 window.onload = function () {
@@ -55,7 +57,7 @@ function graficoAreas() {
             $("#cargandoImagen").css('display', 'block');
         },
         success: function (response) {
-            $("#cargandoImagen").css('display','none')
+            $("#cargandoImagen").css('display', 'none')
             var vector = JSON.parse(response);
             var cantidad = [];
             var descripcion = [];
@@ -117,11 +119,11 @@ function graficoRendimientoPorArea() {
         data: {'fechaInicioRendimientoPorArea': fechaInicioRendimientoPorArea, 'fechaFinalRendimientoPorArea': fechaFinalRendimientoPorArea},
         type: 'POST',
         url: '../control/SolicitudAjaxReportesTiquetes.php',
-       beforeSend: function () {
+        beforeSend: function () {
             $("#cargandoImagen").css('display', 'block');
         },
         success: function (response) {
-            $("#cargandoImagen").css('display','none')
+            $("#cargandoImagen").css('display', 'none')
             var vector = JSON.parse(response);
             var area = [];
             var atendidas = [];
@@ -209,11 +211,11 @@ function graficoSolicitudesAtendidasPorAnio() {
         data: {'datepickerAnio': datepickerAnio},
         type: 'POST',
         url: '../control/SolicitudAjaxReportesTiquetes.php',
-       beforeSend: function () {
+        beforeSend: function () {
             $("#cargandoImagen").css('display', 'block');
         },
         success: function (response) {
-            $("#cargandoImagen").css('display','none')
+            $("#cargandoImagen").css('display', 'none')
             var vector = JSON.parse(response);
             var cantidadMensuales = [];
             $('#tbodyGraficoLineas').append('<tr id = "trCantidad"></tr>');
@@ -274,7 +276,7 @@ function graficoSolicitudesAtendidasPorAnio() {
 
                 var ctx = document.getElementById('chart-area3').getContext('2d');
                 window.myLine = new Chart(ctx, configLineal);
-            } else {      
+            } else {
                 configLineal.data.datasets.splice(0, 1);
                 var tamanio = configLineal.data.labels.length;
                 configLineal.data.labels.splice(0, tamanio);
@@ -285,7 +287,7 @@ function graficoSolicitudesAtendidasPorAnio() {
                     backgroundColor: window.chartColors.blue,
                     borderColor: window.chartColors.blue
 
-                };               
+                };
                 configLineal.data.datasets.push(newDataset);
                 configLineal.data.labels = meses;
                 window.myLine.update();
@@ -296,9 +298,27 @@ function graficoSolicitudesAtendidasPorAnio() {
 
 
 
-function abrirModalCalificacionesEmpleados(){
+function abrirModalCalificacionesEmpleados() {
     var codigo = $("#codigoAreaCalificacion").text();
-    alert(codigo);
+    var nombre = $("#nombreAreaCalificacion").text();
+
+    $.ajax({
+        data: {'codigoAreaCalificacion': codigo
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjaxReportesTiquetes.php',
+        beforeSend: function () {
+            //$("#cargandoImagen").css('display', 'block');
+        },
+        success: function (response) {
+         //   alert(response);
+            $("#cuerpoModalCalificaciones").html(response);
+            $("#tituloModalCalificaciones").text("Calificación de empleados para el área: " + nombre);
+            $("#modalCalificaciones").modal("show");
+        }
+
+    });
+
 }
 
 

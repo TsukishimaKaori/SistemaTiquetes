@@ -24,9 +24,9 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                   
+
                     <div class="col-md-6">
-                    <!--GRAFICO PIE-->
+                        <!--GRAFICO PIE-->
                         <div id="graficoRendimientoPorAreaTematica" class="panel panel-default grafico">
                             <div class="container-fluid">
                                 <h3>Clasificaciones atendidas por área</h3>
@@ -80,8 +80,8 @@
                                 </div>                                  
                             </div> 
                         </div>
-                    <!--Calificaciones por área-->
-                    <div id="" class="panel panel-default"  >
+                        <!--Calificaciones por área-->
+                        <div id="" class="panel panel-default"  >
                             <div class="container-fluid">
                                 <h3>Reporte de calificaciones de empleados por área</h3>
                                 <div class="row"> &nbsp;</div>                                   
@@ -97,7 +97,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody  id = "tbodyGraficoCalificaciones">       
-                                                   <?php reportesCalificacionesPorArea($calificaciones); //envair un id  ?>     
+                                                <?php reportesCalificacionesPorArea($calificaciones); //envair un id  ?>     
                                             </tbody>
                                         </table>
                                     </div>
@@ -105,7 +105,7 @@
                             </div>                                     
                         </div>
                     </div>                  
-                    
+
                     <!--GRAFICO Barras-->
                     <div class="col-md-6">
                         <div id="graficoRendimientoPorArea" class="panel panel-default grafico" >
@@ -210,10 +210,39 @@
                             </div>                                     
                         </div>
                     </div>
-
                 </div> 
             </div>
         </div>
+
+        <div class="modal fade" id="modalCalificaciones" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 id ="tituloModalCalificaciones" class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body" class="col-md-12">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr >
+                                    <th style="text-align: center;">Nombre del responsable</th>
+                                    <th style="text-align: center;">Promedio calificaciones de 5 estrellas</th>
+                                </tr>
+                            </thead>
+                            <tbody  id="cuerpoModalCalificaciones">
+                            </tbody>
+                        </table> 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
         <script src="../recursos/bootstrap/js/es.js"></script>
         <script src="../recursos/bootstrap/js/bootstrap-datetimepicker.min.js"></script>   
         <script src="../recursos/chartJS/Chart.bundle.js"></script>
