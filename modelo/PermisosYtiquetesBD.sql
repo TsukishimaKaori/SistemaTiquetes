@@ -2912,6 +2912,24 @@ GO
 --ELSE
 --	select '2018/04/28'
 
+CREATE PROCEDURE PApromedioCalificacionesPorArea
+	@codigoArea int
+AS
+	DECLARE 
+	@nombreArea varchar(50),
+	@promedioCalificaciones float
+
+	SET @nombreArea = (select nombreArea from Area where codigoArea = @codigoArea);
+	SET @promedioCalificaciones = (select CAST(SUM(calificacion) as float) / CAST(COUNT(calificacion) as float) from Tiquete where codigoArea = @codigoArea 
+	AND codigoEstado = 7);
+
+	select @nombreArea as nombreArea, @promedioCalificaciones as promedioCalificaciones;
+GO
+
+--exec PApromedioCalificacionesPorArea 1;
+--DROP PROCEDURE PApromedioCalificacionesPorArea;
+--select codigoArea, codigoEstado, calificacion from Tiquete;
+
 
 --Datos que deben estar en todas las bases
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (1, 'Consultar permisos');
@@ -3115,6 +3133,7 @@ insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (3, 'Bajo
 	DROP PROCEDURE PAobtenerClasificacionesPorArea;
 	DROP PROCEDURE PAcantidadDeTiquetesAtendidosMensualmente;
 	DROP PROCEDURE PAreporteTiquetesEnEstados;
+	DROP PROCEDURE PApromedioCalificacionesPorArea;
 -------------------------------------------------Fin de seccion de drop-----------------------------------------
 
 

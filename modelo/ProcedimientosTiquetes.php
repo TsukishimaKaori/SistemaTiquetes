@@ -11,6 +11,7 @@ require_once '../modelo/Historial.php';
 require_once '../modelo/ReporteCumplimientoPorArea.php';
 require_once '../modelo/ReporteTiquetesIngresadosPorClasificacion.php';
 require_once '../modelo/ReporteCantidadDeTiquetesMensuales.php';
+require_once '../modelo/ReporteCalificacionesPorArea.php';
 
 //Obtiene todas las area almacenadas en la tabla Area
 function obtenerAreas() {
@@ -1188,6 +1189,31 @@ function reporteTiquetesEnEstados($estado) {
     return $tiquetes;
 }
 
+
+//Obtiene una lista con las areas de TI y el promedio de calificaciones de cada una
+function reportePromedioCalificacionesPorArea() {
+    $areas = obtenerAreas();
+    $reporte = array();
+    foreach($areas as $a){
+       
+        $conexion = Conexion::getInstancia();
+        $tsql = "{call PApromedioCalificacionesPorArea (?) }";
+        $params = array(array($a->obtenerCodigoArea(), SQLSRV_PARAM_IN));
+        $getReporte = sqlsrv_query($conexion->getConn(), $tsql, $params);
+        if ($getReporte == FALSE) {
+            return 'Ha ocurrido un error';
+        } 
+        
+        while ($row = sqlsrv_fetch_array($getReporte, SQLSRV_FETCH_ASSOC)) {
+            $reporte[] = crearReporteCalificacionesPorArea($row);
+        }
+        sqlsrv_free_stmt($getReporte);
+    }
+    
+    return $reporte;
+}
+
+
 function crearTiquete($row) {
     $codigoTiquete = $row['codigoTiquete'];
     $usuarioIngresaTiquete = utf8_encode($row['usuarioIngresaTiquete']);
@@ -1278,6 +1304,12 @@ function crearReporteCantidadDeTiquetesMensuales($row){
     $mes = $row['mes'];
     $cantidadMensuales = $row['cantidadMensuales'];
     return new ReporteCantidadDeTiquetesMensuales($mes, $cantidadMensuales);
+}
+
+function crearReporteCalificacionesPorArea($row){
+    $nombreArea = utf8_encode($row['nombreArea']);
+    $promedioCalificaciones = $row['promedioCalificaciones'];
+    return new ReporteCalificacionesPorArea($nombreArea, $promedioCalificaciones);
 }
 
 //$mensaje2 = inactivarArea('1');
@@ -1675,4 +1707,11 @@ function crearReporteCantidadDeTiquetesMensuales($row){
 //    echo $tema->obtenerJefaturaUsuarioSolicitante() . '<br />';
 //    echo $tema->obtenerFechaEntrega()->format('d-m-Y H:i') . '<br />';
 //    echo '<br />';
+//}
+
+//$reportes = reportePromedioCalificacionesPorArea();
+//
+//foreach($reportes as $r){
+//    echo $r->obtenerNombreArea() . '<br />';
+//    echo $r->obtenerPromedioCalificiones() . '<br />';
 //}
