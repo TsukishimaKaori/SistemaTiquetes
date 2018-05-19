@@ -803,12 +803,16 @@ $pdf->WriteHTML($html);
 $pdf->Ln();
 $pdf->SetMargins(10);
 $pdf->Ln();
+$$Cuentacon="";
+if($asociados!=""){
+    $Cuentacon=    '</b>, equipo que cuenta con <b>'.$asociados.'</b>  mismo que se '
+                   .'entrega en calidad de préstamo al señor(a) <b>'.$nombreUsuarioAsociado.'</b>, para que la utilice como su equipo de '
+                   .'trabajo en la Compañía';
+}
 $html =utf8_decode('<p align="justify">'
                    .'<b><u>PRIMERA</u></b>: Britt Shared Services Sociedad Anónima es propietaria de <b>'.$categoria.'</b>   Marca:<b>'.$marca.'</b>, Modelo: <b>'.$modelo.'</b>, '
-                   .'service tag laptop: <b>'.$placa.'</b>, serie del docking: <b>'.$docking.'</b>, equipo que cuenta con <b>'.$asociados.'</b>  mismo que se '
-                   .'entrega en calidad de préstamo al señor(a) <b>'.$nombreUsuarioAsociado.'</b>, para que la utilice como su equipo de '
-                   .'trabajo en la Compañía. '
-                   .'</p>');
+                   .'service tag laptop: <b>'.$placa.'</b>, serie del docking: <b>'.$docking.$Cuentacon
+                   .'.</p>');
 $pdf->WriteHTML($html);
 $pdf->Ln();
 $pdf->SetMargins(10);

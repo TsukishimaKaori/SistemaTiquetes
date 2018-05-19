@@ -18,6 +18,7 @@
         <?php
         require ("../vista/Cabecera.php");
         $areas = obtenerAreas();
+        $calificaciones = reportePromedioCalificacionesPorArea();
         ?> 
         <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
         <div class="container-fluid">
@@ -88,15 +89,15 @@
                                     <div  class="table table-hover table-responsive ">                   
                                         <table class = "table table-hover">                
                                             <thead>
-                                                <tr>     
-                                                    <th>Ene</th>
-                                                    <th>Feb</th>   
-                                                    <th>Mar</th>
-                                                    <th>Abr</th>
-                                                    <th>May</th>
+                                                <tr >     
+                                                    <th style="text-align: center;">Código</th>
+                                                    <th style="text-align: center;">Área</th>   
+                                                    <th style="text-align: center;">Promedio calificaciones</th>
+                                                    <th style="text-align: center;">Calificación por empleado</th>                                                   
                                                 </tr>
                                             </thead>
-                                            <tbody  id = "tbodyGraficoCalificaciones">                                                                                       
+                                            <tbody  id = "tbodyGraficoCalificaciones">       
+                                                   <?php reportesCalificacionesPorArea($calificaciones); //envair un id  ?>     
                                             </tbody>
                                         </table>
                                     </div>

@@ -296,3 +296,10 @@ function graficoSolicitudesAtendidasPorAnio() {
 
 
 
+function abrirModalCalificacionesEmpleados(){
+    var codigo = $("#codigoAreaCalificacion").text();
+    alert(codigo);
+}
+
+
+

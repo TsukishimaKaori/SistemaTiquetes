@@ -90,7 +90,7 @@
             }
         }
         ?>
-         <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
+        <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
         <div id = "cargarTiquetePagina" onload="hacerDatapiker();">
             <?php
             if (isset($_GET['tiquete']) && isset($_GET['pagina'])) {
@@ -141,34 +141,34 @@
                             $paginaAnterior = $_GET['paginaAnterior'];
                             ?>
                             <div class="col-md-4 " >
-                            <?php echo '<button onclick="retornarABandejaHistorialInventario(' . $paginaAnterior . ',' . $bodega . ' ,' . $dispositivo . ');" title="Regresar" type="button" class="btn btn-info "><i class="glyphicon glyphicon-arrow-left"></i></button>' ?>
+                                <?php echo '<button onclick="retornarABandejaHistorialInventario(' . $paginaAnterior . ',' . $bodega . ' ,' . $dispositivo . ');" title="Regresar" type="button" class="btn btn-info "><i class="glyphicon glyphicon-arrow-left"></i></button>' ?>
                             </div>
-    <?php } else { ?>
+                        <?php } else { ?>
                             <div class="col-md-4 " >
                                 <button  onclick="retornarABandeja();" title="Regresar" type="button" class="btn btn-info " data-toggle="modal" data-target=""><i class="glyphicon glyphicon-arrow-left"></i></button>
                             </div>                        
                         <?php } ?>
-    <?php if ($codigoPagina != 5) { ?>
+                        <?php if ($codigoPagina != 5) { ?>
                             <div class="  col-md-1" style="text-align: right;">
                                 <button title="Tiquete anterior" type="button" class="btn btn-info ocultarTiquetes " data-toggle="modal" data-target="" onclick="tiqueteAnterior();"><i class="glyphicon glyphicon-triangle-left"></i></button>
                             </div>
                             <div class=" col-md-2">  
-        <?php descripcionPagina($codigoPagina, $r); ?>
+                                <?php descripcionPagina($codigoPagina, $r); ?>
                             </div>
                             <div class="col-md-1"> 
                                 <button  title="Siguiente Tiquete" type="button" class="btn btn-info ocultarTiquetes " data-toggle="modal" data-target="" onclick=" tiqueteSiguiente();"><i class="glyphicon glyphicon-triangle-right"></i></button>
                             </div>
-    <?php } ?>
+                        <?php } ?>
                     </div>
                     <div class="row">
-    <?php codigoPagina($codigoPagina); ?>
+                        <?php codigoPagina($codigoPagina); ?>
                         <br>
                     </div>                                    
                 </section>
                 <section id = "seccionInfoTiquete" class ="container-fluid ocultarTiquetes">
                     <div class="row">                 
                         <div class="col-md-6">  
-    <?php panelDeCabecera($tiquete); ?>                               
+                            <?php panelDeCabecera($tiquete); ?>                               
                             <div class="panel-heading panel-success">   
                                 <div class="row">
                                     <div class="col-md-3 encabezado">
@@ -177,11 +177,11 @@
                                     <div class="col-md-6 encabezado encabezadoDescripcion" >
                                         <h5 class="panel-title"><?php descripcionTematica($tiquete) ?></h5>
                                     </div>
-    <?php                            if ($codigoPagina != 5) { ?>
+                                    <?php if ($codigoPagina != 5) { ?>
                                         <div class="col-md-3 encabezado encabezadoDescripcion" >
                                             <button class = "btn btn-warning" onclick ="mostrarHistorialTiquetes();"><i class = "glyphicon glyphicon-list-alt"> Historial</i></button>
                                         </div> 
-    <?php                            } ?>
+                                    <?php } ?>
                                 </div>
                             </div>
                             <div class="panel-body">
@@ -259,7 +259,7 @@
                                 <div class = "row">
                                     <h5 class = "col-md-3">Prioridad:</h5>
 
-    <?php prioridadTiquete($tiquete, $codigoPagina, $prioridades); ?>
+                                    <?php prioridadTiquete($tiquete, $codigoPagina, $prioridades); ?>
 
                                 </div>
                                 <div class="row ">
@@ -271,13 +271,13 @@
                                 <div class="row ">
                                     <h5 class="col-md-3">Solicitado para:</h5> 
                                     <div class=" col-md-8">
-    <?php $a = fechaSolicitudTiquete($tiquete, $codigoPagina); ?>
+                                        <?php $a = fechaSolicitudTiquete($tiquete, $codigoPagina); ?>
                                     </div>
                                 </div>
                                 <div class="row ">
                                     <h5 class="col-md-3">Fecha entrega:</h5> 
                                     <div class=" col-md-8">
-    <?php $a = fechaEntregaTiquete($tiquete, $codigoPagina); ?>
+                                        <?php $a = fechaEntregaTiquete($tiquete, $codigoPagina); ?>
                                     </div>
                                 </div>
                                 <div class="row ">                            
@@ -309,14 +309,14 @@
 
                             <div class="panel-footer" id="divCalificacion"> 
                                 <label style="font-size:16px" >Calificación</label>                                
-    <?php mostrarCalificacion($codigoPagina, $tiquete); ?> 
-                              
+                                <?php mostrarCalificacion($codigoPagina, $tiquete); ?> 
+
                             </div>
-                           <div  ></div>
+                            <div  ></div>
                         </div>
                     </div>
                     <div class="col-md-6">                        
-    <?php panelDeCabecera($tiquete) ?>
+                        <?php panelDeCabecera($tiquete) ?>
                         <div class="panel-heading">
                             <h5 class="panel-title encabezado">Mensajes</h5>
                         </div>
@@ -366,7 +366,7 @@
                                         </a>
                                         <div class="collapse" id="toggleDemo" >
                                             <ul class="nav nav-list"            >
-    <?php tematicasNivel1($vectematica) ?>
+                                                <?php tematicasNivel1($vectematica) ?>
                                             </ul>
                                         </div>
                                     </li>
@@ -587,8 +587,14 @@
                                     </div>
                                     <div class="row"> 
                                         <div class="col-md-10">
-                                            <button onclick = " filtrarActivosAjax()" type="button" class="btn btn-success   " data-toggle="modal" > buscar </button> 
-                                        </div>                       
+                                            <div class="col-md-11">
+                                                <button onclick = " filtrarActivosAjax()" type="button" class="btn btn-success   " data-toggle="modal" > Buscar </button>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button onclick = "escogerEquipo()" type="button" class="btn btn-success   " data-toggle="modal" > Asociar equipos</button> 
+                                            </div>
+                                        </div>  
+
                                     </div> 
                                 </div>
                             </div>
@@ -599,7 +605,7 @@
                                         <th>Categoría</th>
                                         <th> Marca</th>
                                         <th>Usuario_asociado</th>
-                                        <th>Fecha de salida de inventario </th>
+                                        <th>Correo asociado</th>
 
 
                                     </tr>                             
@@ -613,12 +619,45 @@
                 </div>
             </div>
             <!------------------------------------------------>
+
+            <!-------------------------Modal  equipo asociados-------------------------->
+            <div id="modalaEquiposAsociados" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg" >                
+                    <div class="modal-content" id="cuerpoModalEquipos">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"Equipos asociados>Equipos Asociados</h4>
+                        </div>
+                        <div class="modal-body table-responsive">
+                            <table class = "table tablasEquiposAsociados table-hover" id="tablaEquiposAsociados">
+                                <thead>
+                                    <tr>                                            
+                                        <th>Placa</th>
+                                        <th>Categoría</th>
+                                        <th> Marca</th>
+                                        <th>Usuario_asociado</th>
+                                        <th>Correo asociado </th>
+                                        <th>Desasociar equipo </th>
+
+                                    </tr>                             
+                                </thead>
+                                <tbody id = "tbody-tablaEquiposAsociados"> 
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!------------------------------------------------>
             <?php
             confirmacion("Modalinfo", "", "confirmarActualizarTematica(this)", "cancelarActualizarTematica()");
             confirmacion("confirmarFechaSolicitada", "", "CambiarFechaSolicitadaAjax()", "");
             confirmacion("desasociarEquipo", "Desea desasociar el equipo", "desasociarEquipoAjax()", "");
+            confirmacion("asociarEquipo", "Desea asociar los equipos selecionados", "escogerEquipoAjax()", "");
             notificacion();
             alerta("ceroHoras", "El tiquete no tiene horas trabajadas", "");
+            alerta("NoSelecion", "Ningun Equipo selecionado", "");
         }
         ?>
     </body >

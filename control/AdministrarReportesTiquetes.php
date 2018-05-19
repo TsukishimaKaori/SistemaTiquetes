@@ -42,3 +42,16 @@ function anioActual() {
     $anio = $hoy["year"];
     return $anio;
 }
+
+function reportesCalificacionesPorArea($calificaciones) {
+    foreach ($calificaciones as $califica) {
+        echo '<td id = "codigoAreaCalificacion">' . $califica->obtenerCodigoArea() . '</td>';
+        echo '<td>' . $califica->obtenerNombreArea() . '</td>';
+        echo '<td>' . $califica->obtenerPromedioCalificiones() . '</td>';        
+        echo '<td><button onclick = "abrirModalCalificacionesEmpleados();" class = "btn btn-info"><i class = "glyphicon glyphicon-eye-open"></i></button></td>';
+    }
+}
+
+function reportesCalificacionesEmpleado() {
+    
+}
