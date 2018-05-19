@@ -1,3 +1,13 @@
+19/05/2018
+
+1. Correr PAreporteTodosLosTiquetesFecha
+
+2. Llamar a reporteTodosLosTiquetesFecha para llenar la tabla exportable a excel
+
+3. Correr PAreporteCantidadTiquetePorEstados y PAreporteCantidadTiqueteVencidos
+
+4. Para el grafico de cantidad de tiquetes por estados llamar a reporteCantidadTiquetePorEstados()
+
 18/05/2018
 
 1. Correr PApromedioCalificacionesPorArea

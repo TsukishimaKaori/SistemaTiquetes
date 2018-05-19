@@ -13,6 +13,7 @@ require_once '../modelo/ReporteTiquetesIngresadosPorClasificacion.php';
 require_once '../modelo/ReporteCantidadDeTiquetesMensuales.php';
 require_once '../modelo/ReporteCalificacionesPorArea.php';
 require_once '../modelo/ReporteCalificacionesPorResponsable.php';
+require_once '../modelo/ReporteCantidadTiquetesPorEstado.php';
 
 //Obtiene todas las area almacenadas en la tabla Area
 function obtenerAreas() {
@@ -1014,21 +1015,6 @@ function busquedaAvanzadaGeneral($codigoTiquete, $correoSolicitante, $nombreSoli
     }
 }
 
-//Obtiene todos los tiquetes del sistema
-//No tiene filtro porque se cargan para el administrador
-function obtenerTodosLosTiquetes() {
-    $conexion = Conexion::getInstancia();
-    $tsql = "{call PAobtenerTodosLosTiquetes }";
-    $getTiquete = sqlsrv_query($conexion->getConn(), $tsql);
-    if ($getTiquete == FALSE) {
-        return 'Ha ocurrido un error';
-    } $tiquetes = array();
-    while ($row = sqlsrv_fetch_array($getTiquete, SQLSRV_FETCH_ASSOC)) {
-        $tiquetes[] = crearTiquete($row);
-    }
-    sqlsrv_free_stmt($getTiquete);
-    return $tiquetes;
-}
 
 //Actualizar la fecha de entrega del tiquete, debe incluir una justificación
 function actualizarFechaEntrega($codTiquete, $nuevaFechaEntrega, $justificacion, $correoUsuarioCausante, $nombreUsuarioCausante) {
@@ -1229,6 +1215,51 @@ function reportePromedioCalificacionesPorResponsables($codigoArea) {
     return $reporte;
 }
 
+
+//Obtiene todos los tiquetes del sistema por un rango de fechas
+function reporteTodosLosTiquetesFecha($fechaInicio, $fechaFinal) {
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAreporteTodosLosTiquetesFecha (?, ?) }";
+    $params = array(array($fechaInicio, SQLSRV_PARAM_IN), array($fechaFinal, SQLSRV_PARAM_IN));
+    $getTiquete = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getTiquete == FALSE) {
+        return 'Ha ocurrido un error';
+    } $tiquetes = array();
+    while ($row = sqlsrv_fetch_array($getTiquete, SQLSRV_FETCH_ASSOC)) {
+        $tiquetes[] = crearTiquete($row);
+    }
+    sqlsrv_free_stmt($getTiquete);
+    return $tiquetes;
+}
+
+
+//Para llenar el grafico de cantidad de tiquetes por estado, se ven Nuevo, Asignado, En proceso y Vencido
+function reporteCantidadTiquetePorEstados() {
+
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAreporteCantidadTiquetePorEstados }";
+    $getReporte = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getReporte == FALSE) {
+        return 'Ha ocurrido un error';
+    } 
+    $reporte = array();
+    while ($row = sqlsrv_fetch_array($getReporte, SQLSRV_FETCH_ASSOC)) {
+        $reporte[] = crearReporteCantidadTiquetesPorEstado($row);
+    }
+    
+    $tsql = "{call PAreporteCantidadTiqueteVencidos }";
+    $getReporte = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getReporte == FALSE) {
+        return 'Ha ocurrido un error';
+    } 
+    while ($row = sqlsrv_fetch_array($getReporte, SQLSRV_FETCH_ASSOC)) {
+        $reporte[] = crearReporteCantidadTiquetesPorEstado($row);
+    }
+    sqlsrv_free_stmt($getReporte);
+    
+    return $reporte;
+}
+
 function crearTiquete($row) {
     $codigoTiquete = $row['codigoTiquete'];
     $usuarioIngresaTiquete = utf8_encode($row['usuarioIngresaTiquete']);
@@ -1334,6 +1365,12 @@ function crearReporteCalificacionesPorResponsable($row){
     $promedioCalificaciones = $row['promedioCalificaciones'];
     $promedioCalificaciones = number_format($promedioCalificaciones, 1, '.', '');
     return new ReporteCalificacionesPorResponsable($nombreResponsable, $promedioCalificaciones);
+}
+
+function crearReporteCantidadTiquetesPorEstado($row){
+    $nombreEstado = utf8_encode($row['nombreEstado']);
+    $cantidad = $row['cantidad'];
+    return new ReporteCantidadTiquetesPorEstado($nombreEstado, $cantidad);
 }
 
 //$mensaje2 = inactivarArea('1');
@@ -1532,15 +1569,6 @@ function crearReporteCalificacionesPorResponsable($row){
 //    echo $tema->obtenerJefaturaUsuarioSolicitante() . '<br />';
 //}
 
-//$tiquetes = obtenerTodosLosTiquetes();
-//
-//foreach ($tiquetes as $tema) {   
-//    echo $tema->obtenerDescripcion() .'  ' . $tema->obtenerCodigoUsuarioIngresaTiquete(). ' '
-//            . $tema->obtenerEstado()->obtenerNombreEstado().'<br />'; 
-//    echo $tema->obtenerNombreUsuarioIngresaTiquete() . '<br />';
-//    echo $tema->obtenerDepartamentoUsuarioSolicitante() . '<br />';
-//    echo $tema->obtenerJefaturaUsuarioSolicitante() . '<br />';
-//}
 
 //$mensaje2 = enviarAReasignarTiquete(4, 'No lo quiero', 'nubeblanca1997@outlook.com', 'Cristina Cascante');
 //if($mensaje2 == ''){
@@ -1746,4 +1774,23 @@ function crearReporteCalificacionesPorResponsable($row){
 //foreach($reportes as $r){
 //    echo $r->obtenerNombreResponsable() . '<br />';
 //    echo $r->obtenerPromedioCalificiones() . '<br />';
+//}
+
+
+//$tiquetes = reporteTodosLosTiquetesFecha('2018-04-19', '2018-05-19');
+//
+//foreach ($tiquetes as $tema) {   
+//    echo $tema->obtenerDescripcion() .'  ' . $tema->obtenerCodigoUsuarioIngresaTiquete(). ' '
+//            . $tema->obtenerEstado()->obtenerNombreEstado().'<br />'; 
+//    echo $tema->obtenerNombreUsuarioIngresaTiquete() . '<br />';
+//    echo $tema->obtenerDepartamentoUsuarioSolicitante() . '<br />';
+//    echo $tema->obtenerJefaturaUsuarioSolicitante() . '<br />';
+//}
+
+
+//$reportes = reporteCantidadTiquetePorEstados();
+//
+//foreach($reportes as $r){
+//    echo $r->obtenerNombreEstado() . '<br />';
+//    echo $r->obtenerCantidad() . '<br />';
 //}
