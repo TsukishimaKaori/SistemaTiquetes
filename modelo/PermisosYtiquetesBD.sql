@@ -2912,6 +2912,35 @@ GO
 --ELSE
 --	select '2018/04/28'
 
+CREATE PROCEDURE PApromedioCalificacionesPorArea
+AS
+
+	select area.codigoArea, area.nombreArea, tiquete.promedioCalificaciones from
+	(select codigoArea, nombreArea from Area) area,
+	(select (CAST(SUM(calificacion) as float) / CAST(COUNT(calificacion) as float)) promedioCalificaciones, 
+	codigoArea from Tiquete where codigoEstado = 7 group by codigoArea) tiquete
+	where area.codigoArea = tiquete.codigoArea order by tiquete.promedioCalificaciones DESC;
+
+GO
+
+--exec PApromedioCalificacionesPorArea;
+--DROP PROCEDURE PApromedioCalificacionesPorArea;
+--select codigoArea, codigoEstado, calificacion from Tiquete;
+
+
+CREATE PROCEDURE PApromedioCalificacionesPorResponsables
+	@codigoArea int
+AS
+	select res.nombreResponsable, tiquete.promedioCalificaciones from
+	(select codigoResponsable, nombreResponsable from Responsable) res,
+	(select (CAST(SUM(calificacion) as float) / CAST(COUNT(calificacion) as float)) promedioCalificaciones, codigoResponsable, 
+	CAST(COUNT(calificacion) as float) total from Tiquete 
+	where codigoEstado = 7 AND codigoArea = @codigoArea group by codigoResponsable) tiquete
+	where res.codigoResponsable = tiquete.codigoResponsable order by tiquete.promedioCalificaciones DESC, tiquete.total DESC;
+GO
+
+--exec PApromedioCalificacionesPorResponsables 2;
+--DROP PROCEDURE PApromedioCalificacionesPorResponsables;
 
 --Datos que deben estar en todas las bases
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (1, 'Consultar permisos');
@@ -3115,6 +3144,8 @@ insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (3, 'Bajo
 	DROP PROCEDURE PAobtenerClasificacionesPorArea;
 	DROP PROCEDURE PAcantidadDeTiquetesAtendidosMensualmente;
 	DROP PROCEDURE PAreporteTiquetesEnEstados;
+	DROP PROCEDURE PApromedioCalificacionesPorArea;
+	DROP PROCEDURE PApromedioCalificacionesPorResponsables;
 -------------------------------------------------Fin de seccion de drop-----------------------------------------
 
 
