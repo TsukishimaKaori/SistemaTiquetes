@@ -6,7 +6,11 @@ function cargarpaginaPrincipal() {
     } else {
         paginaPrincipal = $("#codigoPagina").val();
     }
+
     tablaActivos();
+    $('#tablaTiquetesI tbody').on('click', 'tr', function () {
+        $(this).toggleClass('selected');
+    });
 }
 
 $(function () {
@@ -716,7 +720,7 @@ function asignarResponsableAjax() {
                 if (paginadePagina == 2) {
                     cambiarComboPagina(pagina);
                 } else if (paginadePagina == 4) {
-                    
+
                     $.ajax({
                         data: {'extra': true, 'tiquete': codigo, 'pagina': paginadePagina
                         },
@@ -1528,37 +1532,37 @@ function calificarAjax() {
             success: function (response) {
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
-                if(response==""){
-                var pagina = document.getElementById("comboPagina").value;
-                $.ajax({
-                    data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
-                    },
-                    type: 'POST',
-                    url: '../control/SolicitudAjaxInformacionTiquetes.php',
-                    beforeSend: function () {
-                        $("#cargandoImagen").css('display', 'block');
-                    },
-                    success: function (response) {
-                        $("#cargandoImagen").css('display', 'none');
-                        $("#cargarTiquetePagina").html(response);
+                if (response == "") {
+                    var pagina = document.getElementById("comboPagina").value;
+                    $.ajax({
+                        data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
+                        },
+                        type: 'POST',
+                        url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                        beforeSend: function () {
+                            $("#cargandoImagen").css('display', 'block');
+                        },
+                        success: function (response) {
+                            $("#cargandoImagen").css('display', 'none');
+                            $("#cargarTiquetePagina").html(response);
 
-                        $(function () {
-                            $('.datetimepicker').datetimepicker({
-                                format: 'DD/MM/YYYY',
-                                locale: 'es'
+                            $(function () {
+                                $('.datetimepicker').datetimepicker({
+                                    format: 'DD/MM/YYYY',
+                                    locale: 'es'
+                                });
                             });
-                        });
-                        document.getElementById("justificacion").value = "";
-                        var mensaje = "El tiquete ha sido calificado";
-                        notificacion(mensaje);
+                            document.getElementById("justificacion").value = "";
+                            var mensaje = "El tiquete ha sido calificado";
+                            notificacion(mensaje);
 
-                    }
-                });
+                        }
+                    });
 
-                }else{
-                   document.getElementById("justificacion").value = "";
-                        var mensaje = "Error al calificar";
-                        notificacion(mensaje);  
+                } else {
+                    document.getElementById("justificacion").value = "";
+                    var mensaje = "Error al calificar";
+                    notificacion(mensaje);
                 }
             }
         });
@@ -1698,7 +1702,8 @@ function mostrarHistorialTiquetes() {
 
 // <editor-fold defaultstate="collapsed" desc="Asociar equipo">
 function tablaActivos() {
-    $('#tablaTiquetesI').DataTable({
+    var table = $('#tablaTiquetesI').DataTable({
+        'select': true,
         "language": {
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",
@@ -1726,6 +1731,14 @@ function tablaActivos() {
         }
 
     });
+
+
+
+
+//    $('#button').click( function () {
+//        alert( table.rows('.selected').data().length +' row(s) selected' );
+//    } );
+
 }
 function equipos() {
     $("#modalaEquipos").modal("show");
@@ -1746,7 +1759,7 @@ function filtrarActivosAjax() {
             'usuario': usuario,
             'correo': correo,
             'estado': estado,
-            'codigoTiquete':codigoTiquete
+            'codigoTiquete': codigoTiquete
 
         },
         type: 'POST',
@@ -1762,24 +1775,34 @@ function filtrarActivosAjax() {
             } else {
                 $('#tablaTiquetesI').DataTable().destroy();
                 $("#tbody-tablaEquipo").html(response);
-                tablaActivos()
+                tablaActivos();
             }
         }
     });
 }
-var placaAsociar="";
-function escogerEquipo(placa){
-    placaAsociar=placa;
-    $('#asociarEquipo').modal('show');
+
+function escogerEquipo() {
+    var table = $('#tablaTiquetesI').DataTable();
+
+    if (table.rows('.selected').data().length > 0) {
+        $('#asociarEquipo').modal('show');
+    }
+    else{
+         $('#NoSelecion').modal('show');
+        
+    }
 }
 
 function escogerEquipoAjax() {
-    if(placaAsociar!==""){
-    var codigoTiquete = $("#codigoTique").val();
-    placa=placaAsociar;
-
+    var table = $('#tablaTiquetesI').DataTable();
+    var seleciones = table.rows('.selected').data();
+    var placas = [];
+    for (var i = 0, max = table.rows('.selected').data().length; i < max; i++) {
+           placas[i] = seleciones[i][0];
+    }
+    var codigoTiquete = $("#codigoTique").val();    
     $.ajax({
-        data: {'asociarPlaca': placa,
+        data: {'asociarPlacas': JSON.stringify(placas),
             'codigoTiquete': codigoTiquete
         },
         type: 'POST',
@@ -1790,87 +1813,87 @@ function escogerEquipoAjax() {
         success: function (response) {
             $("#cargandoImagen").css('display', 'none');
             $('#asociarEquipo').modal('hide');
-            placaAsociar="";
-            if (response !== "") {
-                var mensaje = "Error al asociar";
+           var arregloDeSubCadenas = response.split(";");
+            if (arregloDeSubCadenas[0] !== "") {
+                var mensaje = "Error al asociar algunos equipos";
                 notificacion(mensaje);
-            } else {
-                $("#modalaEquipos").modal("hide");
-                if($("#equipo").val()===""){
-                     $("#equipo").val(placa);
-                }else{
-                     $("#equipo").val($("#equipo").val()+"-"+placa);
-                }
-               $('#tablaTiquetesI').DataTable().destroy();
-                $("#tbody-tablaEquipo").html("");
-                tablaActivos()
-                var mensaje = "Equipo asociado correctamente";
+            } else {               
+                var mensaje = "Equipos asociado correctamente";
                 notificacion(mensaje);
             }
-
+                if($("#equipo").val()==""){
+                var html=arregloDeSubCadenas[1].substring(1);
+            }
+            else{
+               var html=$("#equipo").val()+arregloDeSubCadenas[1]; 
+            }
+                $("#equipo").val(html);
+                $("#modalaEquipos").modal("hide");
+                $('#tablaTiquetesI').DataTable().destroy();
+                $("#tbody-tablaEquipo").html("");
+                tablaActivos();
         }
     });
 }
-}
-var placaDesasociar="";
-function desasociarEquipo(codigo){
-    placaDesasociar=codigo;
+
+var placaDesasociar = "";
+function desasociarEquipo(codigo) {
+    placaDesasociar = codigo;
     $('#desasociarEquipo').modal('show');
 }
 function desasociarEquipoAjax() {
-    if(placaDesasociar!=""){
-    var placa = placaDesasociar;
-    var codigoTiquete = $("#codigoTique").val();
+    if (placaDesasociar != "") {
+        var placa = placaDesasociar;
+        var codigoTiquete = $("#codigoTique").val();
 
-    $.ajax({
-        data: {'desasociarPlaca': placa,
-            'codigoTiquete': codigoTiquete
-        },
-        type: 'POST',
-        url: '../control/SolicitudAjaxInformacionTiquetes.php',
-        beforeSend: function () {
-            $("#cargandoImagen").css('display', 'block');
-        },
-        success: function (response) {
-            $("#cargandoImagen").css('display', 'none');
-            $("#desasociarEquipo").modal("hide");
-            $("#modalaEquiposAsociados").modal("hide");
-            placaDesasociar="";
-            if (response !== "") {
-                var mensaje = "Error al desasociar";
-                notificacion(mensaje);
-            } else {
-                
-                var codigos=$("#equipo").val().split("-");
-                var html="";
-                var i=0; 
-                  codigos.forEach( function(codigo) {
-                        if(codigo!=placa){
-                            if(i==0){
-                               html=codigo;
-                            }
-                            else{
-                               html=html+"-"+codigo; 
+        $.ajax({
+            data: {'desasociarPlaca': placa,
+                'codigoTiquete': codigoTiquete
+            },
+            type: 'POST',
+            url: '../control/SolicitudAjaxInformacionTiquetes.php',
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
+            success: function (response) {
+                $("#cargandoImagen").css('display', 'none');
+                $("#desasociarEquipo").modal("hide");
+                $("#modalaEquiposAsociados").modal("hide");
+                placaDesasociar = "";
+                if (response !== "") {
+                    var mensaje = "Error al desasociar";
+                    notificacion(mensaje);
+                } else {
+
+                    var codigos = $("#equipo").val().split("-");
+                    var html = "";
+                    var i = 0;
+                    codigos.forEach(function (codigo) {
+                        if (codigo != placa) {
+                            if (i == 0) {
+                                html = codigo;
+                            } else {
+                                html = html + "-" + codigo;
                             }
                             i++;
                         }
                     });
-                
-                $("#equipo").val(html);
-                var mensaje = "Equipo desasociado correctamente";
-                notificacion(mensaje);
-            }
 
-        }
-    });
-  }
+                    $("#equipo").val(html);
+                    var mensaje = "Equipo desasociado correctamente";
+                    notificacion(mensaje);
+                }
+
+            }
+        });
+    }
 }
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="Equipo Asociados">
-function equiposAsociados(){
-      var placa = $("#codigoTique").val();
-     $.ajax({
+function equiposAsociados() {
+    var placa = $("#codigoTique").val();
+    $.ajax({
         data: {'filtrarActivoAsociados': placa
         },
         type: 'POST',
@@ -1883,13 +1906,13 @@ function equiposAsociados(){
             if (response === "Error") {
                 var mensaje = "Error al filtrar";
                 notificacion(mensaje);
-            } else {                
-                $("#tbody-tablaEquiposAsociados").html(response);               
+            } else {
+                $("#tbody-tablaEquiposAsociados").html(response);
                 $("#modalaEquiposAsociados").modal("show");
             }
         }
     });
-  
+
 }
 
 

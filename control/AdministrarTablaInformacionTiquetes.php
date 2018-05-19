@@ -610,7 +610,8 @@ function obtenerComentariosCompleto($listaComentariosPorTiquete, $r) {
 function cuerpoTablaActivosTiquetes($activos,$asociados) {
     foreach ($activos as $act) {
         if(noAsociado($act, $asociados)){
-        echo '<tr onclick="escogerEquipo(\'' . $act->obtenerPlaca() . '\')">';
+        echo '<tr ">';
+        // echo '<tr onclick="escogerEquipo(\'' . $act->obtenerPlaca() . '\')">';
         echo '<td >' . $act->obtenerPlaca() . '</td>';
         echo '<td>' . $act->obtenerCategoria()->obtenerNombreCategoria() . '</td>';
         //      echo '<td>' . $act->obtenerEstado()->obtenerNombreEstado() . '</td>';

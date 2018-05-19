@@ -339,17 +339,27 @@ if (isset($_POST['filtrarActivo'])) {
     }
 }
 
-if (isset($_POST['asociarPlaca'])) {
-    $placa = $_POST['asociarPlaca'];
+if (isset($_POST['asociarPlacas'])) {
+    $placas = json_decode($_POST['asociarPlacas']);
     $codigoTiquete = $_POST['codigoTiquete'];
     $activos = obtenerActivosAsociadosTiquete($codigoTiquete);
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
-    $mensaje = '';    
-    if ($mensaje == '') {
-        $mensaje = asociarTiqueteActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante, $codigoTiquete);
-    }
-    echo $mensaje;
+    $mensaje = '';  
+    $mensaje2 = ''; 
+    $response="";
+    foreach ($placas as $placa) {
+        if($mensaje==''){
+        $mensaje2=$mensaje = asociarTiqueteActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante, $codigoTiquete);
+        
+        }else{
+           $mensaje2= asociarTiqueteActivo($placa, $correoUsuarioCausante, $nombreUsuarioCausante, $codigoTiquete);
+        }
+        if($mensaje2==""){
+            $response=$response."-".$placa;
+        }
+   }
+    echo $mensaje.";".$response;
 }
 
 if (isset($_POST['desasociarPlaca'])) {
