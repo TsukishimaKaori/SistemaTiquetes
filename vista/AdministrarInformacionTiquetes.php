@@ -464,7 +464,7 @@
                                 </div> 
                             </div>
                             <div class="form-group">
-                                <label for="comment">justificacion</label>
+                                <label for="comment">Justificación</label>
                                 <textarea class="form-control" rows="3"  name="justificacion" cols="2" id="justificacion"></textarea>
                             </div>
                         </div>

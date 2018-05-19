@@ -66,6 +66,9 @@ function historialInformacionTiquete($historial) {
     echo
     '<div class = "col-md-12" >' .
     '       <div class="row"> ' .
+    '           <div ><span class="titulo-Indicador col-md-2">Indicador: </span><span class=" col-md-10" > ' . $historial->obtenerFechaHora() . '</span></div> ' .
+    '       </div>  ' .
+    '       <div class="row"> ' .
     '           <div ><span class="titulo-Indicador col-md-2">Indicador: </span><span class=" col-md-10" > ' . descripcionIndicador($historial->obtenerCodigoIndicador()) . '</span></div> ' .
     '       </div>  ' .
     '       <div class="row"> ' .

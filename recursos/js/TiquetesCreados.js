@@ -81,7 +81,7 @@ function tablaTodoslosTiquetes() {
             "sSearch": "Filtrar búsqueda",
             "sUrl": "",
             "sInfoThousands": ",",
-            "sLoadingRecords": "Cargando...",
+            "sLoadingRecords": "Cargando...",            
             "oPaginate": {
                 "sFirst": "Primero",
                 "sLast": "Último",
@@ -91,7 +91,8 @@ function tablaTodoslosTiquetes() {
             "oAria": {
                 "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
+            },
+          
 
         }
 
@@ -156,8 +157,12 @@ function tablaTiquetesPorAsignar() {
     });
 }
 function tablaMisTiquetes() {
+//    var table = $('#tablaMisTiquetes').DataTable();
+//    table.order( [ 0, 'desc' ] ).draw();
     $('#tablaMisTiquetes').DataTable({
+          "order": [[ 0, "desc" ]],
         "language": {
+           
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",
             "sZeroRecords": "No se encontraron resultados",
@@ -169,7 +174,7 @@ function tablaMisTiquetes() {
             "sSearch": "Filtrar búsqueda",
             "sUrl": "",
             "sInfoThousands": ",",
-            "sLoadingRecords": "Cargando...",
+            "sLoadingRecords": "Cargando...",          
             "oPaginate": {
                 "sFirst": "Primero",
                 "sLast": "Último",
@@ -432,7 +437,7 @@ function calificar(event) {
     calificacion = event;
     calificacion.checked = false;
     var micalificacion = calificacion.value;
-    document.getElementById("infoJusticiacion").innerHTML = "\"Estrellas:" + micalificacion + "\" Agregar comentario a la calificaion";
+    document.getElementById("infoJusticiacion").innerHTML = "\"Estrellas:" + micalificacion + "\" Agregar comentario a la calificación";
     document.getElementById("aceptarJustificacion").onclick = function () {
         calificarAjax();
 

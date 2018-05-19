@@ -1160,7 +1160,7 @@ function AsignartiqueteAnterior() {
 // <editor-fold defaultstate="collapsed" desc="ESTADO REASIGNAR">
 
 function reasignar() {
-    document.getElementById("infoJusticiacion").innerHTML = "Porque desea enviar a reasignar?";
+    document.getElementById("infoJusticiacion").innerHTML = "¿Por qué desea enviar a reasignar?";
     document.getElementById("aceptarJustificacion").onclick = function () {
         reasignarAjax()
     };
@@ -1341,7 +1341,7 @@ function confirmarFechaSolicitada() {
 // <editor-fold defaultstate="collapsed" desc="ESTADO ANULADO">
 
 function Anular() {
-    document.getElementById("infoJusticiacion").innerHTML = "Porque desea anular el tiquete?";
+    document.getElementById("infoJusticiacion").innerHTML = "¿Por qué desea anular el tiquete?";
     document.getElementById("aceptarJustificacion").onclick = function () {
         AnularAjax();
     };
@@ -1497,7 +1497,7 @@ function calificar(event) {
     calificacion = event;
     calificacion.checked = false;
     var micalificacion = calificacion.value;
-    document.getElementById("infoJusticiacion").innerHTML = "\"Estrellas:" + micalificacion + "\" Agregar comentario a la calificaion";
+    document.getElementById("infoJusticiacion").innerHTML = "\"Estrellas:" + micalificacion + "\" Agregar comentario a la calificación";
     document.getElementById("aceptarJustificacion").onclick = function () {
         calificarAjax()
     };
@@ -1618,7 +1618,7 @@ function cambiarPrioridad(event) {
 // <editor-fold defaultstate="collapsed" desc="Reprocesar">
 
 function Reprocesar() {
-    document.getElementById("infoJusticiacion").innerHTML = "Porque desea reprocesar el tiquete?";
+    document.getElementById("infoJusticiacion").innerHTML = "¿Por qué desea reprocesar el tiquete?";
     document.getElementById("aceptarJustificacion").onclick = function () {
         ReprocesarAjax()
     };

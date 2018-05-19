@@ -51,7 +51,7 @@ function historialInformacionInventarioPorElemento($historial) {
 }
 
 function historialInformacionInventario($historial) {
-
+//class="label label-success"
     if ($historial->obtenerEfecto() == "Entrada") {
         echo '<div class = "col-md-12 panel panel-success" >';
     } else {
@@ -62,10 +62,15 @@ function historialInformacionInventario($historial) {
     '       </div>  ' .
     '       <div class="row"> ' .
     '           <div ><span class="titulo-Indicador col-md-3">Código del detalle: </span><span class=" col-md-9" > ' . $historial->obtenerCodigoDetalle() . '</span></div> ' .
-    '       </div>  ' .
-    '       <div class="row"> ' .
-    '           <div><span class="titulo-Indicador col-md-3">Movimiento registrado: </span><span class=" col-md-9"><b> ' . $historial->obtenerEfecto() . '</b></span></div> ' .
-    '       </div>  ' .
+    '       </div>  ' .           
+    '       <div class="row"> ' ;
+    if ($historial->obtenerEfecto() == "Entrada") {   
+         echo '<div><span class="titulo-Indicador col-md-3">Movimiento registrado: </span><span class=" label label-success "><b> ' . $historial->obtenerEfecto() . '</b></span></div> ' ;
+    }else {
+            echo '<div><span class="titulo-Indicador col-md-3">Movimiento registrado: </span><span class=" label label-danger"><b> ' . $historial->obtenerEfecto() . '</b></span></div> ' ;
+    }
+           
+    echo  '       </div>  ' .           
     '       <div class="row"> ' .
     '           <div ><span class="titulo-Indicador col-md-3">Cantidad de dispositivos afectados : </span><span class=" col-md-9"><b> ' . $historial->obtenerCantidadEfecto() . '</b></span></div> ' .
     '       </div>  ' .
