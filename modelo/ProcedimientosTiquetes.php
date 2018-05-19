@@ -1192,23 +1192,18 @@ function reporteTiquetesEnEstados($estado) {
 
 //Obtiene una lista con las areas de TI y el promedio de calificaciones de cada una
 function reportePromedioCalificacionesPorArea() {
-    $areas = obtenerAreas();
+
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PApromedioCalificacionesPorArea }";
+    $getReporte = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getReporte == FALSE) {
+        return 'Ha ocurrido un error';
+    } 
     $reporte = array();
-    foreach($areas as $a){
-       
-        $conexion = Conexion::getInstancia();
-        $tsql = "{call PApromedioCalificacionesPorArea (?) }";
-        $params = array(array($a->obtenerCodigoArea(), SQLSRV_PARAM_IN));
-        $getReporte = sqlsrv_query($conexion->getConn(), $tsql, $params);
-        if ($getReporte == FALSE) {
-            return 'Ha ocurrido un error';
-        } 
-        
-        while ($row = sqlsrv_fetch_array($getReporte, SQLSRV_FETCH_ASSOC)) {
-            $reporte[] = crearReporteCalificacionesPorArea($row);
-        }
-        sqlsrv_free_stmt($getReporte);
+    while ($row = sqlsrv_fetch_array($getReporte, SQLSRV_FETCH_ASSOC)) {
+        $reporte[] = crearReporteCalificacionesPorArea($row);
     }
+    sqlsrv_free_stmt($getReporte);
     
     return $reporte;
 }
