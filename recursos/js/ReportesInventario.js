@@ -1,6 +1,6 @@
 $(document).ready(function () {
     tablaInventario();
-tablaMovimiento();
+     tablaMovimiento();
     $('#fechaI').datetimepicker({
         format: 'DD/MM/YYYY',
         locale: 'es'
@@ -9,8 +9,9 @@ tablaMovimiento();
         format: 'DD/MM/YYYY',
         locale: 'es'
     })
+    
+    
 });
-
 function tablaInventario() {
     $('#tablaInventario').DataTable({
         "language": {
@@ -38,7 +39,13 @@ function tablaInventario() {
             }
 
         },
-        
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                title: 'Reporte de inventario-'+correoUsuario
+            }
+        ]
 
     });
 }
@@ -68,7 +75,15 @@ function tablaMovimiento() {
                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
             }
 
-        }
+        },
+        dom: 'Bfrtip',
+        buttons: [
+             {
+                extend: 'excelHtml5',
+                title: 'Reporte de movimientos-'+correoUsuario
+            }
+        ]
+
 
     });
 }
@@ -115,23 +130,4 @@ function filtrarMovimiento() {
         }
 
     });
-}
-
-function exportarInventario(){
-    $('#tablaInventario').DataTable().destroy();
-$('#tablaInventario').tableExport({
-    type:'excel',
-    escape:'false',
-
-});  
- tablaInventario();
-}
-function exportarMovimientos(){
-$('#tablaMovimiento').DataTable().destroy();
-$('#tablaMovimiento').tableExport(
-{type:'excel',
-escape:'false',
-
-});
-tablaMovimiento();
 }
