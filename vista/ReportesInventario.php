@@ -55,7 +55,7 @@
                                         <h5>&nbsp;</h5>
                                         <button  title="Buscar" type="button" class="btn btn-info" onclick="FiltrarInventario();"><i class="glyphicon glyphicon-search"></i></button>
 
-                                        <a href="#" title="Exportar a Excel"  class="descargarReporte" onclick="exportarInventario();"><img src="../recursos/img/excel.png"/></a>
+                                        
                                     </div>  
 
                                 </div>  
@@ -135,7 +135,7 @@
                                     <div class="col-md-3">
                                         <h5>&nbsp;</h5>
                                         <button  title="Buscar" type="button" class="btn btn-info" onclick="filtrarMovimiento();"><i class="glyphicon glyphicon-search"></i></button>
-                                        <a href="#" title="Exportar a Excel" class="descargarReporte" onclick="exportarMovimientos();"><img src="../recursos/img/excel.png"/></a>
+                                       
                                     </div>   
                                 </div> 
                                 <div class="row">
@@ -172,17 +172,17 @@
                 </div> 
             </div>
         </div>
-
+        <script>var correoUsuario='<?php echo $r->obtenerCorreo(); ?>';</script>
         <script src="../recursos/bootstrap/js/es.js"></script>
         <script src="../recursos/bootstrap/js/bootstrap-datetimepicker.min.js"></script>   
         <script src="../recursos/chartJS/Chart.bundle.js"></script>
         <script src="../recursos/chartJS/utils.js"></script> 
         <script src="../recursos/js/ReportesInventario.js"></script>
-        <script src="../recursos/bootstrap/js/bootstrap-select.min.js"></script>  
-        <script src="../recursos/js/jquery.base64.js"></script>
-        <script src="../recursos/js/tableExport.js"></script>
-
-
+        <script src="../recursos/bootstrap/js/bootstrap-select.min.js"></script>             
+        <script  type="text/javascript" src="../recursos/js/dataTables.buttons.min.js"></script> 
+        <script  type="text/javascript" src="../recursos/js/jszip.min.js"></script>              
+        <script  type="text/javascript" src="../recursos/js/buttons.html5.min.js"></script> 
+                    
 
 
     </body>
