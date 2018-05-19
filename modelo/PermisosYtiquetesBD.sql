@@ -2606,29 +2606,6 @@ GO
 --exec PAobtenerTiqueteFiltradoCodigo 3;
 --DROP PROCEDURE PAobtenerTiqueteFiltradoCodigo;
 
-CREATE PROCEDURE PAobtenerTodosLosTiquetes  
-AS  
-    SET NOCOUNT ON; 
-	select tique.codigoTiquete, tique.usuarioIngresaTiquete, esta.codigoEstado, esta.nombreEstado,
-	esta.enviaCorreos, tique.codigoResponsable, are.codigoArea, are.nombreArea, are.activo, tema.codigoClasificacion,
-	tema.descripcionClasificacion, tema.activo, tema.codigoPadre, tique.fechaCreacion, tique.fechaFinalizado,
-	tique.fechaCalificado, tique.fechaSolicitado, tique.fechaEnProceso, tique.descripcion, 
-	tique.calificacion, tique.horasTrabajadas, tique.nombreUsuarioSolicitante, tique.departamentoUsuarioSolicitante,
-	tique.jefaturaUsuarioSolicitante, tique.codigoPrioridad, pri.nombrePrioridad, tique.fechaEntrega from
-	(select codigoEstado, nombreEstado, enviaCorreos from dbo.Estado) esta, 
-	(select codigoArea, nombreArea, activo from dbo.Area) are,
-	(select codigoClasificacion, descripcionClasificacion, activo, codigoPadre from dbo.Clasificacion) tema,
-	(select codigoTiquete, usuarioIngresaTiquete, codigoEstado, codigoResponsable, codigoArea,
-	codigoClasificacion, fechaCreacion, fechaFinalizado, fechaCalificado, fechaSolicitado, fechaEnProceso, 
-	descripcion, calificacion, horasTrabajadas, nombreUsuarioSolicitante, departamentoUsuarioSolicitante,
-	jefaturaUsuarioSolicitante, codigoPrioridad, fechaEntrega from dbo.Tiquete) tique,
-	(select codigoPrioridad, nombrePrioridad from PrioridadTiquete) pri
-	where esta.codigoEstado = tique.codigoEstado AND are.codigoArea = tique.codigoArea 
-	AND tema.codigoClasificacion = tique.codigoClasificacion AND tique.codigoPrioridad = pri.codigoPrioridad;
-GO
-
---exec PAobtenerTodosLosTiquetes;
---DROP PROCEDURE PAobtenerTodosLosTiquetes;
 
 CREATE PROCEDURE PAactualizarFechaEntrega
 	@codTiquete int,
@@ -2942,6 +2919,38 @@ GO
 --exec PApromedioCalificacionesPorResponsables 2;
 --DROP PROCEDURE PApromedioCalificacionesPorResponsables;
 
+
+CREATE PROCEDURE PAreporteTodosLosTiquetesFecha 
+	@fechaInicio date,
+	@fechaFinal date
+AS  
+    SET NOCOUNT ON; 
+
+	SET @fechaInicio = (SELECT DATEADD(day, -1, @fechaInicio));
+	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
+
+	select tique.codigoTiquete, tique.usuarioIngresaTiquete, esta.codigoEstado, esta.nombreEstado,
+	esta.enviaCorreos, tique.codigoResponsable, are.codigoArea, are.nombreArea, are.activo, tema.codigoClasificacion,
+	tema.descripcionClasificacion, tema.activo, tema.codigoPadre, tique.fechaCreacion, tique.fechaFinalizado,
+	tique.fechaCalificado, tique.fechaSolicitado, tique.fechaEnProceso, tique.descripcion, 
+	tique.calificacion, tique.horasTrabajadas, tique.nombreUsuarioSolicitante, tique.departamentoUsuarioSolicitante,
+	tique.jefaturaUsuarioSolicitante, tique.codigoPrioridad, pri.nombrePrioridad, tique.fechaEntrega from
+	(select codigoEstado, nombreEstado, enviaCorreos from dbo.Estado) esta, 
+	(select codigoArea, nombreArea, activo from dbo.Area) are,
+	(select codigoClasificacion, descripcionClasificacion, activo, codigoPadre from dbo.Clasificacion) tema,
+	(select codigoTiquete, usuarioIngresaTiquete, codigoEstado, codigoResponsable, codigoArea,
+	codigoClasificacion, fechaCreacion, fechaFinalizado, fechaCalificado, fechaSolicitado, fechaEnProceso, 
+	descripcion, calificacion, horasTrabajadas, nombreUsuarioSolicitante, departamentoUsuarioSolicitante,
+	jefaturaUsuarioSolicitante, codigoPrioridad, fechaEntrega from dbo.Tiquete where fechaCreacion 
+	BETWEEN @fechaInicio AND @fechaFinal) tique,
+	(select codigoPrioridad, nombrePrioridad from PrioridadTiquete) pri
+	where esta.codigoEstado = tique.codigoEstado AND are.codigoArea = tique.codigoArea 
+	AND tema.codigoClasificacion = tique.codigoClasificacion AND tique.codigoPrioridad = pri.codigoPrioridad;
+GO
+
+--exec PAreporteTodosLosTiquetesFecha '2018-04-19', '2018-05-19';
+--DROP PROCEDURE PAreporteTodosLosTiquetesFecha;
+
 --Datos que deben estar en todas las bases
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (1, 'Consultar permisos');
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (2, 'Asignar rol a usuario');
@@ -3136,7 +3145,6 @@ insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (3, 'Bajo
 	DROP PROCEDURE PAbusquedaAvanzadaTiquetes;
 	DROP PROCEDURE PAbusquedaAvanzadaTiquetesArea;
     DROP PROCEDURE PAobtenerTiqueteFiltradoCodigo;
-    DROP PROCEDURE PAobtenerTodosLosTiquetes;
 	DROP PROCEDURE PAactualizarFechaEntrega;
 	DROP PROCEDURE PAenviarAReprocesar;
 	DROP PROCEDURE PAreporteCumplimientoPorArea;
@@ -3146,6 +3154,7 @@ insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (3, 'Bajo
 	DROP PROCEDURE PAreporteTiquetesEnEstados;
 	DROP PROCEDURE PApromedioCalificacionesPorArea;
 	DROP PROCEDURE PApromedioCalificacionesPorResponsables;
+	DROP PROCEDURE PAreporteTodosLosTiquetesFecha;
 -------------------------------------------------Fin de seccion de drop-----------------------------------------
 
 
