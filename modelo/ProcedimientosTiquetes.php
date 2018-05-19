@@ -13,6 +13,7 @@ require_once '../modelo/ReporteTiquetesIngresadosPorClasificacion.php';
 require_once '../modelo/ReporteCantidadDeTiquetesMensuales.php';
 require_once '../modelo/ReporteCalificacionesPorArea.php';
 require_once '../modelo/ReporteCalificacionesPorResponsable.php';
+require_once '../modelo/ReporteCantidadTiquetesPorEstado.php';
 
 //Obtiene todas las area almacenadas en la tabla Area
 function obtenerAreas() {
@@ -1232,6 +1233,33 @@ function reporteTodosLosTiquetesFecha($fechaInicio, $fechaFinal) {
 }
 
 
+//Para llenar el grafico de cantidad de tiquetes por estado, se ven Nuevo, Asignado, En proceso y Vencido
+function reporteCantidadTiquetePorEstados() {
+
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PAreporteCantidadTiquetePorEstados }";
+    $getReporte = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getReporte == FALSE) {
+        return 'Ha ocurrido un error';
+    } 
+    $reporte = array();
+    while ($row = sqlsrv_fetch_array($getReporte, SQLSRV_FETCH_ASSOC)) {
+        $reporte[] = crearReporteCantidadTiquetesPorEstado($row);
+    }
+    
+    $tsql = "{call PAreporteCantidadTiqueteVencidos }";
+    $getReporte = sqlsrv_query($conexion->getConn(), $tsql);
+    if ($getReporte == FALSE) {
+        return 'Ha ocurrido un error';
+    } 
+    while ($row = sqlsrv_fetch_array($getReporte, SQLSRV_FETCH_ASSOC)) {
+        $reporte[] = crearReporteCantidadTiquetesPorEstado($row);
+    }
+    sqlsrv_free_stmt($getReporte);
+    
+    return $reporte;
+}
+
 function crearTiquete($row) {
     $codigoTiquete = $row['codigoTiquete'];
     $usuarioIngresaTiquete = utf8_encode($row['usuarioIngresaTiquete']);
@@ -1337,6 +1365,12 @@ function crearReporteCalificacionesPorResponsable($row){
     $promedioCalificaciones = $row['promedioCalificaciones'];
     $promedioCalificaciones = number_format($promedioCalificaciones, 1, '.', '');
     return new ReporteCalificacionesPorResponsable($nombreResponsable, $promedioCalificaciones);
+}
+
+function crearReporteCantidadTiquetesPorEstado($row){
+    $nombreEstado = utf8_encode($row['nombreEstado']);
+    $cantidad = $row['cantidad'];
+    return new ReporteCantidadTiquetesPorEstado($nombreEstado, $cantidad);
 }
 
 //$mensaje2 = inactivarArea('1');
@@ -1751,4 +1785,12 @@ function crearReporteCalificacionesPorResponsable($row){
 //    echo $tema->obtenerNombreUsuarioIngresaTiquete() . '<br />';
 //    echo $tema->obtenerDepartamentoUsuarioSolicitante() . '<br />';
 //    echo $tema->obtenerJefaturaUsuarioSolicitante() . '<br />';
+//}
+
+
+//$reportes = reporteCantidadTiquetePorEstados();
+//
+//foreach($reportes as $r){
+//    echo $r->obtenerNombreEstado() . '<br />';
+//    echo $r->obtenerCantidad() . '<br />';
 //}
