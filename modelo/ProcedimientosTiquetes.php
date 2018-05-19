@@ -12,6 +12,7 @@ require_once '../modelo/ReporteCumplimientoPorArea.php';
 require_once '../modelo/ReporteTiquetesIngresadosPorClasificacion.php';
 require_once '../modelo/ReporteCantidadDeTiquetesMensuales.php';
 require_once '../modelo/ReporteCalificacionesPorArea.php';
+require_once '../modelo/ReporteCalificacionesPorResponsable.php';
 
 //Obtiene todas las area almacenadas en la tabla Area
 function obtenerAreas() {
@@ -1209,6 +1210,25 @@ function reportePromedioCalificacionesPorArea() {
 }
 
 
+//Obtiene una lista con las responsables de TI y el promedio de calificaciones de cada uno por area de TI
+function reportePromedioCalificacionesPorResponsables($codigoArea) {
+
+    $conexion = Conexion::getInstancia();
+    $tsql = "{call PApromedioCalificacionesPorResponsables (?) }";
+    $params = array(array($codigoArea, SQLSRV_PARAM_IN));
+    $getReporte = sqlsrv_query($conexion->getConn(), $tsql, $params);
+    if ($getReporte == FALSE) {
+        return 'Ha ocurrido un error';
+    } 
+    $reporte = array();
+    while ($row = sqlsrv_fetch_array($getReporte, SQLSRV_FETCH_ASSOC)) {
+        $reporte[] = crearReporteCalificacionesPorResponsable($row);
+    }
+    sqlsrv_free_stmt($getReporte);
+    
+    return $reporte;
+}
+
 function crearTiquete($row) {
     $codigoTiquete = $row['codigoTiquete'];
     $usuarioIngresaTiquete = utf8_encode($row['usuarioIngresaTiquete']);
@@ -1302,9 +1322,18 @@ function crearReporteCantidadDeTiquetesMensuales($row){
 }
 
 function crearReporteCalificacionesPorArea($row){
+    $codigoArea = $row['codigoArea'];
     $nombreArea = utf8_encode($row['nombreArea']);
     $promedioCalificaciones = $row['promedioCalificaciones'];
-    return new ReporteCalificacionesPorArea($nombreArea, $promedioCalificaciones);
+    $promedioCalificaciones = number_format($promedioCalificaciones, 1, '.', '');
+    return new ReporteCalificacionesPorArea($codigoArea, $nombreArea, $promedioCalificaciones);
+}
+
+function crearReporteCalificacionesPorResponsable($row){
+    $nombreResponsable = utf8_encode($row['nombreResponsable']);
+    $promedioCalificaciones = $row['promedioCalificaciones'];
+    $promedioCalificaciones = number_format($promedioCalificaciones, 1, '.', '');
+    return new ReporteCalificacionesPorResponsable($nombreResponsable, $promedioCalificaciones);
 }
 
 //$mensaje2 = inactivarArea('1');
@@ -1707,6 +1736,14 @@ function crearReporteCalificacionesPorArea($row){
 //$reportes = reportePromedioCalificacionesPorArea();
 //
 //foreach($reportes as $r){
+//    echo $r->obtenerCodigoArea() . '<br />';
 //    echo $r->obtenerNombreArea() . '<br />';
+//    echo $r->obtenerPromedioCalificiones() . '<br />';
+//}
+
+//$reportes = reportePromedioCalificacionesPorResponsables(2);
+//
+//foreach($reportes as $r){
+//    echo $r->obtenerNombreResponsable() . '<br />';
 //    echo $r->obtenerPromedioCalificiones() . '<br />';
 //}

@@ -7,6 +7,13 @@
 3. Para la tabla de promedio de calificaciones por area llamar a reportePromedioCalificacionesPorArea() 
 en ProcedimientosTiquetes.php 
 
+4. Correr PApromedioCalificacionesPorResponsables
+
+5. Nueva clase ReporteCalificacionesPorResponsable
+
+6. Para la tabla de promedio de calificaciones por responsable llamar a reportePromedioCalificacionesPorResponsables($codigoArea) 
+en ProcedimientosTiquetes.php, hay que mandarle el area que toque el usuario por parametros
+
 14/05/2018
 
 1. Volver a correr PAreporteCumplimientoPorArea
