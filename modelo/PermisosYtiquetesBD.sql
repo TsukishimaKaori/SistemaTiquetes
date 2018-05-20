@@ -2982,6 +2982,11 @@ insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (6, 'Ver pest
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (7, 'Ver pestaña de tiquetes asignados'); 
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (8, 'Ver pestaña de búsqueda de avanzada');
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (9, 'Ver botón de anular tiquete');
+insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (10, 'Ver pestaña de activos');
+insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (11, 'Ver pestaña de pasivos');
+insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (12, 'Administrar categorías de pasivos');
+insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (13, 'Ver reportes de tiquetes');
+insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (14, 'Ver reportes de inventario');
 
 
 insert into dbo.Rol (nombreRol) values ('Administrador'); --Rol fijo
