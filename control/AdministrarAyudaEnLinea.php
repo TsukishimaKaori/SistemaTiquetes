@@ -176,22 +176,27 @@ function tiquetes8() {
 }
 
 function cicloVidaTiquete1() {
-    echo '<section id = "tiquetes4">
-            <h3>Filtrar tiquetes</h3>
+    echo '<section id = "cicloVidaTiquete1">
+            <h3>¿Cómo asignar un tiquete?</h3>
             <div style = "text-align:left;">
-            <p>Para filtrar la búsqueda de tiquetes se deben seguir los siguientes pasos:</br></p>
+            <p>Hay dos manera de asignar un tiquete, estás son desde la bandeja de tiquetes por asignar o desde donde se muestra la información del tiquete.</br></p>
+            <h4>Desde la bandeja de tiquetes por asignar:</h4>
+            <p>Dirigirse a la bandeja de tiquetes por asignar :</p>
             <h4>Paso 1:</h4>
-            <p>Dirigirse a la bandeja de tiquetes que se desea filtrar:</p>
+            <p>Cada tiquete muestra un combo con las posibles personas a las que se le puede asignar el tiquete.</p>        
             <h4>Paso 2:</h4>
-            <p>Por defecto,se mostrará una bandeja con los tiquetes con estado de nuevo,
-            y tiquetes que están finalizados listos para calificar. Si el tiquete
-            que desea ver no se encuentra en la lista de tiquetes,
-            debe realizar el filtro de búsqueda.</p>        
+            <p>Dar click en el combo y elija a la persona a la que le desea asignar el tiquete</p>
             <h4>Paso 3:</h4>
-            <p>Dar click en el botón filtrar búsqueda (botón verde)</p>
-            <h4>Paso 4:</h4>
-            <p>El sistema mostrará una nueva pestaña con los posibles filtros a realizar. En este punto, elija los
-            filtros que desea y de click en filtrar búsqueda (botón celeste).</p>
+            <p>Una vez asignado el tiquete, este desaparecerá de la bandeja de tiquetes por asignar.</p>
+            
+            <h4>Desde la información del tiquete:</h4>
+            <p>Estando en la visualización del tiquete:</p>
+            <h4>Paso 1:</h4>
+            <p>Asegurarse que el combo de arriba se encuentra en la opción tiquetes por asignar.</p>        
+            <h4>Paso 2:</h4>
+            <p>Ir a la parte inferior del tiquete. Se visualizará un botón celeste que dice asignar </p>
+            <h4>Paso 3:</h4>
+            <p>Dar click en el botón asignar. Se abrirá una ventana con las posibles personas a las que se le pueden asignar la tarea, elija una y de click en aceptar.</p>
      
  </div>       
 </section>';
