@@ -252,9 +252,7 @@ BEGIN TRY
             Set @men = 2;
         END;
 
-        UPDATE dbo.Responsable 
-		SET codigoRol = @cR
-		WHERE codigoEmpleado = @codiEmp;
+        UPDATE dbo.Responsable SET codigoRol = @cR WHERE codigoEmpleado = @codiEmp;
 
     COMMIT TRANSACTION;
 END TRY
