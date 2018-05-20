@@ -139,7 +139,7 @@ function tiquetes5() {
     echo '<section id = "tiquetes5">
             <h3>Bandeja mis tiquetes</h3>     
             <div style = "text-align:left;">
-            <p>Muestar la lista de tiquetes que el usuario logueado ha creado. Para ver mis tiquetes 
+            <p>Muestar la lista de tiquetes que el usuario logueado ha creado. <br> Para ver mis tiquetes 
             en el menú principal da click a Tiquetes -> Mis tiquetes </p></div>
     </section>';
 }
@@ -155,7 +155,7 @@ function tiquetes6() {
 }
 
 function tiquetes7() {
-    echo '<section id = "tiquetes6">
+    echo '<section id = "tiquetes7">
             <h3>Bandeja tiquetes asignados</h3> 
              <div style = "text-align:left;">
             <p>Muestra la lista de tiquetes que me han sido asignados. <br>
@@ -165,11 +165,12 @@ function tiquetes7() {
 }
 
 function tiquetes8() {
-    echo '<section id = "tiquetes6">
+    echo '<section id = "tiquetes8">
         <h3>Bandeja todos los tiquetes</h3>
         <div style = "text-align:left;">            
-            <p>El sistema mostrará una nueva pestaña con los posibles filtros a realizar. En este punto, elija los
-            filtros que desea y de click en filtrar búsqueda (botón celeste).</p>     
+            <p>Muestra la lista de los tiquetes que han sido creados. En un principio la bandeja de 
+            tiquetes está vacía. Para mostrar los tiquetes realice un filtro de búsqueda (ver filtrar búsqueda de tiquetes)
+            .</p>     
  </div>       
 </section>';
 }
