@@ -21,6 +21,10 @@ function cargarContenido($id) {
             break;
         case "tiquetes4":
             break;
+        case "tiquetes5":
+            break;
+        case "tiquetes6":
+            break;
     }
 }
 
