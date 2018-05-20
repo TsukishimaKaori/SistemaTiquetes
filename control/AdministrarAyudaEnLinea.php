@@ -17,10 +17,22 @@ function cargarContenido($id) {
             tiquetes3();
             break;
         case "tiquetes4":
-               tiquetes4();
+            tiquetes4();
             break;
         case "tiquetes5":
-            
+            tiquetes5();
+            break;
+        case "tiquetes6":
+            tiquetes6();
+            break;
+        case "tiquetes7":
+            tiquetes7();
+            break;
+        case "tiquetes8":
+            tiquetes8();
+            break;
+        case "tiquetes5":
+
             break;
         case "cicloVidaTiquete1":
             cicloVidaTiquete1();
@@ -33,7 +45,6 @@ function cargarContenido($id) {
             break;
         case "cicloVidaTiquete5":
             break;
-        
     }
 }
 
@@ -102,7 +113,6 @@ function tiquetes3() {
 </section>';
 }
 
-
 function tiquetes4() {
     echo '<section id = "tiquetes4">
             <h3>Filtrar búsqueda de tiquetes</h3>
@@ -121,6 +131,45 @@ function tiquetes4() {
             <p>El sistema mostrará una nueva pestaña con los posibles filtros a realizar. En este punto, elija los
             filtros que desea y de click en filtrar búsqueda (botón celeste).</p>
      
+ </div>       
+</section>';
+}
+
+function tiquetes5() {
+    echo '<section id = "tiquetes5">
+            <h3>Bandeja mis tiquetes</h3>     
+            <div style = "text-align:left;">
+            <p>Muestar la lista de tiquetes que el usuario logueado ha creado. Para ver mis tiquetes 
+            en el menú principal da click a Tiquetes -> Mis tiquetes </p></div>
+    </section>';
+}
+
+function tiquetes6() {
+    echo '<section id = "tiquetes6">
+            <h3>Bandeja tiquetes por asignar</h3>  
+            <div style = "text-align:left;">
+            <p>Muestra la lista de tiquetes que han sido creados pero aún, no han sido asignados a un responsable.<br>
+            Para ver los tiquetes por asignar ir al menú principal da click a Administración de tiquetes -> Asignar tiquetes </p>  
+            </div>      
+</section>';
+}
+
+function tiquetes7() {
+    echo '<section id = "tiquetes6">
+            <h3>Bandeja tiquetes asignados</h3> 
+             <div style = "text-align:left;">
+            <p>Muestra la lista de tiquetes que me han sido asignados. <br>
+            Para ver mis tiquetes asignados ir al menú principal y dar click a Administración de tiquetes -> tiquetes asignados </p>
+ </div>       
+</section>';
+}
+
+function tiquetes8() {
+    echo '<section id = "tiquetes6">
+        <h3>Bandeja todos los tiquetes</h3>
+        <div style = "text-align:left;">            
+            <p>El sistema mostrará una nueva pestaña con los posibles filtros a realizar. En este punto, elija los
+            filtros que desea y de click en filtrar búsqueda (botón celeste).</p>     
  </div>       
 </section>';
 }
