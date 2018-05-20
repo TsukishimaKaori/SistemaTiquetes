@@ -37,10 +37,10 @@ function cuerpoTablaMistiquetesCreados($Tiquetes, $codigoPestana, $responsables)
         echo '<td>' . $tique->obtenerTematica()->obtenerDescripcionTematica() . '</td>';
         echo '<td>' . $tique->obtenerNombreUsuarioIngresaTiquete() . '</td>';
         if ($codigoPestana == 2) {
-
-
+         $codigoArea=  $tique->obtenerArea()->obtenerCodigoArea();
+           $responsablestiquete = obtenerResponsablesAsignar($codigoArea);
             echo'<td>';
-            comboResponsablesAsignar($tique, $responsables);
+            comboResponsablesAsignar($tique, $responsablestiquete);
             echo'</td>';
         } else if ($tique->obtenerResponsable() == null) {
             echo '<td>Por asignar</td>';

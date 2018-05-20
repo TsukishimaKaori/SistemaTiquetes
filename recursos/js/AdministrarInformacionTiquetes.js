@@ -681,15 +681,37 @@ function tiqueteAnterior() {
 
 // <editor-fold defaultstate="collapsed" desc="ESTADO ASIGNAR">
 var paginadePagina;// numero de pagina
-function asignarUnTiquete(numero) {
+function asignarUnTiquete(numero,codigoArea) {
     paginadePagina = numero;
     if (paginadePagina == 2) {
-        $("#modalAsignar").modal("show");
+        cargarResponsablesAjax(codigoArea);        
     } else if (paginadePagina == 4) {
         $("#modalAsignartodos").modal("show");
     }
 }
+function  cargarResponsablesAjax(codigoArea){
+     $.ajax({
+        data: {'CargarResponsablesCodigoArea': codigoArea
 
+        },
+        type: 'POST',
+        url: '../control/SolicitudAjaxInformacionTiquetes.php',
+        beforeSend: function () {
+            $("#cargandoImagen").css('display', 'block');
+        },
+        success: function (response) {
+            $("#cargandoImagen").css('display', 'none');
+            if (response === "Error") {
+                var mensaje = "Error al filtrar";
+                notificacion(mensaje);
+            } else {
+                $("#ResponsablesAsociarAsignar").html(response);
+                $("#modalAsignar").modal("show");
+            }
+        }
+    });
+    
+}
 function asignarResponsableAjax() {
     var codigo = document.getElementById("codigoTiquete").innerHTML;
     if (paginadePagina == 2) {

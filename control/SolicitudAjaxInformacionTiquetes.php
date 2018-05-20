@@ -247,6 +247,15 @@ if (isset($_POST['codigoAsignado'])) {
        echo 'Error';
    }
 }
+if (isset($_POST['CargarResponsablesCodigoArea'])) {
+    $codigoArea = $_POST['CargarResponsablesCodigoArea'];
+     $responsables = obtenerResponsablesAsignar($codigoArea);
+     if($responsables=="Ha ocurrido un error"){
+         echo "Error";
+     }{
+     comboResponsablesAsignar($responsables, 2);
+     }
+}
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="PRIORIDAD">
 if (isset($_POST['codigoPrioridad'])) {

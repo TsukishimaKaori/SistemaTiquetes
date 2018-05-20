@@ -2951,6 +2951,27 @@ GO
 --exec PAreporteTodosLosTiquetesFecha '2018-04-19', '2018-05-19';
 --DROP PROCEDURE PAreporteTodosLosTiquetesFecha;
 
+
+CREATE PROCEDURE PAreporteCantidadTiquetePorEstados
+AS
+	
+	select esta.nombreEstado, tique.cantidad from
+	(select codigoEstado, nombreEstado from Estado where codigoEstado = 1 or codigoEstado = 2 or codigoEstado = 4) esta,
+	(select codigoEstado, COUNT(codigoTiquete) cantidad from Tiquete where codigoEstado = 1 or codigoEstado = 2 
+	or codigoEstado = 4 group by codigoEstado) tique
+	where esta.codigoEstado = tique.codigoEstado;
+GO
+
+--exec PAreporteCantidadTiquetePorEstados;
+
+CREATE PROCEDURE PAreporteCantidadTiqueteVencidos
+AS
+	(select 'Vencido' nombreEstado, COUNT(codigoTiquete) cantidad from Tiquete where codigoEstado = 4 AND fechaEntrega < GETDATE());
+GO
+
+--exec PAreporteCantidadTiqueteVencidos;
+--DROP PROCEDURE PAreporteCantidadTiqueteVencidos;
+
 --Datos que deben estar en todas las bases
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (1, 'Consultar permisos');
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (2, 'Asignar rol a usuario');
@@ -3155,6 +3176,8 @@ insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (3, 'Bajo
 	DROP PROCEDURE PApromedioCalificacionesPorArea;
 	DROP PROCEDURE PApromedioCalificacionesPorResponsables;
 	DROP PROCEDURE PAreporteTodosLosTiquetesFecha;
+	DROP PROCEDURE PAreporteCantidadTiquetePorEstados;
+	DROP PROCEDURE PAreporteCantidadTiqueteVencidos;
 -------------------------------------------------Fin de seccion de drop-----------------------------------------
 
 
