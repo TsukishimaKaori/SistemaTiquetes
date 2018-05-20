@@ -3,6 +3,20 @@ session_start();
 require_once ("../control/UsuarioLogueado.php");
 ?>
 <header >
+    <?php
+    //$r = obtenerResponsable('dannyalfvr97@gmail.com');
+    $r = obtenerResponsable('nubeblanca1997@outlook.com');
+    // $r = obtenerResponsable('francini113@gmail.com');
+    $_SESSION['objetoUsuario'] = $r;
+
+    $r = $_SESSION['objetoUsuario'];
+//                        if ($r == 'Ha ocurrido un error' || $r == null) {
+//                           // $r = obtenerResponsable('nubeblanca1997@outlook.com'); //admin
+//                            // $r = obtenerResponsable('gina@gmail.com');
+//                            $r = obtenerResponsable('dannyalfvr97@gmail.com');
+//                            //  $r = obtenerResponsable('francini113@gmail.com'); //coordinador
+//                        }
+    ?>
 
     <nav  class="navbar navbar-inverse" role="navigation">
         <!-- El logotipo y el icono que despliega el menú se agrupan
@@ -20,6 +34,25 @@ require_once ("../control/UsuarioLogueado.php");
         <!-- Agrupar los enlaces de navegación, los formularios y cualquier
              otro elemento que se pueda ocultar al minimizar la barra -->
         <div class="collapse navbar-collapse" id = "myNavBar">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <p class="navbar-text"> 
+                        <?php
+                        if ($r) {
+                            echo $r->obtenerNombreResponsable();
+                        }
+                        ?> 
+                    </p>
+                </li>
+                <li>
+                    <p class="navbar-text"> <?php echo $r->obtenerCorreo(); ?> </p>
+                </li>
+                <li>
+                    <p class="navbar-text"> <a title ="Ayuda en línea" href = "../vista/AyudaEnLinea.php">Ayuda en línea</a> </p>
+                </li>
+            </ul>
+
+
             <ul class="nav navbar-nav">
                 <li class="dropdown ">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tiquetes <b class="caret"></b>
@@ -31,18 +64,6 @@ require_once ("../control/UsuarioLogueado.php");
                     </ul>
                 </li>
                 <?php
-                //$r = obtenerResponsable('dannyalfvr97@gmail.com');
-                $r = obtenerResponsable('nubeblanca1997@outlook.com');
-                // $r = obtenerResponsable('francini113@gmail.com');
-                $_SESSION['objetoUsuario'] = $r;
-              
-                $r = $_SESSION['objetoUsuario'];
-//                        if ($r == 'Ha ocurrido un error' || $r == null) {
-//                           // $r = obtenerResponsable('nubeblanca1997@outlook.com'); //admin
-//                            // $r = obtenerResponsable('gina@gmail.com');
-//                            $r = obtenerResponsable('dannyalfvr97@gmail.com');
-//                            //  $r = obtenerResponsable('francini113@gmail.com'); //coordinador
-//                        }
                 if ($r) {
                     $permiso1 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 1); //ver permisos
                     $permiso2 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 2); //Asignar rol a usuario
@@ -100,7 +121,7 @@ require_once ("../control/UsuarioLogueado.php");
                         if ($permiso1) { //cambiar el permiso y url
                             echo '<li><a href="../vista/AdministrarInventario.php?tab=1">Administrar activos</a></li>';
                         }
-                       
+
                         echo '</ul>';
                     }
 
@@ -111,43 +132,29 @@ require_once ("../control/UsuarioLogueado.php");
                         if ($permiso1) { //cambiar el permiso y url
                             echo '<li><a href="../vista/AdministrarInventario.php?tab=2">Administrar inventario</a></li>';
                         }
-                         echo '<li><a href="../vista/AdministrarCategorias.php">Administrar categorías</a></li>';
+                        echo '<li><a href="../vista/AdministrarCategorias.php">Administrar categorías</a></li>';
                         echo '</ul>';
                     }
-                    
-                    
+
+
                     if ($permiso1 || $permiso2 || $permiso3 || $permiso4) { //cambiar permisos y url
                         echo'   <li class="dropdown">';
                         echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <b class="caret"></b></a>';
                         echo '<ul class="dropdown-menu">';
                         if ($permiso1) { //cambiar el permiso y url
                             echo '<li><a href="../vista/ReportesTiquetes.php">Reportes de tiquetes</a></li>';
-                             echo '<li><a href="../vista/ReporteTiquetesEstado.php">Reportes de tiquetes por estado</a></li>';
+                            echo '<li><a href="../vista/ReporteTiquetesEstado.php">Reportes de tiquetes por estado</a></li>';
                         }
-                         echo '<li><a href="../vista/ReportesInventario.php">Reportes de inventario</a></li>';
+                        echo '<li><a href="../vista/ReportesInventario.php">Reportes de inventario</a></li>';
                         echo '</ul>';
                     }
-                                        
                 }
 //                        }
                 ?>
 
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <p class="navbar-text"> 
-<?php
-if ($r) {
-    echo $r->obtenerNombreResponsable();
-}
-?> 
-                    </p>
-                </li>
-                <li>
-                    <p class="navbar-text"> <?php echo $r->obtenerCorreo(); ?> </p>
-                </li>
-            </ul>
+
         </div>
     </nav>
 </header>
