@@ -175,14 +175,14 @@ CREATE TABLE Tiquete(
  GO
  --drop table HistorialTiquete;
  
---Creaci?n de un procedimiento almacenado, no hay que ponerle return, ?l devuelve cosas como una funci?n almacenada
+--Retorna todos los permisos existentes
 CREATE PROCEDURE PAconsultarPermisos   
 AS  
     SET NOCOUNT ON;
     select codigoPermiso, descripcionPermiso from dbo.Permiso;  
 GO
 
---verifica que un rol se asocia con un permiso
+--verifica si un rol se asocia con un permiso
 CREATE PROCEDURE [dbo].[PAverificarRolPermiso]   
     @cR int,   
     @cP int 
@@ -200,7 +200,7 @@ AS
     select codigoRol, nombreRol from dbo.Rol;  
 GO
 
---Obtiene un unico responsable
+--Obtiene un único responsable
 CREATE PROCEDURE PAobtenerResponsable  
 	@correo varchar(50)  
 AS  
