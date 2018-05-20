@@ -8,6 +8,13 @@
 
 4. Para el grafico de cantidad de tiquetes por estados llamar a reporteCantidadTiquetePorEstados()
 
+5. Correr
+    insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (10, 'Ver pestaña de activos');
+    insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (11, 'Ver pestaña de pasivos');
+    insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (12, 'Administrar categorías de pasivos');
+    insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (13, 'Ver reportes de tiquetes');
+    insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (14, 'Ver reportes de inventario');
+
 18/05/2018
 
 1. Correr PApromedioCalificacionesPorArea
