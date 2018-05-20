@@ -7,9 +7,7 @@ if (isset($_POST['estado'])) {
     $tiquetes = reporteTiquetesEnEstados($estado);
     $cantidad = count($tiquetes);
     $cantidadRespuesta = CantidadInfoAJAX($cantidad);
-    $tabla = cuerpoTablaReportesAjax($tiquetes);
-    $respuesta = array("cantidad" => $cantidadRespuesta, "tiquetes" => $tabla);
-    echo json_encode($respuesta);
+    echo tablaTiquetes($estado, $cantidad, $tiquetes);
 }
 if (isset($_POST['codigo'])) {
     $codigoTiquete = $_POST['codigo'];
@@ -17,3 +15,17 @@ if (isset($_POST['codigo'])) {
     detalleTiquete($tiquete);
 }
 
+if (isset($_POST['graficoPieTiquetesEstado'])) {
+    $cantidad = reporteCantidadTiquetePorEstados();
+
+    $arreglo[] = array('descripcion' => "Nuevo", 'cantidad' => buscarEstado($cantidad,"Nuevo"));
+
+
+    $arreglo[] = array('descripcion' => "Asignado", 'cantidad' => buscarEstado($cantidad,"Asignado"));
+
+    $arreglo[] = array('descripcion' => "En proceso", 'cantidad' => buscarEstado($cantidad,"En proceso"));
+
+    $arreglo[] = array('descripcion' => "Vencido", 'cantidad' => buscarEstado($cantidad,"Vencido"));
+
+    echo json_encode($arreglo);
+}
