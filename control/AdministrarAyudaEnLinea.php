@@ -38,12 +38,16 @@ function cargarContenido($id) {
             cicloVidaTiquete1();
             break;
         case "cicloVidaTiquete2":
+            cicloVidaTiquete2();
             break;
         case "cicloVidaTiquete3":
+            cicloVidaTiquete3();
             break;
         case "cicloVidaTiquete4":
+            cicloVidaTiquete4();
             break;
         case "cicloVidaTiquete5":
+            cicloVidaTiquete5();
             break;
     }
 }
@@ -200,4 +204,52 @@ function cicloVidaTiquete1() {
      
  </div>       
 </section>';
+}
+
+function cicloVidaTiquete2() {
+    echo '<section id = "cicloVidaTiquete2">
+            <h3>¿Cómo calificar tiquete?</h3>
+            <div style = "text-align:left;">    
+        </div>       
+       </section>';
+}
+
+function cicloVidaTiquete3() {
+    echo '<section id = "cicloVidaTiquete3">
+            <h3>¿Cómo reasignar tiquete?</h3>
+            <div style = "text-align:left;">    
+        </div>       
+       </section>';
+}
+
+function cicloVidaTiquete4() {
+    echo '<section id = "cicloVidaTiquete4">
+            <h3>¿Cómo anular tiquete?</h3>
+            <div style = "text-align:left;">    
+        </div>       
+       </section>';
+}
+
+function cicloVidaTiquete5() {
+    echo '<section id = "cicloVidaTiquete5">
+            <h3>¿Cómo finalizar tiquete?</h3>
+            <div style = "text-align:left;">    
+        </div>       
+       </section>';
+}
+
+function cicloVidaTiquete6() {
+    echo '<section id = "cicloVidaTiquete6">
+            <h3>¿Cómo reprocesar tiquete?</h3>
+            <div style = "text-align:left;">    
+        </div>       
+       </section>';
+}
+
+function cicloVidaTiquete7() {
+    echo '<section id = "cicloVidaTiquete7">
+            <h3>¿Cómo procesar tiquete?</h3>
+            <div style = "text-align:left;">    
+        </div>       
+       </section>';
 }
