@@ -596,27 +596,164 @@ function administracionRolesPermisos5() {
        </section>';
 }
 
-
-
 //Administracion de areas y clasificaciones
-function administracionAreasClasificaciones1(){}
+function administracionAreasClasificaciones1() {
+    echo '<section id = "administracionAreasClasificaciones1">
+            <h3>Agregar un área</h3>
+            <div style = "text-align:left;">    
+            <p>Para agregar un área se deben seguir los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Administración del sistema -> Administración de áreas y clasificaciones.</p>
+            <h4>Paso 2:</h4>
+            <p>Una vez en la ventana, dirigirse al botón con el signo de más (+) que se 
+            encuentra a la par del texto Áreas. Darle click.</p>        
+            <h4>Paso 3:</h4>     
+            <p>Se mostrará una ventana emergente en la que aparece un campo de texto donde
+             debe introducir el nombre del área que desea agregar.</p>                         
+             <h4>Paso 4:</h4>     
+            <p>Luego de introducir la nueva área de click en el botón que dice "Guardar".</p>                     
+        </div>       
+       </section>';
+}
 
-function administracionAreasClasificaciones2(){}
+function administracionAreasClasificaciones2() {
+    echo '<section id = "administracionAreasClasificaciones2">
+            <h3>Eliminar un área</h3>
+            <div style = "text-align:left;">  
+            <p>Para agregar un área se deben seguir los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Administración del sistema -> Administración de áreas y clasificaciones.</p>
+            <h4>Paso 2:</h4>
+            <p>Una vez en la ventana, dirigirse al botón con el signo de más (-) que se 
+            encuentra a la par del texto Áreas. Darle click.</p>        
+            <h4>Paso 3:</h4>     
+            <p>Se mostrará una ventana emergente en la que aparece un combo con todas las áreas
+            Elija el área que desea eliminar.</p>                         
+             <h4>Paso 4:</h4>     
+            <p>Luego de introducir la nueva área de click en el botón que dice "Guardar".</p> 
+            <p><b>Nota:</b> Existen varios motivos por los cuales un área no puede ser eliminada: <br>
+            1. En caso de que el área posea usuarios asociados. En este caso procede a desasociar 
+            los usuarios antes de eliminar el área.<br>
+            2. En caso de que el área tenga clasificaciones asociadas. En dicho caso, cambie las
+            temáticas que tiene asociadas y vuelva a intentarlo.
+            </p>         
+        </div>       
+       </section>';
+}
 
+function administracionAreasClasificaciones3() {
+    echo '<section id = "administracionAreasClasificaciones3">
+            <h3>Editar un área</h3>
+            <div style = "text-align:left;">    
+            <p>Para editar un área se deben seguir los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Administración del sistema -> Administración de áreas y clasificaciones.</p>
+            <h4>Paso 2:</h4>
+            <p>Una vez en la ventana, dirigirse al botón con el signo de un lápiz (botón de color celeste) que se 
+            encuentra a la par del texto Áreas. Darle click.</p>        
+            <h4>Paso 3:</h4>     
+            <p>Se mostrará una ventana emergente en la que aparece una tabla en donde se puede
+            editar si el area está activa o no y donde se puede cambiar el nombre del área.
+            </p>                         
+             <h4>Paso 4:</h4>     
+            <p>Para inactivar un área presione el botón que dice activo y para activarla de nuevo presione el botón inactivo.</p> 
+                    <h4>Paso 5:</h4>     
+            <p>Para editar el nombre del área presione el botón del lápiz de la pantalla emergente y proceda a escribir el nombre nuevo del área. Luego de click en el botón Guardar.</p> 
+        </div>       
+       </section>';
+}
 
-function administracionAreasClasificaciones3(){}
+function administracionAreasClasificaciones4() {
+    echo '<section id = "administracionAreasClasificaciones4">
+            <h3>Agregar una clasificación</h3>
+            <div style = "text-align:left;">    
+            <p>Para agregar una clasificación se deben seguir los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Administración del sistema -> Administración de áreas y clasificaciones.</p>
+            <h4>Paso 2:</h4>
+            <p>Una vez en la ventana, dirigirse al botón con el signo de más (+) que se 
+            encuentra a la par del texto "Clasificaciones". Darle click.</p>        
+            <h4>Paso 3:</h4>     
+            <p>Se mostrará una ventana emergente en la que aparece un combo con
+            las áreas a las que puede pertenecer la clasificación.
+            Seleccionar el área.</p>                         
+             <h4>Paso 4:</h4>                
+            <p> Debajo del combo de áreas hay un campo de texto donde debe introducir el nombre de la clasificación que desea agregar.</p> 
+            <h4>Paso 5:</h4>
+            <p>Luego de introducir la nueva área de click en el botón que dice "Guardar".</p> 
+        </div>       
+       </section>';
+}
 
+function administracionAreasClasificaciones5() {
+    echo '<section id = "administracionAreasClasificaciones5">
+            <h3>Cambiar el área de una clasificación</h3>
+            <div style = "text-align:left;"> 
+             <p>Para modificar el área de una clasificación se deben seguir los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Administración del sistema -> Administración de áreas y clasificaciones.</p>
+            <h4>Paso 2:</h4>
+            <p>Una vez en la ventana, se mostrará una tabla con las clasificaciones,
+            en la columna que dice: "Área", dar click en el combo, se desplegarán las posibles áreas a 
+            las que la clasificación puede estar asociada.Seleccionar el área que desee.
+            <h4>Paso 3:</h4>
+            Aparecerá una ventana emergente de confirmación, dar click en aceptar.
+            </p>
+        </div>       
+       </section>';
+}
 
-function administracionAreasClasificaciones4(){}
+function administracionAreasClasificaciones6() {
+    echo '<section id = "administracionAreasClasificaciones6">
+            <h3>Activar o desactivar una clasificación</h3>
+            <div style = "text-align:left;">   
+            <p>Para activar o desactivar una clasificación se deben seguir los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Administración del sistema -> Administración de áreas y clasificaciones.</p>
+            <h4>Paso 2:</h4>
+            <p>Una vez en la ventana, se mostrará una tabla con las clasificaciones,
+            en la columna que dice: "Activo", se muestra un botón que indica si la clasificación está activa o inactiva.</p>
+            <br>
+            </p>
+            <h4>Paso 3:</h4>
+            <p>Dar click a activo en caso de que se desee colocar como inactivo, o inactivo en caso de que se desee colocar
+            como activo.            
+            </p>
+            <h4>Paso 4:</h4>
+            <p>Se abrirá una ventana emergente. Dar click en el botón de Aceptar.            
+            </p>
+        </div>       
+       </section>';
+}
 
+function administracionAreasClasificaciones7() {
 
-function administracionAreasClasificaciones5(){}
+    echo '<section id = "">
+            <h3>Editar clasificaciones</h3>
+            <div style = "text-align:left;">     
+             <p>Para activar o desactivar una clasificación se deben seguir los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Administración del sistema -> Administración de áreas y clasificaciones.</p>
+            <h4>Paso 2:</h4>
+            <p>Una vez en la ventana, se mostrará una tabla con las clasificaciones,
+            en la columna que dice: "Activo", se muestra un botón que indica si la clasificación está activa o inactiva.</p>
+            <br>
+            </p>
+            <h4>Paso 3:</h4>
+            <p>Dar click a activo en caso de que se desee colocar como inactivo, o inactivo en caso de que se desee colocar
+            como activo.            
+            </p>
+            <h4>Paso 4:</h4>
+            <p>Se abrirá una ventana emergente. Dar click en el botón de Aceptar.            
+            </p>
+        </div>       
+       </section>';
+}
 
-
-function administracionAreasClasificaciones6(){}
-
-
-function administracionAreasClasificaciones7(){}
-
-
-function administracionAreasClasificaciones8(){}
+function administracionAreasClasificaciones8() {
+    echo '<section id = "">
+            <h3>Mostrar solo clasificaciones activas</h3>
+            <div style = "text-align:left;">        
+        </div>       
+       </section>';
+}
