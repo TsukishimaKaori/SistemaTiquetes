@@ -261,7 +261,7 @@ BEGIN CATCH
     IF (XACT_STATE()) = -1
     BEGIN
         ROLLBACK TRANSACTION;
-		Set @men = 1; -- N'Ha ocurrido un error en la actualización.'
+		Set @men = 1; 
     END;
 END CATCH;
 GO
@@ -435,7 +435,7 @@ BEGIN TRY
     SET @coE = ISNULL((select UPPER(REPLACE(codigoEmpleado,' ','')) from dbo.Responsable where UPPER(REPLACE(@codiEmp,' ','')) = UPPER(REPLACE(codigoEmpleado,' ',''))), 'Error');
         IF @coE = 'Error'
         BEGIN
-            SET @men = 1; -- N'No existe un usuario con el código ' + @codiEmp;
+            SET @men = 1; 
             THROW  50001, 'No existe un usuario con el código', 1;
         END;
 
@@ -513,7 +513,9 @@ END CATCH
 GO
 
 --drop PROCEDURE PAresponsablesAsignadosRol; 
---go
+
+
+--Obtiene todos los responsables de la tabla Responsable que tiene asignados un rol específico.
 CREATE PROCEDURE PAobtenerResponsablesAsignadosRol  
 	@codRol int,
 	@men int output
