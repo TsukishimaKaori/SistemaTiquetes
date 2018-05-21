@@ -127,8 +127,6 @@ function cargarContenido($id) {
         case "administracionTemas7":
             administracionTemas7();
             break;
-        
-        
         case "activosFijos1":
             activosFijos1();
             break;
@@ -141,20 +139,42 @@ function cargarContenido($id) {
         case "activosFijos4":
             activosFijos4();
             break;
-                case "activosFijos5":
+        case "activosFijos5":
             activosFijos5();
             break;
-                case "activosFijos6":
+        case "activosFijos6":
             activosFijos6();
             break;
-            case "activosFijos7":
+        case "activosFijos7":
             activosFijos7();
             break;
-            case "activosFijos8":
+        case "activosFijos8":
             activosFijos8();
             break;
-            case "activosFijos9":
+        case "activosFijos9":
             activosFijos9();
+            break;
+        case "inventario1":
+            activosFijos9();
+            break;
+        case "inventario2":
+            activosFijos9();
+            break;
+
+        case "inventario3":
+            activosFijos9();
+            break;
+        case "inventario4":
+            activosFijos9();
+            break;
+        case "inventario5":
+            activosFijos9();
+            break;
+        case "inventarioCategoria1":
+            inventarioCategoria1();
+            break;
+        case "inventarioCategoria2":
+            inventarioCategoria2();
             break;
         
     }
@@ -905,7 +925,7 @@ function administracionTemas4() {
 }
 
 function administracionTemas5() {
-        echo '<section id = "">
+    echo '<section id = "">
             <h3>Mostrar solo temas activas</h3>
             <div style = "text-align:left;">            
              <p>Para mostrar solo los temas activos siga los siguientes pasos:</p>
@@ -918,11 +938,10 @@ function administracionTemas5() {
              clasificaciones, de click en el radio botón "todos".</p>         
         </div>       
        </section>';
-
 }
 
-function activosFijos1(){
-            echo '<section id = "">
+function activosFijos1() {
+    echo '<section id = "">
             <h3>¿Cómo asociar un repuesto a un activo fijo?</h3>
             <div style = "text-align:left;">            
              <p>Para asociar un repuesto a un activo fijo siga los siguientes pasos:</p>
@@ -940,11 +959,10 @@ function activosFijos1(){
             <p> Dar click en asociar. </p> 
         </div>       
        </section>';
-            
 }
 
-function activosFijos2(){
-        echo '<section id = "">
+function activosFijos2() {
+    echo '<section id = "">
             <h3>¿Cómo asociar una licencia a un activo fijo?</h3>
             <div style = "text-align:left;">            
              <p>Para asociar una licencia a un activo fijo siga los siguientes pasos:</p>
@@ -961,8 +979,8 @@ function activosFijos2(){
        </section>';
 }
 
-function activosFijos3(){    
-            echo '<section id = "">
+function activosFijos3() {
+    echo '<section id = "">
             <h3>¿Cómo ver la información de un activo fijo?</h3>
             <div style = "text-align:left;">            
              <p>Para ver la información de un activo fijo siga los siguientes pasos:</p>
@@ -977,15 +995,292 @@ function activosFijos3(){
              </p> 
         </div>       
        </section>';
-    
 }
 
-function activosFijos4(){}
+function activosFijos4() {
+    echo '<section id = "">
+            <h3>¿Cómo visualizar el historial de un activo fijo?</h3>
+            <div style = "text-align:left;">            
+             <p>Para visualizar el historial de un activo fijo siga los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Activos fijos -> Administración de activos.</p>
+            <h4>Paso 2:</h4>
+            <p>Se mostrará una tabla con los activos fijos. En la columna de Historial
+            aparece un botón, darle click.</p> 
+            <h4>Paso 3:</h4>
+            <p>Al darle click se abrirá una nueva página con el historial del activo.
+             </p> 
+        </div>       
+       </section>';
+}
 
-function activosFijos5(){}
+function activosFijos5() {
+    echo '<section id = "">
+            <h3>¿Cómo cambiar el estado de un activo fijo?</h3>
+            <div style = "text-align:left;">            
+             <p>Para cambiar el estado de un activo fijo siga los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Activos fijos -> Administración de activos.</p>
+            <h4>Paso 2:</h4>
+            <p>Se mostrará una tabla con los activos fijos. En la columna de Ver
+            aparece un botón con un ícono de un ojo (de color celeste), darle click.</p> 
+            <h4>Paso 3:</h4>
+            <p>Al darle click se desplegará un panel con toda la información del
+           activo fijo. Se mostrará un combo que indica el estado del activo. 
+           Seleccionar en el combo el estado deseado.
+             </p> 
+               <h4>Paso 4:</h4>
+            <p>Se abrirá una ventana emergente en donde se debe incluir una justificación
+            acerca del cambio de estado del activo.
+             </p>
+        </div>       
+       </section>';
+}
 
-function activosFijos6(){}
+function activosFijos6() {
+    echo '<section id = "">
+            <h3>¿Cómo desasociar una licencia a un activo fijo?</h3>
+            <div style = "text-align:left;">            
+             <p>Para ver las licencias asociadas al activo fijo siga los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Activos fijos -> Administración de activos.</p>
+            <h4>Paso 2:</h4>
+            <p>Se mostrará una tabla con los activos fijos. En la columna de Ver
+            aparece un botón con un ícono de un ojo (de color celeste), darle click.</p> 
+            <h4>Paso 3:</h4>
+            <p>Al darle click se desplegará un panel con toda la información del
+            activo fijo. Se mostrará un botón azul que dice "Licencias". Darle click.           
+            </p> 
+            <h4>Paso 4:</h4>
+            <p>Se abrirá una ventana emergente en donde se mostrarán las licencias
+            asociadas a dicho activo.
+            Si desea desasociar un repuesto de click en 
+            el botón con una x y luego, de click en aceptar.
+             </p>
+        </div>       
+       </section>';
+}
 
-function activosFijos7(){}
+function activosFijos7() {
+    echo '<section id = "">
+            <h3>¿Cómo desasociar un repuesto a un activo fijo?</h3>
+            <div style = "text-align:left;">            
+            <p>Para ver los repuestos asociadas al activo fijo siga los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Activos fijos -> Administración de activos.</p>
+            <h4>Paso 2:</h4>
+            <p>Se mostrará una tabla con los activos fijos. En la columna de Ver
+            aparece un botón con un ícono de un ojo (de color celeste), darle click.</p> 
+            <h4>Paso 3:</h4>
+            <p>Al darle click se desplegará un panel con toda la información del
+            activo fijo. Se mostrará un botón naranja que dice "Repuestos". Darle click.           
+            </p> 
+            <h4>Paso 4:</h4>
+            <p>Se abrirá una ventana emergente en donde se mostrarán las licencias
+            asociadas a dicho activo. Si desea desasociar una licencia de click en 
+            el botón con una x y luego, de click en aceptar.
+             </p>
+        </div>       
+       </section>';
+}
 
-function activosFijos8(){}
+function activosFijos8() {
+    echo '<section id = "">
+            <h3>¿Cómo ver los contratos asociados a un activo fijo?</h3>
+            <div style = "text-align:left;">            
+            <p>Para ver los contratos asociadas al activo fijo siga los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Activos fijos -> Administración de activos.</p>
+            <h4>Paso 2:</h4>
+            <p>Se mostrará una tabla con los activos fijos. En la columna de Ver
+            aparece un botón con un ícono de un ojo (de color celeste), darle click.</p> 
+            <h4>Paso 3:</h4>
+            <p>Al darle click se desplegará un panel con toda la información del
+            activo fijo. Se mostrará un botón celeste que dice "Contratos". Darle click.           
+            </p> 
+            <h4>Paso 4:</h4>
+            <p>Se abrirá una ventana emergente en donde se mostrarán los contratos
+            asociadas a dicho activo.
+             </p>
+        </div>       
+       </section>';
+}
+
+function activosFijos9() {
+    echo '<section id = "">
+            <h3> ¿Cómo desasociar un usuario a un activo fijo ?</h3>
+            <div style = "text-align:left;">            
+            <p>Para desasociar un usuario a un activo fijo, siga los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Activos fijos -> Administración de activos.</p>
+            <h4>Paso 2:</h4>
+            <p>Se mostrará una tabla con los activos fijos. En la columna de Ver
+            aparece un botón con un ícono de un ojo (de color celeste), darle click.</p> 
+            <h4>Paso 3:</h4>
+            <p>Al darle click se desplegará un panel con toda la información del
+            activo fijo. Se mostrará un botón rojo que dice "Desasociar". Darle click.           
+            </p> 
+            <h4>Paso 4:</h4>
+            <p>Se abrirá una ventana emergente en donde se pide confirmar que 
+            desea desasociar el usuario al activo fijo. De click en aceptar.
+            </p>
+        </div>       
+       </section>';
+}
+
+function inventario1() {
+    echo '<section id = "inventario1">
+            <h3>¿Cómo agregar un artículo a inventario?</h3>
+            <div style = "text-align:left;">   
+            <p>Para agregar un artículo a inventario se deben seguir los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Inventario -> Administrar inventario .</p>
+            <h4>Paso 2:</h4>
+            <p>Una vez en la ventana, se mostrará una tabla con los artículos en inventario.
+            En la esquina superior derecha de la tabla se encuentra un botón que dice "+ Agregar"
+            Dar click sobre él.
+            </p>
+            <h4>Paso 3:</h4>
+           <p>Se abrirá un panel con varios campos para rellenar.
+           Al final del formulario puede añadir un archivo adjunto de la
+           orden de compra del artículo u artículos.                      
+           </p>
+            <h4>Paso 4:</h4>
+           <p>Dar click en Guardar.</p>
+        </div>       
+       </section>';
+}
+
+function inventario2() {
+    echo '<section id = "inventario2">
+            <h3>¿Cómo sumar un artículo a inventario existente?</h3>
+            <div style = "text-align:left;">   
+            <p>Para sumar elementos a artículos ya existentes en inventario
+            se deben seguir los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Inventario -> Administrar inventario .</p>
+            <h4>Paso 2:</h4>
+            <p>Una vez en la ventana, se mostrará una tabla con los artículos en inventario.
+            En la tabla se muestra una columna con el nombre "Entrada". Dicha columna 
+            posee un botón con un signo de más (+) Dar click sobre él.
+            </p>
+            <h4>Paso 3:</h4>
+           <p>Se abrirá un panel con varios campos para rellenar. Complete los 
+           campos. Al final del formulario puede añadir un archivo adjunto de la
+           orden de compra del artículo u artículos.                      
+           </p>
+            <h4>Paso 4:</h4>
+           <p>Dar click en Guardar.</p>
+        </div>       
+       </section>';
+}
+
+function inventario3() {
+    echo '<section id = "inventario3">
+            <h3>¿Cómo sacar un artículo de inventario y pasarlo como activo fijo?</h3>
+            <div style = "text-align:left;">   
+            <p>Para  sacar un artículo de inventario y pasarlo como activo fijo
+            se deben seguir los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Inventario -> Administrar inventario .</p>
+            <h4>Paso 2:</h4>
+            <p>Una vez en la ventana, se mostrará una tabla con los artículos en inventario.
+            En la tabla se muestra una columna con el nombre "Salida". Dicha columna 
+            posee un botón con un signo de menos (-) Dar click sobre él.
+            </p>
+            <h4>Paso 3:</h4>
+           <p>Al dar click se abrirá una nueva página co un formulario con varios campos.
+           Rellene los campos.           
+           </p>
+           <h4>Paso 4:</h4>
+           <p>Abajo en el formulario se muestran dos botones "Licencias" y "Repuestos". Al darles 
+           click se abrirá un formulario que le permitirá al usuario añadir
+           algun repuesto o licencia al nuevo activo. Simplemente, rellene los campos y aplique los cambios.</p>
+           <h4>Paso 5:</h4>
+           <p>Dar click en el botón asociar equipo.</p>
+        </div>       
+       </section>';
+}
+
+function inventario4() {
+    echo '<section id = "inventario3">
+            <h3>¿Cómo ver la información de un artículo en inventario?</h3>
+            <div style = "text-align:left;">   
+            <p>Para  ver la información de un artículo en inventario
+            se deben seguir los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Inventario -> Administrar inventario .</p>
+            <h4>Paso 2:</h4>
+            <p>Se mostrará una tabla con los artículos en inventario. En la columna de "Ver"
+            aparece un botón con un ícono de un ojo (de color celeste), darle click.</p> 
+            <h4>Paso 3:</h4>
+            <p>Al darle click se desplegará un panel con toda la información del
+            artículo.
+            </p>
+        </div>       
+       </section>';
+}
+
+function inventario5() {
+    echo '<section id = "inventario3">
+        <h3>¿Cómo ver el historial de un artículo en inventario?</h3>
+        <div style = "text-align:left;">   
+        <p>Para ver el historial de un artículo en inventario
+        se deben seguir los siguientes pasos:</p>
+        <h4>Paso 1:</h4>
+        <p>Dirigirse a la pestaña Inventario -> Administrar inventario .</p>
+        <h4>Paso 2:</h4>
+        <p>Se mostrará una tabla con los artículos en inventario. En la columna de Ver
+        aparece un botón con un ícono de un ojo (de color celeste), darle click.</p> 
+        <h4>Paso 3:</h4>
+        <p>Al darle click se abrirá una nueva ventana con la información de 
+        entradas y salidas del inventario.
+        </p>
+    </div>       
+   </section>';
+}
+
+function inventarioCategoria1() {
+    echo '<section id = "inventarioCategoria1">
+        <h3>¿Cómo agregar una nueva categoría?</h3>
+        <div style = "text-align:left;">   
+        <p>Para agregar una nueva categoría
+        se deben seguir los siguientes pasos:</p>
+        <h4>Paso 1:</h4>
+        <p>Dirigirse a la pestaña Inventario -> Administrar categorías .</p>
+        <h4>Paso 2:</h4>
+        <p>Se mostrará una tabla con todas las categorías.Fuera de la tabla, a la
+        par del texto "Categorías" hay un botón con el signo de más (+). Darle
+        click.</p> 
+        <h4>Paso 3:</h4>
+        <p>Al darle click se abrirá una ventana emergente con un campo de texto,
+        escriba el nombre de la nueva categoría.
+       </p>
+       <h4>Paso 4:</h4>
+       <p>Si la categoría que desea agregar es un repuesto, 
+        seleccione la casilla que dice es repuesto
+        en caso contrario, no la marque.  </p>
+        <h4>Paso 5:</h4>
+       <p>De click en Guardar</p>
+    </div>       
+   </section>';
+}
+
+function inventarioCategoria2() {
+    echo '<section id = "inventario3">
+        <h3>¿Cómo eliminar una categoría?</h3>
+        <div style = "text-align:left;">   
+        <p>Para eliminar una categoría
+        se deben seguir los siguientes pasos:</p>
+        <h4>Paso 1:</h4>
+        <p>Dirigirse a la pestaña Inventario -> Administrar categorías .</p>
+        <h4>Paso 2:</h4>
+        <p>Se mostrará una tabla con todas las categorías. En la columna de "Elminar"
+        aparece un botón con un menos (-) de color rojo, darle click.</p> 
+        <h4>Paso 3:</h4>
+        <p>Al darle click se abrirá una nueva ventana de confirmación. </p>
+        <h4>Paso 4:</h4>
+        <p>De click en Elminar. </p>
+    </div>       
+   </section>';
+}

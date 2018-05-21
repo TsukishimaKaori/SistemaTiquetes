@@ -104,10 +104,7 @@ require_once ("../control/UsuarioLogueado.php");
                         }
                         if ($permiso4) {
                             echo '<li><a href="../vista/AdministrarTematicasSubTematicas.php">Administración de temas</a></li>';
-                        }
-                        if ($permiso5) {
-                            echo '<li><a href="../vista/AdministrarEstadoTiquetes.php">Administración estado de tiquetes</a></li>';
-                        }
+                        }                       
                         echo '</ul>';
                     }
 
