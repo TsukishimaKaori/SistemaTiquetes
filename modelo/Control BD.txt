@@ -15,6 +15,12 @@
     insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (13, 'Ver reportes de tiquetes');
     insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (14, 'Ver reportes de inventario');
 
+    insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 10);
+    insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 11);
+    insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 12);
+    insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 13); 
+    insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 14);
+
 18/05/2018
 
 1. Correr PApromedioCalificacionesPorArea

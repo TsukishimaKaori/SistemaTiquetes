@@ -535,7 +535,7 @@ BEGIN CATCH
 END CATCH
 GO
 
---Obtener responsable con login activo o inactivo
+--Obtener todos los responsables existentes
 CREATE PROCEDURE PAobtenerResponsablesCompletos   
 AS  
     SET NOCOUNT ON;
@@ -611,7 +611,7 @@ BEGIN CATCH
 END CATCH;
 GO
 
---Inactivar un area de la tabla Area
+--Inactivar un área de la tabla Area
 CREATE PROCEDURE PAinactivarArea
 	@codiArea int,
 	@men int output	
@@ -625,7 +625,7 @@ BEGIN TRY
 		SET @codigo = ISNULL((select codigoArea from dbo.Area where codigoArea = @codiArea), -1);
         IF @codigo = -1
         BEGIN
-            SET @men = 1; --No existe el codigo de rol
+            SET @men = 1; 
             THROW  50001, 'No existe el código de area ingresado', 1;
         END;
 
@@ -645,7 +645,7 @@ BEGIN CATCH
 END CATCH;
 GO
 
---Activar un area de la tabla Area
+--Activar un área de la tabla Area
 CREATE PROCEDURE PAactivarArea
 	@codiArea int,
 	@men int output	
@@ -659,7 +659,7 @@ BEGIN TRY
 		SET @codigo = ISNULL((select codigoArea from dbo.Area where codigoArea = @codiArea), -1);
         IF @codigo = -1
         BEGIN
-            SET @men = 1; --No existe el codigo de área
+            SET @men = 1; 
             THROW  50001, 'No existe el código de area ingresado', 1;
         END;
 
@@ -674,7 +674,7 @@ BEGIN CATCH
     END;
 	IF @codigo != -1
     BEGIN
-        SET @men = 3; -- N'El area tiene asociados';
+        SET @men = 3; 
 	END;
 END CATCH;
 GO
@@ -714,6 +714,7 @@ BEGIN CATCH
 END CATCH;
 GO
 
+--Obtiene todas las áreas que tiene relación con una clasificación.
 CREATE PROCEDURE PAobtenerAreaAsociadaClasificacion     
     @cT int 
 AS  
@@ -725,7 +726,7 @@ AS
 	where aretema.codigoArea = are.codigoArea;  
 GO
 
---Actualizar el area asociada a una Clasificacion primer nivel
+--Actualizar el área asociada a una clasificación de primer nivel
 CREATE PROCEDURE PAactualizarAreaAsociadaClasificacion
 	@codiArea int,
 	@codiTema int,
@@ -755,7 +756,7 @@ BEGIN CATCH
     END;
 	IF @codigo != -1
     BEGIN
-        SET @men = 2; -- N'El codigo de area no es valido';
+        SET @men = 2; -- 'El codigo de area no es valido';
 	END;
 END CATCH;
 GO
@@ -766,7 +767,7 @@ GO
 --drop procedure PAagregarTiquete;
 --select * from Tiquete;
 
---Insertar tiquete, el estado por defecto es el nuevo
+--Insertar tiquete, el estado por defecto es el nuevo y la prioridad es baja.
 CREATE PROCEDURE PAagregarTiquete
 	@usuarioIngresaTiquete varchar(50),
 	@codiTema int,
@@ -876,6 +877,7 @@ GO
 --exec PAobtenerTiquetesPorUsuarioFiltrados 'nubeblanca1997@outlook.com', 2, '1997-02-15', '2018-02-23';
 --drop procedure PAobtenerTiquetesPorUsuarioFiltrados;
 
+--Obtener un responsable filtrado por el código de responsable
 CREATE PROCEDURE PAobtenerResponsableCodigoResponsable  
 	@codRes int  
 AS  
@@ -887,6 +889,7 @@ AS
 	where area.codigoArea = resp.codigoArea AND rol.codigoRol = resp.codigoRol;
 GO
 
+--Obtiene todos los estados de tiquetes de tabla Estado
 CREATE PROCEDURE PAobtenerEstados
 AS  
     SET NOCOUNT ON;
@@ -928,7 +931,7 @@ AS
 GO
 
 
---Activar un temática de la tabla Clasificacion
+--Activar una clasificación de la tabla Clasificacion
 CREATE PROCEDURE PAactivarClasificacion
 	@codiTemaP int,
 	@men int output	
@@ -942,8 +945,8 @@ BEGIN TRY
 		SET @codigo = ISNULL((select codigoClasificacion from dbo.Clasificacion where codigoClasificacion = @codiTemaP), -1);
         IF @codigo = -1
         BEGIN
-            SET @men = 1; --No existe el codigo de temática o no es padre
-            THROW  50001, 'No existe el código de temática ingresado', 1;
+            SET @men = 1; --No existe el codigo de clasificación o no es padre
+            THROW  50001, 'No existe el código de clasificacion ingresado', 1;
         END;
 
          update dbo.Clasificacion set activo = 1 where codigoClasificacion = @codiTemaP;
@@ -957,12 +960,12 @@ BEGIN CATCH
     END;
 	IF @codigo != -1
     BEGIN
-        SET @men = 3; -- Ocurrio un error
+        SET @men = 3; -- Ocurrió un error
 	END;
 END CATCH;
 GO
 
---Inactivar un temática de la tabla Clasificacion
+--Inactivar una clasificación de la tabla Clasificacion
 CREATE PROCEDURE PAinactivarClasificacion
 	@codiTemaP int,
 	@men int output	
@@ -976,8 +979,8 @@ BEGIN TRY
 		SET @codigo = ISNULL((select codigoClasificacion from dbo.Clasificacion where codigoClasificacion = @codiTemaP), -1);
         IF @codigo = -1
         BEGIN
-            SET @men = 1; --No existe el codigo de temática 
-            THROW  50001, 'No existe el código de temática ingresado', 1;
+            SET @men = 1; --No existe el codigo de clasificación 
+            THROW  50001, 'No existe el código de clasificacion ingresado', 1;
         END;
 
          update dbo.Clasificacion set activo = 0 where codigoClasificacion = @codiTemaP;
@@ -996,7 +999,7 @@ BEGIN CATCH
 END CATCH;
 GO
 
---Agregar Clasificacion padre a la tabla Clasificacion y asocia con un area
+--Agregar clasificación padre a la tabla Clasificacion y asociarla con un área
 CREATE PROCEDURE PAagregarClasificacionPadre
 	@descTema varchar(50),
 	@codiArea int,
@@ -1040,7 +1043,7 @@ BEGIN CATCH
 END CATCH;
 GO
 
---Agregar Clasificacion hija a la tabla Clasificacion
+--Agregar clasificación hija a la tabla Clasificacion
 CREATE PROCEDURE PAagregarClasificacionHija
 	@descTema varchar(50),
 	@codPadre int,
@@ -1080,7 +1083,7 @@ END CATCH;
 GO
 
 
---Actualizar la descripcion de una Clasificacion de la tabla Clasificacion, las actualiza solo si esta activa 
+--Actualizar la descripción de una clasificación de la tabla Clasificacion, las actualiza solo si esta activa 
 CREATE PROCEDURE PAactualizarDescripcionClasificacion
 	@codiClasificacion int,
 	@descClasificacion varchar(50),
@@ -1122,7 +1125,7 @@ BEGIN CATCH
 END CATCH;
 GO
 
---Actualizar el padre de una Clasificacion hija de la tabla Clasificacion, las actualiza solo si esta activa 
+--Actualizar el padre de una clasificación hija de la tabla Clasificacion, las actualiza solo si esta activa 
 CREATE PROCEDURE PAactualizarPadreClasificacion
 	@codiClasificacion int,
 	@codPadre int,
@@ -1164,7 +1167,7 @@ BEGIN CATCH
 END CATCH;
 GO
 
---Eliminar Clasificacion, elimina solo si la Clasificacion no tiene relaciones con ningún registro de 
+--Eliminar clasificación, elimina solo si la clasificación no tiene relaciones con ningún registro de 
 --otra tabla
 CREATE PROCEDURE PAeliminarClasificacion
 	@codiClasificacion int,
@@ -1205,7 +1208,7 @@ GO
 
 --select * from dbo.Clasificacion;
 
---Actualizar el nombre de un área de la tabla Area
+--Actualizar el nombre de una área de la tabla Area
 CREATE PROCEDURE PAactualizarArea
 	@codArea int,
 	@nuevoNombre varchar(30),
@@ -1254,7 +1257,7 @@ GO
 
 --select * from dbo.Area;
 
---Obtener la direccion de los adjunto por el codigo de tiquete
+--Obtener la dirección de los adjuntos por el código de tiquete
 CREATE PROCEDURE PAobtenerAdjuntosTiquete
 	@codTiquete int
 AS 
@@ -1267,7 +1270,7 @@ GO
 --drop procedure PAobtenerAdjuntosTiquete;
 --select * from HistorialTiquete;
 
---Procedimiento para obtener todas activas las areas de la tabla Area
+--Procedimiento para obtener todas las áreas activas de la tabla Area
 CREATE PROCEDURE PAobtenerAreasActivas  
 	@men int output
 AS  
@@ -1361,21 +1364,6 @@ GO
 
 --exec PAobtenerHistorialComentariosCompleto 2;
 --select * from HistorialTiquete;
-
-CREATE PROCEDURE PAobtenerComentariosFiltradosFecha                --Creo que nunca usamos este
-	@codTiquete int,
-	@fechaInicio date,
-	@fechaFinal date
-AS 
-SET NOCOUNT ON;
-
-    select comentarioUsuario, fechaHora, nombreUsuarioCausante, direccionAdjunto, correoUsuarioCausante 
-	from dbo.HistorialTiquete where codigoTiquete = @codTiquete AND codigoIndicador = 2
-	AND fechaHora BETWEEN @fechaInicio AND @fechaFinal;
-
-GO
---exec PAobtenerComentariosFiltradosFecha 2, '2017-01-18', '2017-12-19';
---drop procedure PAobtenerComentariosFiltradosFecha;
 
 
 CREATE PROCEDURE PAasignarTiquete
@@ -1588,9 +1576,8 @@ GO
 
 --exec PAobtenerResponsablesAsignar 2;
 
---Obtiene los tiquetes que estan en estado de Nuevo o Devuelto. Para ser asignados.
---Es llamado por otro procedimiento que lo filtra de acuerdo al area a la que 
---pertenece el tiquete
+--Obtiene los tiquetes que están en estado de Nuevo o Devuelto para ser asignados.
+--Filtra de acuerdo al área a la que pertenece el tiquete
 CREATE PROCEDURE PAobtenerTiquetesPorAsignarArea  
 	@codigoArea int
 AS  
@@ -2395,41 +2382,6 @@ GO
 --DROP PROCEDURE PAactualizarPrioridad;
 
 
---Retorna solo una parte de la info de los tiquetes para los filtros de la búsqueda de tiquetes para el historial
-CREATE PROCEDURE PAobtenerTiquetesHistorial
-	@codigoTiquete varchar(200),
-	@correoSolicitante varchar(200),
-	@nombreSolicitante varchar(200),
-	@correoResponsable varchar(200),
-	@nombreResponsable varchar(200),
-	@fechaInicio date,
-	@fechaFinal date
-AS
-SET NOCOUNT ON;
-	SET @codigoTiquete = '%' + @codigoTiquete + '%';
-	SET @correoSolicitante = '%' + @correoSolicitante + '%';
-	SET @nombreSolicitante = '%' + @nombreSolicitante + '%';
-	SET @correoResponsable = '%' + @correoResponsable + '%';
-	SET @nombreResponsable = '%' + @nombreResponsable + '%';
-	SET @fechaInicio = (SELECT DATEADD(day, -1, @fechaInicio));
-	SET @fechaFinal = (SELECT DATEADD(day, 1, @fechaFinal));
-
-	select tique.codigoTiquete, tique.nombreUsuarioSolicitante, tique.usuarioIngresaTiquete, res.nombreResponsable,
-	res.correo, cla.descripcionClasificacion, tique.descripcion, tique.fechaCreacion from
-	(select codigoResponsable, nombreResponsable, correo from Responsable where nombreResponsable like @nombreResponsable AND
-	correo like @correoResponsable) res,
-	(select codigoClasificacion, descripcionClasificacion from Clasificacion) cla,
-	(select codigoTiquete, nombreUsuarioSolicitante, usuarioIngresaTiquete, codigoResponsable, descripcion, fechaCreacion, 
-	codigoClasificacion from Tiquete where codigoTiquete like @codigoTiquete 
-	AND nombreUsuarioSolicitante like @nombreSolicitante AND usuarioIngresaTiquete like @correoSolicitante 
-	AND fechaCreacion BETWEEN @fechaInicio AND @fechaFinal) tique
-	where res.codigoResponsable = tique.codigoResponsable AND cla.codigoClasificacion = tique.codigoClasificacion;
-GO
-
---exec PAobtenerTiquetesHistorial '', '', '', '', 'lui', '2018-01-01', '2018-02-07';
---update Tiquete SET codigoResponsable = 2 where codigoTiquete = 8;
---DROP PROCEDURE PAobtenerTiquetesHistorial;
-
 CREATE PROCEDURE PAobtenerHistorial
 	@codigoTiquete int
 AS
@@ -2827,7 +2779,7 @@ CREATE PROCEDURE PAreporteTiquetesIngresadosClasificacion
  --DROP PROCEDURE PAreporteTiquetesIngresadosClasificacion;
  --select * from Clasificacion;
 
- --Para llenar el grafico de lineas, se toma como atendidas a las puestas en proceso
+ --Para llenar el grafico de lineas
 CREATE PROCEDURE PAcantidadDeTiquetesAtendidosMensualmente
 	@annio varchar(4),
 	@mes varchar(2)
@@ -3002,7 +2954,12 @@ insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 5);
 insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 6);
 insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 7);
 insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 8);
-insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 9); 
+insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 9);
+insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 10);
+insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 11);
+insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 12);
+insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 13); 
+insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 14); 
 insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (2, 6);
 insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (2, 7); 
 insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (2, 9); 
@@ -3147,7 +3104,6 @@ insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (3, 'Bajo
 	DROP PROCEDURE PAobtenerAdjuntosTiquete;
 	DROP PROCEDURE PAobtenerAreasActivas;
 	DROP PROCEDURE PAobtenerHistorialComentariosCompleto;
-	DROP PROCEDURE PAobtenerComentariosFiltradosFecha;
 	DROP PROCEDURE PAasignarTiquete;
 	DROP PROCEDURE PAactualizarFechaSolicitada;
 	DROP PROCEDURE PAobtenerResponsablesAsignar;
@@ -3166,7 +3122,6 @@ insert into PrioridadTiquete (codigoPrioridad, nombrePrioridad) values (3, 'Bajo
 	DROP PROCEDURE PAcalificarTiquete;
 	DROP PROCEDURE PAobtenerPrioridades;
 	DROP PROCEDURE PAactualizarPrioridad;
-	DROP PROCEDURE PAobtenerTiquetesHistorial;
 	DROP PROCEDURE PAobtenerHistorial;
 	DROP PROCEDURE PAbusquedaAvanzadaTiquetes;
 	DROP PROCEDURE PAbusquedaAvanzadaTiquetesArea;
