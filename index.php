@@ -1,2 +1,3 @@
-<?php 
-header('Location: vista/BandejasTiquetes.php');
+<?php
+header('Location: vista/Login.php');
+//header('Location: vista/BandejasTiquetes.php');

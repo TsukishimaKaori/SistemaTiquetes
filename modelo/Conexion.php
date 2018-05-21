@@ -26,7 +26,7 @@ class Conexion {
     }
 
 
-   //private $serverName = "DANNY\SQLEXPRESS01";
+  // private $serverName = "DANNY\SQLEXPRESS01";
    private $serverName = "DESKTOP-HFVR94I\SQLEXPRESS01";     
     //private $serverName = "TATIANA\SQLEXPRESS02";
     //Conexion para el hosting gratuito

@@ -12,7 +12,7 @@
         <?php require ("../vista/Cabecera.php"); ?> 
         <?php
         $categorias =  obtenerCategorias();
-        require_once ("../modelo/ProcedimientosPermisos.php");
+
         if ($r) {
             if (!verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 4)) {
                 header('Location: ../vista/Error.php');

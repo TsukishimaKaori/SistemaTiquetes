@@ -12,7 +12,7 @@ function consumirMetodoUno($correo){
 }
 
 function consumirMetodoDos(){
-    //$jsonObject = json_decode(file_get_contents("http://localhost/sistemaTicketing/modelo/Service.php?metodo=2"), true);
+  //  $jsonObject = json_decode(file_get_contents("http://localhost/sistemaTicketing/modelo/Service.php?metodo=2"), true);
     $jsonObject = json_decode(file_get_contents("http://sistematiquetes.gearhostpreview.com/modelo/Service.php?metodo=2"), true);
     $usuarios = array();
     foreach ($jsonObject as $j) {

@@ -74,12 +74,12 @@ if (isset($_POST['adjuntos'])) {
     $codTiquete = $_POST['adjuntos'];
     $comentarios = obtenerHistorialComentariosCompleto($codTiquete);
     agregarComentarios($comentarios, $r);
-    //$correoAgregaAdjunto =$r->obtenerCorreo();
+//    $correoAgregaAdjunto =$r->obtenerCorreo();
 //    $nombreUsuarioCausante = $r->obtenerNombreResponsable();
 //     $subject ="Sistema de tiquetes: Nuevo documento adjuntado";
 //     $message = $nombreUsuarioCausante."ha adjuntado un archivo";
 //     $correoUsuarioAsignado = ""; //mandar el usuario que creo el tiquete**********************
-    //enviarCorreo($correoUsuarioAsignado,$subject,$message);   
+//    enviarCorreo($correoUsuarioAsignado,$subject,$message);   
 }
 
 // agrega comentarios
@@ -93,7 +93,7 @@ if (isset($_POST['comentario'])) {
 //    $subject ="Sistema de tiquetes: Nuevo comentario";
 //    $message = $nombreUsuarioCausante."ha realizado un comentario";
 //    $correoUsuarioAsignado = ""; //mandar el usuario que creo el tiquete**********************
-    //enviarCorreo($correoUsuarioAsignado,$subject,$message);
+//    enviarCorreo($correoUsuarioAsignado,$subject,$message);
 }
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="HORAS TRABAJADAS">
@@ -238,10 +238,20 @@ if (isset($_POST['codigoAsignado'])) {
         if ($responsable->obtenerCodigoEmpleado() == $codigoEmpleado) {
             $correoUsuarioAsignado = $responsable->obtenerCorreo();
         }
-    }
-    $subject = "Nuevo tiquete asignado";
-    $message = $nombreUsuarioCausante . " le ha asignado un nuevo tiquete";
-    enviarCorreo($correoUsuarioAsignado, $subject, $message);
+    }    
+//    $hoy = getdate();
+//     $anio = $hoy["year"];
+//     $mes = $hoy["mon"];
+//     if ($mes < 10)
+//         $mes = "0" . $mes;
+//     $dia = $hoy["mday"];
+//     if ($dia < 10)
+//         $dia = "0" . $dia;
+//     $fecha = $dia . "/" . $mes . "/" . $anio;
+//
+//    $subject = "Nuevo tiquete asignado";
+//    $message = "El usuario:".$nombreUsuarioCausante . " le ha asignado un nuevo tiquete el día". $fecha;
+//    enviarCorreo($correoUsuarioAsignado, $subject, $message);
    }
    else{
        echo 'Error';
@@ -287,6 +297,19 @@ if (isset($_POST['codigoEnProceso'])) {
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
     ponerTiqueteEnProceso($codTiquete, $fechaEntrega, $correoUsuarioCausante, $nombreUsuarioCausante);
+
+//    $hoy = getdate();
+//     $anio = $hoy["year"];
+//     $mes = $hoy["mon"];
+//     if ($mes < 10)
+//         $mes = "0" . $mes;
+//     $dia = $hoy["mday"];
+//     if ($dia < 10)
+//         $dia = "0" . $dia;
+//     $fecha = $dia . "/" . $mes . "/" . $anio;
+//    $subject = "El tiquete: ".$codTiquete." ha sido puesto en proceso";
+//    $message = "El usuario:".$nombreUsuarioCausante . " ha colocado el tiquete en proceso el día".$fecha."y debe ser atendido antes del". $fechaEntrega ;
+//    enviarCorreo($correoUsuarioCausante, $subject, $message); 
 }
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Anular">
@@ -296,6 +319,20 @@ if (isset($_POST['codigoAnular'])) {
     $correoUsuarioCausante = $r->obtenerCorreo();
     $nombreUsuarioCausante = $r->obtenerNombreResponsable();
     anularTiquete($codTiquete, $justificacion, $correoUsuarioCausante, $nombreUsuarioCausante);
+    
+//     $hoy = getdate();
+//     $anio = $hoy["year"];
+//     $mes = $hoy["mon"];
+//     if ($mes < 10)
+//         $mes = "0" . $mes;
+//     $dia = $hoy["mday"];
+//     if ($dia < 10)
+//         $dia = "0" . $dia;
+//     $fecha = $dia . "/" . $mes . "/" . $anio;
+//    $subject = "El tiquete: ".$codTiquete." ha sido anulado";
+//    $message = "El usuario:".$nombreUsuarioCausante . " ha anulado el tiquete el dia ".$fecha."y debe ser atendido antes del". $fechaEntrega ;
+//    enviarCorreo($correoUsuarioCausante, $subject, $message); 
+    
 }
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Finalizar">

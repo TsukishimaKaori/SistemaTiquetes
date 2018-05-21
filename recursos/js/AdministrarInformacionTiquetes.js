@@ -431,6 +431,9 @@ function tiqueteSiguiente() {
             success: function (response) {
                 $("#cargandoImagen").css('display', 'none');
                 var tiquete = response['tiquete'];
+                if (TiqueteSiguiente != null) {
+                    tiquete = TiqueteSiguiente;
+                }
                 var pagina = response['pagina'];
                 if (tiquete !== "NO") {
                     $.ajax({
@@ -448,6 +451,8 @@ function tiqueteSiguiente() {
                         },
                         success: function (response) {
                             $("#cargarTiquetePagina").html(response);
+                            TiqueteSiguiente = null;
+                            TiqueteAnterior = null;
                             $("#cargandoImagen").css('display', 'none');
                             $(function () {
                                 $('.datetimepicker').datetimepicker({
@@ -501,6 +506,9 @@ function tiqueteSiguiente() {
             success: function (response) {
                 $("#cargandoImagen").css('display', 'none');
                 var tiquete = response['tiquete'];
+                if (TiqueteSiguiente != null) {
+                    tiquete = TiqueteSiguiente;
+                }
                 var pagina = response['pagina'];
                 if (tiquete !== "NO") {
                     $.ajax({
@@ -518,6 +526,8 @@ function tiqueteSiguiente() {
                             $("#cargandoImagen").css('display', 'block');
                         },
                         success: function (response) {
+                            TiqueteSiguiente == null;
+                            TiqueteAnterior = null;
                             $("#cargandoImagen").css('display', 'none');
                             $("#cargarTiquetePagina").html(response);
                             $(function () {
@@ -577,6 +587,9 @@ function tiqueteAnterior() {
             success: function (response) {
                 $("#cargandoImagen").css('display', 'none');
                 var tiquete = response['tiquete'];
+                if (TiqueteAnterior != null) {
+                    tiquete = TiqueteAnterior;
+                }
                 var pagina = response['pagina'];
                 if (tiquete !== "NO") {
                     $.ajax({
@@ -594,6 +607,8 @@ function tiqueteAnterior() {
                         },
                         success: function (response) {
                             $("#cargandoImagen").css('display', 'none');
+                            TiqueteAnterior = null;
+                            TiqueteSiguiente == null;
                             $("#cargarTiquetePagina").html(response);
 
                             $(function () {
@@ -643,6 +658,9 @@ function tiqueteAnterior() {
             success: function (response) {
                 $("#cargandoImagen").css('display', 'none');
                 var tiquete = response['tiquete'];
+                if (TiqueteAnterior != null) {
+                    tiquete = TiqueteAnterior;
+                }
                 var pagina = response['pagina'];
                 if (tiquete !== "NO") {
                     $.ajax({
@@ -661,6 +679,8 @@ function tiqueteAnterior() {
                         },
                         success: function (response) {
                             $("#cargandoImagen").css('display', 'none');
+                            TiqueteAnterior = null;
+                            TiqueteSiguiente == null;
                             $("#cargarTiquetePagina").html(response);
                             $(function () {
                                 $('.datetimepicker').datetimepicker({
@@ -676,21 +696,231 @@ function tiqueteAnterior() {
     }
     $("#cargandoImagen").css('display', 'none');
 }
+var TiqueteSiguiente = null;
+var TiqueteAnterior = null;
+function EncontrarSiguiente(accion) {
+    var siguiente = 1; //tiquete siguietne
+    var codigoTiquete = $("#codigoTiquete").text(); //codigo tiquete actual 
+    var codigoPagina = $("#codigoPagina").val(); //codigo de la pagina actual
+    if (codigoPagina == paginaPrincipal) {
+        var fechaI = $("#filtroFechaI").val(); //codigo de la pagina actual
+        var fechaF = $("#filtroFechaF").val();
+        var nuevo = $("#filtroNuevo").val();
+        var asignado = $("#filtroAsignado").val();
+        var reasignado = $("#filtroReasignado").val();
+        var proceso = $("#filtroProceso").val();
+        var anulado = $("#filtroAnulado").val();
+        var finalizado = $("#filtroFinalizado").val();
+        var calificado = $("#filtroCalificado").val();
+    }
+    if (codigoPagina == 1 || codigoPagina == 2 || codigoPagina == 3) {
+        $.ajax({
+            data: {'siguiente': siguiente,
+                'codigoTiquete': codigoTiquete,
+                'codigoPagna': codigoPagina,
+                'fechaI': fechaI,
+                'fechaF': fechaF,
+                'nuevo': nuevo,
+                'asignado': asignado,
+                'reasignado': reasignado,
+                'proceso': proceso,
+                'anulado': anulado,
+                'finalizado': finalizado,
+                'calificado': calificado
+            },
+            type: 'POST',
+            dataType: 'json',
+            url: '../control/SolicitudAjaxInformacionTiquetes.php',
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
+            success: function (response) {
+                $("#cargandoImagen").css('display', 'none');
+                TiqueteSiguiente = response['tiquete'];
+                EncontrarAnterior(accion)
+            }
+        });
 
+
+    } else if (codigoPagina == 4) {
+        if (codigoPagina == paginaPrincipal) {
+            var codigoFiltroG = $("#codigoFiltroG").val();
+            var nombreSG = $("#nombreSG").val();
+            var correoSG = $("#correoSG").val();
+            var nombreRG = $("#nombreRG").val();
+            var correoRG = $("#correoRG").val();
+        }
+
+
+        $.ajax({
+            data: {'siguiente': siguiente,
+                'codigoTiquete': codigoTiquete,
+                'codigoPagna': codigoPagina,
+                'fechaI': fechaI,
+                'fechaF': fechaF,
+                'nuevo': nuevo,
+                'asignado': asignado,
+                'reasignado': reasignado,
+                'proceso': proceso,
+                'anulado': anulado,
+                'finalizado': finalizado,
+                'calificado': calificado,
+                'codigoFiltroG': codigoFiltroG,
+                'nombreSG': nombreSG,
+                'correoSG': correoSG,
+                'nombreRG': nombreRG,
+                'correoRG': correoRG
+            },
+            type: 'POST',
+            dataType: 'json',
+            url: '../control/SolicitudAjaxInformacionTiquetes.php',
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
+            success: function (response) {
+                $("#cargandoImagen").css('display', 'none');
+                TiqueteSiguiente = response['tiquete'];
+                EncontrarAnterior(accion);
+
+            }
+        });
+    }
+    $("#cargandoImagen").css('display', 'none');
+}
+function EncontrarAnterior(accion) {
+    var anterior = 0; // tiquete anterior
+    var codigoTiquete = $("#codigoTiquete").text(); //codigo tiquete actual 
+    var codigoPagina = $("#codigoPagina").val(); //codigo de la pagina actual
+    if (codigoPagina == paginaPrincipal) {
+        var fechaI = $("#filtroFechaI").val(); //codigo de la pagina actual
+        var fechaF = $("#filtroFechaF").val();
+        var nuevo = $("#filtroNuevo").val();
+        var asignado = $("#filtroAsignado").val();
+        var reasignado = $("#filtroReasignado").val();
+        var proceso = $("#filtroProceso").val();
+        var anulado = $("#filtroAnulado").val();
+        var finalizado = $("#filtroFinalizado").val();
+        var calificado = $("#filtroCalificado").val();
+    }
+    if (codigoPagina == 1 || codigoPagina == 2 || codigoPagina == 3) {
+        $.ajax({
+            data: {'anterior': anterior,
+                'codigoTiquete': codigoTiquete,
+                'codigoPagna': codigoPagina,
+                'fechaI': fechaI,
+                'fechaF': fechaF,
+                'nuevo': nuevo,
+                'asignado': asignado,
+                'reasignado': reasignado,
+                'proceso': proceso,
+                'anulado': anulado,
+                'finalizado': finalizado,
+                'calificado': calificado
+            },
+            type: 'POST',
+            dataType: 'json',
+            url: '../control/SolicitudAjaxInformacionTiquetes.php',
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
+            success: function (response) {
+                $("#cargandoImagen").css('display', 'none');
+                TiqueteAnterior = response['tiquete'];
+                switch (accion) {
+                    case "finalizar":
+                        FinalizarAjax();
+                        break;
+                    case "calificar":
+                        calificarAjax();
+                        break;
+                    case "anular":
+                        AnularAjax();
+                        break;
+                    case "reproceso":
+                        reasignarAjax();
+                        break;
+
+
+                    default:
+
+                        break;
+                }
+            }
+        });
+    } else if (codigoPagina == 4) {
+        if (codigoPagina == paginaPrincipal) {
+            var codigoFiltroG = $("#codigoFiltroG").val();
+            var nombreSG = $("#nombreSG").val();
+            var correoSG = $("#correoSG").val();
+            var nombreRG = $("#nombreRG").val();
+            var correoRG = $("#correoRG").val();
+        }
+        $.ajax({
+            data: {'anterior': anterior,
+                'codigoTiquete': codigoTiquete,
+                'codigoPagna': codigoPagina,
+                'fechaI': fechaI,
+                'fechaF': fechaF,
+                'nuevo': nuevo,
+                'asignado': asignado,
+                'reasignado': reasignado,
+                'proceso': proceso,
+                'anulado': anulado,
+                'finalizado': finalizado,
+                'calificado': calificado,
+                'codigoFiltroG': codigoFiltroG,
+                'nombreSG': nombreSG,
+                'correoSG': correoSG,
+                'nombreRG': nombreRG,
+                'correoRG': correoRG
+            },
+            type: 'POST',
+            dataType: 'json',
+            url: '../control/SolicitudAjaxInformacionTiquetes.php',
+            beforeSend: function () {
+                $("#cargandoImagen").css('display', 'block');
+            },
+            success: function (response) {
+                $("#cargandoImagen").css('display', 'none');
+                TiqueteAnterior = response['tiquete'];
+                switch (accion) {
+                    case "finalizar":
+                        FinalizarAjax();
+                        break;
+                    case "calificar":
+                        calificarAjax();
+                        break;
+                    case "anular":
+                        AnularAjax();
+                        break;
+                    case "reproceso":
+                        reasignarAjax();
+                        break;
+
+
+                    default:
+
+                        break;
+                }
+            }
+        });
+    }
+    $("#cargandoImagen").css('display', 'none');
+}
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="ESTADO ASIGNAR">
 var paginadePagina;// numero de pagina
-function asignarUnTiquete(numero,codigoArea) {
+function asignarUnTiquete(numero, codigoArea) {
     paginadePagina = numero;
     if (paginadePagina == 2) {
-        cargarResponsablesAjax(codigoArea);        
+        cargarResponsablesAjax(codigoArea);
     } else if (paginadePagina == 4) {
         $("#modalAsignartodos").modal("show");
     }
 }
-function  cargarResponsablesAjax(codigoArea){
-     $.ajax({
+function  cargarResponsablesAjax(codigoArea) {
+    $.ajax({
         data: {'CargarResponsablesCodigoArea': codigoArea
 
         },
@@ -710,7 +940,7 @@ function  cargarResponsablesAjax(codigoArea){
             }
         }
     });
-    
+
 }
 function asignarResponsableAjax() {
     var codigo = document.getElementById("codigoTiquete").innerHTML;
@@ -1188,7 +1418,7 @@ function AsignartiqueteAnterior() {
 function reasignar() {
     document.getElementById("infoJusticiacion").innerHTML = "¿Por qué desea enviar a reasignar?";
     document.getElementById("aceptarJustificacion").onclick = function () {
-        reasignarAjax()
+        EncontrarSiguiente("reproceso");
     };
     document.getElementById("cancelarJustificacion").onclick = function () {
         cancelarReasignar()
@@ -1213,18 +1443,40 @@ function reasignarAjax() {
                 $("#cargandoImagen").css('display', 'block');
             },
             success: function (response) {
-                $("#cargandoImagen").css('display', 'none');
+                  $("#cargandoImagen").css('display', 'none');
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
-                var pagina = document.getElementById("comboPagina");
-                cambiarComboPagina(pagina);
+                var pagina = document.getElementById("comboPagina").value;
+                $.ajax({
+                    data: {'extra': true, 'tiquete': codigo, 'pagina': pagina
+                    },
+                    type: 'POST',
+                    url: '../control/SolicitudAjaxInformacionTiquetes.php',
+                    beforeSend: function () {
+                        $("#cargandoImagen").css('display', 'block');
+                    },
+                    success: function (response) {
+                        $("#cargarTiquetePagina").html(response);
+                        $("#cargandoImagen").css('display', 'none');
+                        $(function () {
+                            $('.datetimepicker').datetimepicker({
+                                format: 'DD/MM/YYYY',
+                                locale: 'es'
+                            });
+                        });
+                        // var mensaje = "El tiquete a sido anulado";
+                        // notificacion(mensaje);
+
+                    }
+                });
                 document.getElementById("justificacion").value = "";
                 if (response == "") {
-                    var mensaje = "Tiquete reasignado correctamente";
+                    var mensaje = "El tiquete enviado a reasignar ";
+                    notificacion(mensaje);
+                } else {
+                    var mensaje = "Ha ocurrido un error";
                     notificacion(mensaje);
                 }
-
-
             }
         });
     }
@@ -1369,7 +1621,7 @@ function confirmarFechaSolicitada() {
 function Anular() {
     document.getElementById("infoJusticiacion").innerHTML = "¿Por qué desea anular el tiquete?";
     document.getElementById("aceptarJustificacion").onclick = function () {
-        AnularAjax();
+        EncontrarSiguiente("anular");
     };
     document.getElementById("cancelarJustificacion").onclick = function () {
         cancelarReasignar();
@@ -1378,6 +1630,7 @@ function Anular() {
 }
 
 function AnularAjax() {
+
     var codigo = document.getElementById("codigoTiquete").innerHTML;
     var justificacion = document.getElementById("justificacion").value;
     if (justificacion != "") {
@@ -1433,7 +1686,7 @@ function Finalizar() {
     } else {
         document.getElementById("infoJusticiacion").innerHTML = "¿Por qué desea finalizar el tiquete?";
         document.getElementById("aceptarJustificacion").onclick = function () {
-            FinalizarAjax();
+            EncontrarSiguiente("finalizar");
         };
         document.getElementById("cancelarJustificacion").onclick = function () {
             cancelarenProceso();
@@ -1443,6 +1696,8 @@ function Finalizar() {
 }
 
 function FinalizarAjax() {
+
+
     var codigo = document.getElementById("codigoTiquete").innerHTML;
     var justificacion = document.getElementById("justificacion").value;
     if (justificacion != "") {
@@ -1520,12 +1775,13 @@ function MostrarCalificar() {
 }
 
 function calificar(event) {
+
     calificacion = event;
     calificacion.checked = false;
     var micalificacion = calificacion.value;
     document.getElementById("infoJusticiacion").innerHTML = "\"Estrellas:" + micalificacion + "\" Agregar comentario a la calificación";
     document.getElementById("aceptarJustificacion").onclick = function () {
-        calificarAjax()
+        EncontrarSiguiente("calificar");
     };
     document.getElementById("cancelarJustificacion").onclick = function () {
         cancelarcalificar()
@@ -1539,6 +1795,7 @@ function  cancelarcalificar() {
 }
 
 function calificarAjax() {
+
     var codigo = document.getElementById("codigoTiquete").innerHTML;
     var micalificacion = calificacion.value;
     var justificacion = document.getElementById("justificacion").value;
@@ -1808,10 +2065,9 @@ function escogerEquipo() {
 
     if (table.rows('.selected').data().length > 0) {
         $('#asociarEquipo').modal('show');
-    }
-    else{
-         $('#NoSelecion').modal('show');
-        
+    } else {
+        $('#NoSelecion').modal('show');
+
     }
 }
 
@@ -1820,9 +2076,9 @@ function escogerEquipoAjax() {
     var seleciones = table.rows('.selected').data();
     var placas = [];
     for (var i = 0, max = table.rows('.selected').data().length; i < max; i++) {
-           placas[i] = seleciones[i][0];
+        placas[i] = seleciones[i][0];
     }
-    var codigoTiquete = $("#codigoTique").val();    
+    var codigoTiquete = $("#codigoTique").val();
     $.ajax({
         data: {'asociarPlacas': JSON.stringify(placas),
             'codigoTiquete': codigoTiquete
@@ -1835,25 +2091,24 @@ function escogerEquipoAjax() {
         success: function (response) {
             $("#cargandoImagen").css('display', 'none');
             $('#asociarEquipo').modal('hide');
-           var arregloDeSubCadenas = response.split(";");
+            var arregloDeSubCadenas = response.split(";");
             if (arregloDeSubCadenas[0] !== "") {
                 var mensaje = "Error al asociar algunos equipos";
                 notificacion(mensaje);
-            } else {               
+            } else {
                 var mensaje = "Equipos asociado correctamente";
                 notificacion(mensaje);
             }
-                if($("#equipo").val()==""){
-                var html=arregloDeSubCadenas[1].substring(1);
+            if ($("#equipo").val() == "") {
+                var html = arregloDeSubCadenas[1].substring(1);
+            } else {
+                var html = $("#equipo").val() + arregloDeSubCadenas[1];
             }
-            else{
-               var html=$("#equipo").val()+arregloDeSubCadenas[1]; 
-            }
-                $("#equipo").val(html);
-                $("#modalaEquipos").modal("hide");
-                $('#tablaTiquetesI').DataTable().destroy();
-                $("#tbody-tablaEquipo").html("");
-                tablaActivos();
+            $("#equipo").val(html);
+            $("#modalaEquipos").modal("hide");
+            $('#tablaTiquetesI').DataTable().destroy();
+            $("#tbody-tablaEquipo").html("");
+            tablaActivos();
         }
     });
 }

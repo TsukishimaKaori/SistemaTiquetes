@@ -5,13 +5,13 @@
 
         <?php require_once ("../control/ArchivosDeCabecera.php"); ?>            
         <link href="../recursos/css/inventario.css" rel="stylesheet"/>     
-        <script src="../recursos/js/AdministrarInventario.js"></script>  
+          
         <link rel="stylesheet" href="../recursos/bootstrap/css/bootstrap-datetimepicker.min.css" />
         <script src="../recursos/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
         <script src="../recursos/bootstrap/js/es.js"></script>
         <link href="../recursos/bootstrap/css/bootstrap-select.min.css" rel="stylesheet"/>
         <script src="../recursos/bootstrap/js/bootstrap-select.min.js"></script>  
-
+<script src="../recursos/js/AdministrarInventario.js"></script>
         <?php
         require ("../control/AdministrarTablaInventario.php");
         require ("../modelo/ProcedimientosInventario.php");
@@ -19,7 +19,10 @@
         ?>
     </head>
     <body>
-        <?php require ("../vista/Cabecera.php"); ?>
+        <?php require ("../vista/Cabecera.php");
+        if ($r) {
+            
+        ?>
 
         <?php
         $activos = obtenerActivosFijos();
@@ -29,6 +32,14 @@
         } else {
             $tab = 1;
         }
+        if($tab==1 && !verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 10) ){       
+                echo "<script>location.href='../vista/Error.php'</script>";
+        }
+         if($tab==2 && !verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 11) ){       
+                echo "<script>location.href='../vista/Error.php'</script>";
+        }
+          
+        
         ?>
         <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
         <input id = 'nombreUsuario' type="hidden" value ='<?php echo $r->obtenerNombreResponsable() ?>' >
@@ -94,9 +105,15 @@
                         </div>
                     </div>
                     <div id="tab-indice" class="tab"> 
-                        <button onclick = "filtrar()" type="button"  class="tablinks" data-toggle="modal" ><i class="glyphicon glyphicon-wrench"></i>Filtrar búsqueda</button>    
-                        <button id = "link-inventario" class="tablinks" onclick="abrir_tab_inventario(this, 'tab-inventario')" id="defaultOpen">Inventario</button>
-                        <button id = "link-activos"  class="tablinks" onclick="abrir_tab_inventario(this, 'tab-activos')" >Activos fijos</button>                        
+                        <button onclick = "filtrar()" type="button"  class="tablinks" data-toggle="modal" ><i class="glyphicon glyphicon-wrench"></i>Filtrar búsqueda</button>
+                        <?php
+                        if(verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 11)){                      
+                        echo'<button id = "link-inventario" class="tablinks" onclick="abrir_tab_inventario(this, \'tab-inventario\')" id="defaultOpen">Inventario</button>';
+                        }
+                        if(verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 10)){  
+                        echo'<button id = "link-activos"  class="tablinks" onclick="abrir_tab_inventario(this, \'tab-activos\')" >Activos fijos</button>'; 
+                        }
+                       ?>
                     </div> 
 
 
@@ -496,8 +513,9 @@
 
         alerta("ErrorRepuesto", "Error al eliminar repuesto", "");
         alerta("ErrorLicencia", "Error al eliminar licencia", "");
+     
+            }
         ?>
-
     </body>
 
 </html>

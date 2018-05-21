@@ -1,13 +1,24 @@
 <?php
+
 session_start();
+if($_SESSION['objetoUsuario']==null){
 require_once ("../control/UsuarioLogueado.php");
+}
 ?>
 <header >
     <?php
+    if(isset($_GET[correo])){
+       $r = obtenerResponsable($_GET[correo]); 
+        $_SESSION['objetoUsuario'] = $r;
+    }
+    else{
+        $r = obtenerResponsable( $_SESSION['objetoUsuario']->obtenerCorreo());
+         $_SESSION['objetoUsuario'] = $r;
+    }
     //$r = obtenerResponsable('dannyalfvr97@gmail.com');
-    $r = obtenerResponsable('nubeblanca1997@outlook.com');
+  //  
     // $r = obtenerResponsable('francini113@gmail.com');
-    $_SESSION['objetoUsuario'] = $r;
+   
 
     $r = $_SESSION['objetoUsuario'];
 //                        if ($r == 'Ha ocurrido un error' || $r == null) {
@@ -44,11 +55,15 @@ require_once ("../control/UsuarioLogueado.php");
                         ?> 
                     </p>
                 </li>
+                 
                 <li>
                     <p class="navbar-text"> <?php echo $r->obtenerCorreo(); ?> </p>
                 </li>
                 <li>
                     <p class="navbar-text"> <a title ="Ayuda en línea" href = "../vista/AyudaEnLinea.php">Ayuda en línea</a> </p>
+                </li>
+                <li>
+                    <p class="navbar-text"> <a title ="Ayuda en línea" href = "../vista/Login.php">Salir</a> </p>
                 </li>
             </ul>
 
@@ -72,7 +87,13 @@ require_once ("../control/UsuarioLogueado.php");
                     $permiso5 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 5); //Administrar estados
                     $permiso6 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 6); // Tiquetes sin asignar
                     $permiso7 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 7); // Tiquetes asignados
-                    if ($permiso6 || $permiso7) {
+                    $permiso8= verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 8); // todos Tiquetes
+                    $permiso10 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 10);// activos
+                    $permiso11 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 11);//inventario
+                    $permiso12 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 12);//categorias pasivos
+                    $permiso13 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 13);//reporte tiquetes
+                    $permiso14 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 14);//reporte inventario
+                    if ($permiso6 || $permiso7 ||$permiso8 ) {
                         echo'   <li class="dropdown">';
                         echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración de tiquetes<b class="caret"></b></a>';
                         echo '<ul class="dropdown-menu">';
@@ -82,12 +103,37 @@ require_once ("../control/UsuarioLogueado.php");
                         if ($permiso7) {
                             echo '<li><a href="../vista/BandejasTiquetes.php?tab=' . '3' . '">Tiquetes asignados</a></li>';
                         }
-                        if ($permiso7) { //CAMBIAR EL PERMISO QUE CREO QUE ESTE AUN NO TIENE 
+                        if ($permiso8) { //CAMBIAR EL PERMISO QUE CREO QUE ESTE AUN NO TIENE 
                             echo '<li><a href="../vista/BandejasTiquetes.php?tab=' . '4' . '">Todos los tiquetes</a></li>';
                         }
                         echo'</ul>
                             </li>';
                     }
+
+
+                    if ($permiso10) { //cambiar permisos y url
+                        echo'   <li class="dropdown">';
+                        echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Activos fijos <b class="caret"></b></a>';
+                        echo '<ul class="dropdown-menu">';
+                        echo '<li><a href="../vista/AdministrarInventario.php?tab=1">Administrar activos</a></li>';
+
+
+                        echo '</ul>';
+                    }
+
+                    if ($permiso11 || $permiso12) { //cambiar permisos y url
+                        echo'   <li class="dropdown">';
+                        echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Inventario <b class="caret"></b></a>';
+                        echo '<ul class="dropdown-menu">';
+                        if ($permiso11) { //cambiar el permiso y url
+                            echo '<li><a href="../vista/AdministrarInventario.php?tab=2">Administrar inventario</a></li>';
+                        }
+                        if ($permiso12) {
+                            echo '<li><a href="../vista/AdministrarCategorias.php">Administrar categorías</a></li>';
+                        }
+                        echo '</ul>';
+                    }
+
                     if ($permiso1 || $permiso2 || $permiso3 || $permiso4) {
 
                         echo'   <li class="dropdown">';
@@ -107,42 +153,18 @@ require_once ("../control/UsuarioLogueado.php");
                         }                       
                         echo '</ul>';
                     }
-
-                    if ($permiso1 || $permiso2 || $permiso3 || $permiso4) { //cambiar permisos y url
-                        echo'   <li class="dropdown">';
-                        echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Activos fijos <b class="caret"></b></a>';
-                        echo '<ul class="dropdown-menu">';
-//                        if ($permiso1) { //cambiar el permiso y url
-//                            echo '<li><a href="../vista/AgregarInventario.php">Agregar inventario</a></li>';
-//                        }
-                        if ($permiso1) { //cambiar el permiso y url
-                            echo '<li><a href="../vista/AdministrarInventario.php?tab=1">Administrar activos</a></li>';
-                        }
-
-                        echo '</ul>';
-                    }
-
-                    if ($permiso1 || $permiso2 || $permiso3 || $permiso4) { //cambiar permisos y url
-                        echo'   <li class="dropdown">';
-                        echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Inventario <b class="caret"></b></a>';
-                        echo '<ul class="dropdown-menu">';
-                        if ($permiso1) { //cambiar el permiso y url
-                            echo '<li><a href="../vista/AdministrarInventario.php?tab=2">Administrar inventario</a></li>';
-                        }
-                        echo '<li><a href="../vista/AdministrarCategorias.php">Administrar categorías</a></li>';
-                        echo '</ul>';
-                    }
-
-
-                    if ($permiso1 || $permiso2 || $permiso3 || $permiso4) { //cambiar permisos y url
+                    if ($permiso13 || $permiso14) { //cambiar permisos y url
                         echo'   <li class="dropdown">';
                         echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <b class="caret"></b></a>';
                         echo '<ul class="dropdown-menu">';
-                        if ($permiso1) { //cambiar el permiso y url
+                        if ($permiso13) { //cambiar el permiso y url
                             echo '<li><a href="../vista/ReportesTiquetes.php">Reportes de tiquetes</a></li>';
                             echo '<li><a href="../vista/ReporteTiquetesEstado.php">Reportes de tiquetes por estado</a></li>';
+                            echo '<li><a href="../vista/ReporteTiquetesFecha.php">Reportes de tiquetes por Fecha</a></li>';
                         }
-                        echo '<li><a href="../vista/ReportesInventario.php">Reportes de inventario</a></li>';
+                        if ($permiso14) {
+                            echo '<li><a href="../vista/ReportesInventario.php">Reportes de inventario</a></li>';
+                        }
                         echo '</ul>';
                     }
                 }
