@@ -105,6 +105,28 @@ function cargarContenido($id) {
         case "administracionAreasClasificaciones8":
             administracionAreasClasificaciones8();
             break;
+
+        case "administracionTemas1":
+            administracionTemas1();
+            break;
+        case "administracionTemas2":
+            administracionTemas2();
+            break;
+        case "administracionTemas3":
+            administracionTemas3();
+            break;
+        case "administracionTemas4":
+            administracionTemas4();
+            break;
+        case "administracionTemas5":
+            administracionTemas5();
+            break;
+        case "administracionTemas6":
+            administracionTemas6();
+            break;
+        case "administracionTemas7":
+            administracionTemas7();
+            break;
     }
 }
 
@@ -680,7 +702,7 @@ function administracionAreasClasificaciones4() {
              <h4>Paso 4:</h4>                
             <p> Debajo del combo de áreas hay un campo de texto donde debe introducir el nombre de la clasificación que desea agregar.</p> 
             <h4>Paso 5:</h4>
-            <p>Luego de introducir la nueva área de click en el botón que dice "Guardar".</p> 
+            <p>Luego de introducir la nueva clasificación de click en el botón que dice "Guardar".</p> 
         </div>       
        </section>';
 }
@@ -731,21 +753,17 @@ function administracionAreasClasificaciones7() {
     echo '<section id = "">
             <h3>Editar clasificaciones</h3>
             <div style = "text-align:left;">     
-             <p>Para activar o desactivar una clasificación se deben seguir los siguientes pasos:</p>
+             <p>Para editar una clasificación se deben seguir los siguientes pasos:</p>
             <h4>Paso 1:</h4>
             <p>Dirigirse a la pestaña Administración del sistema -> Administración de áreas y clasificaciones.</p>
             <h4>Paso 2:</h4>
             <p>Una vez en la ventana, se mostrará una tabla con las clasificaciones,
-            en la columna que dice: "Activo", se muestra un botón que indica si la clasificación está activa o inactiva.</p>
-            <br>
-            </p>
+            en la columna que dice: "Editar clasificación", se muestra un botón con un ícono de lápiz (de color celeste), Darle click.</p>
+         
             <h4>Paso 3:</h4>
-            <p>Dar click a activo en caso de que se desee colocar como inactivo, o inactivo en caso de que se desee colocar
-            como activo.            
-            </p>
-            <h4>Paso 4:</h4>
-            <p>Se abrirá una ventana emergente. Dar click en el botón de Aceptar.            
-            </p>
+            <p>Se abrirá una ventana emergente con un campo de texto en donde se puede editar el nombre de la
+                clasificación. Escriba el nuevo nombre y de click en Guardar.         
+            </p>          
         </div>       
        </section>';
 }
@@ -753,7 +771,123 @@ function administracionAreasClasificaciones7() {
 function administracionAreasClasificaciones8() {
     echo '<section id = "">
             <h3>Mostrar solo clasificaciones activas</h3>
-            <div style = "text-align:left;">        
+            <div style = "text-align:left;">            
+             <p>Para mostrar solo las clasificaciones siga los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Administración del sistema -> Administración de áreas y clasificaciones.</p>
+            <h4>Paso 2:</h4>
+            <p>De click en el
+             radio botón "Activos" que se encuentra en la parte superior
+             derecha de la tabla de clasificaciones.
+             En caso de querer mostrar de nuevo todas las 
+             clasificaciones, de click en el radio botón "todos".</p>         
         </div>       
        </section>';
 }
+
+function administracionTemas1() {
+    echo '<section id = "">
+            <h3>Agregar un tema</h3>
+            <div style = "text-align:left;">              
+            <p>Para agregar un tema se deben seguir los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Administración del sistema -> Administración de temas.</p>
+            <h4>Paso 2:</h4>
+            <p>Una vez en la ventana, dirigirse al botón con el signo de más (+) que se 
+            encuentra a la par del texto "Temas". Darle click.</p>        
+            <h4>Paso 3:</h4>     
+            <p>Se mostrará una ventana emergente en la que aparece un combo con
+            las clasificaciones a las que puede pertenecer el tema.
+            Seleccionar la clasificación.</p>                         
+             <h4>Paso 4:</h4>                
+            <p> Debajo del combo de clasificaciones hay un campo de texto donde debe introducir el nombre del tema que desea agregar.</p> 
+            <h4>Paso 5:</h4>
+            <p>Luego de introducir el nombre del nuevo tema de click en el botón que dice "Guardar".</p> 
+        </div>       
+       </section>';
+}
+
+function administracionTemas2() {
+    echo '<section id = "administracionTemas2">
+            <h3>Eliminar un tema</h3>
+            <div style = "text-align:left;">   
+            <p>Para eliminar un tema se deben seguir los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Administración del sistema -> Administración de temas.</p>
+            <h4>Paso 2:</h4>
+            <p>Una vez en la ventana, se mostrará una tabla con los temas,
+            en la columna que dice: "Eliminar", se muestra un botón con un signo de menos (-).Dar click al botón.</p>
+            <h4>Paso 3:</h4>
+           <p>Se abrirá una ventana emergente indicando 
+           si está seguro que desea eliminar la temática seleccionada.
+           Dar click en el botón de Eliminar.            
+           </p>
+        </div>       
+       </section>';
+}
+
+function administracionTemas3() {
+    echo '<section id = "administracionTemas3">
+            <h3>Editar un tema</h3>
+            <div style = "text-align:left;">   
+            <p>Para editar un tema se deben seguir los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Administración del sistema -> Administración de temas.</p>
+            <h4>Paso 2:</h4>
+            <p>Una vez en la ventana, se mostrará una tabla con los temas,
+            en la columna que dice: "Editar", se muestra 
+            un botón con un ícono de un lápiz (botón de color celeste).
+            Dar click al botón.</p>
+            <h4>Paso 3:</h4>
+           <p>Se abrirá una ventana emergente con un combo con las clasificaciones en 
+           donde deberá elegir la nueva clasificación para el tema y
+            un campo de texto en donde debe ntroducir el nuevo nombre del tema. 
+            Dar click en el botón de Guardar.            
+           </p>
+        </div>       
+       </section>';
+}
+
+function administracionTemas4() {
+    echo '<section id = "administracionTemas4">
+        <h3>Activar o desactivar un tema</h3>
+        <div style = "text-align:left;">   
+        <p>Para activar o desactivar un tema se deben seguir los siguientes pasos:</p>
+        <h4>Paso 1:</h4>
+        <p>Dirigirse a la pestaña Administración del sistema -> Administración de temas.</p>
+        <h4>Paso 2:</h4>
+        <p>Una vez en la ventana, se mostrará una tabla con los temas,
+        en la columna que dice: "Activo", se muestra un botón que indica
+        si la clasificación está activa o inactiva.</p>
+        <br>
+        </p>
+        <h4>Paso 3:</h4>
+        <p>Dar click a activo en caso de que se desee colocar 
+        como inactivo, o inactivo en caso de que se desee colocar
+        como activo.            
+        </p>
+        <h4>Paso 4:</h4>
+        <p>Se abrirá una ventana emergente de confirmación.
+        Dar click en el botón de Aceptar.            
+        </p>
+        </div>       
+       </section>';
+}
+
+function administracionTemas5() {
+        echo '<section id = "">
+            <h3>Mostrar solo temas activas</h3>
+            <div style = "text-align:left;">            
+             <p>Para mostrar solo los temas activos siga los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Administración del sistema -> Administración de temas.</p>
+            <h4>Paso 2:</h4>
+            <p>De click en el
+             radio botón "Activos" que se encuentra en la parte superior derecha de la
+             tabla de temas. En caso de querer mostrar de nuevo todas las 
+             clasificaciones, de click en el radio botón "todos".</p>         
+        </div>       
+       </section>';
+
+}
+
