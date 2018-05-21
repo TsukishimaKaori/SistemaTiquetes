@@ -16,7 +16,7 @@
         <?php require ("../vista/Cabecera.php"); ?> 
         <?php
         if ($r) {
-            if (!verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 1)) {
+            if (!verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 5)) {
                 header('Location: ../vista/Error.php');
             } else {
                 ?> 
