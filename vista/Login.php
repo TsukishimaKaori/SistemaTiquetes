@@ -23,7 +23,7 @@
         <h4>gina>gina@gmail.com</h4>
             <form action="checklogin.php" method="post" >
                 <div class="form-group"  >
-                    <label>Nombre Usuario:</label><br>
+                    <label>correo Usuario:</label><br>
                     <div>
                         <input class="form-control" name="username" type="email" id="username" required> 
                     </div>
