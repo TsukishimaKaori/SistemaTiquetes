@@ -63,10 +63,7 @@
                                                     <?php cabecera(); ?>                                 
                                                 </thead>
                                                 <tbody id = "tbody-roles-usuariosCreados"> 
-                                                    <?php
-                                                    $tiquetes = reporteTodosLosTiquetesFecha("20060101", "20180606");
-                                                    cuerpoTablaMistiquetesReporte($tiquetes);
-                                                    ?>                    
+                                                                       
                                                 </tbody>
                                             </table>
                                         </div> 
