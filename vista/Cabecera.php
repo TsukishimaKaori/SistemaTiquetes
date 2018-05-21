@@ -87,12 +87,13 @@ require_once ("../control/UsuarioLogueado.php");
                     $permiso5 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 5); //Administrar estados
                     $permiso6 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 6); // Tiquetes sin asignar
                     $permiso7 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 7); // Tiquetes asignados
-                    $permiso10 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 10);
-                    $permiso11 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 11);
-                    $permiso12 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 12);
-                    $permiso13 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 13);
-                    $permiso14 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 14);
-                    if ($permiso6 || $permiso7) {
+                    $permiso8= verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 8); // todos Tiquetes
+                    $permiso10 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 10);// activos
+                    $permiso11 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 11);//inventario
+                    $permiso12 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 12);//categorias pasivos
+                    $permiso13 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 13);//reporte tiquetes
+                    $permiso14 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 14);//reporte inventario
+                    if ($permiso6 || $permiso7 ||$permiso8 ) {
                         echo'   <li class="dropdown">';
                         echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración de tiquetes<b class="caret"></b></a>';
                         echo '<ul class="dropdown-menu">';
@@ -102,7 +103,7 @@ require_once ("../control/UsuarioLogueado.php");
                         if ($permiso7) {
                             echo '<li><a href="../vista/BandejasTiquetes.php?tab=' . '3' . '">Tiquetes asignados</a></li>';
                         }
-                        if ($permiso7) { //CAMBIAR EL PERMISO QUE CREO QUE ESTE AUN NO TIENE 
+                        if ($permiso8) { //CAMBIAR EL PERMISO QUE CREO QUE ESTE AUN NO TIENE 
                             echo '<li><a href="../vista/BandejasTiquetes.php?tab=' . '4' . '">Todos los tiquetes</a></li>';
                         }
                         echo'</ul>
