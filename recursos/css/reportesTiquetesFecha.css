@@ -1,0 +1,105 @@
+.dt-buttons{
+    text-align: end;
+}
+.buttons-html5{
+margin-left: 0px;
+position: relative;
+display: inline-block;
+box-sizing: border-box;
+margin-right: 0.333em;
+margin-bottom: 0.333em;
+padding: 0.5em 1em;
+border: 1px solid #999;
+border-radius: 2px;
+cursor: pointer;
+font-size: 0.88em;
+color: black;
+white-space: nowrap;
+overflow: hidden;
+background-color:#00cc00;
+    
+}
+.rating {  
+    position: relative;
+    min-width: 210px;
+    max-width: 211px;
+}
+
+.rating:not(:checked) > input {
+    position:absolute;
+    clip:rect(0,0,0,0);
+}
+
+.rating:not(:checked) > label {
+    float:right;
+    width:1em;
+    padding:0 .1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size: 200%;
+    line-height:1.2;
+    color:#ddd;
+    text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:before {
+    content: '★';
+}
+
+.rating > input:checked ~ label {
+    color: gold !important;
+    text-shadow:1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5) !important;
+}
+
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+    color: gold;
+    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked + label:hover ~ label,
+.rating > input:checked ~ label:hover,
+.rating > input:checked ~ label:hover ~ label,
+.rating > label:hover ~ input:checked ~ label {
+    color: gold;
+    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating2 {
+    position: relative;
+    min-width: 210px;
+    max-width: 211px;
+}
+
+.rating2:not(:checked) > input {
+    position:absolute;
+    clip:rect(0,0,0,0);
+}
+
+.rating2:not(:checked) > label {    
+    float:right;
+    width:1em;
+    padding:0 .1em;
+    overflow:hidden;
+    white-space:nowrap;
+    font-size:200%;
+    line-height:1.2;
+    color:#ddd;
+    text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating2:not(:checked) > label:before {
+    content: '★';
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, 
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active,
+.paginate_button.disabled:active,
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, 
+.dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, 
+.dataTables_wrapper .dataTables_paginate{
+    color: black  !important;
+}
