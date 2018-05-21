@@ -296,6 +296,7 @@ function crearListatematicas($tematicas) {
 function tematicasNivel1($listematicas) {
     $count = count($listematicas);
     for ($i = 0; $i < $count; $i += 2) {
+          if(count($listematicas[$i + 1])>0){
         $nombreli = "toggleDemo" . $i;
         echo'<li class="list-group-item" id="primerNivel">
                         <a  data-toggle="collapse" data-target="#' . $nombreli . '" data-parent="#sidenav01" class="collapsed">
@@ -307,6 +308,7 @@ function tematicasNivel1($listematicas) {
         echo' </ul>
                         </div>
                     </li>';
+          }
     }
 }
 
@@ -389,7 +391,7 @@ function horasTrabajadas($tiquete, $codigoPagina) {
 function horasTrabajadasModificable($tiquete) {
     $horas = $tiquete->obtenerHorasTrabajadas() != null ? $tiquete->obtenerHorasTrabajadas() : "0";
     echo '<div class="form-group col-md-12 input-group">
-     <input onblur="CambiarHorastrabajadas()"; type="text" class="form-control" name="HorasT" id="HorasT" min="0"  
+     <input onblur="CambiarHorastrabajadas(\'horas\')"; type="text" class="form-control" name="HorasT" id="HorasT" min="0"  
      value="' . $horas . '" >
 
      </div>';
