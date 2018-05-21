@@ -63,7 +63,7 @@ require_once ("../control/UsuarioLogueado.php");
                     <p class="navbar-text"> <a title ="Ayuda en línea" href = "../vista/AyudaEnLinea.php">Ayuda en línea</a> </p>
                 </li>
                 <li>
-                    <p class="navbar-text"> <a title ="Ayuda en línea" href = "../vista/Login.php">Salir</a> </p>
+                    <p class="navbar-text"> <a title ="Cerrar la sesión  " href = "../vista/Login.php">Salir</a> </p>
                 </li>
             </ul>
 
