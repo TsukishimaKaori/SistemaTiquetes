@@ -98,7 +98,7 @@ function cuerpoTablaReportes($tiquetes) {
         } else {
             echo '<td>' . $tique->obtenerResponsable()->obtenerNombreResponsable() . '</td>';
         }
-        echo '<td onclick="mostrarDetalleTIquetes(' . $tique->obtenerCodigoTiquete() . ');">' . '<button type="button" class="btn btn-info">
+        echo '<td onclick="mostrarDetalleTIquetes(' . $tique->obtenerCodigoTiquete() . ',this);">' . '<button type="button" class="btn btn-info">
                <span class="glyphicon glyphicon-eye-open"></span> </button></td>';
         echo '</tr>';
     }

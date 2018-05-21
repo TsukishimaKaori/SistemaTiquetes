@@ -27,6 +27,7 @@ function crearListatematicas($tematicas) {
 function tematicasNivel1($listematicas) {
     $count = count($listematicas);
     for ($i = 0; $i < $count; $i += 2) {
+        if(count($listematicas[$i + 1])>0){
         $nombreli = "toggleDemo" . $i;
         echo'<li class="list-group-item" id="primerNivel">
                         <a  data-toggle="collapse" data-target="#' . $nombreli . '" data-parent="#sidenav01" class="collapsed">
@@ -38,6 +39,7 @@ function tematicasNivel1($listematicas) {
         echo' </ul>
                         </div>
                     </li>';
+        }
     }
 }
 

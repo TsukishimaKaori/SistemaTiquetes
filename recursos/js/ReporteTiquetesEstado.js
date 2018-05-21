@@ -57,8 +57,9 @@ function FiltrarTiquete(estado) {
 
     });
 }
-function mostrarDetalleTIquetes($codigo) {
-
+function mostrarDetalleTIquetes($codigo,event) {
+  $(event).parent().parent().children('tr').css("background-color", "#ffffff");
+    $(event).parent().css("background-color", "#dff0d8");
     $("#modalInfoTiquetes").modal("hide");
     $.ajax({
         data: {'codigo': $codigo

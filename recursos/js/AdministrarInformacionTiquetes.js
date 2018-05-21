@@ -260,7 +260,7 @@ function pierdeFoco() {
     $("#HorasT").val(horavieja);
 }
 
-function CambiarHorastrabajadas() {
+function CambiarHorastrabajadas(accion) {
     horanueva = $("#HorasT").val();
     $("#HorasT").val(horavieja);
     if (horanueva != horavieja) {
@@ -272,12 +272,14 @@ function CambiarHorastrabajadas() {
 //            if (a.firstChild != null) {
 //                a.removeChild(a.firstChild);
 //            }       
-        CambiarHorasAjax();
+        CambiarHorasAjax(accion);
         //       }
-    }
+    }else if(accion=="finalizar"){
+                    $("#ModalJustificacion").modal("show");
+                }
 }
 
-function CambiarHorasAjax() {
+function CambiarHorasAjax(accion) {
     var codigo = $("#codigoTiquete").text();
     $.ajax({
         data: {'horasTrabajadas': horanueva,
@@ -295,6 +297,9 @@ function CambiarHorasAjax() {
                 horavieja = horanueva;
                 var mensaje = "Horas agregadas correctamente";
                 notificacion(mensaje);
+                if(accion=="finalizar"){
+                    $("#ModalJustificacion").modal("show");
+                }
             });
         }
     });
@@ -1678,6 +1683,9 @@ function AnularAjax() {
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="ESTADO FINALIZAR">
+function cancelarenProceso(){
+     document.getElementById("justificacion").value="";
+}
 
 function Finalizar() {
     var horas = document.getElementById("HorasT").value;
@@ -1691,7 +1699,8 @@ function Finalizar() {
         document.getElementById("cancelarJustificacion").onclick = function () {
             cancelarenProceso();
         };
-        $("#ModalJustificacion").modal("show");
+        CambiarHorastrabajadas("finalizar");
+        
     }
 }
 
