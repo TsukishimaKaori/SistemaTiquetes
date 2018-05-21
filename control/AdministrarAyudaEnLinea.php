@@ -127,6 +127,36 @@ function cargarContenido($id) {
         case "administracionTemas7":
             administracionTemas7();
             break;
+        
+        
+        case "activosFijos1":
+            activosFijos1();
+            break;
+        case "activosFijos2":
+            activosFijos2();
+            break;
+        case "activosFijos3":
+            activosFijos3();
+            break;
+        case "activosFijos4":
+            activosFijos4();
+            break;
+                case "activosFijos5":
+            activosFijos5();
+            break;
+                case "activosFijos6":
+            activosFijos6();
+            break;
+            case "activosFijos7":
+            activosFijos7();
+            break;
+            case "activosFijos8":
+            activosFijos8();
+            break;
+            case "activosFijos9":
+            activosFijos9();
+            break;
+        
     }
 }
 
@@ -779,8 +809,8 @@ function administracionAreasClasificaciones8() {
             <p>De click en el
              radio botón "Activos" que se encuentra en la parte superior
              derecha de la tabla de clasificaciones.
-             En caso de querer mostrar de nuevo todas las 
-             clasificaciones, de click en el radio botón "todos".</p>         
+             En caso de querer mostrar de nuevo todos los 
+             temas, de click en el radio botón "todos".</p>         
         </div>       
        </section>';
 }
@@ -839,9 +869,9 @@ function administracionTemas3() {
             un botón con un ícono de un lápiz (botón de color celeste).
             Dar click al botón.</p>
             <h4>Paso 3:</h4>
-           <p>Se abrirá una ventana emergente con un combo con las clasificaciones en 
-           donde deberá elegir la nueva clasificación para el tema y
-            un campo de texto en donde debe ntroducir el nuevo nombre del tema. 
+           <p>Se abrirá una ventana emergente con un combo con las clasificaciones, 
+           deberá elegir la nueva clasificación para el tema y
+            un campo de texto en donde debe introducir el nuevo nombre del tema. 
             Dar click en el botón de Guardar.            
            </p>
         </div>       
@@ -891,3 +921,71 @@ function administracionTemas5() {
 
 }
 
+function activosFijos1(){
+            echo '<section id = "">
+            <h3>¿Cómo asociar un repuesto a un activo fijo?</h3>
+            <div style = "text-align:left;">            
+             <p>Para asociar un repuesto a un activo fijo siga los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Activos fijos -> Administración de activos.</p>
+            <h4>Paso 2:</h4>
+            <p>Se mostrará una tabla con los activos fijos. En la columna de Repuestos
+            aparece un botón con un signo de más (de color naranja), darle click.</p> 
+            <h4>Paso 3:</h4>
+            <p>Al darle click se desplegará un panel que tiene un
+            combo con los repuestos que pueden ser asociados a ese activo.
+            Dar click en el repuesto que se desea.            
+            </p> 
+            <h4>Paso 4:</h4>
+            <p> Dar click en asociar. </p> 
+        </div>       
+       </section>';
+            
+}
+
+function activosFijos2(){
+        echo '<section id = "">
+            <h3>¿Cómo asociar una licencia a un activo fijo?</h3>
+            <div style = "text-align:left;">            
+             <p>Para asociar una licencia a un activo fijo siga los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Activos fijos -> Administración de activos.</p>
+            <h4>Paso 2:</h4>
+            <p>Se mostrará una tabla con los activos fijos. En la columna de Licencias
+            aparece un botón con un signo de más (de color azul), darle click.</p> 
+            <h4>Paso 3:</h4>
+            <p>Al darle click se desplegará un panel que tiene una serie de campos
+            relacionados con la licencia una vez llenados de click en guardar.
+             </p> 
+        </div>       
+       </section>';
+}
+
+function activosFijos3(){    
+            echo '<section id = "">
+            <h3>¿Cómo ver la información de un activo fijo?</h3>
+            <div style = "text-align:left;">            
+             <p>Para ver la información de un activo fijo siga los siguientes pasos:</p>
+            <h4>Paso 1:</h4>
+            <p>Dirigirse a la pestaña Activos fijos -> Administración de activos.</p>
+            <h4>Paso 2:</h4>
+            <p>Se mostrará una tabla con los activos fijos. En la columna de Ver
+            aparece un botón con un ícono de un ojo (de color celeste), darle click.</p> 
+            <h4>Paso 3:</h4>
+            <p>Al darle click se desplegará un panel con toda la información del
+           activo fijo.
+             </p> 
+        </div>       
+       </section>';
+    
+}
+
+function activosFijos4(){}
+
+function activosFijos5(){}
+
+function activosFijos6(){}
+
+function activosFijos7(){}
+
+function activosFijos8(){}
