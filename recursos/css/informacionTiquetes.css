@@ -156,3 +156,16 @@ div.panel-footer div.rating {
 .tablasEquiposAsociados{
     background-color: #ffffff;
 }
+#primerNivel{
+    background-color: #ffffff;
+}
+#segundoNivel{
+    background-color:  #999999;
+}
+#primerNivel a{
+    color: #000000;
+}
+
+#segundoNivel a{
+    color: #000000;
+}
