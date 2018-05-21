@@ -155,20 +155,20 @@ function cargarContenido($id) {
             activosFijos9();
             break;
         case "inventario1":
-            activosFijos9();
+            inventario1();
             break;
         case "inventario2":
-            activosFijos9();
+            inventario2();
             break;
 
         case "inventario3":
-            activosFijos9();
+            inventario3();
             break;
         case "inventario4":
-            activosFijos9();
+            inventario4();
             break;
         case "inventario5":
-            activosFijos9();
+            inventario5();
             break;
         case "inventarioCategoria1":
             inventarioCategoria1();
