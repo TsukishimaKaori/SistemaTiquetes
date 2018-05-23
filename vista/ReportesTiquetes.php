@@ -2,17 +2,16 @@
 <html> 
     <head>
         <meta charset="UTF-8">
+      
         <?php
+        
         require_once ("../control/ArchivosDeCabecera.php");
         require ("../modelo/ProcedimientosPermisos.php");
         require ("../modelo/ProcedimientosTiquetes.php");
-
         require_once ("../control/AdministrarReportesTiquetes.php");
-        ?>
-
-
+        ?>       
         <link rel="stylesheet" href="../recursos/bootstrap/css/bootstrap-datetimepicker.min.css" />
-        <link rel="stylesheet" href="../recursos/css/reportesTiquetes.css" />
+         <link rel="stylesheet" href="../recursos/css/reportesTiquetes.css" />
     </head>
     <body>   
         <?php
@@ -36,7 +35,6 @@
                                         <h3>Clasificaciones atendidas por área</h3>
                                         <div class="row"> &nbsp;</div>
                                         <div class="row">  
-
                                             <div class=" col-md-offset-1 col-md-3">
                                                 <h5>Fecha inicio</h5>
                                                 <div class = "form-group input-group date" id = "datetimepickerAreasI">
