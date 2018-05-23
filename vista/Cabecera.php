@@ -3,6 +3,7 @@
 session_start();
 if($_SESSION['objetoUsuario']==null){
 require_once ("../control/UsuarioLogueado.php");
+require_once ("../modelo/ProcedimientosPermisos.php");
 }
 ?>
 <header >
