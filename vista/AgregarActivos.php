@@ -34,134 +34,143 @@
         }
         ?>
         <div class="container " >
-            <h1> Asociar equipo a usuario </h1>
-            <form  >
-                <div class="row" >
-                    <div class="panel-heading col-md-offset-1"><h3>Detalles</h3></div>
-                    <div id="panelInformacionDerecha"  class="panel-body col-md-offset-1"> 
+            <div class="row" >
+                <div class="col-md-offset-3 col-md-7" >
+                    <h1> Asociar equipo a usuario </h1>
+                </div>  
+            </div> 
+            <div class="row" >
+                <div class="col-md-offset-2 col-md-12" >
+                    <form  >
 
-                        <?php
-                        echo'<div class="form-group  col-md-11"><label class="control-label  col-md-4" for="placa">'
-                        . 'Código del equipo:</label><span id="codigoA" class=" col-md-8">' . $codigoArticulo . ' </span>  </div>';
-                        echo'<div class="form-group  col-md-11"><label class="control-label  col-md-4" for="placa">Descripción :</label>'
-                        . '<span class=" col-md-8">' . $descripcionEquipo . ' </span> </div>';
-                        echo'<div class="form-group  col-md-11"><label class="control-label  col-md-4" for="placa">Categoría :</label>'
-                        . '<span class=" col-md-8" id="categoriaA" >' . $Categoria . ' </span> </div>';
-                        ?>
-                        <div class="form-group  col-md-11">
-                            <label class="control-label col-md-2" for="placa">Placa:</label>
-                            <div class="col-md-10">
-                                <input class="form-control" id="placa" type="text" required>
-                            </div>
-                        </div>                   
-                        <div class="form-group  col-md-11">
-                            <label class="control-label col-md-2" for="Usuarios">Usuario:</label>
-                            <div class="col-md-10">
-                                <?php
-                                $responsables = consumirMetodoDos();
-                                selectTiposActivos($responsables);
-                                ?>
-                            </div>
-                        </div>                            
-                        <div class="form-group  col-md-11">
-                            <label class="control-label col-md-2" for="serie">Serie:</label>
-                            <div class="col-md-10">
-                                <input class="form-control" id="serie" type="text" required>
-                            </div>
-                        </div>                         
-                        <div class="form-group  col-md-11">
-                            <label class="control-label col-md-2" for="modelo">Modelo:</label>
-                            <div class="col-md-10">
-                                <input class="form-control" id="modelo" type="text" required>
-                            </div>
-                        </div>                         
-                        <div class="form-group  col-md-11">
-                            <label class="control-label col-md-2" for="fechaE">Expiración de garantía:</label>
-                            <div class="col-md-10">
-                                <div class='input-group date' id='datetimepicker1'>
 
-                                    <?php
-                                    $hoy = getdate();
-                                    $anio = $hoy["year"];
-                                    $mes = $hoy["mon"];
-                                    if ($mes < 10)
-                                        $mes = "0" . $mes;
-                                    $dia = $hoy["mday"];
-                                    if ($dia < 10)
-                                        $dia = "0" . $dia;
-                                    $fecha = $dia . "/" . $mes . "/" . $anio;
-                                    echo '  <input type="text" class="form-control " name="fechaE" id="fechaE" value="' . $fecha . '">';
+                        <div class="panel-heading col-md-4"><h3>Detalles</h3></div>
+                        <div id="panelInformacionDerecha"  class="panel-body  col-md-7"> 
 
-                                    echo'   <span class="input-group-addon btn btn-info" id="Efecha" onclick="document.getElementById(\'fechaE\').focus()" >
-                                    <span class="glyphicon glyphicon-calendar" ></span>
-                                </span>';
-                                    ?>                             
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-11">
-                            <label class="control-label col-md-2" for="tiquete">codigo tiquete:</label>
-                            <div class="col-md-10">
-                                <div class="input-group date">
-                                    <input type="text" class="form-control"  id="tiquete"   >
-                                    <span class="input-group-addon  btn-info" id="tiquete" onclick="tiqueteActivo()" >
-                                        <span class="glyphicon glyphicon-th-list"></span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group  col-md-11">
-                            <label class="control-label col-md-2" for="gafete">serie del docking:</label>
-                            <div class="col-md-10">
-                                <input class="form-control" id="docking" type="text" required>
-                            </div>
-                        </div>
-                        <div class="form-group  col-md-11">
-                            <label class="control-label col-md-2" for="Asociado">el equipo cuenta con:</label>
-                            <div class="col-md-10">
-                                <textarea class="form-control" rows="3"  name="comentario" cols="2" id="Asociado"></textarea>
-                            </div>
-                        </div> 
-                        <div class="col-xs-12 col-md-12 col-md-12 col-lg-12 "  >
-                            <h5>Licencias: </h5>
-                            <div class="list-group list-group-horizontal" id="divLicencias">
-
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-md-12 col-md-12 col-lg-12 "  >
-                            <h5>Repuestos: </h5>
-                            <div class="list-group list-group-horizontal" id="divRepuestos">
-
-                            </div>
-                        </div>
-
-                        <div class="form-group  col-md-11">
-                            <button type="button" class="btn  btn-primary" onclick="FormularioLicencia()">Agregar Licencia</button> 
-                            <button type="button" class="btn  btn-primary" onclick="FormularioRepuesto()">Agregar Repuesto</button> 
-                        </div>
-                        <div id="divAgregarRepuesto" class="form-group  col-md-11 divagregar">
+                            <?php
+                            echo'<div class="form-group  col-md-11"><label class="control-label  col-md-4" for="placa">'
+                            . 'Código del equipo:</label><span id="codigoA" class=" col-md-8">' . $codigoArticulo . ' </span>  </div>';
+                            echo'<div class="form-group  col-md-11"><label class="control-label  col-md-4" for="placa">Descripción :</label>'
+                            . '<span class=" col-md-8">' . $descripcionEquipo . ' </span> </div>';
+                            echo'<div class="form-group  col-md-11"><label class="control-label  col-md-4" for="placa">Categoría :</label>'
+                            . '<span class=" col-md-8" id="categoriaA" >' . $Categoria . ' </span> </div>';
+                            ?>
                             <div class="form-group  col-md-11">
-                                <label class="control-label col-md-2" for="comboRepuestos">Repuestos:</label>
-                                <button type='button' class='close' aria-label='Close' onclick='eliminarAgregarRepuestos()'> <span aria-hidden='true'>&times;</span></button>
+                                <label class="control-label col-md-2" for="placa">Placa:</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" id="placa" type="text" required>
+                                </div>
+                            </div>                   
+                            <div class="form-group  col-md-11">
+                                <label class="control-label col-md-2" for="Usuarios">Usuario:</label>
                                 <div class="col-md-10">
                                     <?php
-                                    $repuestos = obtenerRepuestosParaAsociar();
-                                    selectRepuestos($repuestos);
+                                    $responsables = consumirMetodoDos();
+                                    selectTiposActivos($responsables);
                                     ?>
                                 </div>
+                            </div>                            
+                            <div class="form-group  col-md-11">
+                                <label class="control-label col-md-2" for="serie">Serie:</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" id="serie" type="text" required>
+                                </div>
+                            </div>                         
+                            <div class="form-group  col-md-11">
+                                <label class="control-label col-md-2" for="modelo">Modelo:</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" id="modelo" type="text" required>
+                                </div>
+                            </div>                         
+                            <div class="form-group  col-md-11">
+                                <label class="control-label col-md-2" for="fechaE">Expiración de garantía:</label>
+                                <div class="col-md-10">
+                                    <div class='input-group date' id='datetimepicker1'>
+
+                                        <?php
+                                        $hoy = getdate();
+                                        $anio = $hoy["year"];
+                                        $mes = $hoy["mon"];
+                                        if ($mes < 10)
+                                            $mes = "0" . $mes;
+                                        $dia = $hoy["mday"];
+                                        if ($dia < 10)
+                                            $dia = "0" . $dia;
+                                        $fecha = $dia . "/" . $mes . "/" . $anio;
+                                        echo '  <input type="text" class="form-control " name="fechaE" id="fechaE" value="' . $fecha . '">';
+
+                                        echo'   <span class="input-group-addon btn btn-info" id="Efecha" onclick="document.getElementById(\'fechaE\').focus()" >
+                                    <span class="glyphicon glyphicon-calendar" ></span>
+                                </span>';
+                                        ?>                             
+                                    </div>
+                                </div>
                             </div>
-                            <button  id='aplicar' type='button' class='btn btn-success col-md-offset-2'  onclick='AgregarRepuesto()' > Aplicar </button>
-                        </div>
-                        <div id="divAgregar" class="form-group  col-md-11 divagregar">                                                  
+                            <div class="form-group col-md-11">
+                                <label class="control-label col-md-2" for="tiquete">codigo tiquete:</label>
+                                <div class="col-md-10">
+                                    <div class="input-group date">
+                                        <input type="text" class="form-control"  id="tiquete"   >
+                                        <span class="input-group-addon  btn-info" id="tiquete" onclick="tiqueteActivo()" >
+                                            <span class="glyphicon glyphicon-th-list"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group  col-md-11">
+                                <label class="control-label col-md-2" for="gafete">serie del docking:</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" id="docking" type="text" required>
+                                </div>
+                            </div>
+                            <div class="form-group  col-md-11">
+                                <label class="control-label col-md-2" for="Asociado">el equipo cuenta con:</label>
+                                <div class="col-md-10">
+                                    <textarea class="form-control" rows="3"  name="comentario" cols="2" id="Asociado"></textarea>
+                                </div>
+                            </div> 
+                            <div class="col-xs-12 col-md-12 col-md-12 col-lg-12 "  >
+                                <h5>Licencias: </h5>
+                                <div class="list-group list-group-horizontal" id="divLicencias">
 
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-12 col-md-12 col-lg-12 "  >
+                                <h5>Repuestos: </h5>
+                                <div class="list-group list-group-horizontal" id="divRepuestos">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group  col-md-11">
+                                <button type="button" class="btn  btn-primary" onclick="FormularioLicencia()">Agregar Licencia</button> 
+                                <button type="button" class="btn  btn-primary" onclick="FormularioRepuesto()">Agregar Repuesto</button> 
+                            </div>
+                            <div id="divAgregarRepuesto" class="form-group  col-md-11 divagregar">
+                                <div class="form-group  col-md-11">
+                                    <label class="control-label col-md-2" for="comboRepuestos">Repuestos:</label>
+                                    <button type='button' class='close' aria-label='Close' onclick='eliminarAgregarRepuestos()'> <span aria-hidden='true'>&times;</span></button>
+                                    <div class="col-md-10">
+                                        <?php
+                                        $repuestos = obtenerRepuestosParaAsociar();
+                                        selectRepuestos($repuestos);
+                                        ?>
+                                    </div>
+                                </div>
+                                <button  id='aplicar' type='button' class='btn btn-success col-md-offset-2'  onclick='AgregarRepuesto()' > Aplicar </button>
+                            </div>
+                            <div id="divAgregar" class="form-group  col-md-11 divagregar">                                                  
+
+                            </div>
+
+                            <button type="button" class="btn btn-success col-md-offset-4" onclick="agregarActivo()" > Asociar equipo </button>
+                            <button type="reset" class="btn btn-danger ">Borrar</button> 
                         </div>
 
-                        <button type="button" class="btn btn-success col-md-offset-4" onclick="agregarActivo()" > Asociar equipo </button>
-                        <button type="reset" class="btn btn-danger ">Borrar</button> 
-                    </div>
+
+                    </form>
                 </div>
-            </form>
-
+            </div>
         </div>
         <div id="errorInfo" class="modal fade " role="dialog">
             <div class="modal-dialog modal-md">                

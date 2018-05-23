@@ -132,7 +132,12 @@ function graficoRendimientoPorArea() {
                 area.push(vector[i]['nombreArea']);
                 atendidas.push(vector[i]['totalAtendidas']);
                 calificadas.push(vector[i]['totalCalificadas']);
-                var fila = '<tr><td>' + vector[i]['nombreArea'] + '</td><td>' + vector[i]['totalCalificadas'] + '</td><td>' + vector[i]['totalAtendidas'] + '</td></tr>';
+                var porcentaje=0;
+                if(vector[i]['totalAtendidas']!=0){
+                porcentaje=(vector[i]['totalCalificadas']*100)/vector[i]['totalAtendidas'];}
+              
+                var fila = '<tr><td>' + vector[i]['nombreArea'] + '</td><td>' + vector[i]['totalCalificadas'] + '</td><td>' + vector[i]['totalAtendidas'] + '</td>'+
+              '<td>' +porcentaje + '% </td></tr>';
                 $('#tbodyGraficoBarras').append(fila);
             }
             var colorNames = Object.keys(window.chartColors);
