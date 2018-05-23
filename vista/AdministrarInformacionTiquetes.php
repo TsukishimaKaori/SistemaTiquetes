@@ -429,7 +429,9 @@
                                     <label class="col-md-3" for="responsables">Responsables</label>
                                     <div class="form-group col-md-6" >                                     
                                         <?php
-                                        $responsables = obtenerResponsables();
+                                        $codigoArea = $tiquete->obtenerArea()->obtenerCodigoArea();
+                                        $responsables = obtenerResponsablesAsignar($codigoArea);
+                                       // $responsables = obtenerResponsables();
                                         comboResponsablesAsignar($responsables, 4);
                                         ?>
                                     </div>                                

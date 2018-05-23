@@ -264,7 +264,7 @@ function comboResponsablesAsignar($responsables, $numero) {
     if ($numero == 2) {
         echo '<select class="form-control" id="comboResponsables">';
     } else if ($numero == 4) {
-        echo '<select class="form-control" id="comboTodosResponsables">';
+        echo '<select class="form-control" id="comboResponsables">';
     }
     foreach ($responsables as $responsable) {
         echo '<option value="' . $responsable->obtenerCodigoEmpleado() . '" selected>' . $responsable->obtenerNombreResponsable() . '</option>';
