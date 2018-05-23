@@ -52,7 +52,6 @@
                     <div id="filtros"class="col-md-8 ">
                         <div class="panel panel-primary">
                             <div class="panel-body filtrosVisible">
-
                                 <div class="row">  
                                     <div class="form-group  col-md-4">
                                         <label class="control-label col-md-3" for="placaA">Placa:</label>
@@ -115,8 +114,6 @@
                         }
                        ?>
                     </div> 
-
-
                     <section id="tab-inventario" class="tabcontent">
                         <h2>Inventario</h2>
                         <div class="container-fluid">
@@ -328,6 +325,7 @@
                 </div>
             </div>
         </div>
+        
         <div id="modalaTiquetes" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg" >                
                 <div class="modal-content" id="cuerpoModalToquetes">
@@ -481,7 +479,7 @@
         </div
         <!----------------------agregarAdjunto-------------------------->
 
-        <!--                        <----------------------------------->
+        <!------------------------------------>
         <div id="modalagregarAdjunto" class="modal fade" role="dialog">
             <div class="modal-dialog">                
                 <div class="modal-content">
