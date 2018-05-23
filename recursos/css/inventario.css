@@ -85,7 +85,8 @@ input  {
     margin-top: 0px;
     float: left;
     overflow: hidden;
-    padding: 1%;
+    padding-right: 1%;
+     padding-top: 1%;
 
 }
 #panelInformacionIzquierda{
@@ -257,6 +258,36 @@ table.tablasTiquetes th, table.tablasTiquetes td {
 .dataTables_wrapper .dataTables_paginate{
     color: black  !important;
 }
+
+ table#tablaPasivos thead th{
+    text-align: center;
+    padding-left: 0px;   
+}
+
+table#tablaActivos thead th{
+     text-align: center;
+    padding-left: 0px;   
+}
+
+table#tablaPasivos tbody td{
+    text-align: center;
+    padding-left: 0px;   
+}
+
+table#tablaActivos tbody td{
+    text-align: center;
+    padding-left: 0px;   
+}
+#tab-activos{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+
+
+
+
+
 
 @media (max-width:650px){
     ul.nav-pills li.bandeja-tab{

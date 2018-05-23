@@ -2,6 +2,8 @@
 
 session_start();
 if($_SESSION['objetoUsuario']==null){
+
+
 require_once ("../control/UsuarioLogueado.php");
 }
 ?>

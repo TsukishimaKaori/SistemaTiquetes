@@ -37,8 +37,8 @@ function cuerpoTablaMistiquetesCreados($Tiquetes, $codigoPestana, $responsables)
         echo '<td>' . $tique->obtenerTematica()->obtenerDescripcionTematica() . '</td>';
         echo '<td>' . $tique->obtenerNombreUsuarioIngresaTiquete() . '</td>';
         if ($codigoPestana == 2) {
-         $codigoArea=  $tique->obtenerArea()->obtenerCodigoArea();
-           $responsablestiquete = obtenerResponsablesAsignar($codigoArea);
+            $codigoArea = $tique->obtenerArea()->obtenerCodigoArea();
+            $responsablestiquete = obtenerResponsablesAsignar($codigoArea);
             echo'<td>';
             comboResponsablesAsignar($tique, $responsablestiquete);
             echo'</td>';
@@ -139,16 +139,22 @@ function calificacion($codigoPestana, $tiquete, $cont) {
 
         echo '</td>';
     } else if ($estado == 6 && $codigoPestana == 1) {
-        echo '<td class = "rating" >' .
-        '<span class="label label-warning"> Calificar <span class="glyphicon glyphicon-circle-arrow-right"></span></span>' .
-        '<input type="radio" id="' . $codigoPestana . 'star5-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="5" onclick="calificar(this)"/><label for="' . $codigoPestana . 'star5-' . $cont . '" title="Excelente">5 stars</label>' .
-        '<input type="radio" id="' . $codigoPestana . 'star4-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="4" onclick="calificar(this)"/><label for="' . $codigoPestana . 'star4-' . $cont . '" title="Muy Bueno">4 stars</label>' .
-        '<input type="radio" id="' . $codigoPestana . 'star3-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="3" onclick="calificar(this)" /><label for="' . $codigoPestana . 'star3-' . $cont . '" title="Bueno">3 stars</label>' .
-        '<input type="radio" id="' . $codigoPestana . 'star2-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="2" onclick="calificar(this)"/><label for="' . $codigoPestana . 'star2-' . $cont . '" title="Regular">2 stars</label>' .
-        '<input type="radio" id="' . $codigoPestana . 'star1-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="1" onclick="calificar(this)"/><label for="' . $codigoPestana . 'star1-' . $cont . '" title="Deficiente">1 star</label>' .
+        echo '<td class = " tdClasificacion rating" style = "text-align:center" >' .
+        '<div class="label label-warning" > Listo para calificar <span class="glyphicon glyphicon-circle-arrow-down"></span></div></br>' .
+        '<input type="radio" id="' . $codigoPestana . 'star5-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="5" onclick="calificar(this)"/>
+        <input type="radio" id="' . $codigoPestana . 'star4-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="4" onclick="calificar(this)"/>       
+        <input type="radio" id="' . $codigoPestana . 'star3-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="3" onclick="calificar(this)" />
+        <input type="radio" id="' . $codigoPestana . 'star2-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="2" onclick="calificar(this)"/>
+        <input type="radio" id="' . $codigoPestana . 'star1-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="1" onclick="calificar(this)"/>'
+        . '<label for="' . $codigoPestana . 'star5-' . $cont . '" title="Excelente">5 stars</label>'
+        . '<label for="' . $codigoPestana . 'star4-' . $cont . '" title="Muy Bueno">4 stars</label>'
+        . '<label for="' . $codigoPestana . 'star3-' . $cont . '" title="Bueno">3 stars</label>'
+        . '<label for="' . $codigoPestana . 'star2-' . $cont . '" title="Regular">2 stars</label>'
+        . '<label for="' . $codigoPestana . 'star1-' . $cont . '" title="Deficiente">1 star</label>' .
         '</td>';
-    } else {
-        echo '<td class = "rating2">' .
+    } 
+    else {
+        echo '<td class = "tdClasificacion rating2">' .
         '<input type="radio" id="' . $codigoPestana . 'star5-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="5"/><label for="' . $codigoPestana . 'star5-' . $cont . '" title="Excelente">5 stars</label>' .
         '<input type="radio" id="' . $codigoPestana . 'star4-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="4" /><label for="' . $codigoPestana . 'star4-' . $cont . '" title="Muy Bueno">4 stars</label>' .
         '<input type="radio" id="' . $codigoPestana . 'star3-' . $cont . '"  name="' . $codigoPestana . 'star' . $cont . '" value="3"  /><label for="' . $codigoPestana . 'star3-' . $cont . '" title="Bueno">3 stars</label>' .
