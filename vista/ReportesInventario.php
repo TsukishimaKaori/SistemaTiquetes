@@ -23,11 +23,11 @@
                 ?> 
                 <div id="cargandoImagen"><img src="../recursos/img/cargando2.gif"/></div>
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="row col-md-12">
+                       
                             <!--Reporte inventario-->
                             <div class="col-md-6">
-                                <div id="graficoRendimientoPorAreaTematica" class="panel panel-default grafico">
+                                <div id="graficoRendimientoPorAreaTematica" class="panel panel-default">
                                     <div class="container-fluid">
                                         <h3>Reporte de inventario</h3>
                                         <div class="row "> &nbsp;</div>
@@ -95,7 +95,7 @@
                             </div>
                             <!--Reporte Movimientos-->
                             <div class="col-md-6">
-                                <div id="graficoRendimientoPorArea" class="panel panel-default grafico" >
+                                <div id="graficoRendimientoPorArea" class="panel panel-default" >
                                     <div class="container-fluid">
                                         <h3>Reporte de movimientos</h3>
                                         <div class="row"> &nbsp;</div>
@@ -171,9 +171,7 @@
                                     </div>  
                                 </div>
                             </div>
-                            <!--GRAFICO LINEAL-->
-
-                        </div> 
+                           
                     </div>
                 </div>
                 <script>var correoUsuario = '<?php echo $r->obtenerCorreo(); ?>';</script>

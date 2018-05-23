@@ -154,6 +154,7 @@
                                                             <th>Área</th>
                                                             <th>Tiquetes cumplidos</th>   
                                                             <th>Tiquetes atendidos</th> 
+                                                            <th>Porcentaje</th> 
                                                         </tr>
                                                     </thead>
                                                     <tbody  id = "tbodyGraficoBarras">  

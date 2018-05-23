@@ -21,7 +21,7 @@
         <h4>luis>francini113@gmail.com</h4>
         <h4>Alejandro>dannyalfvr97@gmail.com</4>          
         <h4>gina>gina@gmail.com</h4>
-            <form action="checklogin.php" method="post" >
+            <form  method="post" >
                 <div class="form-group"  >
                     <label>correo Usuario:</label><br>
                     <div>
