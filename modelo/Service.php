@@ -9,7 +9,7 @@ if(isset($_GET['metodo']) ) {
      // $serverName ="DANNY\SQLEXPRESS01";
      //   $serverName = "DESKTOP-HFVR94I\SQLEXPRESS01"; 
      $serverName = "den1.mssql5.gear.host"; 
-      $connectionOptions = array("Database" => "sistemaTiquetes", "UID" => "sistematiquetes", "PWD" => "Zh6714?jy9?0");
+     $connectionOptions = array("Database" => "sistemaTiquetes", "UID" => "sistematiquetes", "PWD" => "Zd41GN!t5?U3");
 
   //  $connectionOptions = array("Database" => "SistemaTiquetes", "UID" => "dbatiquetes", "PWD" => "dbatiquetes");
     $conn = sqlsrv_connect($serverName, $connectionOptions);

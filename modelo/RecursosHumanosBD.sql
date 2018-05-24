@@ -36,7 +36,8 @@ insert into RecursosHumanos (nombreUsuario, departamento, jefatura, correo, codi
 insert into RecursosHumanos (nombreUsuario, departamento, jefatura, correo, codigoEmpleado, numeroCedula) values ('Alejandro Morales', 'Tecnología de la Información', 'Cristina Cascante', 'dannyalfvr97@gmail.com', '4g54',678262731);
 insert into RecursosHumanos (nombreUsuario, departamento, jefatura, correo, codigoEmpleado, numeroCedula) values ('Gina Chacón', 'Tecnología de la Información', 'Cristina Cascante', 'gina@gmail.com', '787t',109870654);
  
-
+insert into RecursosHumanos (nombreUsuario, departamento, jefatura, correo, codigoEmpleado, numeroCedula) values ('UsuarioX', 'Tecnología de la Información', 'Cristina Cascante', 'usuariox@gmail.com', '123a',109871654);
+ 
  DROP TABLE RecursosHumanos;
 
 DROP PROCEDURE PAobtenerDatosUsuario;

@@ -1,26 +1,31 @@
 <?php
-
 session_start();
-if($_SESSION['objetoUsuario']==null){
-
-
-require_once ("../control/UsuarioLogueado.php");
+if ($_SESSION['objetoUsuario'] == null) {
+    require_once ("../control/UsuarioLogueado.php");
 }
+
+require ('../modelo/Cliente.php');
 ?>
+
+
 <header >
     <?php
-    if(isset($_GET[correo])){
-       $r = obtenerResponsable($_GET[correo]); 
+    if (isset($_GET[correo])) {
+        $r = obtenerResponsable($_GET[correo]);
+        $correo = $_GET[correo];
+        if ($r == null) {
+            $r = consumirMetodoUno($correo);
+         //   $_SESSION['objetoUsuario'] = $r;
+        }
+          $_SESSION['objetoUsuario'] = $r;
+    } else {
+        $r = obtenerResponsable($_SESSION['objetoUsuario']->obtenerCorreo());
         $_SESSION['objetoUsuario'] = $r;
     }
-    else{
-        $r = obtenerResponsable( $_SESSION['objetoUsuario']->obtenerCorreo());
-         $_SESSION['objetoUsuario'] = $r;
-    }
     //$r = obtenerResponsable('dannyalfvr97@gmail.com');
-  //  
+    //  
     // $r = obtenerResponsable('francini113@gmail.com');
-   
+
 
     $r = $_SESSION['objetoUsuario'];
 //                        if ($r == 'Ha ocurrido un error' || $r == null) {
@@ -57,7 +62,7 @@ require_once ("../control/UsuarioLogueado.php");
                         ?> 
                     </p>
                 </li>
-                 
+
                 <li>
                     <p class="navbar-text"> <?php echo $r->obtenerCorreo(); ?> </p>
                 </li>
@@ -89,13 +94,13 @@ require_once ("../control/UsuarioLogueado.php");
                     $permiso5 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 5); //Administrar estados
                     $permiso6 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 6); // Tiquetes sin asignar
                     $permiso7 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 7); // Tiquetes asignados
-                    $permiso8= verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 8); // todos Tiquetes
-                    $permiso10 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 10);// activos
-                    $permiso11 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 11);//inventario
-                    $permiso12 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 12);//categorias pasivos
-                    $permiso13 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 13);//reporte tiquetes
-                    $permiso14 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 14);//reporte inventario
-                    if ($permiso6 || $permiso7 ||$permiso8 ) {
+                    $permiso8 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 8); // todos Tiquetes
+                    $permiso10 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 10); // activos
+                    $permiso11 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 11); //inventario
+                    $permiso12 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 12); //categorias pasivos
+                    $permiso13 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 13); //reporte tiquetes
+                    $permiso14 = verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 14); //reporte inventario
+                    if ($permiso6 || $permiso7 || $permiso8) {
                         echo'   <li class="dropdown">';
                         echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración de tiquetes<b class="caret"></b></a>';
                         echo '<ul class="dropdown-menu">';
@@ -152,7 +157,7 @@ require_once ("../control/UsuarioLogueado.php");
                         }
                         if ($permiso4) {
                             echo '<li><a href="../vista/AdministrarTematicasSubTematicas.php">Administración de temas</a></li>';
-                        }                       
+                        }
                         echo '</ul>';
                     }
                     if ($permiso13 || $permiso14) { //cambiar permisos y url

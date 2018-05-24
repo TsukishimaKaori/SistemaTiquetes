@@ -2927,16 +2927,16 @@ GO
 --Datos que deben estar en todas las bases
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (1, 'Consultar permisos');
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (2, 'Asignar rol a usuario');
-insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (3, 'Asignar area a clasificación');
+--insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (3, 'Asignar area a clasificación');
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (4, 'Administrar temas');
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (5, 'Administrar Estados');
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (6, 'Ver pestaña de tiquetes sin asignar');
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (7, 'Ver pestaña de tiquetes asignados'); 
-insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (8, 'Ver pestaña de búsqueda de avanzada');
+insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (8, 'Ver pestaña de todos los tiquetes');
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (9, 'Ver botón de anular tiquete');
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (10, 'Ver pestaña de activos');
-insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (11, 'Ver pestaña de pasivos');
-insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (12, 'Administrar categorías de pasivos');
+insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (11, 'Ver pestaña de inventario');
+insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (12, 'Administrar categorías de inventario');
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (13, 'Ver reportes de tiquetes');
 insert into dbo.Permiso (codigoPermiso, descripcionPermiso) values (14, 'Ver reportes de inventario');
 
@@ -2948,7 +2948,8 @@ insert into dbo.Rol (nombreRol) values ('Asistente');
 
 insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 1);
 insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 2);
-insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 3);
+--insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 3);
+
 insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 4);
 insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 5);
 insert into dbo.RolPermiso (codigoRol, codigoPermiso) values (1, 6);

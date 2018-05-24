@@ -14,7 +14,7 @@
         $categorias =  obtenerCategorias();
 
         if ($r) {
-            if (!verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 4)) {
+            if (!verificarPermiso($r->obtenerRol()->obtenerCodigoRol(), 12)) {
                 header('Location: ../vista/Error.php');
             } else {
                 ?> 
